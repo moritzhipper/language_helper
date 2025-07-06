@@ -1,0 +1,30 @@
+:host {
+  text-align: center;
+
+  &.s {
+    .count {
+      font-size: var(--font-size-2);
+    }
+    .label {
+      font-size: var(--font-size-0);
+      opacity: var(--opacity-1);
+    }
+  }
+  &.m {
+    .count {
+      font-size: var(--font-size-3);
+    }
+    .label {
+      font-size: var(--font-size-0);
+    }
+  }
+  &.l {
+    .count {
+      font-size: var(--font-size-4);
+    }
+  }
+}
+
+.count {
+  font-weight: bold;
+}

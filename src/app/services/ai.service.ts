@@ -1,16 +1,14 @@
 import { computed, inject, Injectable } from '@angular/core'
 import OpenAI from 'openai'
+import { zodTextFormat } from 'openai/helpers/zod'
 import { ChatModel } from 'openai/resources/shared.mjs'
 import { SettingsStore } from '../store/settingsStore'
+import { LearnableResonseSchema } from '../types_and_schemas/schemas'
 import { LearnableBase } from '../types_and_schemas/types'
-import {
-  getCreateLearnablesPrompt,
-  getSystemPrompt,
-  getUseInSentencePrompt,
-} from './prompts'
+import { getCreateLearnablesPrompt, getSystemPrompt } from './prompts'
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AiService {
   private readonly model: ChatModel = 'chatgpt-4o-latest'
@@ -20,6 +18,7 @@ export class AiService {
     () =>
       new OpenAI({
         apiKey: this.setingsStore.apiKey(),
+        dangerouslyAllowBrowser: true
       })
   )
 
@@ -34,23 +33,33 @@ export class AiService {
     string: string,
     excludedWords: string[]
   ): Promise<LearnableBase[]> {
-    const messages = await this.oAi().chat.completions.create({
+    const response = await this.oAi().responses.parse({
       model: this.model,
-      messages: [
+      text: {
+        format: zodTextFormat(LearnableResonseSchema, 'learnable_base')
+      },
+      input: [
         this.systemPrompt(),
         getCreateLearnablesPrompt(excludedWords),
-        { role: 'user', content: string },
-      ],
+        { role: 'user', content: string }
+      ]
     })
 
-    return []
+    this.setingsStore.addTokensUsed(response.usage?.total_tokens)
+
+    const learnablesBase = response.output_parsed
+    if (!learnablesBase) {
+      console.error('No parsed output received from AI', response)
+      throw new Error('No parsed output received from AI')
+    }
+    return learnablesBase.learnables
   }
 
   async useInSentence(word: string): Promise<string> {
-    const messages = await this.oAi().chat.completions.create({
-      model: this.model,
-      messages: [this.systemPrompt(), getUseInSentencePrompt(word)],
-    })
+    // const messages = await this.oAi().chat.completions.create({
+    //   model: this.model,
+    //   messages: [this.systemPrompt(), getUseInSentencePrompt(word)]
+    // })
 
     return ''
   }

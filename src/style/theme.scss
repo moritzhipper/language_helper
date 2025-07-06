@@ -1,0 +1,50 @@
+:root {
+  --col-base-0: #011936ff; // Oxford Blue
+  --col-base-1: #465362ff; // Charcoal
+  --col-base-2: #82a3a1ff; // Cambridge Blue
+  --col-base-3: #9fc490ff; // Olivine
+  --col-base-4: #c0dfa1ff; // Tea Green
+  --col-base-5: #c74635; // Tea Green
+
+  --col-text: var(--col-base-0);
+  --col-primary: var(--col-base-1);
+  --col-secondary: var(--col-base-2);
+  --col-accent: var(--col-base-3);
+  --col-bg: var(--col-base-4);
+  --col-warning: var(--col-base-5);
+
+  --shadow-big: 0px 10px 25px -10px var(--col-primary);
+  --shadow-small: 0px 5px 10px -5px var(--col-secondary);
+
+  --font-weight-normal: 500;
+  --font-weight-bold: 600;
+
+  --font-size-0: 14px;
+  --font-size-1: 16px;
+  --font-size-2: 20px;
+  --font-size-3: 32px;
+  --font-size-4: 64px;
+
+  --distance-0: 2px;
+  --distance-1: 4px;
+  --distance-2: 8px;
+  --distance-3: 12px;
+  --distance-4: 16px;
+  --distance-5: 24px;
+  --distance-6: 32px;
+  --distance-7: 64px;
+
+  --radius-0: 7px;
+  --radius-1: 10px;
+  --radius-2: 14px;
+  --radius-3: 32px;
+
+  --opacity-0: 0.2;
+  --opacity-1: 0.6;
+
+  --duration-0: 0.2s;
+  --duration-1: 0.3s;
+  --duration-2: 0.6s;
+
+  --max-width: 1100px;
+}

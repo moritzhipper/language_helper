@@ -1,0 +1,110 @@
+@use '../../../../style/mixins.scss' as *;
+
+.selection-view,
+.finished-view,
+.practice-view {
+  height: 100%;
+}
+.selection-view {
+  display: grid;
+  grid-template-rows: 1fr auto;
+
+  app-counter-comp {
+    place-self: center;
+  }
+
+  form {
+    display: grid;
+    gap: var(--distance-2);
+    align-self: end;
+    button {
+      margin-top: var(--distance-3);
+    }
+  }
+}
+
+.practice-view {
+  display: grid;
+  grid-template-rows: 1fr 1fr auto;
+  place-items: center;
+  text-align: center;
+
+  .lexeme,
+  .translation {
+    font-size: var(--font-size-4);
+  }
+
+  .lexeme {
+    font-weight: var(--font-weight-bold);
+  }
+
+  .navigation {
+    display: grid;
+
+    .interact,
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--distance-4);
+      button.warning {
+        background-color: var(--col-warning);
+        color: var(--col-bg);
+      }
+    }
+
+    .stats {
+      .progress {
+        position: relative;
+        border-radius: var(--radius-2);
+        overflow: hidden;
+        font-size: var(--font-size-0);
+        color: var(--col-primary);
+        text-align: center;
+        padding: var(--distance-0) 0;
+        border: 1px solid var(--col-accent);
+
+        .indicator {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: -1;
+          height: 100%;
+          background-color: var(--col-accent);
+        }
+      }
+    }
+    .full {
+      grid-column: span 2;
+    }
+  }
+}
+
+.finished-view {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  .summary {
+    place-self: center;
+    text-align: center;
+    .counter {
+      font-size: var(--font-size-4);
+      font-weight: bold;
+    }
+  }
+}
+
+@include isDesktop() {
+  .practice-view {
+    .navigation {
+      color: black;
+      width: 600px;
+    }
+  }
+}
+
+@include isPhone() {
+  .practice-view {
+    .navigation {
+      place-self: stretch;
+    }
+  }
+}

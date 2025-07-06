@@ -1,1 +1,105 @@
-<p>practice.comp works!</p>
+@if (hasUnfinishedPractice()) {
+  <app-page-wrapper-comp [shrinkOnDesktop]="false">
+    <div class="practice-view">
+      <div class="lexeme">{{ currentLearnable()?.lexeme }}</div>
+
+      <div class="translation">
+        @if (isRevealed()) {
+          {{ currentLearnable()?.translation }}
+        } @else {
+          <span>-</span>
+        }
+      </div>
+      <div class="navigation">
+        <button class="toggle-navigation" (click)="showStatsToggle()">
+          <app-icon-comp type="chevron" [size]="32" />
+        </button>
+
+        @if (showStats()) {
+          <div class="stats">
+            <div class="guesses full">
+              {{ practiceSummary().correctAmountTotal }} of
+              {{ practiceSummary().guessesTotal }}
+              guessed correctly
+            </div>
+
+            <div class="progress full">
+              <div
+                class="indicator"
+                [style.width]="practiceSummary().progressPercent + '%'"
+              ></div>
+              <span
+                >{{ practiceSummary().currentIndex }} /
+                {{ practiceSummary().cardsAmountTotal }}
+              </span>
+            </div>
+            <button class="small full warning" (click)="endPractice()">
+              quit
+            </button>
+          </div>
+        } @else {
+          <div class="interact">
+            @if (isRevealed()) {
+              <button class="big" (click)="setGuess(false)">I was wrong</button>
+              <button class="big" (click)="setGuess(true)">I was right</button>
+            } @else {
+              <button class="big full" (click)="reveal()">show</button>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </app-page-wrapper-comp>
+}
+
+@if (hasFinishedPractice()) {
+  <app-page-wrapper-comp title="Practice">
+    <div class="finished-view">
+      <div class="summary">
+        <div class="counter">
+          {{ practiceSummary().correctAmountTotal }} of
+          {{ practiceSummary().cardsAmountTotal }}
+        </div>
+        Cards guessed correctly!
+      </div>
+      <button (click)="endPractice()" class="big">start new!</button>
+    </div>
+  </app-page-wrapper-comp>
+}
+
+@if (hasNoCurrentPractice()) {
+  <app-page-wrapper-comp title="Practice">
+    <div class="selection-view">
+      <app-counter-comp label="cards in set" size="l">
+        {{ selectedCardsIds().length }}
+      </app-counter-comp>
+
+      <form [formGroup]="form">
+        <app-radio-comp
+          [config]="[{ value: 'all' }, { value: 'word' }, { value: 'phrase' }]"
+          formControlName="type"
+          label="type"
+        />
+        <app-radio-comp
+          [config]="[
+            { value: 0 },
+            { value: 1 },
+            { value: 2 },
+            { value: 3 },
+            { value: 4 },
+            { value: 5 }
+          ]"
+          formControlName="minAmountTrueGuesses"
+          label="min true guesses"
+        />
+        <button
+          class="big"
+          (click)="start()"
+          [disabled]="selectedCardsIds().length === 0"
+        >
+          start
+        </button>
+      </form>
+    </div>
+  </app-page-wrapper-comp>
+}

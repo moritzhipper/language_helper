@@ -1,3 +1,19 @@
+<button
+  (click)="toggleLinks()"
+  class="toggle-links"
+  [class.open]="linksOpen() || addOpen()"
+>
+  +
+</button>
+@if(linksOpen()) {
+
+<button (click)="showAdd()">add</button>
 <a routerLink="/">practice</a>
 <a routerLink="overview">overview</a>
 <a routerLink="settings">settings</a>
+} @if (addOpen()) {
+<form [formGroup]="convertForm" (ngSubmit)="convert()">
+  <button type="submit">convert</button>
+  <textarea formControlName="textarea"></textarea>
+</form>
+}

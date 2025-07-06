@@ -1,1 +1,43 @@
-<p>overview.comp works!</p>
+<app-page-wrapper-comp title="Overview" [shrinkOnDesktop]="false">
+  <form [formGroup]="form">
+    <app-radio-comp
+      [config]="[{ value: 'all' }, { value: 'word' }, { value: 'phrase' }]"
+      formControlName="type"
+      label="type"
+    />
+    <app-radio-comp
+      [config]="[
+        { value: 0 },
+        { value: 1 },
+        { value: 2 },
+        { value: 3 },
+        { value: 4 },
+        { value: 5 }
+      ]"
+      formControlName="minAmountTrueGuesses"
+      label="min true guesses"
+    />
+
+    <app-radio-comp
+      [config]="[
+        { value: 'created' },
+        { value: 'lexeme' },
+        { value: 'trueGuesses', label: 'true guesses' }
+      ]"
+      formControlName="orderBy"
+      label="order by"
+    />
+
+    <app-radio-comp
+      [config]="[{ value: 'asc' }, { value: 'desc' }]"
+      formControlName="order"
+      label="order"
+    />
+  </form>
+
+  <div class="learnables">
+    @for (learnable of filteredLearnables(); track learnable.id) {
+      <app-learnable-comp [learnable]="learnable" />
+    }
+  </div>
+</app-page-wrapper-comp>

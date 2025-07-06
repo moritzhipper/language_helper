@@ -1,1 +1,27 @@
-<p>settings.comp works!</p>
+<app-page-wrapper-comp title="Settings" [shrinkOnDesktop]="true">
+  <div class="wrapper">
+    <div class="stats">
+      <app-counter-comp label="learnables added" size="l">
+        {{ learnables().length }}
+      </app-counter-comp>
+      <app-counter-comp label="tokens used" size="l">
+        {{ tokensUsed() }}
+      </app-counter-comp>
+    </div>
+
+    <form [formGroup]="form">
+      <label>
+        <span> OpenAI API-key </span>
+        <input type="password" formControlName="apiKey" />
+      </label>
+      <label>
+        <span> I am speaking </span>
+        <input type="text" formControlName="speakingLang" />
+      </label>
+      <label>
+        <span> I am learning </span>
+        <input type="text" formControlName="learningLang" />
+      </label>
+    </form>
+  </div>
+</app-page-wrapper-comp>

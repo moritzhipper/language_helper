@@ -1,1 +1,76 @@
-/* You can add global styles to this file, and also import other style files */
+@use './style/theme.scss';
+
+body {
+  margin: 0;
+  background-color: var(--col-bg);
+}
+
+body,
+input,
+button,
+a,
+h1,
+h2,
+h3 {
+  font-family: 'Trebuchet MS', sans-serif;
+  color: var(--col-text);
+}
+
+h1 {
+  margin: var(--distance-3) 0 var(--distance-4) 0;
+}
+
+button,
+textarea,
+input {
+}
+
+button,
+a {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+button {
+  &.small {
+    padding: var(--distance-1) var(--distance-5);
+    font-size: var(--font-size-0);
+    font-weight: var(--font-weight-bold);
+  }
+  &.big {
+    font-size: var(--font-size-1);
+    padding: var(--distance-3) var(--distance-5);
+    font-weight: var(--font-weight-normal);
+  }
+
+  &[disabled] {
+    opacity: var(--opacity-1);
+    cursor: not-allowed;
+  }
+}
+
+input,
+textarea,
+button.small,
+button.big {
+  background-color: var(--col-accent);
+  color: var(--col-text);
+
+  border-radius: var(--radius-1);
+
+  border: none;
+}
+
+input {
+  padding: var(--distance-2);
+}
+
+a {
+  text-decoration: none;
+  font-weight: var(--font-weight-bold);
+}
+
+.mb-4 {
+  margin-bottom: var(--distance-4);
+}

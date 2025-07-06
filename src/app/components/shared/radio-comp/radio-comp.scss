@@ -1,0 +1,55 @@
+.label {
+  font-size: var(--font-size-0);
+  opacity: var(--opacity-1);
+  margin: 0 0 var(--distance-1) var(--distance-2);
+}
+
+.values {
+  --col-selected: var(--col-primary);
+  --col-weak: rgb(from var(--col-accent) r g b / var(--opacity-1));
+
+  background-color: var(--col-weak);
+
+  display: flex;
+  gap: var(--distance-1);
+  padding: var(--distance-1);
+  border-radius: var(--radius-1);
+
+  &.big span {
+    padding: var(--distance-2) var(--distance-4);
+  }
+
+  &:not(.big) span {
+    padding: var(--distance-1) var(--distance-3);
+
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-0);
+  }
+
+  label {
+    user-select: none;
+    flex: auto;
+    cursor: pointer;
+    text-align: center;
+    input[type='radio'] {
+      position: absolute;
+      left: 0;
+      width: 0;
+      opacity: 0;
+    }
+
+    input:focus + span {
+      background-color: rgb(from var(--col-primary) r g b / var(--opacity-0));
+    }
+
+    input:checked + span {
+      background-color: var(--col-selected);
+      color: var(--col-bg);
+    }
+
+    span {
+      border-radius: var(--radius-0);
+      display: block;
+    }
+  }
+}

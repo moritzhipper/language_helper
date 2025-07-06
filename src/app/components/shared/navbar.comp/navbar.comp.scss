@@ -1,0 +1,79 @@
+:host,
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: var(--distance-4);
+}
+
+:host {
+  z-index: 2;
+  position: fixed;
+  top: var(--distance-4);
+  right: var(--distance-4);
+
+  a,
+  button,
+  textarea {
+    animation: flyin var(--duration-2) forwards;
+    box-shadow: var(--shadow-big);
+    background-color: var(--col-primary);
+    border: none;
+    color: var(--col-bg);
+    border-radius: var(--radius-2);
+  }
+  a {
+    background-color: var(--col-primary);
+  }
+  a,
+  button {
+    padding: var(--distance-3) var(--distance-5);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--font-size-1);
+  }
+
+  textarea {
+    width: 400px;
+    height: 400px;
+    resize: none;
+    padding: var(--distance-5);
+    box-sizing: border-box;
+  }
+
+  .toggle-links {
+    height: 56px;
+    width: 56px;
+    background-color: var(--col-secondary);
+    border-radius: 100%;
+    padding: 0;
+    transition: rotate var(--duration-0), background-color var(--duration-0),
+      scale var(--duration-0);
+    scale: 0.9;
+
+    &:hover,
+    &.open {
+      scale: 1;
+    }
+
+    &.open {
+      background-color: var(--col-primary);
+    }
+  }
+}
+
+form {
+  button:disabled {
+    background-color: black;
+  }
+}
+
+@keyframes flyin {
+  from {
+    opacity: 0;
+    translate: 2px -5px;
+  }
+  to {
+    opacity: 1;
+    translate: 0;
+  }
+}

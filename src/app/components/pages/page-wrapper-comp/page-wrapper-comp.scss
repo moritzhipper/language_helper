@@ -1,0 +1,33 @@
+@use '../../../../style/mixins.scss' as *;
+
+:host {
+  min-height: 100dvh;
+  max-width: 100vw;
+  padding: var(--distance-4);
+  box-sizing: border-box;
+  display: grid;
+
+  &:has(h1) {
+    grid-template-rows: auto 1fr;
+  }
+}
+
+:host.shrink-on-desktop {
+  @include isDesktop() {
+    h1 {
+      place-self: start;
+    }
+    .content {
+      place-self: center;
+      width: 400px;
+      height: 600px;
+      box-sizing: border-box;
+      padding: var(--distance-4);
+      border: 1px solid var(--col-accent);
+      border-radius: var(--radius-2);
+    }
+  }
+}
+
+:host:not(.shrink-on-desktop) {
+}

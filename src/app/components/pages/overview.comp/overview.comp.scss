@@ -1,0 +1,32 @@
+@use '../../../../style/mixins.scss' as *;
+
+form {
+  margin-bottom: var(--distance-4);
+
+  .label {
+    font-weight: bold;
+  }
+}
+
+.learnables {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+
+  gap: var(--distance-4);
+}
+
+@include isPhone() {
+  form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--distance-2);
+  }
+}
+
+@include isDesktop() {
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--distance-2) var(--distance-4);
+  }
+}
