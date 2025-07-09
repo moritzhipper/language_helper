@@ -1,4 +1,8 @@
-import { Learnable, LearnablesStoreType } from '../types_and_schemas/types'
+import {
+  Learnable,
+  LearnableBase,
+  LearnablesStoreType
+} from '../types_and_schemas/types'
 
 export const startPractice =
   (ids: string[]) =>
@@ -10,6 +14,19 @@ export const startPractice =
         index: 0,
         guesses: []
       }
+    }
+  }
+
+export const saveBaseLearnables =
+  (learnablesBase: LearnableBase[]) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const learnables = mapToLearnables(learnablesBase)
+    const filteredLearnables = filterDoubleEntries(learnables)
+
+    return {
+      ...state,
+      isConverting: false,
+      learnables: [...filteredLearnables, ...state.learnables]
     }
   }
 
@@ -58,5 +75,27 @@ const updateLearnableInList = (
       ...l,
       ...updatedLearnable
     }
+  })
+}
+
+const mapToLearnables = (learnableBase: LearnableBase[]): Learnable[] => {
+  return learnableBase.map((l) => ({
+    ...l,
+    id: crypto.randomUUID(),
+    linkedIds: [],
+    lastGuesses: [false, false, false, false, false],
+    notes: '',
+    created: new Date()
+  }))
+}
+
+const filterDoubleEntries = (learnables: Learnable[]): Learnable[] => {
+  const uniqueLexemes = new Set<string>()
+  return learnables.filter((l) => {
+    if (uniqueLexemes.has(l.lexeme)) {
+      return false
+    }
+    uniqueLexemes.add(l.lexeme)
+    return true
   })
 }

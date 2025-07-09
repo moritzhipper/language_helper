@@ -18,6 +18,13 @@ export type LearnablesStoreType = {
     index: number
     guesses: Guess[]
   } | null
+  isConverting: boolean
+}
+
+export type LearnableCreationConfig = {
+  text: string
+  allowWords: boolean
+  allowPhrases: boolean
 }
 
 export type Guess = {
@@ -34,7 +41,9 @@ export type SettingsStoreType = {
 
 export type LearnablesFilterConfig = {
   order: 'asc' | 'desc'
-  orderBy: 'created' | 'lexeme' | 'trueGuesses' | 'random'
+  orderBy: 'created' | 'lexeme' | 'wrongGuesses' | 'random'
   type: 'word' | 'phrase' | 'all'
-  minAmountTrueGuesses?: number
+  age?: 'newerThanOneDay' | 'all'
+  maxAmountWrongGuesses?: number
+  partial: string
 }

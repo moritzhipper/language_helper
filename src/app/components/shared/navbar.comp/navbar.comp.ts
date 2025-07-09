@@ -1,24 +1,29 @@
 import { Component, inject, signal } from '@angular/core'
 import {
-  FormControl,
-  FormGroup,
+  NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators
 } from '@angular/forms'
 import { RouterLink } from '@angular/router'
 import { LearnablesStore } from '../../../store/learnablesStore'
+import { LearnableCreationConfig } from '../../../types_and_schemas/types'
+import { IconComp } from '../icon-comp/icon-comp'
+import { RadioComp } from '../radio-comp/radio-comp'
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, IconComp, RadioComp],
   templateUrl: './navbar.comp.html',
   styleUrl: './navbar.comp.scss'
 })
 export class NavbarComp {
-  lStore = inject(LearnablesStore)
+  private _lStore = inject(LearnablesStore)
 
-  convertForm = new FormGroup({
-    textarea: new FormControl('', Validators.required)
+  private readonly _fb = inject(NonNullableFormBuilder)
+
+  convertForm = this._fb.group({
+    text: ['', Validators.required],
+    allowType: 'both'
   })
 
   linksOpen = signal(false)
@@ -39,9 +44,17 @@ export class NavbarComp {
   }
 
   async convert() {
-    const text = this.convertForm.value.textarea
-    console.info('Converting text:', text)
+    const text = this.convertForm.value.text
+    const allowType = this.convertForm.value.allowType
+    const allowWords = allowType === 'words' || allowType === 'both'
+    const allowPhrases = allowType === 'phrases' || allowType === 'both'
+
     if (this.convertForm.invalid || !text) return
-    await this.lStore.addLearnables(text)
+    const config: LearnableCreationConfig = {
+      text,
+      allowWords,
+      allowPhrases
+    }
+    await this._lStore.addLearnables(config)
   }
 }

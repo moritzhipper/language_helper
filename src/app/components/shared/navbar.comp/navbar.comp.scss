@@ -1,79 +1,112 @@
-:host,
-form {
+@use '../../../../style/mixins.scss' as *;
+
+:host {
+  display: grid;
+  gap: var(--distance-4);
+  top: 0;
+  right: 0;
+  position: fixed;
+  box-sizing: border-box;
+  place-items: start end;
+  padding: var(--distance-4) 0;
+  z-index: 2;
+
+  transition: backdrop-filter var(--duration-1);
+}
+
+.toggle {
+  transition: translate var(--duration-0);
+  background-color: rgb(from var(--col-primary) r g b / var(--opacity-1));
+  backdrop-filter: blur(10px);
+  translate: 10px;
+  &:hover {
+    translate: 5px;
+  }
+  &.links-open {
+    translate: 0px;
+    background-color: var(--col-primary);
+    app-icon-comp {
+      color: var(--col-bg);
+    }
+  }
+  app-icon-comp {
+    transition: color var(--duration-0);
+  }
+}
+
+.links {
   display: flex;
   flex-direction: column;
-  align-items: end;
   gap: var(--distance-4);
 }
 
-:host {
-  z-index: 2;
-  position: fixed;
-  top: var(--distance-4);
-  right: var(--distance-4);
-
-  a,
-  button,
-  textarea {
-    animation: flyin var(--duration-2) forwards;
-    box-shadow: var(--shadow-big);
-    background-color: var(--col-primary);
-    border: none;
-    color: var(--col-bg);
-    border-radius: var(--radius-2);
-  }
-  a {
-    background-color: var(--col-primary);
-  }
-  a,
-  button {
-    padding: var(--distance-3) var(--distance-5);
-    font-weight: var(--font-weight-normal);
-    font-size: var(--font-size-1);
-  }
-
-  textarea {
-    width: 400px;
-    height: 400px;
-    resize: none;
-    padding: var(--distance-5);
-    box-sizing: border-box;
-  }
-
-  .toggle-links {
-    height: 56px;
-    width: 56px;
-    background-color: var(--col-secondary);
-    border-radius: 100%;
-    padding: 0;
-    transition: rotate var(--duration-0), background-color var(--duration-0),
-      scale var(--duration-0);
-    scale: 0.9;
-
-    &:hover,
-    &.open {
-      scale: 1;
-    }
-
-    &.open {
-      background-color: var(--col-primary);
-    }
-  }
-}
-
 form {
-  button:disabled {
-    background-color: black;
+  display: grid;
+  gap: var(--distance-4);
+  padding: 0 var(--distance-4);
+
+  textarea,
+  app-radio-comp {
+    resize: none;
+    box-sizing: border-box;
+    padding: var(--distance-4);
+    border: 2px solid var(--col-primary);
+  }
+
+  button {
+    background-color: var(--col-primary);
+    color: var(--col-bg);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--distance-1);
   }
 }
 
-@keyframes flyin {
-  from {
-    opacity: 0;
-    translate: 2px -5px;
+.entry {
+  border-radius: var(--radius-2) 0 0 var(--radius-2);
+  padding: var(--distance-3) var(--distance-5) var(--distance-3)
+    var(--distance-4);
+
+  &:not(.toggle) {
+    app-icon-comp {
+      color: var(--col-bg);
+    }
+    background-color: var(--col-primary);
   }
-  to {
-    opacity: 1;
-    translate: 0;
+}
+
+a,
+button,
+textarea {
+  box-shadow: var(--shadow-big);
+}
+
+app-radio-comp {
+  background-color: var(--col-bg);
+  border-radius: var(--radius-1);
+}
+
+@include isDesktop() {
+  :host {
+    form {
+      textarea {
+        width: 400px;
+        height: 400px;
+      }
+    }
+  }
+}
+
+@include isPhone() {
+  :host.add-open {
+    height: 100dvh;
+    width: 100vw;
+    grid-template-rows: auto 1fr;
+    backdrop-filter: blur(10px);
+    form {
+      place-self: stretch;
+      grid-template-rows: 1fr auto;
+    }
   }
 }

@@ -23,5 +23,22 @@
         <input type="text" formControlName="learningLang" />
       </label>
     </form>
+    <div class="data-interact">
+      <button class="delete" (click)="reset()">
+        @if (deletePressedCounter() === 0) {
+          <span> delete everything </span>
+        } @else if (deletePressedCounter() != necessaryDeletePresses) {
+          <span> {{ necessaryDeletePresses - deletePressedCounter() }} </span>
+        } @else {
+          <span> delete success </span>
+        }
+      </button>
+      <a
+        class="big"
+        [download]="learnablesDownload().fileName"
+        [attr.href]="learnablesDownload().blobUrl"
+        >export all cards</a
+      >
+    </div>
   </div>
 </app-page-wrapper-comp>

@@ -3,13 +3,17 @@
 ## Right Now
 
 - things missing for giving the app to felia
-  - add with loading indicator
   - select words or phrases
-  - sort by date
--
+  - edit cards
+- import cards functionality (using zod as validation)
+- overview page: diesen bar auslagern und einen für mobil und einen für desktop bauen:
+  - mobil: oben suche, filter durch wischen
+  - unten zwei große buttons: add und magic add, darüber interaktionsbutton
 
 ## Later
 
+- hide delete everything behind three confirm presses
+- allow export
 - allow both directions, save cards in a more general way by language
 - consolidate styles (input + label / custom input)
 - handle finished practice

@@ -1,43 +1,95 @@
 <app-page-wrapper-comp title="Overview" [shrinkOnDesktop]="false">
-  <form [formGroup]="form">
+  <form
+    [formGroup]="form"
+    class="filter-section"
+    [class.hide-all]="hideMoreFilterOnMobile()"
+  >
+    <label>
+      <span>search</span>
+      <input type="text" formControlName="partial" />
+    </label>
+    <app-radio-comp
+      [config]="[{ value: 'all' }, { value: 'newerThanOneDay', label: 'new' }]"
+      formControlName="age"
+      label="age"
+    />
     <app-radio-comp
       [config]="[{ value: 'all' }, { value: 'word' }, { value: 'phrase' }]"
       formControlName="type"
       label="type"
+      class="hide-on-mobile"
     />
     <app-radio-comp
       [config]="[
-        { value: 0 },
-        { value: 1 },
-        { value: 2 },
-        { value: 3 },
+        { value: 5 },
         { value: 4 },
-        { value: 5 }
+        { value: 3 },
+        { value: 2 },
+        { value: 1 },
+        { value: 0 }
       ]"
-      formControlName="minAmountTrueGuesses"
-      label="min true guesses"
+      formControlName="maxAmountWrongGuesses"
+      label="max wrong guesses"
+      class="hide-on-mobile"
     />
 
     <app-radio-comp
       [config]="[
         { value: 'created' },
         { value: 'lexeme' },
-        { value: 'trueGuesses', label: 'true guesses' }
+        { value: 'wrongGuesses', label: 'wrong guesses' }
       ]"
       formControlName="orderBy"
       label="order by"
+      class="hide-on-mobile"
     />
-
     <app-radio-comp
       [config]="[{ value: 'asc' }, { value: 'desc' }]"
       formControlName="order"
       label="order"
+      class="hide-on-mobile"
     />
+    <button
+      class="expand hide-on-desktop"
+      type="button"
+      (click)="toggleMoreFilter()"
+    >
+      <app-icon-comp
+        type="chevron"
+        [size]="30"
+        [class.expanded]="!hideMoreFilterOnMobile()"
+      />
+    </button>
   </form>
+  <div class="edit-section">
+    <button (click)="magicAdd()" class="create ai">
+      <app-icon-comp type="magic" />
+    </button>
+    <button (click)="bulkAdd()" class="create manual">
+      <app-icon-comp type="pen" />
+    </button>
+    @if (hasSelected()) {
+      <button (click)="edit()" class="edit">
+        <app-icon-comp type="edit" />
+      </button>
+      <button (click)="delete()" class="edit">
+        <app-icon-comp type="trash" />
+      </button>
+      <button (click)="resetSelection()" class="edit">
+        <app-icon-comp type="reset" />
+      </button>
+    }
+  </div>
 
   <div class="learnables">
     @for (learnable of filteredLearnables(); track learnable.id) {
-      <app-learnable-comp [learnable]="learnable" />
+      <button
+        class="l"
+        (click)="toggleSelection(learnable.id)"
+        [class.selected]="isSelected(learnable.id)"
+      >
+        <app-learnable-comp [learnable]="learnable" />
+      </button>
     }
   </div>
 </app-page-wrapper-comp>

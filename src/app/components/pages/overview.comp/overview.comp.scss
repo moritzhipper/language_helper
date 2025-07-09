@@ -1,32 +1,93 @@
 @use '../../../../style/mixins.scss' as *;
 
-form {
-  margin-bottom: var(--distance-4);
+.filter-section {
+}
 
-  .label {
-    font-weight: bold;
+.edit-section {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  padding: var(--distance-4);
+  gap: var(--distance-2);
+  flex-flow: row-reverse;
+  align-items: end;
+
+  button {
+    box-shadow: var(--shadow-big);
+    border-radius: 100%;
+
+    &.create {
+      background-color: var(--col-primary);
+      color: var(--col-bg);
+
+      &.ai {
+        padding: var(--distance-4);
+      }
+      &.manual {
+        padding: var(--distance-3);
+      }
+    }
+
+    &.edit {
+      background-color: var(--col-primary);
+      padding: var(--distance-2);
+      color: var(--col-bg);
+    }
   }
 }
 
 .learnables {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: var(--distance-4);
+
+  button {
+    text-align: inherit;
+    font-size: inherit;
+    border: 2px solid rgb(from var(--col-accent) r g b / var(--opacity-1));
+    border-radius: var(--radius-1);
+    padding: 0;
+    transition: border var(--duration-0);
+
+    &.selected {
+      border: 2px solid rgb(from var(--col-primary) r g b / var(--opacity-1));
+    }
+  }
 }
 
 @include isPhone() {
-  form {
+  .filter-section {
     display: grid;
-    grid-template-columns: 1fr;
     gap: var(--distance-2);
+    margin-bottom: var(--distance-4);
+    button.expand {
+      app-icon-comp {
+        padding: var(--distance-2);
+        rotate: 180deg;
+        &.expanded {
+          rotate: 0deg;
+        }
+      }
+    }
+
+    &.hide-all .hide-on-mobile {
+      display: none;
+    }
   }
 }
 
 @include isDesktop() {
-  form {
+  .filter-section {
     display: flex;
+    align-items: end;
     flex-wrap: wrap;
-    gap: var(--distance-2) var(--distance-4);
+    gap: var(--distance-4);
+    margin-bottom: var(--distance-4);
+
+    .hide-on-desktop {
+      display: none;
+    }
   }
 }

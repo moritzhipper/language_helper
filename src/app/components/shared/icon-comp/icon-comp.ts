@@ -1,6 +1,18 @@
 import { Component, input } from '@angular/core'
 
-type IconType = 'add' | 'chevron'
+type IconType =
+  | 'settings'
+  | 'chevron'
+  | 'list'
+  | 'learn'
+  | 'magic'
+  | 'menu'
+  | 'new'
+  | 'pen'
+  | 'ai-pen'
+  | 'trash'
+  | 'edit'
+  | 'reset'
 
 @Component({
   selector: 'app-icon-comp',

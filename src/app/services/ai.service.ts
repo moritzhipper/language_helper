@@ -4,7 +4,10 @@ import { zodTextFormat } from 'openai/helpers/zod'
 import { ChatModel } from 'openai/resources/shared.mjs'
 import { SettingsStore } from '../store/settingsStore'
 import { LearnableResonseSchema } from '../types_and_schemas/schemas'
-import { LearnableBase } from '../types_and_schemas/types'
+import {
+  LearnableBase,
+  LearnableCreationConfig
+} from '../types_and_schemas/types'
 import { getCreateLearnablesPrompt, getSystemPrompt } from './prompts'
 
 @Injectable({
@@ -12,25 +15,25 @@ import { getCreateLearnablesPrompt, getSystemPrompt } from './prompts'
 })
 export class AiService {
   private readonly model: ChatModel = 'chatgpt-4o-latest'
-  private readonly setingsStore = inject(SettingsStore)
+  private readonly settingsStore = inject(SettingsStore)
 
   private oAi = computed(
     () =>
       new OpenAI({
-        apiKey: this.setingsStore.apiKey(),
+        apiKey: this.settingsStore.apiKey(),
         dangerouslyAllowBrowser: true
       })
   )
 
   private readonly systemPrompt = computed(() =>
     getSystemPrompt(
-      this.setingsStore.learningLang(),
-      this.setingsStore.speakingLang()
+      this.settingsStore.learningLang(),
+      this.settingsStore.speakingLang()
     )
   )
 
   async createLearnablesFromString(
-    string: string,
+    config: LearnableCreationConfig,
     excludedWords: string[]
   ): Promise<LearnableBase[]> {
     const response = await this.oAi().responses.parse({
@@ -40,12 +43,16 @@ export class AiService {
       },
       input: [
         this.systemPrompt(),
-        getCreateLearnablesPrompt(excludedWords),
-        { role: 'user', content: string }
+        getCreateLearnablesPrompt(
+          excludedWords,
+          config.allowWords,
+          config.allowPhrases
+        ),
+        { role: 'user', content: config.text }
       ]
     })
 
-    this.setingsStore.addTokensUsed(response.usage?.total_tokens)
+    this.settingsStore.addTokensUsed(response.usage?.total_tokens)
 
     const learnablesBase = response.output_parsed
     if (!learnablesBase) {

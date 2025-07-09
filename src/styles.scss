@@ -21,11 +21,6 @@ h1 {
 }
 
 button,
-textarea,
-input {
-}
-
-button,
 a {
   background-color: transparent;
   border: none;
@@ -50,6 +45,12 @@ button {
   }
 }
 
+a[download] {
+  text-align: center;
+  padding: var(--distance-3) var(--distance-5);
+}
+
+a[download],
 input,
 textarea,
 button.small,
@@ -60,6 +61,16 @@ button.big {
   border-radius: var(--radius-1);
 
   border: none;
+}
+
+label {
+  display: grid;
+  grid-template-columns: 1fr;
+  span {
+    opacity: var(--opacity-1);
+    padding: 0 0 var(--distance-0) var(--distance-2);
+    font-size: var(--font-size-0);
+  }
 }
 
 input {

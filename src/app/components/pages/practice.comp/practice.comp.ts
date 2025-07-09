@@ -9,7 +9,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { LearnablesFilterConfig } from '../../../types_and_schemas/types'
-import { filterLearnables } from '../../../utils'
+import { filterLearnables } from '../../../utils/learnables-filter'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { RadioComp } from '../../shared/radio-comp/radio-comp'
@@ -42,12 +42,14 @@ export class PracticeComp {
 
   private readonly _fb = inject(NonNullableFormBuilder)
   form = this._fb.group<
-    Pick<LearnablesFilterConfig, 'type' | 'minAmountTrueGuesses'>
+    Pick<LearnablesFilterConfig, 'type' | 'maxAmountWrongGuesses'>
   >({
     type: 'all',
-    minAmountTrueGuesses: 0
+    maxAmountWrongGuesses: 5
   })
-  private readonly _formSignal = toSignal(this.form.valueChanges)
+  private readonly _formSignal = toSignal(this.form.valueChanges, {
+    initialValue: this.form.value
+  })
 
   private readonly learnablesS = inject(LearnablesStore)
 

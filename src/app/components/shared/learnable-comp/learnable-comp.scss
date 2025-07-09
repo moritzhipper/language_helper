@@ -1,41 +1,24 @@
 :host {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto auto 1fr;
+  grid-template-columns: 1fr 1fr;
   background-color: rgb(from var(--col-accent) r g b / var(--opacity-1));
   border-radius: var(--radius-0);
   padding: var(--distance-2) var(--distance-3);
   gap: var(--distance-1) 0;
-  position: relative;
-  height: 130px;
-  place-items: center start;
-
-  app-icon-comp {
-    position: absolute;
-    top: -10px;
-    right: 0px;
-    color: var(--col-primary);
-    opacity: var(--opacity-0);
-    z-index: 1;
-  }
 
   .lexeme {
-    grid-column: span 3;
     font-weight: var(--font-weight-bold);
   }
   .translation {
-    // place-self: end;
-    // text-align: right;
-    font-style: italic;
-    grid-column: span 3;
+    text-align: end;
   }
   .type {
+    grid-column: span 2;
+    place-self: start;
     opacity: var(--opacity-1);
-    place-self: end center;
   }
   .date {
     font-size: var(--font-size-0);
-    place-self: end start;
     opacity: var(--opacity-0);
   }
   .last-guesses {

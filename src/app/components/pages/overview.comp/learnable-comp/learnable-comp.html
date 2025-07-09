@@ -1,21 +1,26 @@
 @let la = learnable();
 
+@if (newerThanOneDay()) {
+  <app-icon-comp type="new" [size]="60" />
+}
 <div class="lexeme">
   {{ la.lexeme }}
 </div>
 <div class="translation">
   {{ la.translation }}
 </div>
+<div class="date">
+  {{ la.created | date: 'MMMM d, y' }}
+</div>
 <div class="type">
   {{ la.type }}
 </div>
-<div class="date">
-  {{ la.created | date : 'MMMM d, y' }}
-</div>
 <div class="last-guesses">
-  @for(guess of sortedGuesses(); track $index) { @if(guess) {
-  <div class="right"></div>
-  } @else {
-  <div class="wrong"></div>
-  } }
+  @for (guess of learnable().lastGuesses; track $index) {
+    @if (guess) {
+      <div class="right"></div>
+    } @else {
+      <div class="wrong"></div>
+    }
+  }
 </div>
