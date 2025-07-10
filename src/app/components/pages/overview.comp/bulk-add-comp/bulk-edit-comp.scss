@@ -1,0 +1,126 @@
+@use '../../../../../style/mixins.scss' as *;
+
+:host {
+  overflow: hidden;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+  gap: var(--distance-4);
+
+  overflow: hidden;
+
+  .learnables {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-auto-rows: min-content;
+    place-items: start stretch;
+    border-radius: var(--radius-1);
+
+    gap: var(--distance-4);
+    overflow-y: scroll;
+
+    .empty {
+      grid-row: 1 / -1;
+      grid-column: 1 / -1;
+      text-align: center;
+    }
+  }
+
+  .wide {
+    grid-column: span 2;
+  }
+
+  .navigation {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--distance-6) var(--distance-4);
+    .info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      grid-column: span 2;
+      opacity: var(--opacity-1);
+    }
+
+    .submit {
+      background-color: var(--col-primary);
+      grid-column: span 2;
+    }
+
+    .add {
+      display: flex;
+      justify-content: center;
+      gap: var(--distance-2);
+    }
+  }
+}
+.learnable {
+  display: grid;
+  gap: var(--distance-2);
+  grid-template-columns: 2fr 1fr;
+  .remove {
+    padding: var(--distance-2);
+    border-radius: var(--radius-1);
+    place-self: end;
+  }
+  .fake-card {
+    display: grid;
+    grid-column: span 2;
+    input {
+      width: 100%;
+      outline: none;
+      box-sizing: border-box;
+      padding: var(--distance-3);
+    }
+    .lexeme {
+      padding: var(--distance-4);
+
+      border-radius: var(--radius-1) var(--radius-1) 0 0;
+      font-weight: var(--font-weight-bold);
+    }
+    .translation {
+      padding: 0 var(--distance-4);
+      border-radius: 0;
+      font-style: italic;
+    }
+    .notes {
+      padding: var(--distance-4);
+
+      border-radius: 0 0 var(--radius-1) var(--radius-1);
+    }
+  }
+}
+
+@include isDesktop() {
+  form {
+    --big: 90px;
+    height: 100dvh;
+    width: 100vw;
+    padding: var(--big) var(--big) var(--distance-5) var(--big);
+    box-sizing: border-box;
+
+    .learnables {
+      height: 100%;
+      width: 100%;
+    }
+    .navigation {
+      width: 600px;
+      place-self: center;
+    }
+  }
+}
+
+@include isPhone() {
+  form {
+    height: 100%;
+    width: 100%;
+
+    .navigation {
+      width: 100%;
+      place-self: end;
+    }
+  }
+}

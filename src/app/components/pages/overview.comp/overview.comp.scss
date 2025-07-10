@@ -1,8 +1,5 @@
 @use '../../../../style/mixins.scss' as *;
 
-.filter-section {
-}
-
 .edit-section {
   position: fixed;
   bottom: 0;
@@ -31,6 +28,17 @@
     }
 
     &.edit {
+      display: grid;
+
+      place-items: center;
+      span {
+        font-size: 8px;
+      }
+
+      span,
+      app-icon-comp {
+        grid-area: 1 /1;
+      }
       background-color: var(--col-primary);
       padding: var(--distance-2);
       color: var(--col-bg);
@@ -83,7 +91,7 @@
     display: flex;
     align-items: end;
     flex-wrap: wrap;
-    gap: var(--distance-4);
+    gap: var(--distance-2) var(--distance-4);
     margin-bottom: var(--distance-4);
 
     .hide-on-desktop {

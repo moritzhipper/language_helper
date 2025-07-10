@@ -24,14 +24,8 @@
       </label>
     </form>
     <div class="data-interact">
-      <button class="delete" (click)="reset()">
-        @if (deletePressedCounter() === 0) {
-          <span> delete everything </span>
-        } @else if (deletePressedCounter() != necessaryDeletePresses) {
-          <span> {{ necessaryDeletePresses - deletePressedCounter() }} </span>
-        } @else {
-          <span> delete success </span>
-        }
+      <button class="delete" (click)="deleteModal.open()">
+        delete everything
       </button>
       <a
         class="big"
@@ -42,3 +36,14 @@
     </div>
   </div>
 </app-page-wrapper-comp>
+<app-modal-wrapper-comp #deleteModal>
+  <app-confirm-form-comp
+    (cancel)="deleteModal.close()"
+    (confirm)="reset()"
+    label="delete all of them"
+  >
+    <app-counter-comp label="cards" size="l">
+      {{ learnables().length }}
+    </app-counter-comp>
+  </app-confirm-form-comp>
+</app-modal-wrapper-comp>

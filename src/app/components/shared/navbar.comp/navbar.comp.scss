@@ -1,112 +1,36 @@
 @use '../../../../style/mixins.scss' as *;
 
 :host {
-  display: grid;
-  gap: var(--distance-4);
+  position: fixed;
   top: 0;
   right: 0;
-  position: fixed;
-  box-sizing: border-box;
-  place-items: start end;
-  padding: var(--distance-4) 0;
-  z-index: 2;
-
-  transition: backdrop-filter var(--duration-1);
-}
-
-.toggle {
-  transition: translate var(--duration-0);
-  background-color: rgb(from var(--col-primary) r g b / var(--opacity-1));
-  backdrop-filter: blur(10px);
-  translate: 10px;
-  &:hover {
-    translate: 5px;
-  }
-  &.links-open {
-    translate: 0px;
-    background-color: var(--col-primary);
-    app-icon-comp {
-      color: var(--col-bg);
-    }
-  }
-  app-icon-comp {
-    transition: color var(--duration-0);
-  }
-}
-
-.links {
   display: flex;
-  flex-direction: column;
-  gap: var(--distance-4);
-}
+  padding: var(--distance-4);
+  z-index: 2;
+  gap: var(--distance-2);
 
-form {
-  display: grid;
-  gap: var(--distance-4);
-  padding: 0 var(--distance-4);
-
-  textarea,
-  app-radio-comp {
-    resize: none;
-    box-sizing: border-box;
-    padding: var(--distance-4);
-    border: 2px solid var(--col-primary);
-  }
-
-  button {
-    background-color: var(--col-primary);
-    color: var(--col-bg);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: var(--distance-1);
-  }
-}
-
-.entry {
-  border-radius: var(--radius-2) 0 0 var(--radius-2);
-  padding: var(--distance-3) var(--distance-5) var(--distance-3)
-    var(--distance-4);
-
-  &:not(.toggle) {
-    app-icon-comp {
-      color: var(--col-bg);
+  &.links-open {
+    .link {
+      display: block;
     }
-    background-color: var(--col-primary);
-  }
-}
-
-a,
-button,
-textarea {
-  box-shadow: var(--shadow-big);
-}
-
-app-radio-comp {
-  background-color: var(--col-bg);
-  border-radius: var(--radius-1);
-}
-
-@include isDesktop() {
-  :host {
-    form {
-      textarea {
-        width: 400px;
-        height: 400px;
+    .toggle {
+      background-color: var(--col-bg);
+      app-icon-comp {
+        rotate: 180deg;
       }
     }
   }
 }
 
-@include isPhone() {
-  :host.add-open {
-    height: 100dvh;
-    width: 100vw;
-    grid-template-rows: auto 1fr;
-    backdrop-filter: blur(10px);
-    form {
-      place-self: stretch;
-      grid-template-rows: 1fr auto;
-    }
-  }
+.link {
+  display: none;
+}
+
+.link,
+.toggle {
+  padding: var(--distance-2);
+  background-color: var(--col-accent);
+  padding: var(--distance-3);
+  border-radius: 100%;
+  box-shadow: var(--shadow-small);
 }

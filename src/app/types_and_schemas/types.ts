@@ -1,15 +1,17 @@
 import z from 'zod'
 import { LearnableBaseSchema } from './schemas'
 
-export type LearnableBase = z.infer<typeof LearnableBaseSchema>
+export type LearnableBaseFromAi = z.infer<typeof LearnableBaseSchema>
+export type LearnableBase = LearnableBaseFromAi & { notes: string }
 
 export type Learnable = {
   id: string
   linkedIds: string[]
-  notes: string
   lastGuesses: boolean[]
   created: Date
 } & LearnableBase
+
+export type LearnableUpdated = LearnableBase & Pick<Learnable, 'id'>
 
 export type LearnablesStoreType = {
   learnables: Learnable[]
@@ -18,7 +20,6 @@ export type LearnablesStoreType = {
     index: number
     guesses: Guess[]
   } | null
-  isConverting: boolean
 }
 
 export type LearnableCreationConfig = {

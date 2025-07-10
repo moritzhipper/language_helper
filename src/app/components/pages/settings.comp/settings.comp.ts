@@ -1,21 +1,22 @@
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  signal,
-  untracked
-} from '@angular/core'
+import { Component, computed, effect, inject, untracked } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MakeBlobService } from '../../../services/make-blob-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
+import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-comp'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
+import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
 import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
 @Component({
   selector: 'app-settings.comp',
-  imports: [ReactiveFormsModule, PageWrapperComp, CounterComp],
+  imports: [
+    ReactiveFormsModule,
+    PageWrapperComp,
+    CounterComp,
+    ModalWrapperComp,
+    ConfirmFormComp
+  ],
   templateUrl: './settings.comp.html',
   styleUrl: './settings.comp.scss'
 })
@@ -26,8 +27,6 @@ export class SettingsComp {
 
   // only delete after tree consecutive presses
   private deleteTimeout: ReturnType<typeof setTimeout> | null = null
-  deletePressedCounter = signal(0)
-  necessaryDeletePresses = 5
 
   tokensUsed = this._settingsS.tokensUsed
   learnables = this._languageS.learnables
@@ -58,17 +57,6 @@ export class SettingsComp {
   }
 
   reset() {
-    if (this.deleteTimeout) {
-      clearTimeout(this.deleteTimeout)
-    }
-    this.deleteTimeout = setTimeout(
-      () => this.deletePressedCounter.set(0),
-      1000
-    )
-    this.deletePressedCounter.update((value) => value + 1)
-
-    if (this.deletePressedCounter() >= this.necessaryDeletePresses) {
-      this._languageS.reset()
-    }
+    this._languageS.reset()
   }
 }

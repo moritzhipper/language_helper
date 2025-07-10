@@ -1,0 +1,49 @@
+@use '../../../../../style/mixins.scss' as *;
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr auto auto;
+
+  gap: var(--distance-4);
+
+  .wide {
+    grid-column: span 2;
+  }
+
+  textarea {
+    padding: var(--distance-4);
+    resize: none;
+  }
+
+  button {
+    display: inline-flex;
+    margin-top: var(--distance-4);
+    gap: var(--distance-2);
+    justify-content: center;
+
+    &.submit {
+      color: var(--col-bg);
+      background-color: var(--col-primary);
+    }
+
+    &.cancel {
+      background-color: var(--col-accent);
+    }
+  }
+}
+
+@include isDesktop() {
+  form {
+    padding: var(--distance-4);
+    width: 400px;
+    height: 500px;
+  }
+}
+
+@include isPhone() {
+  form {
+    width: 100%;
+    height: 100%;
+  }
+}

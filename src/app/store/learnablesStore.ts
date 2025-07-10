@@ -2,12 +2,18 @@ import { withStorageSync } from '@angular-architects/ngrx-toolkit'
 import { inject } from '@angular/core'
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals'
 import { AiService } from '../services/ai.service'
-import { Learnable, LearnableCreationConfig } from '../types_and_schemas/types'
+import {
+  LearnableBase,
+  LearnableCreationConfig,
+  LearnableUpdated
+} from '../types_and_schemas/types'
 import { initialLearnables } from './initialStates'
 import {
-  saveBaseLearnables,
+  removeLearnables,
+  saveNewLearnables,
   setGuess,
-  startPractice
+  startPractice,
+  updateLearnables
 } from './learnableMutators'
 
 export const LearnablesStore = signalStore(
@@ -21,18 +27,16 @@ export const LearnablesStore = signalStore(
     const aiS = inject(AiService)
 
     return {
-      async addLearnables(config: LearnableCreationConfig) {
-        patchState(state, { isConverting: true })
-        const excludedWords = state.learnables().map((l) => l.lexeme)
-        const baseLearnables = await aiS.createLearnablesFromString(
-          config,
-          excludedWords
-        )
-
-        patchState(state, saveBaseLearnables(baseLearnables))
+      async generate(config: LearnableCreationConfig) {},
+      addLearnables(learnables: LearnableBase[]) {
+        patchState(state, saveNewLearnables(learnables))
       },
-      updateLearnable(id: string, learnable: Partial<Learnable>) {},
-      removeLearnables(ids: string[]) {},
+      updateLearnables(learnables: LearnableUpdated[]) {
+        patchState(state, updateLearnables(learnables))
+      },
+      removeLearnables(ids: string[]) {
+        patchState(state, removeLearnables(ids))
+      },
       startPractice(ids: string[]) {
         patchState(state, startPractice(ids))
       },

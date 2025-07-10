@@ -1,0 +1,22 @@
+<form [formGroup]="convertForm" (ngSubmit)="convert()">
+  <textarea
+    class="wide"
+    formControlName="text"
+    placeholder="paste vocabulary cards or text here"
+  ></textarea>
+  <app-radio-comp
+    class="wide"
+    [config]="[{ value: 'words' }, { value: 'phrases' }, { value: 'both' }]"
+    formControlName="allowType"
+    label="types"
+  />
+  <button class="big cancel" type="button" (click)="onCancel()">cancel</button>
+  <button type="submit" class="big submit" [disabled]="!convertForm.valid">
+    @if (isConverting()) {
+      <span>converting...</span>
+    } @else {
+      <span>convert</span>
+    }
+    <app-icon-comp type="magic" />
+  </button>
+</form>

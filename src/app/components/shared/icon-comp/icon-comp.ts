@@ -13,6 +13,7 @@ type IconType =
   | 'trash'
   | 'edit'
   | 'reset'
+  | 'add'
 
 @Component({
   selector: 'app-icon-comp',

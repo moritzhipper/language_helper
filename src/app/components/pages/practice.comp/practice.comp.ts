@@ -34,9 +34,9 @@ export class PracticeComp {
     if (event.key === 'ArrowUp') {
       this.reveal()
     } else if (event.key === 'ArrowLeft' && this.isRevealed()) {
-      this.setGuess(true)
-    } else if (event.key === 'ArrowRight' && this.isRevealed()) {
       this.setGuess(false)
+    } else if (event.key === 'ArrowRight' && this.isRevealed()) {
+      this.setGuess(true)
     }
   }
 

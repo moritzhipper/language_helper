@@ -62,20 +62,20 @@
     </button>
   </form>
   <div class="edit-section">
-    <button (click)="magicAdd()" class="create ai">
+    <button (click)="addModal.open()" class="create ai">
       <app-icon-comp type="magic" />
     </button>
-    <button (click)="bulkAdd()" class="create manual">
+    <button (click)="bulkEditModal.open()" class="create manual">
       <app-icon-comp type="pen" />
     </button>
     @if (hasSelected()) {
-      <button (click)="edit()" class="edit">
-        <app-icon-comp type="edit" />
-      </button>
-      <button (click)="delete()" class="edit">
+      <button (click)="deleteModal.open()" class="edit">
         <app-icon-comp type="trash" />
       </button>
       <button (click)="resetSelection()" class="edit">
+        <span>
+          {{ selectedLearnables().length }}
+        </span>
         <app-icon-comp type="reset" />
       </button>
     }
@@ -93,3 +93,28 @@
     }
   </div>
 </app-page-wrapper-comp>
+<app-modal-wrapper-comp #addModal>
+  <app-magic-add-comp
+    (cancel)="addModal.close()"
+    (confirm)="confirmAdd($event)"
+    [excludedWords]="learnableLexemes()"
+  />
+</app-modal-wrapper-comp>
+<app-modal-wrapper-comp #bulkEditModal>
+  <app-bulk-edit-comp
+    [preset]="selectedLearnables()"
+    (cancel)="bulkEditModal.close()"
+    (confirm)="confirmEdit($event)"
+  />
+</app-modal-wrapper-comp>
+<app-modal-wrapper-comp #deleteModal>
+  <app-confirm-form-comp
+    (cancel)="deleteModal.close()"
+    (confirm)="confirmDelete()"
+    label="delete cards"
+  >
+    <app-counter-comp label="cards selected" size="l">
+      {{ selectedLearnables().length }}
+    </app-counter-comp>
+  </app-confirm-form-comp>
+</app-modal-wrapper-comp>

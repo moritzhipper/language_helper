@@ -1,35 +1,12 @@
-<button
-  (click)="toggleLinks()"
-  class="entry toggle"
-  [class.links-open]="linksOpen()"
->
+<button (click)="toggleLinks()" class="toggle">
   <app-icon-comp type="menu" />
 </button>
-
-@if (linksOpen()) {
-  <div class="links">
-    <a routerLink="/" class="entry"><app-icon-comp type="learn" /></a>
-    <a routerLink="overview" class="entry"><app-icon-comp type="list" /></a>
-    <a routerLink="settings" class="entry"><app-icon-comp type="settings" /></a>
-  </div>
-}
-
-@if (addOpen()) {
-  <form [formGroup]="convertForm" (ngSubmit)="convert()">
-    <textarea
-      class=" "
-      formControlName="text"
-      placeholder="paste vocabulary cards or text here"
-    ></textarea>
-    <app-radio-comp
-      class=" "
-      [config]="[{ value: 'words' }, { value: 'phrases' }, { value: 'both' }]"
-      formControlName="allowType"
-      label="types"
-    />
-    <button type="submit" class="big" [disabled]="!convertForm.valid">
-      <span> convert </span>
-      <app-icon-comp type="magic" />
-    </button>
-  </form>
-}
+<a routerLink="overview" class="link" routerLinkActive="active">
+  <app-icon-comp type="list" />
+</a>
+<a routerLink="/" class="link" routerLinkActive="active">
+  <app-icon-comp type="learn" />
+</a>
+<a routerLink="settings" class="link" routerLinkActive="active">
+  <app-icon-comp type="settings" />
+</a>

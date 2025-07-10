@@ -1,7 +1,8 @@
 import {
   Learnable,
   LearnableBase,
-  LearnablesStoreType
+  LearnablesStoreType,
+  LearnableUpdated
 } from '../types_and_schemas/types'
 
 export const startPractice =
@@ -17,15 +18,14 @@ export const startPractice =
     }
   }
 
-export const saveBaseLearnables =
+export const saveNewLearnables =
   (learnablesBase: LearnableBase[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const learnables = mapToLearnables(learnablesBase)
+    const learnables = mapBaseToFullToLearnables(learnablesBase)
     const filteredLearnables = filterDoubleEntries(learnables)
 
     return {
       ...state,
-      isConverting: false,
       learnables: [...filteredLearnables, ...state.learnables]
     }
   }
@@ -65,6 +65,17 @@ export const setGuess =
     }
   }
 
+export const removeLearnables =
+  (ids: string[]) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const learnables = state.learnables.filter((l) => !ids.includes(l.id))
+
+    return {
+      ...state,
+      learnables
+    }
+  }
+
 const updateLearnableInList = (
   updatedLearnable: Learnable,
   learnables: Learnable[]
@@ -78,13 +89,41 @@ const updateLearnableInList = (
   })
 }
 
-const mapToLearnables = (learnableBase: LearnableBase[]): Learnable[] => {
+export const updateLearnables =
+  (updatedL: LearnableUpdated[]) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const learnables = state.learnables.map((l) => {
+      const updated = updatedL.find((ul) => ul.id === l.id)
+      return mergeLearnables(l, updated)
+    })
+
+    return {
+      ...state,
+      learnables
+    }
+  }
+
+const mergeLearnables = (
+  lbase: Learnable,
+  lmerge?: LearnableUpdated
+): Learnable => {
+  if (!lmerge) return lbase
+
+  return {
+    ...lbase,
+    ...lmerge
+  }
+}
+
+const mapBaseToFullToLearnables = (
+  learnableBase: LearnableBase[]
+): Learnable[] => {
   return learnableBase.map((l) => ({
     ...l,
     id: crypto.randomUUID(),
     linkedIds: [],
     lastGuesses: [false, false, false, false, false],
-    notes: '',
+    notes: l.notes || '',
     created: new Date()
   }))
 }

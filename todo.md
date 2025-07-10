@@ -2,31 +2,24 @@
 
 ## Right Now
 
-- things missing for giving the app to felia
-  - select words or phrases
-  - edit cards
-- import cards functionality (using zod as validation)
-- overview page: diesen bar auslagern und einen für mobil und einen für desktop bauen:
-  - mobil: oben suche, filter durch wischen
-  - unten zwei große buttons: add und magic add, darüber interaktionsbutton
+- nach magic karten einfach anlegen und sortierung nach date
+- bulk add mit ähnlichem layout wie overview, nur mit mehr margin an den rändern -> irgendwie sizing regeln
+- mark in navbar ongoing session
+- move ai service to component
 
 ## Later
 
-- hide delete everything behind three confirm presses
-- allow export
+- remove linkedIds, add linked collections. Add collection creation or collection add to button on selection
+- "spaced repetition"
+
+- refactor forms handling to allow escape to cancel
+- import cards functionality (using zod as validation)
 - allow both directions, save cards in a more general way by language
-- consolidate styles (input + label / custom input)
-- handle finished practice
-- set pracitce notification when practice ongoing
-- show practice progress?
-- add use in sentence -> creates phrase learnable with link
+- handle early finished practice -> set all guesses to wrong to allow finished screen
 - show links in pracitce
-- allow editing
 - change direction
 - save langauges with card
 - toasts for guess selection and error communication
-- convert: select phrases and words mode
-- allow selection of language in settings?
 
 # sources
 

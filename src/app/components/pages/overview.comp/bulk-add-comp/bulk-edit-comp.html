@@ -1,0 +1,80 @@
+<form [formGroup]="learnablesForm" (ngSubmit)="confirmForm()">
+  <div formArrayName="learnables" class="learnables">
+    @for (
+      learnable of learnablesFormArray.controls;
+      track learnable.value.lexeme;
+      let i = $index
+    ) {
+      <div class="learnable" [formGroupName]="i">
+        <app-radio-comp
+          id="type-{{ i }}"
+          formControlName="type"
+          [config]="[{ value: 'word' }, { value: 'phrase' }]"
+          label="type"
+          class="type-picker"
+        />
+        <button type="button" class="small remove" (click)="removeLearnable(i)">
+          <app-icon-comp type="trash" [size]="20" />
+        </button>
+        <div class="fake-card wide">
+          <input
+            id="lexeme-{{ i }}"
+            type="text"
+            formControlName="lexeme"
+            class="lexeme"
+            placeholder="lexeme"
+          />
+          <input
+            id="translation-{{ i }}"
+            type="text"
+            formControlName="translation"
+            class="translation"
+            placeholder="translation"
+          />
+          <input
+            type="text"
+            id="notes-{{ i }}"
+            formControlName="notes"
+            class="notes"
+            placeholder="( notes )"
+          />
+        </div>
+      </div>
+    } @empty {
+      <div class="empty">
+        press the plus button to add one or select one in the overview and then
+        open tis to edit
+      </div>
+    }
+  </div>
+
+  <div class="navigation">
+    <div class="info">
+      <span class="big">
+        @if (deletedLIDs().length !== 0) {
+          {{ deletedLIDs().length }}
+          cards will be deleted
+        }
+      </span>
+    </div>
+    <button
+      type="button"
+      (click)="addLearnable()"
+      [disabled]="!learnablesForm.valid"
+      class="add big"
+    >
+      add one
+      <app-icon-comp type="add" [size]="20" />
+    </button>
+    <button type="button" class="cancel big" (click)="cancelForm()">
+      cancel
+    </button>
+    <button
+      type="submit"
+      class="big submit"
+      [disabled]="!learnablesForm.valid || deletedLIDs().length === 0"
+    >
+      submit
+    </button>
+  </div>
+</form>

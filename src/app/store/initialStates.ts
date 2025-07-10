@@ -5,8 +5,7 @@ import {
 
 export const initialLearnables: LearnablesStoreType = {
   learnables: [],
-  currentPractice: null,
-  isConverting: false
+  currentPractice: null
 }
 export const initialSettings: SettingsStoreType = {
   apiKey: '',

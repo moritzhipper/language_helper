@@ -1,0 +1,85 @@
+@use '../../../../style/mixins.scss' as *;
+
+:host {
+  z-index: 15;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: grid;
+  height: 100dvh;
+  width: 100vw;
+
+  &:not(.open) {
+    display: none;
+  }
+  &.open {
+    display: grid;
+  }
+}
+
+.backdrop,
+.fake-dialog {
+  grid-area: 1 / 1;
+}
+
+.fake-dialog {
+  display: grid;
+  box-sizing: border-box;
+  overflow: hidden;
+  place-self: center;
+  z-index: 1;
+}
+
+.backdrop {
+  background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
+  backdrop-filter: blur(10px);
+}
+
+@include isPhone() {
+  .fake-dialog {
+    padding: var(--distance-5);
+    place-self: stretch;
+  }
+}
+
+// doesnt work on firefox :(
+// dialog {
+//   opacity: 0;
+//   margin: auto;
+//   transition-duration: var(--duration-1);
+//   transition:
+//     opacity 0.7s ease-out,
+//     overlay 0.7s ease-out allow-discrete,
+//     display 0.7s ease-out allow-discrete;
+
+//   &:open {
+//     opacity: 1;
+//     transform: scaleY(1);
+//   }
+
+//   &::backdrop {
+//     background-color: rgb(0 0 0 / 0%);
+//     transition:
+//       display 0.7s allow-discrete,
+//       overlay 0.7s allow-discrete,
+//       background-color 0.7s;
+//     /* Equivalent to
+//     transition: all 0.7s allow-discrete; */
+//   }
+
+//   &:open::backdrop {
+//     background-color: rgb(0 0 0 / 25%);
+//   }
+// }
+
+// /* Before open state - consolidated starting styles */
+// @starting-style {
+//   dialog:open {
+//     opacity: 0;
+//     transform: scaleY(0);
+//   }
+
+//   dialog:open::backdrop {
+//     background-color: rgb(0 0 0 / 0%);
+//   }
+// }

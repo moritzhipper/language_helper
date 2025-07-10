@@ -1,0 +1,30 @@
+@use '../../../../style/mixins.scss' as *;
+
+:host {
+  display: grid;
+
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr auto;
+
+  gap: var(--distance-4);
+
+  .content {
+    grid-column: span 2;
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .confirm {
+    background-color: var(--col-primary);
+    color: var(--col-bg);
+  }
+}
+@include isDesktop() {
+  :host {
+    height: 300px;
+    width: 400px;
+  }
+}
