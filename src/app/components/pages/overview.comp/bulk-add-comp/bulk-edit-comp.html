@@ -72,7 +72,7 @@
     <button
       type="submit"
       class="big submit"
-      [disabled]="!learnablesForm.valid || deletedLIDs().length === 0"
+      [disabled]="!learnablesForm.valid && deletedLIDs().length === 0"
     >
       submit
     </button>

@@ -8,7 +8,7 @@ form {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr auto;
-  gap: var(--distance-4);
+  gap: var(--distance-5) var(--distance-4);
 
   overflow: hidden;
 
@@ -36,7 +36,8 @@ form {
   .navigation {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: var(--distance-6) var(--distance-4);
+    gap: var(--distance-4);
+
     .info {
       display: flex;
       align-items: center;
@@ -48,6 +49,7 @@ form {
     .submit {
       background-color: var(--col-primary);
       grid-column: span 2;
+      color: var(--col-bg);
     }
 
     .add {
@@ -57,15 +59,18 @@ form {
     }
   }
 }
+
 .learnable {
   display: grid;
   gap: var(--distance-2);
   grid-template-columns: 2fr 1fr;
+
   .remove {
     padding: var(--distance-2);
     border-radius: var(--radius-1);
     place-self: end;
   }
+
   .fake-card {
     display: grid;
     grid-column: span 2;
@@ -75,20 +80,22 @@ form {
       box-sizing: border-box;
       padding: var(--distance-3);
     }
+
     .lexeme {
       padding: var(--distance-4);
 
       border-radius: var(--radius-1) var(--radius-1) 0 0;
       font-weight: var(--font-weight-bold);
     }
+
     .translation {
       padding: 0 var(--distance-4);
       border-radius: 0;
       font-style: italic;
     }
+
     .notes {
       padding: var(--distance-4);
-
       border-radius: 0 0 var(--radius-1) var(--radius-1);
     }
   }
