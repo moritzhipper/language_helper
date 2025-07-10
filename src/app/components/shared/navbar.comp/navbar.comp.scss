@@ -34,3 +34,13 @@
   border-radius: 100%;
   box-shadow: var(--shadow-small);
 }
+
+.link.practice.practicing {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  50% {
+    color: rgb(from var(--col-primary) r g b / var(--opacity-1));
+  }
+}

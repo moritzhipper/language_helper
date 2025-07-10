@@ -1,13 +1,14 @@
 :host {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto auto auto 1fr;
+  grid-template-rows: auto auto 1fr;
   background-color: rgb(from var(--col-accent) r g b / var(--opacity-1));
   border-radius: var(--radius-0);
   padding: var(--distance-2) var(--distance-3);
-  gap: var(--distance-1) 0;
   position: relative;
-  height: 130px;
+  gap: var(--distance-1) 0;
+
+  height: 150px;
   place-items: center start;
 
   app-icon-comp {
@@ -27,9 +28,7 @@
     font-style: italic;
     grid-column: span 3;
   }
-  .notes {
-    grid-column: span 3;
-  }
+
   .type {
     opacity: var(--opacity-1);
     place-self: end center;
@@ -55,6 +54,15 @@
 
     .right {
       background-color: var(--col-primary);
+    }
+  }
+}
+
+:host {
+  &.phrase {
+    .lexeme,
+    .translation {
+      font-size: var(--font-size-0);
     }
   }
 }

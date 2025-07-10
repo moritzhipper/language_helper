@@ -6,6 +6,8 @@
 - bulk add mit ähnlichem layout wie overview, nur mit mehr margin an den rändern -> irgendwie sizing regeln
 - mark in navbar ongoing session
 - move ai service to component
+- editing notes and then reopening stuff is not working
+- add notes function in learning view
 
 ## Later
 

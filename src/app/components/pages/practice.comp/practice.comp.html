@@ -12,7 +12,11 @@
       </div>
       <div class="navigation">
         <button class="toggle-navigation" (click)="showStatsToggle()">
-          <app-icon-comp type="chevron" [size]="32" />
+          <app-icon-comp
+            type="chevron"
+            [size]="32"
+            [class.expanded]="showStats()"
+          />
         </button>
 
         @if (showStats()) {
@@ -33,7 +37,7 @@
                 {{ practiceSummary().cardsAmountTotal }}
               </span>
             </div>
-            <button class="small full warning" (click)="endPractice()">
+            <button class="big full warning" (click)="endPractice()">
               quit
             </button>
           </div>

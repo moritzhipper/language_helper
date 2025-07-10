@@ -36,6 +36,9 @@ export class AiService {
     config: LearnableCreationConfig,
     excludedWords: string[]
   ): Promise<LearnableBase[]> {
+    const learningLang = this.settingsStore.learningLang()
+    const speakingLang = this.settingsStore.speakingLang()
+
     const response = await this.oAi().responses.parse({
       model: this.model,
       text: {
@@ -44,6 +47,8 @@ export class AiService {
       input: [
         this.systemPrompt(),
         getCreateLearnablesPrompt(
+          learningLang,
+          speakingLang,
           excludedWords,
           config.allowWords,
           config.allowPhrases
@@ -59,7 +64,7 @@ export class AiService {
       console.error('No parsed output received from AI', response)
       throw new Error('No parsed output received from AI')
     }
-    return learnablesBase.learnables.map((l) => ({ ...l, notes: '' }))
+    return learnablesBase.learnables
   }
 
   async useInSentence(word: string): Promise<string> {
