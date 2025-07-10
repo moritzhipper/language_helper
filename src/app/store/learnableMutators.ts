@@ -6,14 +6,15 @@ import {
 } from '../types_and_schemas/types'
 
 export const startPractice =
-  (ids: string[]) =>
+  (ids: string[], reverseDirection: boolean) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     return {
       ...state,
       currentPractice: {
         ids,
         index: 0,
-        guesses: []
+        guesses: [],
+        reverseDirection
       }
     }
   }

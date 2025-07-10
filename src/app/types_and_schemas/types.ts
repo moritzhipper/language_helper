@@ -19,6 +19,7 @@ export type LearnablesStoreType = {
     ids: string[]
     index: number
     guesses: Guess[]
+    reverseDirection: boolean
   } | null
 }
 

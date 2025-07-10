@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 
 export type RadioCompInputConfig = {
   label?: string
-  value: string | number
+  value: string | number | boolean
 }[]
 
 @Component({
@@ -23,12 +23,12 @@ export class RadioComp implements ControlValueAccessor {
   config = input.required<RadioCompInputConfig>()
   label = input.required<string>()
 
-  value: string | number | undefined = undefined
+  value: string | number | boolean | undefined = undefined
 
-  onChange = (value: string | number) => {}
+  onChange = (value: string | number | boolean) => {}
   onTouched = () => {}
 
-  writeValue(value: string | number): void {
+  writeValue(value: string | number | boolean): void {
     this.value = value
   }
 

@@ -8,6 +8,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop'
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
 import { LearnablesStore } from '../../../store/learnablesStore'
+import { SettingsStore } from '../../../store/settingsStore'
 import { LearnablesFilterConfig } from '../../../types_and_schemas/types'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
@@ -39,6 +40,10 @@ export class PracticeComp {
       this.setGuess(true)
     }
   }
+
+  private readonly sStore = inject(SettingsStore)
+  learningLang = this.sStore.learningLang
+  speakingLang = this.sStore.speakingLang
 
   private readonly _fb = inject(NonNullableFormBuilder)
   form = this._fb.group<
@@ -142,6 +147,6 @@ export class PracticeComp {
   }
 
   start() {
-    this.learnablesS.startPractice(this.selectedCardsIds())
+    this.learnablesS.startPractice(this.selectedCardsIds(), false)
   }
 }

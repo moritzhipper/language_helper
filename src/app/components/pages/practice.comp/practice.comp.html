@@ -96,6 +96,13 @@
           formControlName="maxAmountWrongGuesses"
           label="max wrong guesses"
         />
+        <app-radio-comp
+          [config]="[
+            { value: false, label: speakingLang() },
+            { value: true, label: learningLang() }
+          ]"
+          label="hide language"
+        />
         <button
           class="big"
           (click)="start()"
