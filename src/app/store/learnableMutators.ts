@@ -44,10 +44,11 @@ export const setGuess =
     )!
 
     // slice to only save last five guesses
-    const updatedLearnable: Learnable = {
-      ...currentLearnable,
-      lastGuesses: [...currentLearnable.lastGuesses.slice(1), isCorrect]
-    }
+    const updatedLearnable: Learnable = addGuess(
+      currentLearnable,
+      isCorrect,
+      currentP.reverseDirection
+    )
 
     return {
       ...state,
@@ -110,6 +111,7 @@ const mergeLearnables = (
 ): Learnable => {
   if (!lmerge) return lbase
 
+  // Shallow merge only, no nested learning/translation objects
   return {
     ...lbase,
     ...lmerge
@@ -120,12 +122,16 @@ const mapBaseToFullToLearnables = (
   learnableBase: LearnableBase[]
 ): Learnable[] => {
   return learnableBase.map((l) => ({
-    ...l,
     id: crypto.randomUUID(),
-    linkedIds: [],
-    lastGuesses: [false, false, false, false, false],
+    created: new Date(),
+    type: l.type,
+    lexeme: l.lexeme,
+    translation: l.translation,
     notes: l.notes || '',
-    created: new Date()
+    guesses: {
+      lexeme: [false, false, false, false, false],
+      translation: [false, false, false, false, false]
+    }
   }))
 }
 
@@ -138,4 +144,33 @@ const filterDoubleEntries = (learnables: Learnable[]): Learnable[] => {
     uniqueLexemes.add(l.lexeme)
     return true
   })
+}
+
+const addGuess = (
+  learnable: Learnable,
+  isCorrect: boolean,
+  reverseDirection: boolean
+): Learnable => {
+  const updateGuesses = (guesses: boolean[], isCorrect: boolean): boolean[] => [
+    ...guesses.slice(1),
+    isCorrect
+  ]
+
+  if (!reverseDirection) {
+    return {
+      ...learnable,
+      guesses: {
+        ...learnable.guesses,
+        translation: updateGuesses(learnable.guesses.translation, isCorrect)
+      }
+    }
+  } else {
+    return {
+      ...learnable,
+      guesses: {
+        ...learnable.guesses,
+        lexeme: updateGuesses(learnable.guesses.lexeme, isCorrect)
+      }
+    }
+  }
 }

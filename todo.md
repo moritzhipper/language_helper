@@ -2,6 +2,9 @@
 
 ## Right Now
 
+- update filter to also include learning and speaking lang: guesses, sort
+- show all guess types
+- make font size smaller according to number of letters
 - nach magic karten einfach anlegen und sortierung nach date
 - bulk add mit ähnlichem layout wie overview, nur mit mehr margin an den rändern -> irgendwie sizing regeln
 - mark in navbar ongoing session

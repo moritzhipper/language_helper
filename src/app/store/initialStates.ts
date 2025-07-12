@@ -4,6 +4,10 @@ import {
 } from '../types_and_schemas/types'
 
 export const initialLearnables: LearnablesStoreType = {
+  settings: {
+    learningLang: 'dutch',
+    userLang: 'english'
+  },
   learnables: [],
   currentPractice: null
 }

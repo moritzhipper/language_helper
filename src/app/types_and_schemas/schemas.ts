@@ -4,8 +4,7 @@ import { z } from 'zod'
 export const LearnableBaseSchema = z.object({
   lexeme: z.string(),
   translation: z.string(),
-  type: z.enum(['word', 'phrase']),
-  notes: z.string()
+  type: z.enum(['word', 'phrase'])
 })
 
 export const LearnableResonseSchema = z.object({

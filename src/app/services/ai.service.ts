@@ -64,7 +64,7 @@ export class AiService {
       console.error('No parsed output received from AI', response)
       throw new Error('No parsed output received from AI')
     }
-    return learnablesBase.learnables
+    return learnablesBase.learnables.map((l) => ({ ...l, notes: '' }))
   }
 
   async useInSentence(word: string): Promise<string> {

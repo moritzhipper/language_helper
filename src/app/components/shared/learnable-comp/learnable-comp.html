@@ -10,12 +10,14 @@
   {{ la.type }}
 </div>
 <div class="date">
-  {{ la.created | date : 'MMMM d, y' }}
+  {{ la.created | date: 'MMMM d, y' }}
 </div>
 <div class="last-guesses">
-  @for(guess of sortedGuesses(); track $index) { @if(guess) {
-  <div class="right"></div>
-  } @else {
-  <div class="wrong"></div>
-  } }
+  @for (guess of la.guesses.lexeme; track $index) {
+    @if (guess) {
+      <div class="right"></div>
+    } @else {
+      <div class="wrong"></div>
+    }
+  }
 </div>
