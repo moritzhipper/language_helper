@@ -49,9 +49,9 @@ export type SettingsStoreType = {
 
 export type LearnablesFilterConfig = {
   order: 'asc' | 'desc'
-  orderBy: 'created' | 'lexeme' | 'wrongGuesses' | 'random'
+  orderBy: 'created' | 'lexeme' | 'confidence' | 'random'
   type: 'word' | 'phrase' | 'all'
   age?: 'newerThanOneDay' | 'all'
-  maxAmountWrongGuesses?: number
+  confidence?: 'high' | 'medium' | 'low'
   search: string
 }

@@ -12,7 +12,7 @@ export const filterLearnables = (
     .filter((v) => filterByType(filterConfig, v))
     .filter((v) => filterByAmountWrongGuesses(filterConfig, v))
     .filter((v) => filterByNewerThanOneDay(filterConfig, v))
-    .filter((v) => filterByPartial(filterConfig, v))
+    .filter((v) => filterBySearch(filterConfig, v))
 
   return sortLearnables(filterConfig, filtered)
 }
@@ -30,9 +30,14 @@ const filterByAmountWrongGuesses = (
   filter: LearnablesFilterConfig,
   learnable: Learnable
 ): boolean => {
-  const amountWrongGuesses = learnable.guesses.lexeme.filter((g) => !g).length
+  const wrongGuesses = [
+    ...learnable.guesses.lexeme,
+    ...learnable.guesses.translation
+  ].filter((g) => !g).length
 
-  return amountWrongGuesses <= (filter.maxAmountWrongGuesses ?? 0)
+  if (filter.confidence === 'high') return wrongGuesses < 1
+  if (filter.confidence === 'medium') return wrongGuesses < 3
+  return true
 }
 
 const filterByNewerThanOneDay = (
@@ -43,7 +48,7 @@ const filterByNewerThanOneDay = (
   return newerThanOneDay(new Date(learnable.created))
 }
 
-const filterByPartial = (
+const filterBySearch = (
   filter: LearnablesFilterConfig,
   learnable: Learnable
 ): boolean => {
@@ -64,7 +69,7 @@ const sortLearnables = (
 
   if (filter.orderBy === 'lexeme') {
     sortedLearnables = sortedLearnables.sort(orderByLexeme)
-  } else if (filter.orderBy === 'wrongGuesses') {
+  } else if (filter.orderBy === 'confidence') {
     sortedLearnables = sortedLearnables.sort(orderByLastGuesses)
   } else if (filter.orderBy === 'random') {
     sortedLearnables = sortedLearnables.sort(orderByRandom)

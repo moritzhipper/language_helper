@@ -97,16 +97,9 @@
           label="type"
         />
         <app-radio-comp
-          [config]="[
-            { value: 5 },
-            { value: 4 },
-            { value: 3 },
-            { value: 2 },
-            { value: 1 },
-            { value: 0 }
-          ]"
-          formControlName="maxAmountWrongGuesses"
-          label="max wrong guesses"
+          [config]="[{ value: 'low' }, { value: 'medium' }, { value: 'high' }]"
+          formControlName="confidence"
+          label="confidence"
         />
         <app-radio-comp
           [config]="[

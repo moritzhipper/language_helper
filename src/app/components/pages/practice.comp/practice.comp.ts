@@ -48,7 +48,7 @@ export class PracticeComp {
   private readonly _fb = inject(NonNullableFormBuilder)
   form = this._fb.group({
     type: 'all',
-    maxAmountWrongGuesses: 5,
+    confidence: 'low',
     reverseDirection: false
   })
   private readonly _formSignal = toSignal(this.form.valueChanges, {
@@ -103,7 +103,7 @@ export class PracticeComp {
 
     const filter = {
       type: formValue.type,
-      maxAmountWrongGuesses: formValue.maxAmountWrongGuesses
+      confidence: formValue.confidence
     } as LearnablesFilterConfig
     if (!filter) return []
 

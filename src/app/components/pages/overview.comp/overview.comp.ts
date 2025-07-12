@@ -60,7 +60,7 @@ export class OverviewComp {
 
   form = this._fb.group<LearnablesFilterConfig>({
     type: 'all',
-    maxAmountWrongGuesses: 5,
+    confidence: 'low',
     orderBy: 'created',
     order: 'asc',
     age: 'all',
