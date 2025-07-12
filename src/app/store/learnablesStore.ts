@@ -37,8 +37,8 @@ export const LearnablesStore = signalStore(
       removeLearnables(ids: string[]) {
         patchState(state, removeLearnables(ids))
       },
-      startPractice(ids: string[]) {
-        patchState(state, startPractice(ids))
+      startPractice(ids: string[], reverseDirection: boolean) {
+        patchState(state, startPractice(ids, reverseDirection))
       },
       endPractice() {
         patchState(state, { currentPractice: null })

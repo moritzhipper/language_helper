@@ -69,11 +69,7 @@
     <button type="button" class="cancel big" (click)="cancelForm()">
       cancel
     </button>
-    <button
-      type="submit"
-      class="big submit"
-      [disabled]="!learnablesForm.valid || deletedLIDs().length === 0"
-    >
+    <button type="submit" class="big submit" [disabled]="!learnablesForm.valid">
       submit
     </button>
   </div>

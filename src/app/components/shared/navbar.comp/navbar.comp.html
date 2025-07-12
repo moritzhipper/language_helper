@@ -4,7 +4,12 @@
 <a routerLink="overview" class="link" routerLinkActive="active">
   <app-icon-comp type="list" />
 </a>
-<a routerLink="/" class="link" routerLinkActive="active">
+<a
+  routerLink="/"
+  class="link practice"
+  routerLinkActive="active"
+  [class.practicing]="hasCurrentPractice()"
+>
   <app-icon-comp type="learn" />
 </a>
 <a routerLink="settings" class="link" routerLinkActive="active">

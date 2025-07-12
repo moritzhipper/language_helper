@@ -64,7 +64,7 @@ export class OverviewComp {
     orderBy: 'created',
     order: 'asc',
     age: 'all',
-    partial: ''
+    search: ''
   })
 
   formSignal = toSignal(this.form.valueChanges, {

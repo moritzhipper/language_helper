@@ -30,7 +30,7 @@ const filterByAmountWrongGuesses = (
   filter: LearnablesFilterConfig,
   learnable: Learnable
 ): boolean => {
-  const amountWrongGuesses = learnable.lastGuesses.filter((g) => !g).length
+  const amountWrongGuesses = learnable.guesses.lexeme.filter((g) => !g).length
 
   return amountWrongGuesses <= (filter.maxAmountWrongGuesses ?? 0)
 }
@@ -47,11 +47,11 @@ const filterByPartial = (
   filter: LearnablesFilterConfig,
   learnable: Learnable
 ): boolean => {
-  if (!filter.partial) return true
+  if (!filter.search) return true
   const lexeme = learnable.lexeme.toLowerCase()
-  const translation = learnable.translation.toLowerCase()
-  const partial = filter.partial.toLowerCase()
-  return lexeme.includes(partial) || translation.includes(partial)
+  const translation = learnable.lexeme.toLowerCase()
+  const search = filter.search.toLowerCase()
+  return lexeme.includes(search) || translation.includes(search)
 }
 
 // #region Sort Functions
@@ -89,8 +89,8 @@ const orderByLexeme = (a: Learnable, b: Learnable): number => {
 }
 
 const orderByLastGuesses = (a: Learnable, b: Learnable): number => {
-  const aWrong = a.lastGuesses.filter((g) => !g).length
-  const bWrong = b.lastGuesses.filter((g) => !g).length
+  const aWrong = a.guesses.lexeme.filter((g) => !g).length
+  const bWrong = b.guesses.lexeme.filter((g) => !g).length
   return aWrong - bWrong
 }
 

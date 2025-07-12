@@ -1,4 +1,11 @@
-import { Component, computed, effect, inject, untracked } from '@angular/core'
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  untracked,
+  viewChild
+} from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MakeBlobService } from '../../../services/make-blob-service'
@@ -24,6 +31,9 @@ export class SettingsComp {
   private readonly _settingsS = inject(SettingsStore)
   private readonly _languageS = inject(LearnablesStore)
   private readonly _makeBlobS = inject(MakeBlobService)
+
+  private readonly deleteModal =
+    viewChild.required<ModalWrapperComp>('deleteModal')
 
   // only delete after tree consecutive presses
   private deleteTimeout: ReturnType<typeof setTimeout> | null = null
@@ -57,6 +67,7 @@ export class SettingsComp {
   }
 
   reset() {
+    this.deleteModal().close()
     this._languageS.reset()
   }
 }

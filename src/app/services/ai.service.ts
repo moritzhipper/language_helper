@@ -36,6 +36,9 @@ export class AiService {
     config: LearnableCreationConfig,
     excludedWords: string[]
   ): Promise<LearnableBase[]> {
+    const learningLang = this.settingsStore.learningLang()
+    const speakingLang = this.settingsStore.speakingLang()
+
     const response = await this.oAi().responses.parse({
       model: this.model,
       text: {
@@ -44,6 +47,8 @@ export class AiService {
       input: [
         this.systemPrompt(),
         getCreateLearnablesPrompt(
+          learningLang,
+          speakingLang,
           excludedWords,
           config.allowWords,
           config.allowPhrases

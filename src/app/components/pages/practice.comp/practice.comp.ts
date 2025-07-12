@@ -8,6 +8,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop'
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
 import { LearnablesStore } from '../../../store/learnablesStore'
+import { SettingsStore } from '../../../store/settingsStore'
 import { LearnablesFilterConfig } from '../../../types_and_schemas/types'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
@@ -40,12 +41,15 @@ export class PracticeComp {
     }
   }
 
+  private readonly sStore = inject(SettingsStore)
+  learningLang = this.sStore.learningLang
+  speakingLang = this.sStore.speakingLang
+
   private readonly _fb = inject(NonNullableFormBuilder)
-  form = this._fb.group<
-    Pick<LearnablesFilterConfig, 'type' | 'maxAmountWrongGuesses'>
-  >({
+  form = this._fb.group({
     type: 'all',
-    maxAmountWrongGuesses: 5
+    maxAmountWrongGuesses: 5,
+    reverseDirection: false
   })
   private readonly _formSignal = toSignal(this.form.valueChanges, {
     initialValue: this.form.value
@@ -55,12 +59,12 @@ export class PracticeComp {
 
   isRevealed = signal(false)
   showStats = signal(false)
-  private _currentPractice = this.learnablesS.currentPractice
+  currentPractice = this.learnablesS.currentPractice
 
   // this summary is only used to display info to the user
   // and not for further calculations
   practiceSummary = computed(() => {
-    const currentPractice = this._currentPractice()
+    const currentPractice = this.currentPractice()
     if (!currentPractice)
       return {
         cardsAmountTotal: 0,
@@ -95,7 +99,12 @@ export class PracticeComp {
   })
 
   selectedCardsIds = computed(() => {
-    const filter = this._formSignal() as LearnablesFilterConfig
+    const formValue = this._formSignal()
+
+    const filter = {
+      type: formValue.type,
+      maxAmountWrongGuesses: formValue.maxAmountWrongGuesses
+    } as LearnablesFilterConfig
     if (!filter) return []
 
     const learnables = this.learnablesS.learnables()
@@ -103,20 +112,14 @@ export class PracticeComp {
   })
 
   hasFinishedPractice = computed(() => {
-    const currentPractice = this._currentPractice()
+    const currentPractice = this.currentPractice()
     return (
       currentPractice && currentPractice.index === currentPractice.ids.length
     )
   })
 
-  hasUnfinishedPractice = computed(
-    () => !this.hasFinishedPractice() && this._currentPractice()
-  )
-
-  hasNoCurrentPractice = computed(() => !this._currentPractice())
-
   currentLearnable = computed(() => {
-    const currentPractice = this._currentPractice()
+    const currentPractice = this.currentPractice()
     if (!currentPractice) return null
     const learnableId = currentPractice.ids[currentPractice.index]
     return this.learnablesS.learnables().find((l) => l.id === learnableId)
@@ -142,6 +145,7 @@ export class PracticeComp {
   }
 
   start() {
-    this.learnablesS.startPractice(this.selectedCardsIds())
+    const reverseDirection = !!this._formSignal().reverseDirection
+    this.learnablesS.startPractice(this.selectedCardsIds(), reverseDirection)
   }
 }

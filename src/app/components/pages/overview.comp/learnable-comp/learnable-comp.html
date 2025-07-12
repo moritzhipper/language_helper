@@ -16,11 +16,22 @@
   {{ la.type }}
 </div>
 <div class="last-guesses">
-  @for (guess of learnable().lastGuesses; track $index) {
-    @if (guess) {
-      <div class="right"></div>
-    } @else {
-      <div class="wrong"></div>
+  <div class="guesses lexeme">
+    @for (guess of learnable().guesses.lexeme; track $index) {
+      @if (guess) {
+        <div class="right"></div>
+      } @else {
+        <div class="wrong"></div>
+      }
     }
-  }
+  </div>
+  <div class="guesses translation">
+    @for (guess of learnable().guesses.translation; track $index) {
+      @if (guess) {
+        <div class="right"></div>
+      } @else {
+        <div class="wrong"></div>
+      }
+    }
+  </div>
 </div>

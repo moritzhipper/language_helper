@@ -8,7 +8,10 @@ import { IconComp } from '../../../shared/icon-comp/icon-comp'
   selector: 'app-learnable-comp',
   imports: [DatePipe, IconComp],
   templateUrl: './learnable-comp.html',
-  styleUrl: './learnable-comp.scss'
+  styleUrl: './learnable-comp.scss',
+  host: {
+    '[class.phrase]': 'learnable().type === "phrase"'
+  }
 })
 export class LearnableComp {
   learnable = input.required<Learnable>()

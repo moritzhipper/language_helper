@@ -1,73 +1,89 @@
-@if (hasUnfinishedPractice()) {
-  <app-page-wrapper-comp [shrinkOnDesktop]="false">
-    <div class="practice-view">
-      <div class="lexeme">{{ currentLearnable()?.lexeme }}</div>
-
-      <div class="translation">
-        @if (isRevealed()) {
-          {{ currentLearnable()?.translation }}
-        } @else {
-          <span>-</span>
-        }
-      </div>
-      <div class="navigation">
-        <button class="toggle-navigation" (click)="showStatsToggle()">
-          <app-icon-comp type="chevron" [size]="32" />
-        </button>
-
-        @if (showStats()) {
-          <div class="stats">
-            <div class="guesses full">
-              {{ practiceSummary().correctAmountTotal }} of
-              {{ practiceSummary().guessesTotal }}
-              guessed correctly
-            </div>
-
-            <div class="progress full">
-              <div
-                class="indicator"
-                [style.width]="practiceSummary().progressPercent + '%'"
-              ></div>
-              <span
-                >{{ practiceSummary().currentIndex }} /
-                {{ practiceSummary().cardsAmountTotal }}
-              </span>
-            </div>
-            <button class="small full warning" (click)="endPractice()">
-              quit
-            </button>
-          </div>
-        } @else {
-          <div class="interact">
-            @if (isRevealed()) {
-              <button class="big" (click)="setGuess(false)">I was wrong</button>
-              <button class="big" (click)="setGuess(true)">I was right</button>
-            } @else {
-              <button class="big full" (click)="reveal()">show</button>
-            }
-          </div>
-        }
-      </div>
-    </div>
-  </app-page-wrapper-comp>
-}
-
-@if (hasFinishedPractice()) {
-  <app-page-wrapper-comp title="Practice">
-    <div class="finished-view">
-      <div class="summary">
-        <div class="counter">
-          {{ practiceSummary().correctAmountTotal }} of
-          {{ practiceSummary().cardsAmountTotal }}
+@if (currentPractice(); as curP) {
+  @if (!hasFinishedPractice()) {
+    <app-page-wrapper-comp [shrinkOnDesktop]="false">
+      <div class="practice-view">
+        <div class="lexeme">
+          @if (curP.reverseDirection) {
+            {{ currentLearnable()?.translation }}
+          } @else {
+            {{ currentLearnable()?.lexeme }}
+          }
         </div>
-        Cards guessed correctly!
-      </div>
-      <button (click)="endPractice()" class="big">start new!</button>
-    </div>
-  </app-page-wrapper-comp>
-}
 
-@if (hasNoCurrentPractice()) {
+        <div class="translation">
+          @if (isRevealed()) {
+            @if (curP.reverseDirection) {
+              {{ currentLearnable()?.lexeme }}
+            } @else {
+              {{ currentLearnable()?.translation }}
+            }
+          } @else {
+            <span>-</span>
+          }
+        </div>
+        <div class="navigation">
+          <button class="toggle-navigation" (click)="showStatsToggle()">
+            <app-icon-comp
+              type="chevron"
+              [size]="32"
+              [class.expanded]="showStats()"
+            />
+          </button>
+
+          @if (showStats()) {
+            <div class="stats">
+              <div class="guesses full">
+                {{ practiceSummary().correctAmountTotal }} of
+                {{ practiceSummary().guessesTotal }}
+                guessed correctly
+              </div>
+
+              <div class="progress full">
+                <div
+                  class="indicator"
+                  [style.width]="practiceSummary().progressPercent + '%'"
+                ></div>
+                <span
+                  >{{ practiceSummary().currentIndex }} /
+                  {{ practiceSummary().cardsAmountTotal }}
+                </span>
+              </div>
+              <button class="big full warning" (click)="endPractice()">
+                quit
+              </button>
+            </div>
+          } @else {
+            <div class="interact">
+              @if (isRevealed()) {
+                <button class="big" (click)="setGuess(false)">
+                  I was wrong
+                </button>
+                <button class="big" (click)="setGuess(true)">
+                  I was right
+                </button>
+              } @else {
+                <button class="big full" (click)="reveal()">show</button>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </app-page-wrapper-comp>
+  } @else {
+    <app-page-wrapper-comp title="Practice">
+      <div class="finished-view">
+        <div class="summary">
+          <div class="counter">
+            {{ practiceSummary().correctAmountTotal }} of
+            {{ practiceSummary().cardsAmountTotal }}
+          </div>
+          Cards guessed correctly!
+        </div>
+        <button (click)="endPractice()" class="big">start new!</button>
+      </div>
+    </app-page-wrapper-comp>
+  }
+} @else {
   <app-page-wrapper-comp title="Practice">
     <div class="selection-view">
       <app-counter-comp label="cards in set" size="l">
@@ -91,6 +107,14 @@
           ]"
           formControlName="maxAmountWrongGuesses"
           label="max wrong guesses"
+        />
+        <app-radio-comp
+          [config]="[
+            { value: false, label: speakingLang() },
+            { value: true, label: learningLang() }
+          ]"
+          label="hide language"
+          formControlName="reverseDirection"
         />
         <button
           class="big"

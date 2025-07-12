@@ -6,12 +6,18 @@ export type LearnableBase = LearnableBaseFromAi & { notes: string }
 
 export type Learnable = {
   id: string
-  linkedIds: string[]
-  lastGuesses: boolean[]
   created: Date
-} & LearnableBase
+  type: LearnableBaseFromAi['type']
+  notes: string
+  lexeme: string
+  translation: string
+  guesses: {
+    lexeme: boolean[]
+    translation: boolean[]
+  }
+}
 
-export type LearnableUpdated = LearnableBase & Pick<Learnable, 'id'>
+export type LearnableUpdated = Learnable & Pick<Learnable, 'id'>
 
 export type LearnablesStoreType = {
   learnables: Learnable[]
@@ -19,6 +25,7 @@ export type LearnablesStoreType = {
     ids: string[]
     index: number
     guesses: Guess[]
+    reverseDirection: boolean
   } | null
 }
 
@@ -46,5 +53,5 @@ export type LearnablesFilterConfig = {
   type: 'word' | 'phrase' | 'all'
   age?: 'newerThanOneDay' | 'all'
   maxAmountWrongGuesses?: number
-  partial: string
+  search: string
 }

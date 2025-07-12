@@ -5,9 +5,10 @@
   background-color: rgb(from var(--col-accent) r g b / var(--opacity-1));
   border-radius: var(--radius-0);
   padding: var(--distance-2) var(--distance-3);
-  gap: var(--distance-1) 0;
   position: relative;
-  height: 130px;
+  gap: var(--distance-1) 0;
+
+  height: 150px;
   place-items: center start;
 
   app-icon-comp {
@@ -24,11 +25,10 @@
     font-weight: var(--font-weight-bold);
   }
   .translation {
-    // place-self: end;
-    // text-align: right;
     font-style: italic;
     grid-column: span 3;
   }
+
   .type {
     opacity: var(--opacity-1);
     place-self: end center;
@@ -39,21 +39,35 @@
     opacity: var(--opacity-0);
   }
   .last-guesses {
-    display: flex;
-    gap: var(--distance-0);
     place-self: end;
+    display: grid;
+    gap: var(--distance-1);
 
-    .right,
-    .wrong {
-      flex-direction: row;
-      width: 10px;
-      height: 10px;
-      border-radius: 100%;
-      border: 1px solid var(--col-primary);
+    .guesses {
+      display: flex;
+      gap: var(--distance-0);
+      .right,
+      .wrong {
+        flex-direction: row;
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
+      }
+      .wrong {
+        background-color: rgb(from var(--col-primary) r g b / var(--opacity-0));
+      }
+      .right {
+        background-color: var(--col-primary);
+      }
     }
+  }
+}
 
-    .right {
-      background-color: var(--col-primary);
+:host {
+  &.phrase {
+    .lexeme,
+    .translation {
+      font-size: var(--font-size-0);
     }
   }
 }
