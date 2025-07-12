@@ -21,10 +21,6 @@ export type LearnableUpdated = Learnable & Pick<Learnable, 'id'>
 
 export type LearnablesStoreType = {
   learnables: Learnable[]
-  settings: {
-    learningLang: string
-    userLang: string
-  }
   currentPractice: {
     ids: string[]
     index: number

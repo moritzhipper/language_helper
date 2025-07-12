@@ -16,7 +16,7 @@
   {{ la.type }}
 </div>
 <div class="last-guesses">
-  @for (guess of learnable().lastGuesses; track $index) {
+  @for (guess of learnable().guesses.lexeme; track $index) {
     @if (guess) {
       <div class="right"></div>
     } @else {
