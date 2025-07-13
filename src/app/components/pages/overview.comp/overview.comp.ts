@@ -1,6 +1,5 @@
 import { Component, computed, inject, signal, viewChild } from '@angular/core'
-import { toSignal } from '@angular/core/rxjs-interop'
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
   LearnableBase,
@@ -11,9 +10,9 @@ import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-com
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
-import { RadioComp } from '../../shared/radio-comp/radio-comp'
 import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
 import { BulkEditComp, ConfirmationType } from './bulk-add-comp/bulk-edit-comp'
+import { FilterFormComp } from './filter-form-comp/filter-form-comp'
 import { LearnableComp } from './learnable-comp/learnable-comp'
 import { MagicAddComp } from './magic-add-comp/magic-add-comp'
 
@@ -22,7 +21,6 @@ import { MagicAddComp } from './magic-add-comp/magic-add-comp'
   templateUrl: './overview.comp.html',
   styleUrl: './overview.comp.scss',
   imports: [
-    RadioComp,
     ReactiveFormsModule,
     LearnableComp,
     PageWrapperComp,
@@ -31,7 +29,8 @@ import { MagicAddComp } from './magic-add-comp/magic-add-comp'
     MagicAddComp,
     BulkEditComp,
     ConfirmFormComp,
-    CounterComp
+    CounterComp,
+    FilterFormComp
   ]
 })
 export class OverviewComp {
@@ -44,7 +43,7 @@ export class OverviewComp {
   private readonly _learnablesS = inject(LearnablesStore)
   private _learnables = this._learnablesS.learnables
 
-  private readonly _fb = inject(NonNullableFormBuilder)
+  private filter = signal<LearnablesFilterConfig | null>(null)
 
   hasSelected = computed(() => this.selectedLearnableIds().length > 0)
   selectedLearnableIds = signal<string[]>([])
@@ -56,32 +55,13 @@ export class OverviewComp {
     this.selectedLearnables().map((l) => l.lexeme)
   )
 
-  hideMoreFilterOnMobile = signal(true)
-
-  form = this._fb.group<LearnablesFilterConfig>({
-    type: 'all',
-    confidence: 'low',
-    orderBy: 'created',
-    order: 'asc',
-    age: 'all',
-    search: ''
-  })
-
-  formSignal = toSignal(this.form.valueChanges, {
-    initialValue: this.form.value
-  })
-
   filteredLearnables = computed(() => {
-    const filter = this.formSignal() as LearnablesFilterConfig
+    const filter = this.filter()
     const learnables = this._learnables()
     if (!filter) return learnables
 
     return filterLearnables(this._learnables(), filter)
   })
-
-  toggleMoreFilter() {
-    this.hideMoreFilterOnMobile.update((v) => !v)
-  }
 
   resetSelection() {
     this.selectedLearnableIds.set([])
@@ -114,5 +94,9 @@ export class OverviewComp {
 
   isSelected(lId: string): boolean {
     return this.selectedLearnableIds().includes(lId)
+  }
+
+  updateFilter(filter: LearnablesFilterConfig) {
+    this.filter.set(filter)
   }
 }

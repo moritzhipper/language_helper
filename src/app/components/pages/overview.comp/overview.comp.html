@@ -1,58 +1,5 @@
 <app-page-wrapper-comp title="Overview" [shrinkOnDesktop]="false">
-  <form
-    [formGroup]="form"
-    class="filter-section"
-    [class.hide-all]="hideMoreFilterOnMobile()"
-  >
-    <label>
-      <span>search</span>
-      <input type="text" formControlName="search" />
-    </label>
-    <app-radio-comp
-      [config]="[{ value: 'all' }, { value: 'newerThanOneDay', label: 'new' }]"
-      formControlName="age"
-      label="age"
-    />
-    <app-radio-comp
-      [config]="[{ value: 'all' }, { value: 'word' }, { value: 'phrase' }]"
-      formControlName="type"
-      label="type"
-      class="hide-on-mobile"
-    />
-    <app-radio-comp
-      [config]="[{ value: 'low' }, { value: 'medium' }, { value: 'high' }]"
-      formControlName="confidence"
-      label="confidence"
-      class="hide-on-mobile"
-    />
-    <app-radio-comp
-      [config]="[
-        { value: 'created' },
-        { value: 'lexeme' },
-        { value: 'confidence' }
-      ]"
-      formControlName="orderBy"
-      label="order by"
-      class="hide-on-mobile"
-    />
-    <app-radio-comp
-      [config]="[{ value: 'asc' }, { value: 'desc' }]"
-      formControlName="order"
-      label="order"
-      class="hide-on-mobile"
-    />
-    <button
-      class="expand hide-on-desktop"
-      type="button"
-      (click)="toggleMoreFilter()"
-    >
-      <app-icon-comp
-        type="chevron"
-        [size]="30"
-        [class.expanded]="!hideMoreFilterOnMobile()"
-      />
-    </button>
-  </form>
+  <app-filter-form-comp (filter)="updateFilter($event)" />
   <div class="edit-section">
     <button (click)="addModal.open()" class="create ai">
       <app-icon-comp type="magic" />
