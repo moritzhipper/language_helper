@@ -44,7 +44,7 @@ export const setGuess =
     )!
 
     // slice to only save last five guesses
-    const updatedLearnable: Learnable = addGuess(
+    const updatedLearnable: Learnable = addGuessToLearnable(
       currentLearnable,
       isCorrect,
       currentP.reverseDirection
@@ -146,7 +146,7 @@ const filterDoubleEntries = (learnables: Learnable[]): Learnable[] => {
   })
 }
 
-const addGuess = (
+const addGuessToLearnable = (
   learnable: Learnable,
   isCorrect: boolean,
   reverseDirection: boolean
@@ -174,3 +174,25 @@ const addGuess = (
     }
   }
 }
+
+export const quitPracticeEarly =
+  () =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const currentPractice = state.currentPractice
+    if (!currentPractice) return state
+
+    return {
+      ...state,
+      currentPractice: {
+        ...currentPractice,
+        index: currentPractice.ids.length
+      }
+    }
+  }
+
+export const quitPractice =
+  () =>
+  (state: LearnablesStoreType): LearnablesStoreType => ({
+    ...state,
+    currentPractice: null
+  })

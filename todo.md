@@ -2,13 +2,9 @@
 
 ## Right Now
 
-- fix edit comp:
-  -- [text](src/app/components/pages/overview.comp/bulk-add-comp/bulk-edit-comp.ts)
 - do this for github actions pipeline:
   -- https://chatgpt.com/c/6872db41-3598-800e-a5ad-c79490013cce
-- editing notes and then reopening stuff is not working
 - add notes function in learning view
-- bulk add funktioniert nicht so wirklich -> refctor forms
 
 ## Later
 
@@ -18,7 +14,11 @@
 
 - refactor forms handling to allow escape to cancel
 - import cards functionality (using zod as validation)
-- allow both directions, save cards in a more general way by language
+  - export and import not only exports the cards, but also a collection having all of the card ids
+  - request name of collection on export
+
+- save practices history
+  - also show stats like in practice comp
 - handle early finished practice -> set all guesses to wrong to allow finished screen
 - show links in pracitce
 - change direction

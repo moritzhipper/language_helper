@@ -1,8 +1,8 @@
 import z from 'zod'
-import { LearnableBaseSchema } from './schemas'
+import { LearnableBaseFromAiSchema, LearnableBaseSchema } from './schemas'
 
-export type LearnableBaseFromAi = z.infer<typeof LearnableBaseSchema>
-export type LearnableBase = LearnableBaseFromAi & { notes: string }
+export type LearnableBaseFromAi = z.infer<typeof LearnableBaseFromAiSchema>
+export type LearnableBase = z.infer<typeof LearnableBaseSchema>
 
 export type Learnable = {
   id: string

@@ -9,6 +9,8 @@ import {
 } from '../types_and_schemas/types'
 import { initialLearnables } from './initialStates'
 import {
+  quitPractice,
+  quitPracticeEarly,
   removeLearnables,
   saveNewLearnables,
   setGuess,
@@ -40,8 +42,11 @@ export const LearnablesStore = signalStore(
       startPractice(ids: string[], reverseDirection: boolean) {
         patchState(state, startPractice(ids, reverseDirection))
       },
-      endPractice() {
-        patchState(state, { currentPractice: null })
+      quitPracticePrematurly() {
+        patchState(state, quitPracticeEarly())
+      },
+      quitPractice() {
+        patchState(state, quitPractice())
       },
       setGuess(isCorrect: boolean) {
         patchState(state, setGuess(isCorrect))

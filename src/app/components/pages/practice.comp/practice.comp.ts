@@ -138,10 +138,20 @@ export class PracticeComp {
     this.learnablesS.setGuess(isCorrect)
   }
 
+  endPracticeEarly() {
+    this.learnablesS.quitPracticePrematurly()
+    this._resetPageState()
+  }
+
   endPractice() {
-    this.learnablesS.endPractice()
+    this.learnablesS.quitPractice()
+    this._resetPageState()
+  }
+
+  private _resetPageState() {
     this.form.reset()
     this.showStats.set(false)
+    this.isRevealed.set(false)
   }
 
   start() {
