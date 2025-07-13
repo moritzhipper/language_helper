@@ -32,7 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Dependencies
-        run: npm install
+        run: npm install -f
       - name: Build Static App
         run: npm run build:static
       - name: Setup Pages
