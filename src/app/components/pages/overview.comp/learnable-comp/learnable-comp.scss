@@ -28,6 +28,12 @@
     font-style: italic;
     grid-column: span 2;
   }
+  .notes {
+    grid-column: span 2;
+    font-size: var(--font-size-0);
+    opacity: var(--opacity-1);
+    align-self: self-end;
+  }
 
   .info {
     font-size: var(--font-size-0);
