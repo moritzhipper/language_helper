@@ -17,7 +17,7 @@ export type Learnable = {
   }
 }
 
-export type LearnableUpdated = Learnable & Pick<Learnable, 'id'>
+export type LearnablePartialWithId = Partial<Learnable> & Pick<Learnable, 'id'>
 
 export type LearnablesStoreType = {
   learnables: Learnable[]

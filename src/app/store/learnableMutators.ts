@@ -1,8 +1,8 @@
 import {
   Learnable,
   LearnableBase,
-  LearnablesStoreType,
-  LearnableUpdated
+  LearnablePartialWithId,
+  LearnablesStoreType
 } from '../types_and_schemas/types'
 
 export const startPractice =
@@ -92,7 +92,7 @@ const updateLearnableInList = (
 }
 
 export const updateLearnables =
-  (updatedL: LearnableUpdated[]) =>
+  (updatedL: LearnablePartialWithId[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     const learnables = state.learnables.map((l) => {
       const updated = updatedL.find((ul) => ul.id === l.id)
@@ -107,7 +107,7 @@ export const updateLearnables =
 
 const mergeLearnables = (
   lbase: Learnable,
-  lmerge?: LearnableUpdated
+  lmerge?: LearnablePartialWithId
 ): Learnable => {
   if (!lmerge) return lbase
 

@@ -5,7 +5,7 @@ import { AiService } from '../services/ai.service'
 import {
   LearnableBase,
   LearnableCreationConfig,
-  LearnableUpdated
+  LearnablePartialWithId
 } from '../types_and_schemas/types'
 import { initialLearnables } from './initialStates'
 import {
@@ -31,7 +31,7 @@ export const LearnablesStore = signalStore(
       addLearnables(learnables: LearnableBase[]) {
         patchState(state, saveNewLearnables(learnables))
       },
-      updateLearnables(learnables: LearnableUpdated[]) {
+      updateLearnables(learnables: LearnablePartialWithId[]) {
         patchState(state, updateLearnables(learnables))
       },
       removeLearnables(ids: string[]) {

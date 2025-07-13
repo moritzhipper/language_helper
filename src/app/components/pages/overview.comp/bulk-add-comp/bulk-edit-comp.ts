@@ -19,13 +19,13 @@ import {
 import {
   Learnable,
   LearnableBase,
-  LearnableUpdated
+  LearnablePartialWithId
 } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 import { RadioComp } from '../../../shared/radio-comp/radio-comp'
 
 export type ConfirmationType = {
-  update: LearnableUpdated[]
+  update: LearnablePartialWithId[]
   add: LearnableBase[]
   deleteIDs: string[]
 }
@@ -103,8 +103,11 @@ export class BulkEditComp {
       LearnableBase & { id?: string }
     >[]
 
+    // fix this -> doesnt map to. the orrect type back
     // learnables which came from preset, that the user wants to update
-    const updated = formArrayValue.filter((v) => v.id) as LearnableUpdated[]
+    const updated = formArrayValue.filter(
+      (v) => v.id
+    ) as LearnablePartialWithId[]
 
     // learnables which came not from preset, that the user wants to add
     const added = formArrayValue.filter((v) => !v.id) as LearnableBase[]
@@ -116,13 +119,12 @@ export class BulkEditComp {
     }
 
     this.confirm.emit(confirm)
-    this.deletedLIDs.set([])
-    this.learnablesForm.reset()
+    this.reset()
   }
 
   cancelForm() {
-    this.cancel.emit()
     this.reset()
+    this.cancel.emit()
   }
 
   mapLearnablesToFormArray(learnables: Learnable[]): void {

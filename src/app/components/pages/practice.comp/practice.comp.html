@@ -99,14 +99,14 @@
         <app-radio-comp
           [config]="[{ value: 'low' }, { value: 'medium' }, { value: 'high' }]"
           formControlName="confidence"
-          label="confidence"
+          label="card confidence level"
         />
         <app-radio-comp
           [config]="[
             { value: false, label: speakingLang() },
             { value: true, label: learningLang() }
           ]"
-          label="hide language"
+          label="guess language"
           formControlName="reverseDirection"
         />
         <button

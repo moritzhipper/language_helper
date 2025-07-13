@@ -2,7 +2,7 @@
   <div formArrayName="learnables" class="learnables">
     @for (
       learnable of learnablesFormArray.controls;
-      track learnable.value.lexeme;
+      track learnable.value;
       let i = $index
     ) {
       <div class="learnable" [formGroupName]="i">

@@ -2,17 +2,17 @@
 
 ## Right Now
 
-- make font size smaller according to number of letters
-- nach magic karten einfach anlegen und sortierung nach date
-- bulk add mit ähnlichem layout wie overview, nur mit mehr margin an den rändern -> irgendwie sizing regeln
-- mark in navbar ongoing session
-- move ai service to component
+- fix edit comp:
+  -- [text](src/app/components/pages/overview.comp/bulk-add-comp/bulk-edit-comp.ts)
+- do this for github actions pipeline:
+  -- https://chatgpt.com/c/6872db41-3598-800e-a5ad-c79490013cce
 - editing notes and then reopening stuff is not working
 - add notes function in learning view
 - bulk add funktioniert nicht so wirklich -> refctor forms
 
 ## Later
 
+- make font size smaller according to number of letters
 - remove linkedIds, add linked collections. Add collection creation or collection add to button on selection
 - "spaced repetition"
 
