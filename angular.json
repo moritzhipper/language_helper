@@ -51,7 +51,7 @@
               "sourceMap": true
             },
             "static": {
-              "baseHref": "https://moritzhipper.me/language-helper/",
+              "baseHref": "https://moritzhipper.me/language-helper",
               "outputMode": "static"
             }
           },
