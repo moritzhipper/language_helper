@@ -1,0 +1,46 @@
+<form [formGroup]="form" [class.expanded]="showFilter()">
+  <label>
+    <span>search</span>
+    <input type="text" formControlName="search" />
+  </label>
+  <app-radio-comp
+    [config]="[{ value: 'low' }, { value: 'medium' }, { value: 'high' }]"
+    formControlName="confidence"
+    label="confidence"
+  />
+
+  @if (showFilter()) {
+    <app-radio-comp
+      [config]="[{ value: 'all' }, { value: 'newerThanOneDay', label: 'new' }]"
+      formControlName="age"
+      label="age"
+    />
+
+    <app-radio-comp
+      [config]="[{ value: 'all' }, { value: 'word' }, { value: 'phrase' }]"
+      formControlName="type"
+      label="type"
+    />
+
+    <app-radio-comp
+      [config]="[
+        { value: 'created' },
+        { value: 'lexeme' },
+        { value: 'wrongGuesses', label: 'wrong guesses' }
+      ]"
+      formControlName="orderBy"
+      label="order by"
+    />
+
+    <app-radio-comp
+      [config]="[{ value: 'asc' }, { value: 'desc' }]"
+      formControlName="order"
+      label="order"
+    />
+  }
+
+  <button class="expand" type="button" (click)="toggleExpanded()">
+    <span>filter</span>
+    <app-icon-comp type="chevron" [size]="30" class="icon" />
+  </button>
+</form>

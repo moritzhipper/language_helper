@@ -1,3 +1,26 @@
+app-filter-form-comp {
+  margin-bottom: var(--distance-4);
+}
+
+.learnables {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: var(--distance-4);
+
+  button {
+    text-align: inherit;
+    font-size: inherit;
+    border: 2px solid rgb(from var(--col-accent) r g b / var(--opacity-1));
+    border-radius: var(--radius-1);
+    padding: 0;
+    transition: border var(--duration-0);
+
+    &.selected {
+      border: 2px solid rgb(from var(--col-primary) r g b / var(--opacity-1));
+    }
+  }
+}
+
 .edit-section {
   position: fixed;
   bottom: 0;
@@ -40,25 +63,6 @@
       background-color: var(--col-primary);
       padding: var(--distance-2);
       color: var(--col-bg);
-    }
-  }
-}
-
-.learnables {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: var(--distance-4);
-
-  button {
-    text-align: inherit;
-    font-size: inherit;
-    border: 2px solid rgb(from var(--col-accent) r g b / var(--opacity-1));
-    border-radius: var(--radius-1);
-    padding: 0;
-    transition: border var(--duration-0);
-
-    &.selected {
-      border: 2px solid rgb(from var(--col-primary) r g b / var(--opacity-1));
     }
   }
 }
