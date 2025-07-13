@@ -48,7 +48,7 @@
                   {{ practiceSummary().cardsAmountTotal }}
                 </span>
               </div>
-              <button class="big full warning" (click)="endPractice()">
+              <button class="big full warning" (click)="endPracticeEarly()">
                 quit
               </button>
             </div>
@@ -97,23 +97,16 @@
           label="type"
         />
         <app-radio-comp
-          [config]="[
-            { value: 5 },
-            { value: 4 },
-            { value: 3 },
-            { value: 2 },
-            { value: 1 },
-            { value: 0 }
-          ]"
-          formControlName="maxAmountWrongGuesses"
-          label="max wrong guesses"
+          [config]="[{ value: 'low' }, { value: 'medium' }, { value: 'high' }]"
+          formControlName="confidence"
+          label="card confidence level"
         />
         <app-radio-comp
           [config]="[
             { value: false, label: speakingLang() },
             { value: true, label: learningLang() }
           ]"
-          label="hide language"
+          label="guess language"
           formControlName="reverseDirection"
         />
         <button

@@ -1,6 +1,6 @@
 :host {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto 1fr;
   background-color: rgb(from var(--col-accent) r g b / var(--opacity-1));
   border-radius: var(--radius-0);
@@ -21,19 +21,21 @@
   }
 
   .lexeme {
-    grid-column: span 3;
+    grid-column: span 2;
     font-weight: var(--font-weight-bold);
   }
   .translation {
     font-style: italic;
-    grid-column: span 3;
+    grid-column: span 2;
+  }
+  .notes {
+    grid-column: span 2;
+    font-size: var(--font-size-0);
+    opacity: var(--opacity-1);
+    align-self: self-end;
   }
 
-  .type {
-    opacity: var(--opacity-1);
-    place-self: end center;
-  }
-  .date {
+  .info {
     font-size: var(--font-size-0);
     place-self: end start;
     opacity: var(--opacity-0);

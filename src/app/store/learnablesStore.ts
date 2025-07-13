@@ -5,10 +5,12 @@ import { AiService } from '../services/ai.service'
 import {
   LearnableBase,
   LearnableCreationConfig,
-  LearnableUpdated
+  LearnablePartialWithId
 } from '../types_and_schemas/types'
 import { initialLearnables } from './initialStates'
 import {
+  quitPractice,
+  quitPracticeEarly,
   removeLearnables,
   saveNewLearnables,
   setGuess,
@@ -31,7 +33,7 @@ export const LearnablesStore = signalStore(
       addLearnables(learnables: LearnableBase[]) {
         patchState(state, saveNewLearnables(learnables))
       },
-      updateLearnables(learnables: LearnableUpdated[]) {
+      updateLearnables(learnables: LearnablePartialWithId[]) {
         patchState(state, updateLearnables(learnables))
       },
       removeLearnables(ids: string[]) {
@@ -40,8 +42,11 @@ export const LearnablesStore = signalStore(
       startPractice(ids: string[], reverseDirection: boolean) {
         patchState(state, startPractice(ids, reverseDirection))
       },
-      endPractice() {
-        patchState(state, { currentPractice: null })
+      quitPracticePrematurly() {
+        patchState(state, quitPracticeEarly())
+      },
+      quitPractice() {
+        patchState(state, quitPractice())
       },
       setGuess(isCorrect: boolean) {
         patchState(state, setGuess(isCorrect))

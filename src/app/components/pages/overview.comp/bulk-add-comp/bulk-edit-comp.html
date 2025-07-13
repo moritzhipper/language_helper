@@ -2,7 +2,7 @@
   <div formArrayName="learnables" class="learnables">
     @for (
       learnable of learnablesFormArray.controls;
-      track learnable.value.lexeme;
+      track learnable.value;
       let i = $index
     ) {
       <div class="learnable" [formGroupName]="i">
@@ -63,7 +63,7 @@
       [disabled]="!learnablesForm.valid"
       class="add big"
     >
-      add one
+      add
       <app-icon-comp type="add" [size]="20" />
     </button>
     <button type="button" class="cancel big" (click)="cancelForm()">

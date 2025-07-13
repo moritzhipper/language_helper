@@ -1,8 +1,8 @@
 import z from 'zod'
-import { LearnableBaseSchema } from './schemas'
+import { LearnableBaseFromAiSchema, LearnableBaseSchema } from './schemas'
 
-export type LearnableBaseFromAi = z.infer<typeof LearnableBaseSchema>
-export type LearnableBase = LearnableBaseFromAi & { notes: string }
+export type LearnableBaseFromAi = z.infer<typeof LearnableBaseFromAiSchema>
+export type LearnableBase = z.infer<typeof LearnableBaseSchema>
 
 export type Learnable = {
   id: string
@@ -17,7 +17,7 @@ export type Learnable = {
   }
 }
 
-export type LearnableUpdated = Learnable & Pick<Learnable, 'id'>
+export type LearnablePartialWithId = Partial<Learnable> & Pick<Learnable, 'id'>
 
 export type LearnablesStoreType = {
   learnables: Learnable[]
@@ -49,9 +49,9 @@ export type SettingsStoreType = {
 
 export type LearnablesFilterConfig = {
   order: 'asc' | 'desc'
-  orderBy: 'created' | 'lexeme' | 'wrongGuesses' | 'random'
+  orderBy: 'created' | 'lexeme' | 'confidence' | 'random'
   type: 'word' | 'phrase' | 'all'
   age?: 'newerThanOneDay' | 'all'
-  maxAmountWrongGuesses?: number
+  confidence?: 'high' | 'medium' | 'low'
   search: string
 }

@@ -18,6 +18,7 @@ form {
     grid-auto-rows: min-content;
     place-items: start stretch;
     border-radius: var(--radius-1);
+    scrollbar-color: var(--col-primary) transparent;
 
     gap: var(--distance-4);
     overflow-y: scroll;

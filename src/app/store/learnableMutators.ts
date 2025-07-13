@@ -1,8 +1,8 @@
 import {
   Learnable,
   LearnableBase,
-  LearnablesStoreType,
-  LearnableUpdated
+  LearnablePartialWithId,
+  LearnablesStoreType
 } from '../types_and_schemas/types'
 
 export const startPractice =
@@ -44,7 +44,7 @@ export const setGuess =
     )!
 
     // slice to only save last five guesses
-    const updatedLearnable: Learnable = addGuess(
+    const updatedLearnable: Learnable = addGuessToLearnable(
       currentLearnable,
       isCorrect,
       currentP.reverseDirection
@@ -92,7 +92,7 @@ const updateLearnableInList = (
 }
 
 export const updateLearnables =
-  (updatedL: LearnableUpdated[]) =>
+  (updatedL: LearnablePartialWithId[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     const learnables = state.learnables.map((l) => {
       const updated = updatedL.find((ul) => ul.id === l.id)
@@ -107,7 +107,7 @@ export const updateLearnables =
 
 const mergeLearnables = (
   lbase: Learnable,
-  lmerge?: LearnableUpdated
+  lmerge?: LearnablePartialWithId
 ): Learnable => {
   if (!lmerge) return lbase
 
@@ -146,7 +146,7 @@ const filterDoubleEntries = (learnables: Learnable[]): Learnable[] => {
   })
 }
 
-const addGuess = (
+const addGuessToLearnable = (
   learnable: Learnable,
   isCorrect: boolean,
   reverseDirection: boolean
@@ -174,3 +174,25 @@ const addGuess = (
     }
   }
 }
+
+export const quitPracticeEarly =
+  () =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const currentPractice = state.currentPractice
+    if (!currentPractice) return state
+
+    return {
+      ...state,
+      currentPractice: {
+        ...currentPractice,
+        index: currentPractice.ids.length
+      }
+    }
+  }
+
+export const quitPractice =
+  () =>
+  (state: LearnablesStoreType): LearnablesStoreType => ({
+    ...state,
+    currentPractice: null
+  })

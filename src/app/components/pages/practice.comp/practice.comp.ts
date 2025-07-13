@@ -48,7 +48,7 @@ export class PracticeComp {
   private readonly _fb = inject(NonNullableFormBuilder)
   form = this._fb.group({
     type: 'all',
-    maxAmountWrongGuesses: 5,
+    confidence: 'low',
     reverseDirection: false
   })
   private readonly _formSignal = toSignal(this.form.valueChanges, {
@@ -103,7 +103,7 @@ export class PracticeComp {
 
     const filter = {
       type: formValue.type,
-      maxAmountWrongGuesses: formValue.maxAmountWrongGuesses
+      confidence: formValue.confidence
     } as LearnablesFilterConfig
     if (!filter) return []
 
@@ -138,10 +138,20 @@ export class PracticeComp {
     this.learnablesS.setGuess(isCorrect)
   }
 
+  endPracticeEarly() {
+    this.learnablesS.quitPracticePrematurly()
+    this._resetPageState()
+  }
+
   endPractice() {
-    this.learnablesS.endPractice()
+    this.learnablesS.quitPractice()
+    this._resetPageState()
+  }
+
+  private _resetPageState() {
     this.form.reset()
     this.showStats.set(false)
+    this.isRevealed.set(false)
   }
 
   start() {
