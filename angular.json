@@ -51,7 +51,7 @@
               "sourceMap": true
             },
             "static": {
-              "baseHref": "language_helper",
+              "baseHref": "/",
               "outputMode": "static"
             }
           },
