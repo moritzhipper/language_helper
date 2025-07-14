@@ -7,6 +7,7 @@ import {
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
+import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
 import { LearnablesFilterConfig } from '../../../types_and_schemas/types'
@@ -41,6 +42,7 @@ export class PracticeComp {
     }
   }
 
+  private readonly _toastService = inject(ToastService)
   private readonly sStore = inject(SettingsStore)
   learningLang = this.sStore.learningLang
   speakingLang = this.sStore.speakingLang
@@ -134,6 +136,10 @@ export class PracticeComp {
   }
 
   setGuess(isCorrect: boolean) {
+    this._toastService.showToast({
+      message: isCorrect ? '😊' : '😿',
+      type: 'guess'
+    })
     this.isRevealed.set(false)
     this.learnablesS.setGuess(isCorrect)
   }

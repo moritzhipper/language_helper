@@ -5,6 +5,7 @@ import {
   Validators
 } from '@angular/forms'
 import { AiService } from '../../../../services/ai.service'
+import { ToastService } from '../../../../services/toast-service'
 import {
   LearnableBase,
   LearnableCreationConfig
@@ -21,6 +22,7 @@ import { RadioComp } from '../../../shared/radio-comp/radio-comp'
 export class MagicAddComp {
   private readonly _fb = inject(NonNullableFormBuilder)
   private readonly aiS = inject(AiService)
+  private toastService = inject(ToastService)
 
   isConverting = signal(false)
 
@@ -50,22 +52,39 @@ export class MagicAddComp {
 
     this.isConverting.set(true)
 
-    const baseLearnables = await this.aiS.createLearnablesFromString(
-      config,
-      this.excludedWords()
-    )
+    try {
+      const baseLearnables = await this.aiS.createLearnablesFromString(
+        config,
+        this.excludedWords()
+      )
 
-    this.isConverting.set(false)
-    this.confirm.emit(baseLearnables)
-    this.convertForm.reset()
+      this.toastService.showToast({
+        message: `Created ${baseLearnables.length} new learnables!`,
+        type: 'info'
+      })
+
+      this.confirm.emit(baseLearnables)
+      this.reset()
+    } catch (error) {
+      this.isConverting.set(false)
+
+      const message = error instanceof Error ? error.message : 'Unknown error'
+      this.toastService.showToast({
+        message,
+        type: 'error'
+      })
+
+      console.error('Error creating learnables:', error)
+    }
   }
 
   onCancel() {
     this.cancel.emit()
-    this.convertForm.reset()
+    this.reset()
   }
 
   reset() {
+    this.isConverting.set(false)
     this.convertForm.reset()
   }
 }

@@ -1,6 +1,6 @@
 import { computed, inject, Injectable } from '@angular/core'
 import OpenAI from 'openai'
-import { zodTextFormat } from 'openai/helpers/zod'
+// import { zodTextFormat } from 'openai/helpers/zod'
 import { ChatModel } from 'openai/resources/shared.mjs'
 import { SettingsStore } from '../store/settingsStore'
 import { LearnableResonseSchema } from '../types_and_schemas/schemas'
@@ -8,6 +8,7 @@ import {
   LearnableBase,
   LearnableCreationConfig
 } from '../types_and_schemas/types'
+import { zodTextFormat } from '../utils/genaral-utils'
 import { getCreateLearnablesPrompt, getSystemPrompt } from './prompts'
 
 @Injectable({
@@ -36,8 +37,15 @@ export class AiService {
     config: LearnableCreationConfig,
     excludedWords: string[]
   ): Promise<LearnableBase[]> {
-    const learningLang = this.settingsStore.learningLang()
-    const speakingLang = this.settingsStore.speakingLang()
+    const learnablesPrompt = getCreateLearnablesPrompt(
+      this.settingsStore.learningLang(),
+      this.settingsStore.speakingLang(),
+      excludedWords,
+      config.allowWords,
+      config.allowPhrases
+    )
+
+    const systemPrompt = this.systemPrompt()
 
     const response = await this.oAi().responses.parse({
       model: this.model,
@@ -45,14 +53,8 @@ export class AiService {
         format: zodTextFormat(LearnableResonseSchema, 'learnable_base')
       },
       input: [
-        this.systemPrompt(),
-        getCreateLearnablesPrompt(
-          learningLang,
-          speakingLang,
-          excludedWords,
-          config.allowWords,
-          config.allowPhrases
-        ),
+        systemPrompt,
+        learnablesPrompt,
         { role: 'user', content: config.text }
       ]
     })
