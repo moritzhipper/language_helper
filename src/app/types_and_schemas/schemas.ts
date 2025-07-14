@@ -7,9 +7,9 @@ export const LearnableBaseFromAiSchema = z.object({
   type: z.enum(['word', 'phrase'])
 })
 
-export const LearnableBaseSchema = z
-  .object({ notes: z.string() })
-  .merge(LearnableBaseFromAiSchema)
+export const LearnableBaseSchema = LearnableBaseFromAiSchema.extend({
+  notes: z.string()
+})
 
 export const LearnableResonseSchema = z.object({
   learnables: z.array(LearnableBaseFromAiSchema)

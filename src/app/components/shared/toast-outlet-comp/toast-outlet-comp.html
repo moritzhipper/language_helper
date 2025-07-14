@@ -1,0 +1,5 @@
+@for (toast of toasts(); track toast) {
+  <div class="toast" [class]="toast.type">
+    {{ toast.message }}
+  </div>
+}

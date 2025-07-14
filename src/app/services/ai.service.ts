@@ -38,7 +38,6 @@ export class AiService {
   ): Promise<LearnableBase[]> {
     const learningLang = this.settingsStore.learningLang()
     const speakingLang = this.settingsStore.speakingLang()
-
     const response = await this.oAi().responses.parse({
       model: this.model,
       text: {
