@@ -77,9 +77,8 @@ form {
     grid-column: span 2;
     input {
       width: 100%;
-      outline: none;
       box-sizing: border-box;
-      padding: var(--distance-3);
+      outline: none;
     }
 
     .lexeme {

@@ -28,6 +28,11 @@ a {
   cursor: pointer;
 }
 
+textarea,
+input {
+  font-size: var(--font-size-1);
+}
+
 button {
   &.small {
     padding: var(--distance-1) var(--distance-5);
@@ -75,7 +80,7 @@ label {
 }
 
 input {
-  padding: var(--distance-2);
+  padding: var(--distance-3) var(--distance-4);
 }
 
 a {

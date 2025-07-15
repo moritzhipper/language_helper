@@ -45,6 +45,10 @@ form {
     display: flex;
     gap: var(--distance-2) var(--distance-4);
     align-items: end;
+    flex-wrap: wrap;
+    input {
+      width: 250px;
+    }
 
     &:not(.expanded) {
       .icon {

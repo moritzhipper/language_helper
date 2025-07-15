@@ -4,7 +4,12 @@
     <input type="text" formControlName="search" />
   </label>
   <app-radio-comp
-    [config]="[{ value: 'low' }, { value: 'medium' }, { value: 'high' }]"
+    [config]="[
+      { value: 'all' },
+      { value: 'low' },
+      { value: 'medium' },
+      { value: 'high' }
+    ]"
     formControlName="confidence"
     label="confidence"
   />
@@ -26,7 +31,7 @@
       [config]="[
         { value: 'created' },
         { value: 'lexeme' },
-        { value: 'wrongGuesses', label: 'wrong guesses' }
+        { value: 'confidence' }
       ]"
       formControlName="orderBy"
       label="order by"
