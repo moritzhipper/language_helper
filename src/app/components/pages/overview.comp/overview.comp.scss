@@ -21,33 +21,14 @@ app-filter-form-comp {
   }
 }
 
-.edit-section {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  z-index: 10;
-  display: flex;
-  padding: var(--distance-4);
-  gap: var(--distance-2);
-  flex-flow: row-reverse;
-  align-items: end;
-
+.edit-bubbles {
   button {
-    box-shadow: var(--shadow-big);
-    border-radius: 100%;
-
-    &.create {
-      background-color: var(--col-primary);
-      color: var(--col-bg);
-
-      &.ai {
-        padding: var(--distance-4);
-      }
-      &.manual {
-        padding: var(--distance-3);
-      }
+    &.ai {
+      padding: var(--distance-4);
     }
-
+    &.manual {
+      padding: var(--distance-3);
+    }
     &.edit {
       display: grid;
 
@@ -60,9 +41,6 @@ app-filter-form-comp {
       app-icon-comp {
         grid-area: 1 /1;
       }
-      background-color: var(--col-primary);
-      padding: var(--distance-2);
-      color: var(--col-bg);
     }
   }
 }

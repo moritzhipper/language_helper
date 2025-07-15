@@ -1,0 +1,41 @@
+@use '../../../../style/mixins.scss' as *;
+
+.collections {
+  display: grid;
+  gap: var(--distance-4);
+}
+
+.collection {
+  font-size: inherit;
+  text-align: inherit;
+  border-radius: var(--radius-2);
+  background-color: var(--col-accent);
+  padding: var(--distance-4);
+  display: grid;
+  grid-template-columns: 1fr auto;
+
+  .name {
+    font-weight: var(--weight-bold);
+    font-size: var(--font-size-2);
+  }
+}
+
+.import {
+  padding: var(--distance-4);
+}
+
+.edit {
+  padding: var(--distance-3);
+}
+
+@include isDesktop() {
+  .collections {
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  }
+}
+
+@include isPhone() {
+  .collections {
+    grid-template-columns: 1fr;
+  }
+}

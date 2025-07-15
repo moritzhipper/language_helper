@@ -1,12 +1,27 @@
 <app-page-wrapper-comp title="Collections" [shrinkOnDesktop]="false">
-  @for (collection of collections(); track collection.id) {
-    <div>
-      <div class="name">
-        {{ collection.name }}
-      </div>
-      <button class="delete"></button>
-      <button class="export"></button>
-      <div class="card-count">50</div>
-    </div>
-  }
+  <div class="edit-bubbles">
+    <button class="import">
+      <app-icon-comp type="import" />
+    </button>
+    @if (selectedCollectionId()) {
+      <button class="edit">
+        <app-icon-comp type="edit" />
+      </button>
+      <button>
+        <app-icon-comp type="trash" />
+      </button>
+    }
+  </div>
+
+  <div class="collections">
+    @for (collection of collections(); track collection.id) {
+      <button class="collection">
+        <div class="name">
+          {{ collection.name }}
+        </div>
+
+        <div class="card-count">50</div>
+      </button>
+    }
+  </div>
 </app-page-wrapper-comp>

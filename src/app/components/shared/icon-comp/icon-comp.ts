@@ -17,6 +17,8 @@ type IconType =
   | 'play'
   | 'collection'
   | 'collection-add'
+  | 'share'
+  | 'import'
 
 @Component({
   selector: 'app-icon-comp',

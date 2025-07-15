@@ -1,0 +1,19 @@
+.edit-bubbles {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  padding: var(--distance-4);
+  gap: var(--distance-2);
+  flex-flow: row-reverse;
+  align-items: end;
+
+  button {
+    background-color: var(--col-primary);
+    box-shadow: var(--shadow-big);
+    border-radius: 100%;
+    color: var(--col-bg);
+    padding: var(--distance-2);
+  }
+}

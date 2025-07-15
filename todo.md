@@ -10,6 +10,8 @@
 - do this for github actions pipeline:
   -- https://chatgpt.com/c/6872db41-3598-800e-a5ad-c79490013cce
 - add notes function in learning view
+- auf collections seite buttons unten rechts: import, export, delete, edit
+  - only allow selection of one
 
 ## Later
 
