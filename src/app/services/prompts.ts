@@ -19,20 +19,28 @@ export const getCreateLearnablesPrompt = (
   let content = `
 
     Transform any input text (article, notes, or word list) into a list of vocabulary entries with the structure:
-      - lexeme: the original word or phrase (if necessary, transferred into the language I'm learning ${learningLanguage})
-      - translation: the ${speakingLanguage} meaning 
-      - notes: include part of speech, the base form (lemma) if the lexeme is an inflected form, or any other specific info only if the form is very unusual or grammatically notable. If no such info applies, leave notes empty. Dont mention the translation here, only give info.
+      - lexeme: the original word or phrase from the input (if necessary, transferred into the language I'm learning ${learningLanguage})
+      - translation: the translation into ${speakingLanguage} 
+      
 
-    Always detect the input language and assign it to x, and provide the translation in English as translation.
+    Do not comment the translation in any way.
+    Be very thorough and precise in your analysis of the input text.
+    Correct any grammatical or spelling errors in the input text.
     Use correct upper and lower case spelling according to the rules of the source language, as if each word or phrase appeared on its own
-    Do not under any circumstances create cards for the following words: ${mappedExcluded}.`
+    Do not create learnables for words or phrases that are already in the vocabulary, which consists of the following words: ${mappedExcluded}.`
 
   if (!allowWords) {
-    content += `\n Only create learnables of type "phrase". Do not, under no circumstances, create learnables of type "word".`
+    content += `\n Only create learnables of type "phrase". Extract phrases from the input one could say or use. 
+      Do not, under no circumstances, create learnables of type "word".`
   }
 
   if (!allowPhrases) {
-    content += `\n Only create learnables of type "word". Do not, under no circumstances, create learnables of type "phrase". `
+    content += `\n Only create learnables of type "word". Extract the words from this not already beein in the vocabulary.
+      Do not, under no circumstances, create learnables of type "phrase".`
+  }
+
+  if (allowWords && allowPhrases) {
+    content += `\n Create learnables of type "word" and "phrase". Be thourough, do not miss things.`
   }
 
   return mapToSystemPrompt(content)
