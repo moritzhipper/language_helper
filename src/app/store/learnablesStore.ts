@@ -9,6 +9,9 @@ import {
 } from '../types_and_schemas/types'
 import { initialLearnables } from './initialStates'
 import {
+  createCollection,
+  deleteCollection,
+  editCollection,
   quitPractice,
   quitPracticeEarly,
   removeLearnables,
@@ -41,6 +44,19 @@ export const LearnablesStore = signalStore(
       },
       startPractice(ids: string[], reverseDirection: boolean) {
         patchState(state, startPractice(ids, reverseDirection))
+      },
+      createCollection(name: string, ids: string[]) {
+        patchState(state, createCollection(name, ids))
+      },
+      editCollection(
+        collectionID: string,
+        addIDs: string[],
+        deleteIDs: string[]
+      ) {
+        patchState(state, editCollection(collectionID, addIDs, deleteIDs))
+      },
+      deleteCollection(id: string) {
+        patchState(state, deleteCollection(id))
       },
       quitPracticePrematurly() {
         patchState(state, quitPracticeEarly())

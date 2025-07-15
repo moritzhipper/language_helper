@@ -1,0 +1,12 @@
+<app-page-wrapper-comp title="Collections" [shrinkOnDesktop]="false">
+  @for (collection of collections(); track collection.id) {
+    <div>
+      <div class="name">
+        {{ collection.name }}
+      </div>
+      <button class="delete"></button>
+      <button class="export"></button>
+      <div class="card-count">50</div>
+    </div>
+  }
+</app-page-wrapper-comp>

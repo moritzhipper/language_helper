@@ -19,8 +19,15 @@ export type Learnable = {
 
 export type LearnablePartialWithId = Partial<Learnable> & Pick<Learnable, 'id'>
 
+export type LearnableCollection = {
+  id: string
+  name: string
+  learnables: string[]
+}
+
 export type LearnablesStoreType = {
   learnables: Learnable[]
+  collections: LearnableCollection[]
   currentPractice: {
     ids: string[]
     index: number

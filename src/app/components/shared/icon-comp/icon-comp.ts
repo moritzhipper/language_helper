@@ -15,6 +15,8 @@ type IconType =
   | 'reset'
   | 'add'
   | 'play'
+  | 'collection'
+  | 'collection-add'
 
 @Component({
   selector: 'app-icon-comp',

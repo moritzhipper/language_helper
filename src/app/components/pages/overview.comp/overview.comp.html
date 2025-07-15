@@ -1,4 +1,4 @@
-<app-page-wrapper-comp title="Overview" [shrinkOnDesktop]="false">
+<app-page-wrapper-comp title="Cards" [shrinkOnDesktop]="false">
   <app-filter-form-comp (filter)="updateFilter($event)" />
   <div class="edit-section">
     <button (click)="addModal.open()" class="create ai">
@@ -8,6 +8,9 @@
       <app-icon-comp type="pen" />
     </button>
     @if (hasSelected()) {
+      <button (click)="collectionAddModal.open()" class="edit">
+        <app-icon-comp type="collection-add" />
+      </button>
       <button (click)="deleteModal.open()" class="edit">
         <app-icon-comp type="trash" />
       </button>
@@ -56,4 +59,11 @@
       {{ selectedLearnables().length }}
     </app-counter-comp>
   </app-confirm-form-comp>
+</app-modal-wrapper-comp>
+<app-modal-wrapper-comp #collectionAddModal>
+  <app-collection-add-comp
+    [collections]="collections()"
+    (cancel)="collectionAddModal.close()"
+    (confirm)="confirmCollectionAdd($event)"
+  />
 </app-modal-wrapper-comp>

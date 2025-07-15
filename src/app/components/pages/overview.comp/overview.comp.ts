@@ -12,6 +12,10 @@ import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
 import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
 import { BulkEditComp, ConfirmationType } from './bulk-add-comp/bulk-edit-comp'
+import {
+  CollectionAddComp,
+  ConfirmCollectionAddType
+} from './collection-add-comp/collection-add-comp'
 import { FilterFormComp } from './filter-form-comp/filter-form-comp'
 import { LearnableComp } from './learnable-comp/learnable-comp'
 import { MagicAddComp } from './magic-add-comp/magic-add-comp'
@@ -30,7 +34,8 @@ import { MagicAddComp } from './magic-add-comp/magic-add-comp'
     BulkEditComp,
     ConfirmFormComp,
     CounterComp,
-    FilterFormComp
+    FilterFormComp,
+    CollectionAddComp
   ]
 })
 export class OverviewComp {
@@ -39,9 +44,12 @@ export class OverviewComp {
     viewChild.required<ModalWrapperComp>('deleteModal')
   private readonly bulkEditModal =
     viewChild.required<ModalWrapperComp>('bulkEditModal')
+  private readonly collectionAddModal =
+    viewChild.required<ModalWrapperComp>('collectionAddModal')
 
   private readonly _learnablesS = inject(LearnablesStore)
   private _learnables = this._learnablesS.learnables
+  collections = this._learnablesS.collections
 
   private filter = signal<LearnablesFilterConfig | null>(null)
 
@@ -65,6 +73,17 @@ export class OverviewComp {
 
   resetSelection() {
     this.selectedLearnableIds.set([])
+  }
+
+  confirmCollectionAdd({ createName, addToId }: ConfirmCollectionAddType) {
+    const selectedIDs = this.selectedLearnableIds()
+    console.log('Selected IDs for collection add:', selectedIDs)
+    if (createName) {
+      this._learnablesS.createCollection(createName, selectedIDs)
+    } else if (addToId) {
+      this._learnablesS.editCollection(addToId, selectedIDs, [])
+    }
+    this.collectionAddModal().close()
   }
 
   confirmAdd(learnables: LearnableBase[]) {

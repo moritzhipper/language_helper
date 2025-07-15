@@ -1,0 +1,15 @@
+<form [formGroup]="form" (ngSubmit)="onConfirm()">
+  <label>
+    <span>create new</span>
+    <input type="text" formControlName="create" />
+  </label>
+  <div class="collections">
+    @for (collection of collections(); track collection.id) {
+      <button type="button">
+        {{ collection.name }}
+      </button>
+    }
+  </div>
+  <button class="big" type="button" (click)="onCancel()">cancel</button>
+  <button class="big confirm" [disabled]="!form.value.create">confirm</button>
+</form>

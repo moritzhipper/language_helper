@@ -1,6 +1,7 @@
 import {
   Learnable,
   LearnableBase,
+  LearnableCollection,
   LearnablePartialWithId,
   LearnablesStoreType
 } from '../types_and_schemas/types'
@@ -196,3 +197,51 @@ export const quitPractice =
     ...state,
     currentPractice: null
   })
+
+export const createCollection =
+  (name: string, ids: string[]) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const newCollection: LearnableCollection = {
+      id: crypto.randomUUID(),
+      name,
+      learnables: ids
+    }
+
+    return {
+      ...state,
+      collections: [...state.collections, newCollection]
+    }
+  }
+
+export const editCollection =
+  (collectionID: string, addIDs: string[], deleteIDs: string[]) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const collections = state.collections.map((c) => {
+      if (c.id !== collectionID) return c
+
+      const updatedLearnables = c.learnables
+        .filter((id) => !deleteIDs.includes(id))
+        .concat(addIDs)
+
+      return {
+        ...c,
+        learnables: updatedLearnables
+      }
+    })
+
+    return {
+      ...state,
+      collections
+    }
+  }
+
+export const deleteCollection =
+  (id: string) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const collections = state.collections.filter((c) => c.id !== id)
+
+    return {
+      ...state,
+      collections
+    }
+  }
