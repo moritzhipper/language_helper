@@ -13,4 +13,12 @@ export class CollectionsPageComp {
   private readonly _lState = inject(LearnablesStore)
   collections = this._lState.collections
   selectedCollectionId = signal<string | null>(null)
+
+  select(id: string | null) {
+    if (id === this.selectedCollectionId()) {
+      this.selectedCollectionId.set(null)
+    } else {
+      this.selectedCollectionId.set(id)
+    }
+  }
 }

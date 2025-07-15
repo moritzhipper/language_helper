@@ -4,6 +4,9 @@
       <app-icon-comp type="import" />
     </button>
     @if (selectedCollectionId()) {
+      <button class="export">
+        <app-icon-comp type="share" />
+      </button>
       <button class="edit">
         <app-icon-comp type="edit" />
       </button>
@@ -15,7 +18,11 @@
 
   <div class="collections">
     @for (collection of collections(); track collection.id) {
-      <button class="collection">
+      <button
+        class="collection"
+        (click)="select(collection.id)"
+        [class.selected]="selectedCollectionId() === collection.id"
+      >
         <div class="name">
           {{ collection.name }}
         </div>
