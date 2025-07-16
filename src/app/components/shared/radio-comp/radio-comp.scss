@@ -10,7 +10,9 @@
 
   background-color: var(--col-weak);
 
-  display: flex;
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
   gap: var(--distance-1);
   padding: var(--distance-1);
   border-radius: var(--radius-1);

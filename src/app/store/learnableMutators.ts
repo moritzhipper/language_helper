@@ -204,7 +204,8 @@ export const createCollection =
     const newCollection: LearnableCollection = {
       id: crypto.randomUUID(),
       name,
-      learnables: ids
+      learnables: ids,
+      practicedDates: []
     }
 
     return {

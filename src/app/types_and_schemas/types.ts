@@ -4,13 +4,9 @@ import { LearnableBaseFromAiSchema, LearnableBaseSchema } from './schemas'
 export type LearnableBaseFromAi = z.infer<typeof LearnableBaseFromAiSchema>
 export type LearnableBase = z.infer<typeof LearnableBaseSchema>
 
-export type Learnable = {
+export type Learnable = LearnableBase & {
   id: string
   created: Date
-  type: LearnableBaseFromAi['type']
-  notes: string
-  lexeme: string
-  translation: string
   guesses: {
     lexeme: boolean[]
     translation: boolean[]
@@ -23,6 +19,7 @@ export type LearnableCollection = {
   id: string
   name: string
   learnables: string[]
+  practicedDates: Date[] // put Practices here?
 }
 
 export type LearnablesStoreType = {

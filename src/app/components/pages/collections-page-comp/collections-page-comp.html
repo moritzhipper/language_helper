@@ -4,11 +4,11 @@
       <app-icon-comp type="import" />
     </button>
     @if (selectedCollectionId()) {
-      <button class="export">
-        <app-icon-comp type="share" />
-      </button>
       <button class="edit">
         <app-icon-comp type="edit" />
+      </button>
+      <button class="export">
+        <app-icon-comp type="share" />
       </button>
       <button>
         <app-icon-comp type="trash" />
@@ -26,8 +26,11 @@
         <div class="name">
           {{ collection.name }}
         </div>
-
         <div class="card-count">50</div>
+        <div class="score">
+          <div>00000</div>
+          <div>00100</div>
+        </div>
       </button>
     }
   </div>

@@ -19,6 +19,17 @@
     font-weight: var(--weight-bold);
     font-size: var(--font-size-2);
   }
+  .card-count {
+    grid-area: 1 -1;
+    font-size: var(--font-size-4);
+    font-weight: var(--font-weight-bold);
+    align-self: center;
+    justify-self: center;
+  }
+
+  .score {
+    grid-column: 1;
+  }
 
   &.selected {
     border: 2px solid rgb(from var(--col-primary) r g b / var(--opacity-1));
@@ -27,10 +38,6 @@
 
 .import {
   padding: var(--distance-4);
-}
-
-.edit {
-  padding: var(--distance-3);
 }
 
 @include isDesktop() {
