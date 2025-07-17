@@ -1,4 +1,22 @@
 <app-page-wrapper-comp title="Cards" [shrinkOnDesktop]="false">
+  <div class="collections">
+    <button
+      class="silent collection"
+      (click)="selectCollection(null)"
+      [class.selected]="!selectedCollection()"
+    >
+      All Cards
+    </button>
+    @for (collection of collections(); track collection.id) {
+      <button
+        class="silent collection"
+        [class.selected]="selectedCollection() === collection.id"
+        (click)="selectCollection(collection.id)"
+      >
+        {{ collection.name }}
+      </button>
+    }
+  </div>
   <app-filter-form-comp (filter)="updateFilter($event)" />
   <div class="edit-bubbles">
     <button (click)="addModal.open()" class="create ai">

@@ -2,6 +2,24 @@ app-filter-form-comp {
   margin-bottom: var(--distance-4);
 }
 
+.collections {
+  display: flex;
+  gap: var(--distance-2);
+
+  .collection {
+    text-wrap: nowrap;
+    margin-bottom: var(--distance-5);
+    font-size: var(--font-size-2);
+    font-weight: var(--font-weight-bold);
+    &:not(.selected) {
+      opacity: var(--opacity-1);
+    }
+    &.selected {
+      opacity: 1;
+    }
+  }
+}
+
 .learnables {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));

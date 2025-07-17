@@ -1,20 +1,20 @@
 <form [formGroup]="form" [class.expanded]="showFilter()">
-  <label>
-    <span>search</span>
-    <input type="text" formControlName="search" />
-  </label>
-  <app-radio-comp
-    [config]="[
-      { value: 'all' },
-      { value: 'low' },
-      { value: 'medium' },
-      { value: 'high' }
-    ]"
-    formControlName="confidence"
-    label="confidence"
-  />
-
   @if (showFilter()) {
+    <label>
+      <span>search</span>
+      <input type="text" formControlName="search" />
+    </label>
+    <app-radio-comp
+      [config]="[
+        { value: 'all' },
+        { value: 'low' },
+        { value: 'medium' },
+        { value: 'high' }
+      ]"
+      formControlName="confidence"
+      label="confidence"
+    />
+
     <app-radio-comp
       [config]="[{ value: 'all' }, { value: 'newerThanOneDay', label: 'new' }]"
       formControlName="age"

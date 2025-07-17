@@ -3,7 +3,7 @@
 ## Right Now
 
 - implement radios in add form
-
+- put collections on top of cards: when one is selected as filter, remove from collection button appears
 - make input darks (selected, when text was last input
 - select other collection names liek text
 - allow selection of existing forms

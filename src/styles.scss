@@ -46,6 +46,12 @@ button {
     font-weight: var(--font-weight-normal);
   }
 
+  &.silent {
+    font-size: inherit;
+    text-align: inherit;
+    margin: 0;
+  }
+
   &[disabled] {
     opacity: var(--opacity-1);
     cursor: not-allowed;

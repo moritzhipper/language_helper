@@ -48,8 +48,10 @@ export class OverviewComp {
     viewChild.required<ModalWrapperComp>('collectionAddModal')
 
   private readonly _learnablesS = inject(LearnablesStore)
+
   private _learnables = this._learnablesS.learnables
   collections = this._learnablesS.collections
+  selectedCollection = signal<string | null>(null)
 
   private filter = signal<LearnablesFilterConfig | null>(null)
 
@@ -117,5 +119,9 @@ export class OverviewComp {
 
   updateFilter(filter: LearnablesFilterConfig) {
     this.filter.set(filter)
+  }
+
+  selectCollection(collectionId: string | null) {
+    this.selectedCollection.set(collectionId)
   }
 }
