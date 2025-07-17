@@ -1,18 +1,32 @@
 @use '../../../../../style/mixins.scss' as *;
 
-:host {
-  display: block;
+.break-flex {
+  flex-basis: 100%;
+  height: var(--distance-2);
 }
 form {
-  .expand {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: var(--opacity-1);
+  margin: var(--distance-4) 0;
+}
 
-    span {
-      font-size: var(--font-size-0);
-      font-weight: var(--font-weight-bold);
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: var(--opacity-1);
+  margin-left: auto;
+
+  span {
+    font-size: var(--font-size-0);
+    font-weight: var(--font-weight-bold);
+  }
+  &:not(.expanded) {
+    .icon {
+      rotate: 180deg;
+    }
+  }
+  &.expanded {
+    .icon {
+      rotate: 0deg;
     }
   }
 }
@@ -22,43 +36,24 @@ form {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--distance-2);
-
-    .expand {
-      margin-top: var(--distance-1);
-    }
-
-    &:not(.expanded) {
-      .icon {
-        rotate: 180deg;
-      }
-    }
-    &.expanded {
-      .icon {
-        rotate: 0deg;
-      }
-    }
+  }
+  .toggle {
+    padding: var(--distance-2);
   }
 }
 
 @include isDesktop {
   form {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--distance-2) var(--distance-4);
     align-items: end;
-    flex-wrap: wrap;
-    input {
-      width: 250px;
-    }
 
-    &:not(.expanded) {
-      .icon {
-        rotate: 90deg;
-      }
+    label {
+      width: 400px;
     }
-    &.expanded {
-      .icon {
-        rotate: -90deg;
-      }
-    }
+  }
+  .toggle {
+    margin-left: auto;
   }
 }

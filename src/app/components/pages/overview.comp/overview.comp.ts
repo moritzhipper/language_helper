@@ -2,6 +2,7 @@ import { Component, computed, inject, signal, viewChild } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
+  Learnable,
   LearnableBase,
   LearnablesFilterConfig
 } from '../../../types_and_schemas/types'
@@ -47,11 +48,21 @@ export class OverviewComp {
   private readonly collectionAddModal =
     viewChild.required<ModalWrapperComp>('collectionAddModal')
 
-  private readonly _learnablesS = inject(LearnablesStore)
+  private readonly _lStore = inject(LearnablesStore)
 
-  private _learnables = this._learnablesS.learnables
-  collections = this._learnablesS.collections
-  selectedCollection = signal<string | null>(null)
+  private _learnables = computed(() => {
+    const learnables = this._lStore.learnables()
+    const selectCollection = this.collections().find(
+      (c) => c.id === this.selectedCollectionId()
+    )
+    if (!selectCollection) return learnables
+
+    return selectCollection.learnables
+      .map((lId) => learnables.find((l) => l.id === lId))
+      .filter(Boolean) as Learnable[]
+  })
+  collections = this._lStore.collections
+  selectedCollectionId = signal<string | null>(null)
 
   private filter = signal<LearnablesFilterConfig | null>(null)
 
@@ -61,6 +72,7 @@ export class OverviewComp {
   selectedLearnables = computed(() =>
     this._learnables().filter((l) => this.selectedLearnableIds().includes(l.id))
   )
+
   learnableLexemes = computed(() =>
     this.selectedLearnables().map((l) => l.lexeme)
   )
@@ -73,7 +85,7 @@ export class OverviewComp {
     return filterLearnables(this._learnables(), filter)
   })
 
-  resetSelection() {
+  resetLearnableSelection() {
     this.selectedLearnableIds.set([])
   }
 
@@ -81,31 +93,31 @@ export class OverviewComp {
     const selectedIDs = this.selectedLearnableIds()
     console.log('Selected IDs for collection add:', selectedIDs)
     if (createName) {
-      this._learnablesS.createCollection(createName, selectedIDs)
+      this._lStore.createCollection(createName, selectedIDs)
     } else if (addToId) {
-      this._learnablesS.editCollection(addToId, selectedIDs, [])
+      this._lStore.editCollection(addToId, selectedIDs, [])
     }
     this.collectionAddModal().close()
   }
 
   confirmAdd(learnables: LearnableBase[]) {
-    this._learnablesS.addLearnables(learnables)
+    this._lStore.addLearnables(learnables)
     this.addModal().close()
   }
 
   confirmEdit(conf: ConfirmationType) {
-    this._learnablesS.updateLearnables(conf.update)
-    this._learnablesS.removeLearnables(conf.deleteIDs)
-    this._learnablesS.addLearnables(conf.add)
+    this._lStore.updateLearnables(conf.update)
+    this._lStore.removeLearnables(conf.deleteIDs)
+    this._lStore.addLearnables(conf.add)
     this.bulkEditModal().close()
   }
 
   confirmDelete() {
     this.deleteModal().close()
-    this._learnablesS.removeLearnables(this.selectedLearnableIds())
+    this._lStore.removeLearnables(this.selectedLearnableIds())
   }
 
-  toggleSelection(lId: string) {
+  toggleLearnableSelection(lId: string) {
     if (this.selectedLearnableIds().includes(lId)) {
       this.selectedLearnableIds.update((s) => s.filter((id) => id !== lId))
     } else {
@@ -122,6 +134,9 @@ export class OverviewComp {
   }
 
   selectCollection(collectionId: string | null) {
-    this.selectedCollection.set(collectionId)
+    if (collectionId !== this.selectedCollectionId()) {
+      this.selectedLearnableIds.set([])
+    }
+    this.selectedCollectionId.set(collectionId)
   }
 }

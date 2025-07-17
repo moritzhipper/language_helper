@@ -1,9 +1,10 @@
-<form [formGroup]="form" [class.expanded]="showFilter()">
-  @if (showFilter()) {
+@if (showFilter()) {
+  <form [formGroup]="form">
     <label>
       <span>search</span>
       <input type="text" formControlName="search" />
     </label>
+    <div class="break-flex"></div>
     <app-radio-comp
       [config]="[
         { value: 'all' },
@@ -42,10 +43,14 @@
       formControlName="order"
       label="order"
     />
-  }
-
-  <button class="expand" type="button" (click)="toggleExpanded()">
-    <span>filter</span>
-    <app-icon-comp type="chevron" [size]="30" class="icon" />
-  </button>
-</form>
+  </form>
+}
+<button
+  class="toggle silent"
+  type="button"
+  (click)="toggleExpanded()"
+  [class.expanded]="showFilter()"
+>
+  <span>filter</span>
+  <app-icon-comp type="chevron" [size]="30" class="icon" />
+</button>

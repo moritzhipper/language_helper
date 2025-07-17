@@ -3,14 +3,14 @@
     <button
       class="silent collection"
       (click)="selectCollection(null)"
-      [class.selected]="!selectedCollection()"
+      [class.selected]="!selectedCollectionId()"
     >
-      All Cards
+      All
     </button>
     @for (collection of collections(); track collection.id) {
       <button
         class="silent collection"
-        [class.selected]="selectedCollection() === collection.id"
+        [class.selected]="selectedCollectionId() === collection.id"
         (click)="selectCollection(collection.id)"
       >
         {{ collection.name }}
@@ -32,7 +32,7 @@
       <button (click)="deleteModal.open()" class="edit">
         <app-icon-comp type="trash" />
       </button>
-      <button (click)="resetSelection()" class="edit">
+      <button (click)="resetLearnableSelection()" class="edit">
         <span>
           {{ selectedLearnables().length }}
         </span>
@@ -45,7 +45,7 @@
     @for (learnable of filteredLearnables(); track learnable.id) {
       <button
         class="l"
-        (click)="toggleSelection(learnable.id)"
+        (click)="toggleLearnableSelection(learnable.id)"
         [class.selected]="isSelected(learnable.id)"
       >
         <app-learnable-comp [learnable]="learnable" />
