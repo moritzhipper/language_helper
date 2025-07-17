@@ -4,13 +4,13 @@
       <app-icon-comp type="import" />
     </button>
     @if (selectedCollectionId()) {
-      <button class="edit">
-        <app-icon-comp type="edit" />
-      </button>
       <button class="export">
         <app-icon-comp type="share" />
       </button>
-      <button>
+      <button class="edit">
+        <app-icon-comp type="edit" />
+      </button>
+      <button (click)="deleteCollectionModal.open()">
         <app-icon-comp type="trash" />
       </button>
     }
@@ -35,3 +35,13 @@
     }
   </div>
 </app-page-wrapper-comp>
+<app-modal-wrapper-comp #renameCollectionModal> rename </app-modal-wrapper-comp>
+<app-modal-wrapper-comp #deleteCollectionModal>
+  <app-confirm-form-comp
+    label="delete"
+    (cancel)="deleteCollectionModal.close()"
+    (confirm)="deleteCollection()"
+  >
+    Dissolve {{ selectedCollection()?.name }}?
+  </app-confirm-form-comp>
+</app-modal-wrapper-comp>

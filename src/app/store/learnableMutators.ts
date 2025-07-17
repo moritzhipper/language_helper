@@ -223,9 +223,12 @@ export const editCollection =
     const collections = state.collections.map((c) => {
       if (c.id !== collectionID) return c
 
-      const updatedLearnables = c.learnables
-        .filter((id) => !deleteIDs.includes(id))
-        .concat(addIDs)
+      const updatedLearnables = [
+        ...new Set([
+          ...c.learnables.filter((id) => !deleteIDs.includes(id)),
+          ...addIDs
+        ])
+      ]
 
       return {
         ...c,

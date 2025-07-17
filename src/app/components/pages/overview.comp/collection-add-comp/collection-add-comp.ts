@@ -30,8 +30,13 @@ export class CollectionAddComp {
   }
 
   onConfirm() {
-    const createName = this.form.value.create
-    this.confirm.emit({ createName })
+    const { create, addToId } = this.form.value
+
+    if (addToId) {
+      this.confirm.emit({ addToId })
+    } else if (create) {
+      this.confirm.emit({ createName: create })
+    }
     this._reset()
   }
 
