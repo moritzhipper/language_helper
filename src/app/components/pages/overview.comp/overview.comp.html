@@ -26,9 +26,15 @@
       <app-icon-comp type="pen" />
     </button>
     @if (hasSelected()) {
-      <button (click)="collectionAddModal.open()" class="edit">
-        <app-icon-comp type="collection-add" />
-      </button>
+      @if (!selectedCollectionId()) {
+        <button (click)="collectionAddModal.open()" class="edit">
+          <app-icon-comp type="collection-add" />
+        </button>
+      } @else {
+        <button (click)="removeSelectionFromCollection()" class="edit">
+          <app-icon-comp type="collection-remove" />
+        </button>
+      }
       <button (click)="deleteModal.open()" class="edit">
         <app-icon-comp type="trash" />
       </button>

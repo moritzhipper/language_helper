@@ -17,6 +17,7 @@ type IconType =
   | 'play'
   | 'collection'
   | 'collection-add'
+  | 'collection-remove'
   | 'share'
   | 'import'
 

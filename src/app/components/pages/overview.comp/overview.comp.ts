@@ -100,6 +100,16 @@ export class OverviewComp {
     this.collectionAddModal().close()
   }
 
+  removeSelectionFromCollection() {
+    const collectionId = this.selectedCollectionId()
+    if (!collectionId) return
+    this._lStore.editCollection(
+      collectionId,
+      [],
+      [...this.selectedLearnableIds()]
+    )
+  }
+
   confirmAdd(learnables: LearnableBase[]) {
     this._lStore.addLearnables(learnables)
     this.addModal().close()

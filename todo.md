@@ -2,16 +2,18 @@
 
 ## Right Now
 
+- magic add und create fuegen zu collection hinzu, wenn eine ausgewaehlt ist
 - implement radios in add form
-- put collections on top of cards: when one is selected as filter, remove from collection button appears
+
 - make input darks (selected, when text was last input
+
 - select other collection names liek text
-- allow selection of existing forms
-- do this for github actions pipeline:
-  -- https://chatgpt.com/c/6872db41-3598-800e-a5ad-c79490013cce
+
 - add notes function in learning view
 - auf collections seite buttons unten rechts: import, export, delete, edit
   - only allow selection of one
+
+remove collection mentions on remove -> just iterate through all collections and remove cardids of not exisitng cards? use bridge table?
 
 ## Later
 
