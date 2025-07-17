@@ -111,15 +111,23 @@ export class OverviewComp {
   }
 
   confirmAdd(learnables: LearnableBase[]) {
-    this._lStore.addLearnables(learnables)
+    const learnablesLengthBeforeAdd = this._lStore.learnables().length
+
+    // save new learnables to the store
+    this._addAndMarkLearnables(learnables)
     this.addModal().close()
   }
 
   confirmEdit(conf: ConfirmationType) {
     this._lStore.updateLearnables(conf.update)
     this._lStore.removeLearnables(conf.deleteIDs)
-    this._lStore.addLearnables(conf.add)
+    this._addAndMarkLearnables(conf.add)
     this.bulkEditModal().close()
+  }
+
+  private _addAndMarkLearnables(learnables: LearnableBase[]) {
+    this._lStore.addLearnables(learnables)
+    this.selectedLearnableIds.set(this._lStore.addedLatestIDs())
   }
 
   confirmDelete() {

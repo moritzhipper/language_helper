@@ -25,10 +25,12 @@ export const saveNewLearnables =
   (state: LearnablesStoreType): LearnablesStoreType => {
     const learnables = mapBaseToFullToLearnables(learnablesBase)
     const filteredLearnables = filterDoubleEntries(learnables)
+    const addedIDs = filteredLearnables.map((l) => l.id)
 
     return {
       ...state,
-      learnables: [...filteredLearnables, ...state.learnables]
+      learnables: [...filteredLearnables, ...state.learnables],
+      addedLatestIDs: addedIDs
     }
   }
 
@@ -122,9 +124,10 @@ const mergeLearnables = (
 const mapBaseToFullToLearnables = (
   learnableBase: LearnableBase[]
 ): Learnable[] => {
+  const now = new Date()
   return learnableBase.map((l) => ({
     id: crypto.randomUUID(),
-    created: new Date(),
+    created: now,
     type: l.type,
     lexeme: l.lexeme,
     translation: l.translation,

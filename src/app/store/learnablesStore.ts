@@ -33,8 +33,8 @@ export const LearnablesStore = signalStore(
 
     return {
       async generate(config: LearnableCreationConfig) {},
-      addLearnables(learnables: LearnableBase[]) {
-        patchState(state, saveNewLearnables(learnables))
+      addLearnables(learnablesBase: LearnableBase[]) {
+        patchState(state, saveNewLearnables(learnablesBase))
       },
       updateLearnables(learnables: LearnablePartialWithId[]) {
         patchState(state, updateLearnables(learnables))

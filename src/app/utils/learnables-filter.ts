@@ -94,7 +94,6 @@ const orderByLexeme = (a: Learnable, b: Learnable): number => {
 }
 
 const orderByConfidence = (a: Learnable, b: Learnable): number => {
-  console.log(getWrongGuesses(a))
   return getWrongGuesses(a) - getWrongGuesses(b)
 }
 

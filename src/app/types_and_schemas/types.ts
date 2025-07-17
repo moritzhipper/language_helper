@@ -25,6 +25,7 @@ export type LearnableCollection = {
 export type LearnablesStoreType = {
   learnables: Learnable[]
   collections: LearnableCollection[]
+  addedLatestIDs: string[]
   currentPractice: {
     ids: string[]
     index: number
@@ -52,10 +53,10 @@ export type SettingsStoreType = {
 }
 
 export type LearnablesFilterConfig = {
-  order: 'asc' | 'desc'
-  orderBy: 'created' | 'lexeme' | 'confidence' | 'random'
-  type: 'word' | 'phrase' | 'all'
+  order?: 'asc' | 'desc'
+  orderBy?: 'created' | 'lexeme' | 'confidence' | 'random'
+  type?: 'word' | 'phrase' | 'all'
   age?: 'newerThanOneDay' | 'all'
   confidence?: 'high' | 'medium' | 'low' | 'all'
-  search: string
+  search?: string
 }
