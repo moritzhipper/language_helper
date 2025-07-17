@@ -1,11 +1,11 @@
-@if (showFilter()) {
-  <form [formGroup]="form">
-    <label>
-      <span>search</span>
-      <input type="text" formControlName="search" />
-    </label>
-    <div class="break-flex"></div>
+<form [formGroup]="form">
+  <label class="search">
+    <span>search</span>
+    <input type="text" formControlName="search" />
+  </label>
+  @if (showFilter()) {
     <app-radio-comp
+      class="confidence"
       [config]="[
         { value: 'all' },
         { value: 'low' },
@@ -43,14 +43,14 @@
       formControlName="order"
       label="order"
     />
-  </form>
-}
-<button
-  class="toggle silent"
-  type="button"
-  (click)="toggleExpanded()"
-  [class.expanded]="showFilter()"
->
-  <span>filter</span>
-  <app-icon-comp type="chevron" [size]="30" class="icon" />
-</button>
+  }
+  <button
+    class="toggle silent"
+    type="button"
+    (click)="toggleExpanded()"
+    [class.expanded]="showFilter()"
+  >
+    <span>filter</span>
+    <app-icon-comp type="chevron" [size]="30" class="icon" />
+  </button>
+</form>
