@@ -2,8 +2,11 @@
 
 ## Right Now
 
-- magic add und create fuegen zu collection hinzu, wenn eine ausgewaehlt ist
+- allow deletion of collection
+- allow imprt in cards view to show imported cards
+- ask for deletion fo cards on deletion f collection
 - implement radios in add form
+- form width auf desktop min width setzen
 
 - make input darks (selected, when text was last input
 

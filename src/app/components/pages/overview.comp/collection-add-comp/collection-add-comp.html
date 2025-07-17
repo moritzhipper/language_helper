@@ -1,15 +1,29 @@
 <form [formGroup]="form" (ngSubmit)="onConfirm()">
-  <label>
-    <span>create new</span>
-    <input type="text" formControlName="create" />
-  </label>
   <div class="collections">
     @for (collection of collections(); track collection.id) {
-      <button type="button">
-        {{ collection.name }}
-      </button>
+      <label class="radio">
+        <input type="radio" [value]="collection.id" formControlName="addToId" />
+
+        <span>{{ collection.name }}</span>
+      </label>
     }
   </div>
+  <label>
+    <span>create new</span>
+    <input
+      type="text"
+      class="create"
+      formControlName="create"
+      [class.selected]="form.value.create && !form.value.addToId"
+      (input)="resetCollectionSelection()"
+      (click)="resetCollectionSelection()"
+    />
+  </label>
   <button class="big" type="button" (click)="onCancel()">cancel</button>
-  <button class="big confirm" [disabled]="!form.value.create">confirm</button>
+  <button
+    class="big confirm"
+    [disabled]="!form.value.create && !form.value.addToId"
+  >
+    confirm
+  </button>
 </form>

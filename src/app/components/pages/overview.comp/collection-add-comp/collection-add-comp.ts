@@ -25,6 +25,10 @@ export class CollectionAddComp {
   cancel = output<void>()
   confirm = output<ConfirmCollectionAddType>()
 
+  resetCollectionSelection() {
+    this.form.patchValue({ addToId: '' })
+  }
+
   onConfirm() {
     const createName = this.form.value.create
     this.confirm.emit({ createName })

@@ -91,12 +91,13 @@ export class OverviewComp {
 
   confirmCollectionAdd({ createName, addToId }: ConfirmCollectionAddType) {
     const selectedIDs = this.selectedLearnableIds()
-    console.log('Selected IDs for collection add:', selectedIDs)
     if (createName) {
       this._lStore.createCollection(createName, selectedIDs)
-    } else if (addToId) {
+    }
+    if (addToId) {
       this._lStore.editCollection(addToId, selectedIDs, [])
     }
+    this.selectedLearnableIds.set([])
     this.collectionAddModal().close()
   }
 
@@ -128,6 +129,14 @@ export class OverviewComp {
   private _addAndMarkLearnables(learnables: LearnableBase[]) {
     this._lStore.addLearnables(learnables)
     this.selectedLearnableIds.set(this._lStore.addedLatestIDs())
+    const collectionId = this.selectedCollectionId()
+    if (collectionId) {
+      this._lStore.editCollection(
+        collectionId,
+        this._lStore.addedLatestIDs(),
+        []
+      )
+    }
   }
 
   confirmDelete() {
