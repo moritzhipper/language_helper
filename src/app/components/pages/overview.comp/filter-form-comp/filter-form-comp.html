@@ -1,9 +1,9 @@
-<form [formGroup]="form">
-  <label class="search">
-    <span>search</span>
-    <input type="text" formControlName="search" />
-  </label>
+<form [formGroup]="form" [class.opened]="showFilter()">
   @if (showFilter()) {
+    <label class="search">
+      <span>search</span>
+      <input type="text" formControlName="search" />
+    </label>
     <app-radio-comp
       class="confidence"
       [config]="[

@@ -1,14 +1,5 @@
 @use '../../../../../style/mixins.scss' as *;
 
-.break-flex {
-  flex-basis: 100%;
-  height: var(--distance-2);
-}
-
-form {
-  margin-bottom: var(--distance-4);
-}
-
 .toggle {
   display: flex;
   align-items: center;
@@ -38,11 +29,19 @@ form {
     gap: var(--distance-2);
 
     .search {
-      margin-bottom: var(--distance-2);
+      margin-bottom: var(--distance-4);
     }
 
     .toggle {
       grid-area: 1 -1;
+    }
+
+    &.opened {
+      margin: var(--distance-4) 0;
+
+      .toggle {
+        margin-top: var(--distance-2);
+      }
     }
   }
 }
@@ -53,5 +52,9 @@ form {
     flex-wrap: wrap;
     gap: var(--distance-2) var(--distance-4);
     align-items: end;
+
+    &.opened {
+      margin-bottom: var(--distance-4);
+    }
   }
 }
