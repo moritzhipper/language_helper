@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: center;
   opacity: var(--opacity-1);
+  margin: 0 var(--distance-3);
 
   span {
     font-size: var(--font-size-0);
@@ -38,7 +39,7 @@
     }
 
     &.opened {
-      margin: var(--distance-4) 0;
+      margin: var(--distance-0) 0 var(--distance-4) 0;
 
       .toggle {
         margin-top: var(--distance-2);

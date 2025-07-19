@@ -9,7 +9,8 @@
   flex-flow: row-reverse;
   align-items: end;
 
-  button {
+  button,
+  a {
     background-color: var(--col-primary);
     box-shadow: var(--shadow-big);
     border-radius: 100%;

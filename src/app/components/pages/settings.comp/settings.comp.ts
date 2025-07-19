@@ -42,7 +42,10 @@ export class SettingsComp {
   learnables = this._languageS.learnables
   collections = this._languageS.collections
   learnablesDownload = computed(() =>
-    this._makeBlobS.createDownloadableFromLearnables(this.learnables())
+    this._makeBlobS.createDownloadableFromLearnables(
+      this.learnables(),
+      'All Cards'
+    )
   )
 
   form = new FormGroup({

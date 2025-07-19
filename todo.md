@@ -6,6 +6,9 @@
 - ask for deletion fo cards on deletion f collection
 
 - form width auf desktop min width setzen
+- build import and export mapping
+  - remove guesses and created date
+  - somehow communicate name of collection
 
 - add notes function in learning view
 

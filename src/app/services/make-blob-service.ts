@@ -14,13 +14,17 @@ export class MakeBlobService {
   private _fileName = ''
 
   // use service for this to handle revoking last blob for better memory management
-  createDownloadableFromLearnables(learnables: Learnable[]): Downloadable {
+  createDownloadableFromLearnables(
+    learnables: Learnable[],
+    name: string
+  ): Downloadable {
     URL.revokeObjectURL(this._blobUrl)
 
     const json = JSON.stringify(learnables)
     const blob = new Blob([json], { type: 'application/json' })
     const blobUrl = URL.createObjectURL(blob)
-    const fileName = `Language Helper Cards - ${new Date().toDateString()}.json`
+
+    const fileName = `Language Helper Cards - ${name} - ${new Date().toDateString()}.json`
 
     this._blobUrl = blobUrl
     this._fileName = fileName

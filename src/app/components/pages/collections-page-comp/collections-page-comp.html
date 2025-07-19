@@ -6,9 +6,13 @@
     <button class="import">
       <app-icon-comp type="import" />
     </button>
-    <button class="export">
+    <a
+      class="export"
+      [download]="collectionDownload()?.fileName"
+      [attr.href]="collectionDownload()?.blobUrl"
+    >
       <app-icon-comp type="share" />
-    </button>
+    </a>
     <button class="edit" (click)="renameCollectionModal.open()">
       <app-icon-comp type="edit" />
     </button>
