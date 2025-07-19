@@ -14,3 +14,8 @@ export const LearnableBaseSchema = LearnableBaseFromAiSchema.extend({
 export const LearnableResonseSchema = z.object({
   learnables: z.array(LearnableBaseFromAiSchema)
 })
+
+export const LearnableFileSchema = z.object({
+  learnables: z.array(LearnableBaseSchema),
+  collectionName: z.string()
+})
