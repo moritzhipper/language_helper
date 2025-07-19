@@ -7,7 +7,7 @@
       <button class="export">
         <app-icon-comp type="share" />
       </button>
-      <button class="edit">
+      <button class="edit" (click)="renameCollectionModal.open()">
         <app-icon-comp type="edit" />
       </button>
       <button (click)="deleteCollectionModal.open()">
@@ -35,7 +35,12 @@
     }
   </div>
 </app-page-wrapper-comp>
-<app-modal-wrapper-comp #renameCollectionModal> </app-modal-wrapper-comp>
+<app-modal-wrapper-comp #renameCollectionModal>
+  <app-edit-collection-comp
+    (cancel)="renameCollectionModal.close()"
+    (confirm)="renameCollection($event)"
+  />
+</app-modal-wrapper-comp>
 <app-modal-wrapper-comp #deleteCollectionModal>
   <app-confirm-form-comp
     label="delete"

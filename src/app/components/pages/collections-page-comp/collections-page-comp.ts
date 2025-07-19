@@ -4,10 +4,17 @@ import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-com
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
 import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
+import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
 
 @Component({
   selector: 'app-collections-page-comp',
-  imports: [PageWrapperComp, IconComp, ModalWrapperComp, ConfirmFormComp],
+  imports: [
+    PageWrapperComp,
+    IconComp,
+    ModalWrapperComp,
+    ConfirmFormComp,
+    EditCollectionComp
+  ],
   templateUrl: './collections-page-comp.html',
   styleUrl: './collections-page-comp.scss'
 })
@@ -16,6 +23,9 @@ export class CollectionsPageComp {
 
   private deleteCollectionModal = viewChild.required<ModalWrapperComp>(
     'deleteCollectionModal'
+  )
+  private renameCollectionModal = viewChild.required<ModalWrapperComp>(
+    'renameCollectionModal'
   )
   collections = this._lState.collections
   selectedCollectionId = signal<string | null>(null)
@@ -37,5 +47,13 @@ export class CollectionsPageComp {
     this._lState.deleteCollection(collectionId)
     this.selectedCollectionId.set(null)
     this.deleteCollectionModal().close()
+  }
+
+  renameCollection(name: string) {
+    const collectionId = this.selectedCollectionId()
+    if (!collectionId) return
+    this._lState.editCollection(collectionId, name)
+    this.selectedCollectionId.set(null)
+    this.renameCollectionModal().close()
   }
 }

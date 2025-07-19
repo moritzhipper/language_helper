@@ -66,7 +66,6 @@ export class OverviewComp {
 
   private filter = signal<LearnablesFilterConfig | null>(null)
 
-  hasSelected = computed(() => this.selectedLearnableIds().length > 0)
   selectedLearnableIds = signal<string[]>([])
 
   selectedLearnables = computed(() =>
@@ -95,7 +94,7 @@ export class OverviewComp {
       this._lStore.createCollection(createName, selectedIDs)
     }
     if (addToId) {
-      this._lStore.editCollection(addToId, selectedIDs, [])
+      this._lStore.editCollectionLearnables(addToId, selectedIDs, [])
     }
     this.selectedLearnableIds.set([])
     this.collectionAddModal().close()
@@ -104,7 +103,7 @@ export class OverviewComp {
   removeSelectionFromCollection() {
     const collectionId = this.selectedCollectionId()
     if (!collectionId) return
-    this._lStore.editCollection(
+    this._lStore.editCollectionLearnables(
       collectionId,
       [],
       [...this.selectedLearnableIds()]
@@ -131,7 +130,7 @@ export class OverviewComp {
     this.selectedLearnableIds.set(this._lStore.addedLatestIDs())
     const collectionId = this.selectedCollectionId()
     if (collectionId) {
-      this._lStore.editCollection(
+      this._lStore.editCollectionLearnables(
         collectionId,
         this._lStore.addedLatestIDs(),
         []

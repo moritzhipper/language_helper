@@ -38,25 +38,48 @@
 }
 
 .edit-bubbles {
-  button {
-    &.ai {
+  .ai {
+    padding: var(--distance-4);
+  }
+  .manual {
+    padding: var(--distance-3);
+  }
+  .reset {
+    padding: var(--distance-3);
+  }
+  .edit {
+    display: grid;
+
+    place-items: center;
+    span {
+      font-size: 8px;
+    }
+
+    span,
+    app-icon-comp {
+      grid-area: 1 /1;
+    }
+  }
+  &:not(.cards-selected) {
+    .reset,
+    .trash,
+    .add-to-collection,
+    .remove-from-collection {
+      display: none;
+    }
+  }
+
+  &.cards-selected {
+    .manual {
       padding: var(--distance-4);
     }
-    &.manual {
-      padding: var(--distance-3);
+    .ai {
+      display: none;
     }
-    &.edit {
-      display: grid;
-
-      place-items: center;
-      span {
-        font-size: 8px;
-      }
-
-      span,
-      app-icon-comp {
-        grid-area: 1 /1;
-      }
+  }
+  &:not(.collection-selected) {
+    .remove-from-collection {
+      display: none;
     }
   }
 }

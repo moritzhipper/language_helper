@@ -34,6 +34,7 @@
 
     .toggle {
       grid-area: 1 -1;
+      place-self: start;
     }
 
     &.opened {

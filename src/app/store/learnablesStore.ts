@@ -4,17 +4,17 @@ import { patchState, signalStore, withMethods, withState } from '@ngrx/signals'
 import { AiService } from '../services/ai.service'
 import {
   LearnableBase,
-  LearnableCreationConfig,
   LearnablePartialWithId
 } from '../types_and_schemas/types'
 import { initialLearnables } from './initialStates'
 import {
   createCollection,
   deleteCollection,
-  editCollection,
+  editCollection as editCollectionLearnables,
   quitPractice,
   quitPracticeEarly,
   removeLearnables,
+  renameCollection,
   saveNewLearnables,
   setGuess,
   startPractice,
@@ -32,7 +32,6 @@ export const LearnablesStore = signalStore(
     const aiS = inject(AiService)
 
     return {
-      async generate(config: LearnableCreationConfig) {},
       addLearnables(learnablesBase: LearnableBase[]) {
         patchState(state, saveNewLearnables(learnablesBase))
       },
@@ -48,12 +47,18 @@ export const LearnablesStore = signalStore(
       createCollection(name: string, ids: string[]) {
         patchState(state, createCollection(name, ids))
       },
-      editCollection(
+      editCollectionLearnables(
         collectionID: string,
         addIDs: string[],
         deleteIDs: string[]
       ) {
-        patchState(state, editCollection(collectionID, addIDs, deleteIDs))
+        patchState(
+          state,
+          editCollectionLearnables(collectionID, addIDs, deleteIDs)
+        )
+      },
+      editCollection(name: string, id: string) {
+        patchState(state, renameCollection(name, id))
       },
       deleteCollection(id: string) {
         patchState(state, deleteCollection(id))
