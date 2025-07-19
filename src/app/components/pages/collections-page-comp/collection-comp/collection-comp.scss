@@ -1,0 +1,43 @@
+:host {
+  background-color: var(--col-accent);
+  padding: var(--distance-4);
+  display: grid;
+  grid-template-columns: 1fr auto;
+
+  .name {
+    font-weight: var(--weight-bold);
+    font-size: var(--font-size-2);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .card-count {
+    font-size: var(--font-size-4);
+    align-self: center;
+    justify-self: center;
+  }
+
+  .info {
+    align-self: end;
+    opacity: var(--opacity-1);
+    font-size: var(--font-size-0);
+  }
+
+  .score {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: var(--width);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    place-self: end start;
+
+    .percent {
+      font-size: var(--font-size-3);
+    }
+    .label {
+      font-size: var(--font-size-0);
+    }
+  }
+}

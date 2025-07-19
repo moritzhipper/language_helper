@@ -1,4 +1,11 @@
-import { Component, inject, output } from '@angular/core'
+import {
+  Component,
+  effect,
+  inject,
+  input,
+  output,
+  untracked
+} from '@angular/core'
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -20,16 +27,35 @@ export class EditCollectionComp {
 
   confirm = output<string>()
   cancel = output<void>()
+  preset = input<string | undefined>()
+
+  constructor() {
+    effect(() => {
+      const preset = this.preset()
+      if (!preset) return
+      untracked(() => {
+        this.form.patchValue({ name: preset })
+      })
+    })
+  }
 
   onConfirm() {
     const { name } = this.form.value
     if (!name) return
     this.confirm.emit(name)
-    this.form.reset()
+    this.reset()
   }
 
   onCancel() {
     this.cancel.emit()
+    this.reset()
+  }
+
+  reset() {
     this.form.reset()
+    const preset = this.preset()
+    if (preset) {
+      this.form.patchValue({ name: preset })
+    }
   }
 }

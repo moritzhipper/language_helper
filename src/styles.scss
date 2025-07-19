@@ -46,10 +46,21 @@ button {
     font-weight: var(--font-weight-normal);
   }
 
+  &[type='submit'] {
+    font-size: var(--font-size-1);
+
+    padding: var(--distance-3) var(--distance-5);
+    font-weight: var(--font-weight-normal);
+    background-color: var(--col-primary);
+    color: var(--col-bg);
+    border-radius: var(--radius-1);
+  }
+
   &.silent {
     font-size: inherit;
     text-align: inherit;
     margin: 0;
+    padding: 0;
   }
 
   &[disabled] {

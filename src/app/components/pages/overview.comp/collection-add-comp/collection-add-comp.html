@@ -20,10 +20,7 @@
     />
   </label>
   <button class="big" type="button" (click)="onCancel()">cancel</button>
-  <button
-    class="big confirm"
-    [disabled]="!form.value.create && !form.value.addToId"
-  >
+  <button type="submit" [disabled]="!form.value.create && !form.value.addToId">
     confirm
   </button>
 </form>

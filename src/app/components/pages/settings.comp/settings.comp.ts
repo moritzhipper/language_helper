@@ -40,6 +40,7 @@ export class SettingsComp {
 
   tokensUsed = this._settingsS.tokensUsed
   learnables = this._languageS.learnables
+  collections = this._languageS.collections
   learnablesDownload = computed(() =>
     this._makeBlobS.createDownloadableFromLearnables(this.learnables())
   )

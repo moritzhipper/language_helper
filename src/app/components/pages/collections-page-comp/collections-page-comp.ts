@@ -4,6 +4,7 @@ import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-com
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
 import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
+import { CollectionComp } from './collection-comp/collection-comp'
 import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
 
 @Component({
@@ -13,7 +14,8 @@ import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
     IconComp,
     ModalWrapperComp,
     ConfirmFormComp,
-    EditCollectionComp
+    EditCollectionComp,
+    CollectionComp
   ],
   templateUrl: './collections-page-comp.html',
   styleUrl: './collections-page-comp.scss'
@@ -55,5 +57,24 @@ export class CollectionsPageComp {
     this._lState.editCollection(collectionId, name)
     this.selectedCollectionId.set(null)
     this.renameCollectionModal().close()
+  }
+
+  calcAvgGuesses(id: string): number {
+    const collection = this.collections().find((c) => c.id === id)
+    if (!collection) return 0
+
+    const learnables = this._lState
+      .learnables()
+      .filter((l) => collection.learnableIDs.includes(l.id))
+
+    const allGuesses = learnables.flatMap((l) => [
+      ...l.guesses.lexeme,
+      ...l.guesses.translation
+    ])
+
+    const trueGuesses = allGuesses.filter(Boolean).length
+    const confidencePercent = trueGuesses / allGuesses.length
+
+    return Math.round(confidencePercent * 100)
   }
 }

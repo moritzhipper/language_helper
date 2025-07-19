@@ -207,7 +207,7 @@ export const createCollection =
     const newCollection: LearnableCollection = {
       id: crypto.randomUUID(),
       name,
-      learnables: ids,
+      learnableIDs: ids,
       practicedDates: []
     }
 
@@ -225,14 +225,14 @@ export const editCollection =
 
       const updatedLearnables = [
         ...new Set([
-          ...c.learnables.filter((id) => !deleteIDs.includes(id)),
+          ...c.learnableIDs.filter((id) => !deleteIDs.includes(id)),
           ...addIDs
         ])
       ]
 
       return {
         ...c,
-        learnables: updatedLearnables
+        learnableIDs: updatedLearnables
       }
     })
 

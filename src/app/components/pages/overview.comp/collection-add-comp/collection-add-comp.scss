@@ -38,11 +38,6 @@ form {
 
   button {
     margin-top: var(--distance-4);
-
-    &.confirm {
-      background-color: var(--col-primary);
-      color: var(--col-bg);
-    }
   }
 
   label.radio {

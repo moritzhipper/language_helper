@@ -2,24 +2,19 @@
 
 ## Right Now
 
-- allow deletion of collection
 - allow imprt in cards view to show imported cards
 - ask for deletion fo cards on deletion f collection
-- implement radios in add form
+
 - form width auf desktop min width setzen
 
-- make input darks (selected, when text was last input
-
-- select other collection names liek text
-
 - add notes function in learning view
-- auf collections seite buttons unten rechts: import, export, delete, edit
-  - only allow selection of one
 
 remove collection mentions on remove -> just iterate through all collections and remove cardids of not exisitng cards? use bridge table?
 
 ## Later
 
+- allow in practice view:
+  - selection of collection OR all cards with max amount of cards (use slider)
 - "spaced repetition"
 
 - refactor forms handling to allow escape to cancel

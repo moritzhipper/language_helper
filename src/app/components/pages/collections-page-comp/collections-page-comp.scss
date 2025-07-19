@@ -6,31 +6,9 @@
 }
 
 .collection {
-  font-size: inherit;
-  text-align: inherit;
   border-radius: var(--radius-2);
-  background-color: var(--col-accent);
-  padding: var(--distance-4);
-  display: grid;
-  grid-template-columns: 1fr auto;
   border: 2px solid var(--col-accent);
-
-  .name {
-    font-weight: var(--weight-bold);
-    font-size: var(--font-size-2);
-  }
-
-  .card-count {
-    grid-area: 1 -1;
-    font-size: var(--font-size-4);
-    font-weight: var(--font-weight-bold);
-    align-self: center;
-    justify-self: center;
-  }
-
-  .score {
-    grid-column: 1;
-  }
+  overflow: hidden;
 
   &.selected {
     border: 2px solid rgb(from var(--col-primary) r g b / var(--opacity-1));
@@ -41,8 +19,16 @@
   padding: var(--distance-4);
 }
 .edit-bubbles {
-  button.export {
+  .export {
     padding: var(--distance-3);
+  }
+
+  &:not(.collection-selected) {
+    .edit,
+    .delete,
+    .export {
+      display: none;
+    }
   }
 }
 @include isDesktop() {

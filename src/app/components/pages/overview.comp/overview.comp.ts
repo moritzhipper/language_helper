@@ -57,7 +57,7 @@ export class OverviewComp {
     )
     if (!selectCollection) return learnables
 
-    return selectCollection.learnables
+    return selectCollection.learnableIDs
       .map((lId) => learnables.find((l) => l.id === lId))
       .filter(Boolean) as Learnable[]
   })
