@@ -18,6 +18,7 @@ export type LearnablePartialWithId = Partial<Learnable> & Pick<Learnable, 'id'>
 export type LearnableCollection = {
   id: string
   name: string
+  created: Date
   learnableIDs: string[]
   practicedDates: Date[] // put Practices here?
 }

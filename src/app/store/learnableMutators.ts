@@ -206,6 +206,7 @@ export const createCollection =
   (state: LearnablesStoreType): LearnablesStoreType => {
     const newCollection: LearnableCollection = {
       id: crypto.randomUUID(),
+      created: new Date(),
       name,
       learnableIDs: ids,
       practicedDates: []

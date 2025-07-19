@@ -6,4 +6,6 @@
   <span class="percent"> {{ avgGuessesPercent() }}% </span>
   <span class="label"> confidence </span>
 </div>
-<div class="info">{{ coll.learnableIDs.length }} cards</div>
+<div class="info">
+  {{ coll.learnableIDs.length }} cards | {{ coll.created | date: 'MMMM d, y' }}
+</div>
