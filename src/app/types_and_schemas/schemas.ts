@@ -11,11 +11,13 @@ export const LearnableBaseSchema = LearnableBaseFromAiSchema.extend({
   notes: z.string()
 })
 
-export const LearnableResonseSchema = z.object({
+export const LearnableResponseSchema = z.object({
   learnables: z.array(LearnableBaseFromAiSchema)
 })
 
-export const LearnableFileSchema = z.object({
+export const ExportedCollectionSchema = z.object({
   learnables: z.array(LearnableBaseSchema),
-  collectionName: z.string()
+  name: z.string()
 })
+
+export const ExportCollectionArraySchema = z.array(ExportedCollectionSchema)

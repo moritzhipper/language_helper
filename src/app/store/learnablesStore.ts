@@ -3,9 +3,11 @@ import { inject } from '@angular/core'
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals'
 import { AiService } from '../services/ai.service'
 import {
+  ExportedCollection,
   LearnableBase,
   LearnablePartialWithId
 } from '../types_and_schemas/types'
+import { mapToExpCollection } from '../utils/import-export-utils'
 import { initialLearnables } from './initialStates'
 import {
   createCollection,
@@ -15,6 +17,7 @@ import {
   quitPracticeEarly,
   removeLearnables,
   renameCollection,
+  saveImportedCollections,
   saveNewLearnables,
   setGuess,
   startPractice,
@@ -56,6 +59,22 @@ export const LearnablesStore = signalStore(
           state,
           editCollectionLearnables(collectionID, addIDs, deleteIDs)
         )
+      },
+      getExportableCollections(
+        onlyForCollectionId?: string
+      ): ExportedCollection[] {
+        // return all when no id is peciffied
+        const collections = state
+          .collections()
+          .filter((c) =>
+            onlyForCollectionId ? c.id === onlyForCollectionId : true
+          )
+
+        const allLearnables = state.learnables()
+        return collections.map((c) => mapToExpCollection(allLearnables, c))
+      },
+      importExportedCollections(impCollections: ExportedCollection[]) {
+        patchState(state, saveImportedCollections(impCollections))
       },
       editCollection(name: string, id: string) {
         patchState(state, renameCollection(name, id))

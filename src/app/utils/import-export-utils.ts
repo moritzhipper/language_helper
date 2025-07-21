@@ -1,23 +1,37 @@
-import { LearnableFileSchema } from '../types_and_schemas/schemas'
-import { LearnableBase, LearnableFile } from '../types_and_schemas/types'
+import { ExportCollectionArraySchema } from '../types_and_schemas/schemas'
+import {
+  ExportedCollection,
+  Learnable,
+  LearnableCollection
+} from '../types_and_schemas/types'
 
-export const mapLearnablesToFileSchema = (
-  learnables: LearnableBase[],
-  collectionName: string
-): LearnableFile => {
-  const baseLearnables = learnables.map((learnable) => ({
+export const mapToExpCollection = (
+  allLearnables: Learnable[],
+  collection: LearnableCollection
+): ExportedCollection => {
+  const relevantLearnables = allLearnables.filter((l) =>
+    collection.learnableIDs.includes(l.id)
+  )
+  const baseLearnables = relevantLearnables.map((learnable) => ({
     lexeme: learnable.lexeme,
     translation: learnable.translation,
     type: learnable.type,
-    notes: learnable.notes || ''
+    notes: learnable.notes
   }))
 
   return {
     learnables: baseLearnables,
-    collectionName
+    name: collection.name
   }
 }
 
-export const mapFileSchemaToLearnables = (file: string): LearnableBase[] => {
-  const file = LearnableFileSchema.parse(file)
+export const mapFromExpCollection = (
+  fileAsString: string
+): ExportedCollection[] => {
+  try {
+    return ExportCollectionArraySchema.parse(JSON.parse(fileAsString))
+  } catch (e) {
+    console.error('Failed to parse learnables from file:', e)
+    throw new Error('Invalid file format')
+  }
 }

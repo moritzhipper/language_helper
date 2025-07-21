@@ -3,12 +3,14 @@
 ## Right Now
 
 - allow imprt in cards view to show imported cards
-- ask for deletion fo cards on deletion f collection
+  - use import function of store
+  - linked signal anstatt getExportable store method?
 
 - form width auf desktop min width setzen
 - build import and export mapping
   - remove guesses and created date
   - somehow communicate name of collection
+  - implement file parse methods from utils in blob service
 
 - add notes function in learning view
 

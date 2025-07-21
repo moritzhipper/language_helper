@@ -1,4 +1,5 @@
 import {
+  ExportedCollection,
   Learnable,
   LearnableBase,
   LearnableCollection,
@@ -121,6 +122,31 @@ const mergeLearnables = (
   }
 }
 
+export const saveImportedCollections =
+  (expCollections: ExportedCollection[]) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const newLearnables: Learnable[] = []
+    const newCollections: LearnableCollection[] = []
+
+    for (const collection of expCollections) {
+      const learnablesFromCollection = mapBaseToFullToLearnables(
+        collection.learnables
+      )
+      const collectionFromExpColl = createNewCollection(
+        collection.name,
+        learnablesFromCollection.map((l) => l.id)
+      )
+      newLearnables.push(...learnablesFromCollection)
+      newCollections.push(collectionFromExpColl)
+    }
+
+    return {
+      ...state,
+      learnables: [...newLearnables, ...state.learnables],
+      collections: [...newCollections, ...state.collections]
+    }
+  }
+
 const mapBaseToFullToLearnables = (
   learnableBase: LearnableBase[]
 ): Learnable[] => {
@@ -204,17 +230,9 @@ export const quitPractice =
 export const createCollection =
   (name: string, ids: string[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const newCollection: LearnableCollection = {
-      id: crypto.randomUUID(),
-      created: new Date(),
-      name,
-      learnableIDs: ids,
-      practicedDates: []
-    }
-
     return {
       ...state,
-      collections: [...state.collections, newCollection]
+      collections: [...state.collections, createNewCollection(name, ids)]
     }
   }
 
@@ -272,3 +290,14 @@ export const renameCollection =
       collections
     }
   }
+
+const createNewCollection = (
+  name: string,
+  ids: string[]
+): LearnableCollection => ({
+  id: crypto.randomUUID(),
+  created: new Date(),
+  name,
+  learnableIDs: ids,
+  practicedDates: []
+})

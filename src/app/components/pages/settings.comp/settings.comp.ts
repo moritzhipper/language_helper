@@ -8,7 +8,7 @@ import {
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
-import { MakeBlobService } from '../../../services/make-blob-service'
+import { ImportExportService } from '../../../services/import-export-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
 import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-comp'
@@ -30,7 +30,7 @@ import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
 export class SettingsComp {
   private readonly _settingsS = inject(SettingsStore)
   private readonly _languageS = inject(LearnablesStore)
-  private readonly _makeBlobS = inject(MakeBlobService)
+  private readonly _makeBlobS = inject(ImportExportService)
 
   private readonly deleteModal =
     viewChild.required<ModalWrapperComp>('deleteModal')
@@ -43,7 +43,7 @@ export class SettingsComp {
   collections = this._languageS.collections
   learnablesDownload = computed(() =>
     this._makeBlobS.createDownloadableFromLearnables(
-      this.learnables(),
+      this._languageS.getExportableCollections(),
       'All Cards'
     )
   )

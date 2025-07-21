@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal, viewChild } from '@angular/core'
-import { MakeBlobService } from '../../../services/make-blob-service'
+import { ImportExportService } from '../../../services/import-export-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
@@ -23,7 +23,7 @@ import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
 })
 export class CollectionsPageComp {
   private readonly _lState = inject(LearnablesStore)
-  private readonly _makeBlobS = inject(MakeBlobService)
+  private readonly _makeBlobS = inject(ImportExportService)
 
   private deleteCollectionModal = viewChild.required<ModalWrapperComp>(
     'deleteCollectionModal'
@@ -40,12 +40,10 @@ export class CollectionsPageComp {
   collectionDownload = computed(() => {
     const collection = this.selectedCollection()
     if (!collection) return null
-    const relevantLearnables = this._lState
-      .learnables()
-      .filter((l) => collection.learnableIDs.includes(l.id))
+    console.log({ collection })
 
     return this._makeBlobS.createDownloadableFromLearnables(
-      relevantLearnables,
+      this._lState.getExportableCollections(collection.id),
       collection.name
     )
   })
