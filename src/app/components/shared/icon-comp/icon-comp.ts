@@ -15,6 +15,11 @@ type IconType =
   | 'reset'
   | 'add'
   | 'play'
+  | 'collection'
+  | 'collection-add'
+  | 'collection-remove'
+  | 'share'
+  | 'import'
 
 @Component({
   selector: 'app-icon-comp',

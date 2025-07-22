@@ -16,6 +16,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms'
+import { ToastService } from '../../../../services/toast-service'
 import {
   Learnable,
   LearnableBase,
@@ -38,6 +39,7 @@ export type ConfirmationType = {
 })
 export class BulkEditComp {
   private readonly _fb = inject(NonNullableFormBuilder)
+  private readonly _toastService = inject(ToastService)
 
   preset = input<Learnable[] | null>()
 

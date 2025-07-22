@@ -1,0 +1,15 @@
+:host {
+  min-height: 200px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr auto;
+  height: 100%;
+  gap: var(--distance-5) var(--distance-4);
+  label {
+    grid-column: span 2;
+    place-self: end stretch;
+  }
+}

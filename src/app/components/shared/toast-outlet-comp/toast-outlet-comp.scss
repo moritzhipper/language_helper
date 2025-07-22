@@ -1,6 +1,6 @@
 :host {
   position: fixed;
-  pointer-events: visible;
+  pointer-events: none;
   display: grid;
   place-items: center;
   gap: var(--distance-2);

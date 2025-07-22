@@ -1,0 +1,60 @@
+<app-page-wrapper-comp title="Collections" [shrinkOnDesktop]="false">
+  <div
+    class="edit-bubbles"
+    [class.collection-selected]="selectedCollectionId()"
+  >
+    <button type="" class="import" (click)="fileInput.click()">
+      <app-icon-comp type="import" />
+      <input
+        type="file"
+        accept=".json"
+        #fileInput
+        (change)="importCollection($event)"
+      />
+    </button>
+    <a
+      class="export"
+      [download]="collectionDownload()?.fileName"
+      [attr.href]="collectionDownload()?.blobUrl"
+    >
+      <app-icon-comp type="share" />
+    </a>
+    <button class="edit" (click)="renameCollectionModal.open()">
+      <app-icon-comp type="edit" />
+    </button>
+    <button (click)="deleteCollectionModal.open()" class="delete">
+      <app-icon-comp type="trash" />
+    </button>
+  </div>
+
+  <div class="collections">
+    @for (collection of collections(); track collection.id) {
+      <button
+        class="silent collection"
+        (click)="select(collection.id)"
+        [class.selected]="selectedCollectionId() === collection.id"
+      >
+        <app-collection-comp
+          [collection]="collection"
+          [avgGuessesPercent]="calcAvgGuesses(collection.id)"
+        />
+      </button>
+    }
+  </div>
+</app-page-wrapper-comp>
+<app-modal-wrapper-comp #renameCollectionModal>
+  <app-edit-collection-comp
+    (cancel)="renameCollectionModal.close()"
+    (confirm)="renameCollection($event)"
+    [preset]="selectedCollection()?.name"
+  />
+</app-modal-wrapper-comp>
+<app-modal-wrapper-comp #deleteCollectionModal>
+  <app-confirm-form-comp
+    label="delete"
+    (cancel)="deleteCollectionModal.close()"
+    (confirm)="deleteCollection()"
+  >
+    Dissolve {{ selectedCollection()?.name }}?
+  </app-confirm-form-comp>
+</app-modal-wrapper-comp>

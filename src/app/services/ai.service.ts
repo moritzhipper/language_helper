@@ -3,7 +3,7 @@ import OpenAI from 'openai'
 // import { zodTextFormat } from 'openai/helpers/zod'
 import { ChatModel } from 'openai/resources/shared.mjs'
 import { SettingsStore } from '../store/settingsStore'
-import { LearnableResonseSchema } from '../types_and_schemas/schemas'
+import { LearnableResponseSchema } from '../types_and_schemas/schemas'
 import {
   LearnableBase,
   LearnableCreationConfig
@@ -50,7 +50,7 @@ export class AiService {
     const response = await this.oAi().responses.parse({
       model: this.model,
       text: {
-        format: zodTextFormat(LearnableResonseSchema, 'learnable_base')
+        format: zodTextFormat(LearnableResponseSchema, 'learnable_base')
       },
       input: [
         systemPrompt,

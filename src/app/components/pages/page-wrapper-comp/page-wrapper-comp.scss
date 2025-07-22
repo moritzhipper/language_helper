@@ -10,6 +10,11 @@
   &:has(h1) {
     grid-template-rows: auto 1fr;
   }
+
+  .content {
+    width: 100%;
+    overflow: hidden;
+  }
 }
 
 :host.shrink-on-desktop {

@@ -16,11 +16,6 @@
     flex-direction: column;
     justify-content: center;
   }
-
-  .confirm {
-    background-color: var(--col-primary);
-    color: var(--col-bg);
-  }
 }
 @include isDesktop() {
   :host {

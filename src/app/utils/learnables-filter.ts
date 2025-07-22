@@ -30,13 +30,13 @@ const filterByAmountWrongGuesses = (
   filter: LearnablesFilterConfig,
   learnable: Learnable
 ): boolean => {
-  const wrongGuesses = [
-    ...learnable.guesses.lexeme,
-    ...learnable.guesses.translation
-  ].filter((g) => !g).length
+  const wrongGuesses = getWrongGuesses(learnable)
+  const isBetween = (min: number, max: number): boolean =>
+    wrongGuesses >= min && wrongGuesses <= max
 
-  if (filter.confidence === 'high') return wrongGuesses < 1
-  if (filter.confidence === 'medium') return wrongGuesses < 3
+  if (filter.confidence === 'high') return isBetween(0, 1)
+  if (filter.confidence === 'medium') return isBetween(2, 4)
+  if (filter.confidence === 'low') return wrongGuesses >= 5
   return true
 }
 
@@ -70,7 +70,7 @@ const sortLearnables = (
   if (filter.orderBy === 'lexeme') {
     sortedLearnables = sortedLearnables.sort(orderByLexeme)
   } else if (filter.orderBy === 'confidence') {
-    sortedLearnables = sortedLearnables.sort(orderByLastGuesses)
+    sortedLearnables = sortedLearnables.sort(orderByConfidence)
   } else if (filter.orderBy === 'random') {
     sortedLearnables = sortedLearnables.sort(orderByRandom)
   } else {
@@ -93,12 +93,16 @@ const orderByLexeme = (a: Learnable, b: Learnable): number => {
   return a.lexeme.localeCompare(b.lexeme)
 }
 
-const orderByLastGuesses = (a: Learnable, b: Learnable): number => {
-  const aWrong = a.guesses.lexeme.filter((g) => !g).length
-  const bWrong = b.guesses.lexeme.filter((g) => !g).length
-  return aWrong - bWrong
+const orderByConfidence = (a: Learnable, b: Learnable): number => {
+  return getWrongGuesses(a) - getWrongGuesses(b)
 }
 
 const orderByRandom = (a: Learnable, b: Learnable): number => {
   return Math.random() - 0.5
+}
+
+const getWrongGuesses = (learnable: Learnable): number => {
+  return [...learnable.guesses.lexeme, ...learnable.guesses.translation].filter(
+    (g) => !g
+  ).length
 }

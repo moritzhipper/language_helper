@@ -2,14 +2,28 @@
 
 ## Right Now
 
-- do this for github actions pipeline:
-  -- https://chatgpt.com/c/6872db41-3598-800e-a5ad-c79490013cce
+- allow imprt in cards view to show imported cards
+  - use import function of store
+  - linked signal anstatt getExportable store method?
+  - build import form in bubbles
+
+- form width auf desktop min width setzen
+- build import and export mapping
+  - remove guesses and created date
+  - somehow communicate name of collection
+  - implement file parse methods from utils in blob service
+
 - add notes function in learning view
+
+remove collection mentions on remove -> just iterate through all collections and remove cardids of not exisitng cards? use bridge table?
 
 ## Later
 
-- make font size smaller according to number of letters
-- remove linkedIds, add linked collections. Add collection creation or collection add to button on selection
+- rename FIleImportService back to Blobservice
+- fix place where import export methods are put: some in store, some in utils, some in components
+  sned toasts after succesfull import
+- allow in practice view:
+  - selection of collection OR all cards with max amount of cards (use slider)
 - "spaced repetition"
 
 - refactor forms handling to allow escape to cancel
@@ -19,11 +33,6 @@
 
 - save practices history
   - also show stats like in practice comp
-- handle early finished practice -> set all guesses to wrong to allow finished screen
-- show links in pracitce
-- change direction
-- save langauges with card
-- toasts for guess selection and error communication
 
 # sources
 
@@ -34,3 +43,4 @@ https://remixicon.com/icon/arrow-up-s-line
 whats an ai kez
 what does the confidence level mean
 what do the dots mean
+relationship between collections and all cards

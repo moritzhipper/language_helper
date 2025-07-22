@@ -2,6 +2,7 @@ import { Component, computed, inject, signal, viewChild } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
+  Learnable,
   LearnableBase,
   LearnablesFilterConfig
 } from '../../../types_and_schemas/types'
@@ -12,6 +13,10 @@ import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
 import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
 import { BulkEditComp, ConfirmationType } from './bulk-add-comp/bulk-edit-comp'
+import {
+  CollectionAddComp,
+  ConfirmCollectionAddType
+} from './collection-add-comp/collection-add-comp'
 import { FilterFormComp } from './filter-form-comp/filter-form-comp'
 import { LearnableComp } from './learnable-comp/learnable-comp'
 import { MagicAddComp } from './magic-add-comp/magic-add-comp'
@@ -30,7 +35,8 @@ import { MagicAddComp } from './magic-add-comp/magic-add-comp'
     BulkEditComp,
     ConfirmFormComp,
     CounterComp,
-    FilterFormComp
+    FilterFormComp,
+    CollectionAddComp
   ]
 })
 export class OverviewComp {
@@ -39,18 +45,33 @@ export class OverviewComp {
     viewChild.required<ModalWrapperComp>('deleteModal')
   private readonly bulkEditModal =
     viewChild.required<ModalWrapperComp>('bulkEditModal')
+  private readonly collectionAddModal =
+    viewChild.required<ModalWrapperComp>('collectionAddModal')
 
-  private readonly _learnablesS = inject(LearnablesStore)
-  private _learnables = this._learnablesS.learnables
+  private readonly _lStore = inject(LearnablesStore)
+
+  private _learnables = computed(() => {
+    const learnables = this._lStore.learnables()
+    const selectCollection = this.collections().find(
+      (c) => c.id === this.selectedCollectionId()
+    )
+    if (!selectCollection) return learnables
+
+    return selectCollection.learnableIDs
+      .map((lId) => learnables.find((l) => l.id === lId))
+      .filter(Boolean) as Learnable[]
+  })
+  collections = this._lStore.collections
+  selectedCollectionId = signal<string | null>(null)
 
   private filter = signal<LearnablesFilterConfig | null>(null)
 
-  hasSelected = computed(() => this.selectedLearnableIds().length > 0)
   selectedLearnableIds = signal<string[]>([])
 
   selectedLearnables = computed(() =>
     this._learnables().filter((l) => this.selectedLearnableIds().includes(l.id))
   )
+
   learnableLexemes = computed(() =>
     this.selectedLearnables().map((l) => l.lexeme)
   )
@@ -63,28 +84,66 @@ export class OverviewComp {
     return filterLearnables(this._learnables(), filter)
   })
 
-  resetSelection() {
+  resetLearnableSelection() {
     this.selectedLearnableIds.set([])
   }
 
+  confirmCollectionAdd({ createName, addToId }: ConfirmCollectionAddType) {
+    const selectedIDs = this.selectedLearnableIds()
+    if (createName) {
+      this._lStore.createCollection(createName, selectedIDs)
+    }
+    if (addToId) {
+      this._lStore.editCollectionLearnables(addToId, selectedIDs, [])
+    }
+    this.selectedLearnableIds.set([])
+    this.collectionAddModal().close()
+  }
+
+  removeSelectionFromCollection() {
+    const collectionId = this.selectedCollectionId()
+    if (!collectionId) return
+    this._lStore.editCollectionLearnables(
+      collectionId,
+      [],
+      [...this.selectedLearnableIds()]
+    )
+  }
+
   confirmAdd(learnables: LearnableBase[]) {
-    this._learnablesS.addLearnables(learnables)
+    const learnablesLengthBeforeAdd = this._lStore.learnables().length
+
+    // save new learnables to the store
+    this._addAndMarkLearnables(learnables)
     this.addModal().close()
   }
 
   confirmEdit(conf: ConfirmationType) {
-    this._learnablesS.updateLearnables(conf.update)
-    this._learnablesS.removeLearnables(conf.deleteIDs)
-    this._learnablesS.addLearnables(conf.add)
+    this._lStore.updateLearnables(conf.update)
+    this._lStore.removeLearnables(conf.deleteIDs)
+    this._addAndMarkLearnables(conf.add)
     this.bulkEditModal().close()
+  }
+
+  private _addAndMarkLearnables(learnables: LearnableBase[]) {
+    this._lStore.addLearnables(learnables)
+    this.selectedLearnableIds.set(this._lStore.addedLatestIDs())
+    const collectionId = this.selectedCollectionId()
+    if (collectionId) {
+      this._lStore.editCollectionLearnables(
+        collectionId,
+        this._lStore.addedLatestIDs(),
+        []
+      )
+    }
   }
 
   confirmDelete() {
     this.deleteModal().close()
-    this._learnablesS.removeLearnables(this.selectedLearnableIds())
+    this._lStore.removeLearnables(this.selectedLearnableIds())
   }
 
-  toggleSelection(lId: string) {
+  toggleLearnableSelection(lId: string) {
     if (this.selectedLearnableIds().includes(lId)) {
       this.selectedLearnableIds.update((s) => s.filter((id) => id !== lId))
     } else {
@@ -98,5 +157,12 @@ export class OverviewComp {
 
   updateFilter(filter: LearnablesFilterConfig) {
     this.filter.set(filter)
+  }
+
+  selectCollection(collectionId: string | null) {
+    if (collectionId !== this.selectedCollectionId()) {
+      this.selectedLearnableIds.set([])
+    }
+    this.selectedCollectionId.set(collectionId)
   }
 }

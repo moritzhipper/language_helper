@@ -1,6 +1,8 @@
 import {
+  ExportedCollection,
   Learnable,
   LearnableBase,
+  LearnableCollection,
   LearnablePartialWithId,
   LearnablesStoreType
 } from '../types_and_schemas/types'
@@ -24,10 +26,12 @@ export const saveNewLearnables =
   (state: LearnablesStoreType): LearnablesStoreType => {
     const learnables = mapBaseToFullToLearnables(learnablesBase)
     const filteredLearnables = filterDoubleEntries(learnables)
+    const addedIDs = filteredLearnables.map((l) => l.id)
 
     return {
       ...state,
-      learnables: [...filteredLearnables, ...state.learnables]
+      learnables: [...filteredLearnables, ...state.learnables],
+      addedLatestIDs: addedIDs
     }
   }
 
@@ -118,12 +122,38 @@ const mergeLearnables = (
   }
 }
 
+export const saveImportedCollections =
+  (expCollections: ExportedCollection[]) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const newLearnables: Learnable[] = []
+    const newCollections: LearnableCollection[] = []
+
+    for (const collection of expCollections) {
+      const learnablesFromCollection = mapBaseToFullToLearnables(
+        collection.learnables
+      )
+      const collectionFromExpColl = createNewCollection(
+        collection.name,
+        learnablesFromCollection.map((l) => l.id)
+      )
+      newLearnables.push(...learnablesFromCollection)
+      newCollections.push(collectionFromExpColl)
+    }
+
+    return {
+      ...state,
+      learnables: [...newLearnables, ...state.learnables],
+      collections: [...newCollections, ...state.collections]
+    }
+  }
+
 const mapBaseToFullToLearnables = (
   learnableBase: LearnableBase[]
 ): Learnable[] => {
+  const now = new Date()
   return learnableBase.map((l) => ({
     id: crypto.randomUUID(),
-    created: new Date(),
+    created: now,
     type: l.type,
     lexeme: l.lexeme,
     translation: l.translation,
@@ -196,3 +226,78 @@ export const quitPractice =
     ...state,
     currentPractice: null
   })
+
+export const createCollection =
+  (name: string, ids: string[]) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    return {
+      ...state,
+      collections: [...state.collections, createNewCollection(name, ids)]
+    }
+  }
+
+export const editCollection =
+  (collectionID: string, addIDs: string[], deleteIDs: string[]) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const collections = state.collections.map((c) => {
+      if (c.id !== collectionID) return c
+
+      const updatedLearnables = [
+        ...new Set([
+          ...c.learnableIDs.filter((id) => !deleteIDs.includes(id)),
+          ...addIDs
+        ])
+      ]
+
+      return {
+        ...c,
+        learnableIDs: updatedLearnables
+      }
+    })
+
+    return {
+      ...state,
+      collections
+    }
+  }
+
+export const deleteCollection =
+  (id: string) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const collections = state.collections.filter((c) => c.id !== id)
+
+    return {
+      ...state,
+      collections
+    }
+  }
+
+export const renameCollection =
+  (id: string, name: string) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    debugger
+    const collections = state.collections.map((c) => {
+      if (c.id !== id) return c
+
+      return {
+        ...c,
+        name
+      }
+    })
+
+    return {
+      ...state,
+      collections
+    }
+  }
+
+const createNewCollection = (
+  name: string,
+  ids: string[]
+): LearnableCollection => ({
+  id: crypto.randomUUID(),
+  created: new Date(),
+  name,
+  learnableIDs: ids,
+  practicedDates: []
+})

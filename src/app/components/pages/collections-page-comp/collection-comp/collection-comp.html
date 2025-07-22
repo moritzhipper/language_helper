@@ -1,0 +1,11 @@
+@let coll = collection();
+<div class="name">
+  {{ coll.name }}
+</div>
+<div class="score">
+  <span class="percent"> {{ avgGuessesPercent() }}% </span>
+  <span class="label"> confidence </span>
+</div>
+<div class="info">
+  {{ coll.learnableIDs.length }} cards | {{ coll.created | date: 'MMMM d, y' }}
+</div>

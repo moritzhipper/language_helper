@@ -1,0 +1,49 @@
+@use '../../../../style/mixins.scss' as *;
+
+.collections {
+  display: grid;
+  gap: var(--distance-4);
+  margin-top: var(--distance-4);
+}
+
+.collection {
+  border-radius: var(--radius-2);
+  border: 2px solid var(--col-accent);
+  overflow: hidden;
+
+  &.selected {
+    border: 2px solid rgb(from var(--col-primary) r g b / var(--opacity-1));
+  }
+}
+
+input[type='file'] {
+  display: none;
+}
+
+.import {
+  padding: var(--distance-4);
+}
+.edit-bubbles {
+  .export {
+    padding: var(--distance-3);
+  }
+
+  &:not(.collection-selected) {
+    .edit,
+    .delete,
+    .export {
+      display: none;
+    }
+  }
+}
+@include isDesktop() {
+  .collections {
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  }
+}
+
+@include isPhone() {
+  .collections {
+    grid-template-columns: 1fr;
+  }
+}

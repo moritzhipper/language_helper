@@ -97,7 +97,12 @@
           label="type"
         />
         <app-radio-comp
-          [config]="[{ value: 'low' }, { value: 'medium' }, { value: 'high' }]"
+          [config]="[
+            { value: 'low' },
+            { value: 'medium' },
+            { value: 'high' },
+            { value: 'all' }
+          ]"
           formControlName="confidence"
           label="card confidence level"
         />

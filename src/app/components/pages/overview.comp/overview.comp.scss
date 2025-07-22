@@ -1,5 +1,22 @@
-app-filter-form-comp {
-  margin-bottom: var(--distance-4);
+.collections {
+  display: flex;
+  gap: var(--distance-2);
+
+  overflow-x: scroll;
+  scrollbar-width: none;
+
+  .collection {
+    text-wrap: nowrap;
+    margin-bottom: var(--distance-5);
+    font-size: var(--font-size-2);
+    font-weight: var(--font-weight-bold);
+    &:not(.selected) {
+      opacity: var(--opacity-1);
+    }
+    &.selected {
+      opacity: 1;
+    }
+  }
 }
 
 .learnables {
@@ -13,7 +30,6 @@ app-filter-form-comp {
     border: 2px solid rgb(from var(--col-accent) r g b / var(--opacity-1));
     border-radius: var(--radius-1);
     padding: 0;
-    transition: border var(--duration-0);
 
     &.selected {
       border: 2px solid rgb(from var(--col-primary) r g b / var(--opacity-1));
@@ -21,48 +37,49 @@ app-filter-form-comp {
   }
 }
 
-.edit-section {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  z-index: 10;
-  display: flex;
-  padding: var(--distance-4);
-  gap: var(--distance-2);
-  flex-flow: row-reverse;
-  align-items: end;
+.edit-bubbles {
+  .ai {
+    padding: var(--distance-4);
+  }
+  .manual {
+    padding: var(--distance-3);
+  }
+  .reset {
+    padding: var(--distance-3);
+  }
+  .edit {
+    display: grid;
 
-  button {
-    box-shadow: var(--shadow-big);
-    border-radius: 100%;
-
-    &.create {
-      background-color: var(--col-primary);
-      color: var(--col-bg);
-
-      &.ai {
-        padding: var(--distance-4);
-      }
-      &.manual {
-        padding: var(--distance-3);
-      }
+    place-items: center;
+    span {
+      font-size: 8px;
     }
 
-    &.edit {
-      display: grid;
+    span,
+    app-icon-comp {
+      grid-area: 1 /1;
+    }
+  }
+  &:not(.cards-selected) {
+    .reset,
+    .trash,
+    .add-to-collection,
+    .remove-from-collection {
+      display: none;
+    }
+  }
 
-      place-items: center;
-      span {
-        font-size: 8px;
-      }
-
-      span,
-      app-icon-comp {
-        grid-area: 1 /1;
-      }
-      background-color: var(--col-primary);
-      padding: var(--distance-2);
-      color: var(--col-bg);
+  &.cards-selected {
+    .manual {
+      padding: var(--distance-4);
+    }
+    .ai {
+      display: none;
+    }
+  }
+  &:not(.collection-selected) {
+    .remove-from-collection {
+      display: none;
     }
   }
 }

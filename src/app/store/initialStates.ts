@@ -4,7 +4,9 @@ import {
 } from '../types_and_schemas/types'
 
 export const initialLearnables: LearnablesStoreType = {
+  collections: [],
   learnables: [],
+  addedLatestIDs: [],
   currentPractice: null
 }
 export const initialSettings: SettingsStoreType = {

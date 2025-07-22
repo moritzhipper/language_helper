@@ -26,10 +26,10 @@ export class FilterFormComp {
 
   form = this._fb.group<LearnablesFilterConfig>({
     type: 'all',
-    confidence: 'low',
+    confidence: 'all',
+    age: 'all',
     orderBy: 'created',
     order: 'asc',
-    age: 'all',
     search: ''
   })
 
@@ -41,6 +41,7 @@ export class FilterFormComp {
     effect(() => {
       const filter = this.formSignal() as LearnablesFilterConfig
       untracked(() => {
+        console.log('Filter updated:', filter)
         this.filter.emit(filter)
       })
     })

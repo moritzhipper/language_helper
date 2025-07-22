@@ -54,12 +54,13 @@
         width: 10px;
         height: 10px;
         border-radius: 100%;
+        background-color: var(--col-primary);
       }
       .wrong {
-        background-color: rgb(from var(--col-primary) r g b / var(--opacity-0));
+        opacity: var(--opacity-0);
       }
       .right {
-        background-color: var(--col-primary);
+        opacity: var(--opacity-1);
       }
     }
   }

@@ -1,15 +1,21 @@
-<form [formGroup]="form" [class.expanded]="showFilter()">
-  <label>
-    <span>search</span>
-    <input type="text" formControlName="search" />
-  </label>
-  <app-radio-comp
-    [config]="[{ value: 'low' }, { value: 'medium' }, { value: 'high' }]"
-    formControlName="confidence"
-    label="confidence"
-  />
-
+<form [formGroup]="form" [class.opened]="showFilter()">
   @if (showFilter()) {
+    <label class="search">
+      <span>search</span>
+      <input type="text" formControlName="search" />
+    </label>
+    <app-radio-comp
+      class="confidence"
+      [config]="[
+        { value: 'all' },
+        { value: 'low' },
+        { value: 'medium' },
+        { value: 'high' }
+      ]"
+      formControlName="confidence"
+      label="confidence"
+    />
+
     <app-radio-comp
       [config]="[{ value: 'all' }, { value: 'newerThanOneDay', label: 'new' }]"
       formControlName="age"
@@ -26,7 +32,7 @@
       [config]="[
         { value: 'created' },
         { value: 'lexeme' },
-        { value: 'wrongGuesses', label: 'wrong guesses' }
+        { value: 'confidence' }
       ]"
       formControlName="orderBy"
       label="order by"
@@ -38,8 +44,12 @@
       label="order"
     />
   }
-
-  <button class="expand" type="button" (click)="toggleExpanded()">
+  <button
+    class="toggle silent"
+    type="button"
+    (click)="toggleExpanded()"
+    [class.expanded]="showFilter()"
+  >
     <span>filter</span>
     <app-icon-comp type="chevron" [size]="30" class="icon" />
   </button>

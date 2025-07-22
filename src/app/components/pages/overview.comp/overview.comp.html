@@ -1,30 +1,61 @@
-<app-page-wrapper-comp title="Overview" [shrinkOnDesktop]="false">
+<app-page-wrapper-comp title="Cards" [shrinkOnDesktop]="false">
+  <div class="collections">
+    <button
+      class="silent collection"
+      (click)="selectCollection(null)"
+      [class.selected]="!selectedCollectionId()"
+    >
+      All
+    </button>
+    @for (collection of collections(); track collection.id) {
+      <button
+        class="silent collection"
+        [class.selected]="selectedCollectionId() === collection.id"
+        (click)="selectCollection(collection.id)"
+      >
+        {{ collection.name }}
+      </button>
+    }
+  </div>
   <app-filter-form-comp (filter)="updateFilter($event)" />
-  <div class="edit-section">
+  <div
+    class="edit-bubbles"
+    [class]="{
+      'collection-selected': selectedCollectionId(),
+      'cards-selected': selectedLearnables().length > 0
+    }"
+  >
     <button (click)="addModal.open()" class="create ai">
       <app-icon-comp type="magic" />
     </button>
     <button (click)="bulkEditModal.open()" class="create manual">
       <app-icon-comp type="pen" />
     </button>
-    @if (hasSelected()) {
-      <button (click)="deleteModal.open()" class="edit">
-        <app-icon-comp type="trash" />
-      </button>
-      <button (click)="resetSelection()" class="edit">
-        <span>
-          {{ selectedLearnables().length }}
-        </span>
-        <app-icon-comp type="reset" />
-      </button>
-    }
+    <button (click)="resetLearnableSelection()" class="edit reset">
+      <span>
+        {{ selectedLearnables().length }}
+      </span>
+      <app-icon-comp type="reset" />
+    </button>
+    <button (click)="collectionAddModal.open()" class="edit add-to-collection">
+      <app-icon-comp type="collection-add" />
+    </button>
+    <button
+      (click)="removeSelectionFromCollection()"
+      class="edit remove-from-collection"
+    >
+      <app-icon-comp type="collection-remove" />
+    </button>
+    <button (click)="deleteModal.open()" class="edit trash">
+      <app-icon-comp type="trash" />
+    </button>
   </div>
 
   <div class="learnables">
     @for (learnable of filteredLearnables(); track learnable.id) {
       <button
         class="l"
-        (click)="toggleSelection(learnable.id)"
+        (click)="toggleLearnableSelection(learnable.id)"
         [class.selected]="isSelected(learnable.id)"
       >
         <app-learnable-comp [learnable]="learnable" />
@@ -56,4 +87,11 @@
       {{ selectedLearnables().length }}
     </app-counter-comp>
   </app-confirm-form-comp>
+</app-modal-wrapper-comp>
+<app-modal-wrapper-comp #collectionAddModal>
+  <app-collection-add-comp
+    [collections]="collections()"
+    (cancel)="collectionAddModal.close()"
+    (confirm)="confirmCollectionAdd($event)"
+  />
 </app-modal-wrapper-comp>
