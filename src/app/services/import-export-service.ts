@@ -23,7 +23,7 @@ export class ImportExportService {
     const blob = new Blob([jsonString], { type: 'application/json' })
     const blobUrl = URL.createObjectURL(blob)
 
-    const name = `Language Helper Cards - ${fileName} - ${new Date().toDateString()}.json`
+    const name = `Language Helper Cards - ${fileName} - ${new Date().toDateString()}.vocab`
 
     this._blobUrl = blobUrl
 

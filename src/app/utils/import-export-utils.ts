@@ -39,7 +39,7 @@ export const mapFromExpCollection = (
 export const verifiyImportedFileValidity = (file: File): void => {
   const contentIsCorrectFormat = file.type === 'application/json'
   const fileSuffixIsCorrect =
-    file.name.split('.').pop()?.toLowerCase() === 'json'
+    file.name.split('.').pop()?.toLowerCase() === 'vocab'
 
   if (!contentIsCorrectFormat) {
     throw new Error('Faulty file content.')
