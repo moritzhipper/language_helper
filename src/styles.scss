@@ -30,7 +30,8 @@ a {
 }
 
 textarea,
-input {
+input,
+select {
   font-size: var(--font-size-1);
 }
 
@@ -78,7 +79,8 @@ a,
 input,
 textarea,
 button.small,
-button.big {
+button.big,
+select {
   background-color: var(--col-accent);
   color: var(--col-text);
 
@@ -97,7 +99,8 @@ label {
   }
 }
 
-input {
+input,
+select {
   padding: var(--distance-3) var(--distance-4);
 }
 

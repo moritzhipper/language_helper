@@ -91,14 +91,6 @@
       </app-counter-comp>
 
       <form [formGroup]="form">
-        <select formControlName="collection">
-          @for (collection of collections(); track collection.id) {
-            <option value="all">all cards</option>
-            <option [value]="collection.id">
-              {{ collection.name }}
-            </option>
-          }
-        </select>
         <app-radio-comp
           [config]="[{ value: 'all' }, { value: 'word' }, { value: 'phrase' }]"
           formControlName="type"
@@ -122,6 +114,17 @@
           label="guess language"
           formControlName="reverseDirection"
         />
+        <label>
+          <span> collection </span>
+          <select formControlName="collection">
+            <option value="all">all cards</option>
+            @for (collection of collections(); track collection.id) {
+              <option [value]="collection.id">
+                {{ collection.name }}
+              </option>
+            }
+          </select>
+        </label>
         <button
           class="big"
           (click)="start()"
