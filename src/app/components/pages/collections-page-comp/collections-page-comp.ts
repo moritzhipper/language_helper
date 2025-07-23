@@ -56,7 +56,6 @@ export class CollectionsPageComp {
   collectionDownload = computed(() => {
     const collection = this.selectedCollection()
     if (!collection) return null
-    console.log({ collection })
 
     return this._makeBlobS.createDownloadableFromLearnables(
       this._lState.getExportableCollections(collection.id),
@@ -128,6 +127,8 @@ export class CollectionsPageComp {
       ...l.guesses.lexeme,
       ...l.guesses.translation
     ])
+
+    if (allGuesses.length === 0) return 0
 
     const trueGuesses = allGuesses.filter(Boolean).length
     const confidencePercent = trueGuesses / allGuesses.length

@@ -3,8 +3,6 @@
 ## Right Now
 
 - show popup after import
-- add collection selector in practice view
-- add notes function in learning view
 
 - form width auf desktop min width setzen
 
@@ -12,6 +10,7 @@ remove collection mentions on remove -> just iterate through all collections and
 
 ## Later
 
+- add notes function in learning view
 - rename to learn with me (github, config, everything)
 - add favicon
 - add empty states

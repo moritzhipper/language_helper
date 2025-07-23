@@ -75,10 +75,32 @@ export const removeLearnables =
   (ids: string[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     const learnables = state.learnables.filter((l) => !ids.includes(l.id))
+    const remainingIDs = learnables.map((l) => l.id)
+
+    // remove all dead ids from collections
+    const collections = state.collections.map((c) => ({
+      ...c,
+      learnableIDs: c.learnableIDs.filter((id) => remainingIDs.includes(id))
+    }))
+
+    // reset practice to prevent lost ids and loose indexes in practice
+    const currentPracticeHasDeletedIds = state.currentPractice?.ids.some((id) =>
+      ids.includes(id)
+    )
+
+    if (currentPracticeHasDeletedIds) {
+      return {
+        ...state,
+        learnables,
+        collections,
+        currentPractice: null
+      }
+    }
 
     return {
       ...state,
-      learnables
+      learnables,
+      collections
     }
   }
 
