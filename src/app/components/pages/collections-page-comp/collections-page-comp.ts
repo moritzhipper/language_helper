@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal, viewChild } from '@angular/core'
 import { config } from '../../../../config'
-import { ImportExportService } from '../../../services/import-export-service'
+import { BlobService } from '../../../services/blob-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
@@ -30,7 +30,7 @@ import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
 export class CollectionsPageComp {
   private readonly _lState = inject(LearnablesStore)
   private readonly _toastS = inject(ToastService)
-  private readonly _makeBlobS = inject(ImportExportService)
+  private readonly _makeBlobS = inject(BlobService)
 
   private deleteCollectionModal = viewChild.required<ModalWrapperComp>(
     'deleteCollectionModal'

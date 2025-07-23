@@ -10,7 +10,7 @@ type Downloadable = {
 @Injectable({
   providedIn: 'root'
 })
-export class ImportExportService {
+export class BlobService {
   private _blobUrl = ''
   config = config
 

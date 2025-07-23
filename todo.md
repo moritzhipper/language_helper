@@ -10,17 +10,11 @@ remove collection mentions on remove -> just iterate through all collections and
 
 ## Later
 
-- add notes function in learning view
 - rename to learn with me (github, config, everything)
 - add favicon
-- add empty states
 - linked signal anstatt getExportable store method?
 - unify naming of components (.comp vs -comp)
-- rename FIleImportService back to Blobservice
 - fix place where import export methods are put: some in store, some in utils, some in components
-  sned toasts after succesfull import
-- allow in practice view:
-  - selection of collection OR all cards with max amount of cards (use slider)
 - empty states
 
 - refactor forms handling to allow escape to cancel
@@ -34,6 +28,7 @@ remove collection mentions on remove -> just iterate through all collections and
   - "spaced repetition"
   - show last practice times in collection view
   - also show stats like in practice comp
+- add notes function in learning view
 
 # sources
 
