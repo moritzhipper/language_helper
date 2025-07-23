@@ -8,19 +8,18 @@
 
 remove collection mentions on remove -> just iterate through all collections and remove cardids of not exisitng cards? use bridge table?
 
+- import cards functionality (using zod as validation)
+  - export and import not only exports the cards, but also a collection having all of the card ids
+
 ## Later
 
 - rename to learn with me (github, config, everything)
-- add favicon
 - linked signal anstatt getExportable store method?
 - unify naming of components (.comp vs -comp)
 - fix place where import export methods are put: some in store, some in utils, some in components
 - empty states
 
 - refactor forms handling to allow escape to cancel
-- import cards functionality (using zod as validation)
-  - export and import not only exports the cards, but also a collection having all of the card ids
-  - request name of collection on export
 - prohibit scroll on open modal
 - close navbar after selection of link
 

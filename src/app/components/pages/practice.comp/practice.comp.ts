@@ -51,7 +51,7 @@ export class PracticeComp {
   form = this._fb.group({
     type: 'all',
     collection: 'all',
-    confidence: 'low',
+    confidence: 'all',
     reverseDirection: false
   })
   private readonly _formSignal = toSignal(this.form.valueChanges, {

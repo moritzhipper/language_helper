@@ -35,8 +35,17 @@
   box-shadow: var(--shadow-small);
 }
 
-.link.practice.practicing {
-  animation: pulse 2s infinite;
+:host {
+  &.practicing.links-open {
+    .practice {
+      animation: pulse 2s infinite;
+    }
+  }
+  &.practicing:not(.links-open) {
+    .toggle {
+      animation: pulse 2s infinite;
+    }
+  }
 }
 
 @keyframes pulse {
