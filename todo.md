@@ -2,8 +2,6 @@
 
 ## Right Now
 
-- add config file, add: suffix, exportfile name
-- add favicon
 - show popup after import
 - add collection selector in practice view
 - add notes function in learning view
@@ -14,6 +12,9 @@ remove collection mentions on remove -> just iterate through all collections and
 
 ## Later
 
+- rename to learn with me (github, config, everything)
+- add favicon
+- add empty states
 - linked signal anstatt getExportable store method?
 - unify naming of components (.comp vs -comp)
 - rename FIleImportService back to Blobservice

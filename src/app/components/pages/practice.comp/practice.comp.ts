@@ -50,6 +50,7 @@ export class PracticeComp {
   private readonly _fb = inject(NonNullableFormBuilder)
   form = this._fb.group({
     type: 'all',
+    collection: 'all',
     confidence: 'low',
     reverseDirection: false
   })
@@ -58,6 +59,7 @@ export class PracticeComp {
   })
 
   private readonly learnablesS = inject(LearnablesStore)
+  collections = this.learnablesS.collections
 
   isRevealed = signal(false)
   showStats = signal(false)
@@ -107,10 +109,22 @@ export class PracticeComp {
       type: formValue.type,
       confidence: formValue.confidence
     } as LearnablesFilterConfig
-    if (!filter) return []
 
-    const learnables = this.learnablesS.learnables()
-    return filterLearnables(learnables, filter).map((l) => l.id)
+    const allLearnableIDsFiltered = filterLearnables(
+      this.learnablesS.learnables(),
+      filter
+    ).map((l) => l.id)
+
+    const selectedCollection = this.collections().find(
+      (c) => c.id === formValue.collection
+    )
+
+    if (selectedCollection) {
+      return allLearnableIDsFiltered.filter((id) =>
+        selectedCollection.learnableIDs.includes(id)
+      )
+    }
+    return allLearnableIDsFiltered
   })
 
   hasFinishedPractice = computed(() => {
