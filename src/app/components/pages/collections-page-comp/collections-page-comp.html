@@ -7,7 +7,7 @@
       <app-icon-comp type="import" />
       <input
         type="file"
-        [accept]="config.fileExportSuffix"
+        [accept]="'.' + config.fileExportSuffix"
         #fileInput
         (change)="importCollection($event)"
       />

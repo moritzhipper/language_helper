@@ -4,29 +4,28 @@
 
 - show popup after import
 
-- form width auf desktop min width setzen
+- export ids with collections to prevent double exports
 
-remove collection mentions on remove -> just iterate through all collections and remove cardids of not exisitng cards? use bridge table?
-
+- export and import leads to double IDs -> fix somehow
 - import cards functionality (using zod as validation)
   - export and import not only exports the cards, but also a collection having all of the card ids
 
 ## Later
 
 - rename to learn with me (github, config, everything)
-- linked signal anstatt getExportable store method?
 - unify naming of components (.comp vs -comp)
 - fix place where import export methods are put: some in store, some in utils, some in components
 - empty states
 
 - refactor forms handling to allow escape to cancel
 - prohibit scroll on open modal
-- close navbar after selection of link
+- form width auf desktop min width setzen
 
 - save practices history
   - "spaced repetition"
   - show last practice times in collection view
   - also show stats like in practice comp
+
 - add notes function in learning view
 
 # sources

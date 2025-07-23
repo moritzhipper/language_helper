@@ -1,35 +1,55 @@
-import { ExportCollectionArraySchema } from '../types_and_schemas/schemas'
+import { config } from '../../config'
+import { StoreExportSchema } from '../types_and_schemas/schemas'
 import {
-  ExportedCollection,
+  CollectionExport,
   Learnable,
-  LearnableCollection
+  LearnableCollection,
+  LearnableExport,
+  StoreExport
 } from '../types_and_schemas/types'
 
-export const mapToExpCollection = (
-  allLearnables: Learnable[],
-  collection: LearnableCollection
-): ExportedCollection => {
-  const relevantLearnables = allLearnables.filter((l) =>
-    collection.learnableIDs.includes(l.id)
+export const mapToExport = (
+  learnables: Learnable[],
+  collections: LearnableCollection[]
+): StoreExport => {
+  const relevantLearnables: Learnable[] = []
+  const collectionWasSpecified = collections.length > 0
+
+  // when no collection was specified, export all learnables
+  // otherwise, only export learnables that are in the specified collections
+  if (!collectionWasSpecified) {
+    relevantLearnables.push(...learnables)
+  } else {
+    const relevantIds = collections.flatMap((c) => c.learnableIDs)
+    const filteredLearnables = learnables.filter((l) =>
+      relevantIds.includes(l.id)
+    )
+    relevantLearnables.push(...filteredLearnables)
+  }
+
+  const learnableExp: LearnableExport[] = relevantLearnables.map(
+    (learnable) => ({
+      lexeme: learnable.lexeme,
+      translation: learnable.translation,
+      type: learnable.type,
+      notes: learnable.notes,
+      id: learnable.id
+    })
   )
-  const baseLearnables = relevantLearnables.map((learnable) => ({
-    lexeme: learnable.lexeme,
-    translation: learnable.translation,
-    type: learnable.type,
-    notes: learnable.notes
+  const collectionExp: CollectionExport[] = collections.map((c) => ({
+    name: c.name,
+    learnableIDs: c.learnableIDs
   }))
 
   return {
-    learnables: baseLearnables,
-    name: collection.name
+    learnables: learnableExp,
+    collections: collectionExp
   }
 }
 
-export const mapFromExpCollection = (
-  fileAsString: string
-): ExportedCollection[] => {
+export const mapFromExpCollection = (fileAsString: string): StoreExport => {
   try {
-    return ExportCollectionArraySchema.parse(JSON.parse(fileAsString))
+    return StoreExportSchema.parse(JSON.parse(fileAsString))
   } catch (e) {
     console.error('Failed to parse learnables from file:', e)
     throw new Error('Invalid file format')
@@ -37,9 +57,10 @@ export const mapFromExpCollection = (
 }
 
 export const verifiyImportedFileValidity = (file: File): void => {
+  debugger
   const contentIsCorrectFormat = file.type === 'application/json'
   const fileSuffixIsCorrect =
-    file.name.split('.').pop()?.toLowerCase() === 'vocab'
+    file.name.split('.').pop()?.toLowerCase() === config.fileExportSuffix
 
   if (!contentIsCorrectFormat) {
     throw new Error('Faulty file content.')

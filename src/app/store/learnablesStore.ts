@@ -3,11 +3,11 @@ import { inject } from '@angular/core'
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals'
 import { AiService } from '../services/ai.service'
 import {
-  ExportedCollection,
   LearnableBase,
-  LearnablePartialWithId
+  LearnablePartialWithId,
+  StoreExport
 } from '../types_and_schemas/types'
-import { mapToExpCollection } from '../utils/import-export-utils'
+import { mapToExport } from '../utils/import-export-utils'
 import { initialLearnables } from './initialStates'
 import {
   createCollection,
@@ -60,21 +60,14 @@ export const LearnablesStore = signalStore(
           editCollectionLearnables(collectionID, addIDs, deleteIDs)
         )
       },
-      getExportableCollections(
-        onlyForCollectionId?: string
-      ): ExportedCollection[] {
-        // return all when no id is peciffied
-        const collections = state
-          .collections()
-          .filter((c) =>
-            onlyForCollectionId ? c.id === onlyForCollectionId : true
-          )
+      getExportableCollections(onlyForCollectionId?: string): StoreExport {
+        const relevantCollection =
+          state.collections().filter((c) => c.id === onlyForCollectionId) || []
 
-        const allLearnables = state.learnables()
-        return collections.map((c) => mapToExpCollection(allLearnables, c))
+        return mapToExport(state.learnables(), relevantCollection)
       },
-      importExportedCollections(impCollections: ExportedCollection[]) {
-        patchState(state, saveImportedCollections(impCollections))
+      importExportedCollections(importStore: StoreExport) {
+        patchState(state, saveImportedCollections(importStore))
       },
       editCollection(name: string, id: string) {
         patchState(state, renameCollection(name, id))

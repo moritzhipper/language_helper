@@ -35,9 +35,6 @@ export class SettingsComp {
   private readonly deleteModal =
     viewChild.required<ModalWrapperComp>('deleteModal')
 
-  // only delete after tree consecutive presses
-  private deleteTimeout: ReturnType<typeof setTimeout> | null = null
-
   tokensUsed = this._settingsS.tokensUsed
   learnables = this._languageS.learnables
   collections = this._languageS.collections

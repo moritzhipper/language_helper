@@ -1,10 +1,12 @@
 import {
-  ExportedCollection,
+  CollectionExport,
   Learnable,
   LearnableBase,
   LearnableCollection,
+  LearnableExport,
   LearnablePartialWithId,
-  LearnablesStoreType
+  LearnablesStoreType,
+  StoreExport
 } from '../types_and_schemas/types'
 
 export const startPractice =
@@ -145,22 +147,13 @@ const mergeLearnables = (
 }
 
 export const saveImportedCollections =
-  (expCollections: ExportedCollection[]) =>
+  (storeImport: StoreExport) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const newLearnables: Learnable[] = []
-    const newCollections: LearnableCollection[] = []
-
-    for (const collection of expCollections) {
-      const learnablesFromCollection = mapBaseToFullToLearnables(
-        collection.learnables
-      )
-      const collectionFromExpColl = createNewCollection(
-        collection.name,
-        learnablesFromCollection.map((l) => l.id)
-      )
-      newLearnables.push(...learnablesFromCollection)
-      newCollections.push(collectionFromExpColl)
-    }
+    const newLearnables: Learnable[] = mapLearnableExportToFullLearnable(
+      storeImport.learnables
+    )
+    const newCollections: LearnableCollection[] =
+      mapCollectionExportToFullCollection(storeImport.collections)
 
     return {
       ...state,
@@ -179,11 +172,43 @@ const mapBaseToFullToLearnables = (
     type: l.type,
     lexeme: l.lexeme,
     translation: l.translation,
-    notes: l.notes || '',
+    notes: l.notes,
     guesses: {
       lexeme: [false, false, false, false, false],
       translation: [false, false, false, false, false]
     }
+  }))
+}
+
+const mapLearnableExportToFullLearnable = (
+  learnable: LearnableExport[]
+): Learnable[] => {
+  const now = new Date()
+  return learnable.map((l) => ({
+    id: l.id,
+    created: now,
+    type: l.type,
+    lexeme: l.lexeme,
+    translation: l.translation,
+    notes: l.notes,
+    guesses: {
+      lexeme: [false, false, false, false, false],
+      translation: [false, false, false, false, false]
+    }
+  }))
+}
+
+const mapCollectionExportToFullCollection = (
+  collections: CollectionExport[]
+): LearnableCollection[] => {
+  const now = new Date()
+
+  return collections.map((c) => ({
+    id: crypto.randomUUID(),
+    created: now,
+    name: c.name,
+    learnableIDs: c.learnableIDs,
+    practicedDates: []
   }))
 }
 
