@@ -61,6 +61,7 @@ export class OverviewComp {
       .map((lId) => learnables.find((l) => l.id === lId))
       .filter(Boolean) as Learnable[]
   })
+
   collections = this._lStore.collections
   selectedCollectionId = signal<string | null>(null)
 

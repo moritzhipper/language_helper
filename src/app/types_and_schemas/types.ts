@@ -66,3 +66,8 @@ export type LearnablesFilterConfig = {
   confidence?: 'high' | 'medium' | 'low' | 'all'
   search?: string
 }
+
+export type AppConfig = {
+  fileExportName: string
+  fileExportSuffix: string
+}

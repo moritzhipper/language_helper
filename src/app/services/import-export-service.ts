@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { config } from '../../config'
 import { ExportedCollection } from '../types_and_schemas/types'
 
 type Downloadable = {
@@ -11,6 +12,7 @@ type Downloadable = {
 })
 export class ImportExportService {
   private _blobUrl = ''
+  config = config
 
   // use service for this to handle revoking last blob for better memory management
   createDownloadableFromLearnables(
@@ -23,7 +25,7 @@ export class ImportExportService {
     const blob = new Blob([jsonString], { type: 'application/json' })
     const blobUrl = URL.createObjectURL(blob)
 
-    const name = `Language Helper Cards - ${fileName} - ${new Date().toDateString()}.vocab`
+    const name = `${this.config.fileExportName} - ${fileName} - ${new Date().toDateString()}${this.config.fileExportSuffix}`
 
     this._blobUrl = blobUrl
 

@@ -2,8 +2,7 @@
 
 ## Right Now
 
-- change file suffix to .vocab
-- add config file, add: suffix
+- add config file, add: suffix, exportfile name
 - add favicon
 - show popup after import
 - add collection selector in practice view
@@ -22,6 +21,7 @@ remove collection mentions on remove -> just iterate through all collections and
   sned toasts after succesfull import
 - allow in practice view:
   - selection of collection OR all cards with max amount of cards (use slider)
+- empty states
 
 - refactor forms handling to allow escape to cancel
 - import cards functionality (using zod as validation)

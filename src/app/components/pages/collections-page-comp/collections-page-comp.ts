@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal, viewChild } from '@angular/core'
+import { config } from '../../../../config'
 import { ImportExportService } from '../../../services/import-export-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
@@ -37,6 +38,8 @@ export class CollectionsPageComp {
   private renameCollectionModal = viewChild.required<ModalWrapperComp>(
     'renameCollectionModal'
   )
+
+  config = config
 
   private fileReader = new FileReader()
 
