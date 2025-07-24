@@ -14,8 +14,8 @@ import { LearnablesFilterConfig } from '../../../types_and_schemas/types'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
+import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { RadioComp } from '../../shared/radio-comp/radio-comp'
-import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
 
 @Component({
   selector: 'app-practice',
@@ -26,8 +26,8 @@ import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
     CounterComp,
     IconComp
   ],
-  templateUrl: './practice.comp.html',
-  styleUrl: './practice.comp.scss'
+  templateUrl: './practice-page-comp.html',
+  styleUrl: './practice-page-comp.scss'
 })
 export class PracticeComp {
   @HostListener('window:keydown', ['$event']) handleKeyDown(

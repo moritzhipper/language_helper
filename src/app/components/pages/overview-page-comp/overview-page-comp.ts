@@ -11,7 +11,7 @@ import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-com
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
-import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
+import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { BulkEditComp, ConfirmationType } from './bulk-add-comp/bulk-edit-comp'
 import {
   CollectionAddComp,
@@ -23,8 +23,8 @@ import { MagicAddComp } from './magic-add-comp/magic-add-comp'
 
 @Component({
   selector: 'app-overview',
-  templateUrl: './overview.comp.html',
-  styleUrl: './overview.comp.scss',
+  templateUrl: './overview-page-comp.html',
+  styleUrl: './overview-page-comp.scss',
   imports: [
     ReactiveFormsModule,
     LearnableComp,

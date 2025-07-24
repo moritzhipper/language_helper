@@ -14,7 +14,7 @@ import { SettingsStore } from '../../../store/settingsStore'
 import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-comp'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
 import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
-import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
+import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 @Component({
   selector: 'app-settings.comp',
   imports: [
@@ -24,8 +24,8 @@ import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
     ModalWrapperComp,
     ConfirmFormComp
   ],
-  templateUrl: './settings.comp.html',
-  styleUrl: './settings.comp.scss'
+  templateUrl: './settings-page-comp.html',
+  styleUrl: './settings-page-comp.scss'
 })
 export class SettingsComp {
   private readonly _settingsS = inject(SettingsStore)

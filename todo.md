@@ -3,12 +3,11 @@
 ## Right Now
 
 - show popup after import
-- add option 'remove learnables'
+- add option 'remove learnables' in delete collection form
 
 ## Later
 
 - rename to learn with me (github, config, everything)
-- unify naming of components (.comp vs -comp)
 - fix place where import export methods are put: some in store, some in utils, some in components
 - empty states
 

@@ -10,7 +10,7 @@ import {
 import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
-import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
+import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { CollectionComp } from './collection-comp/collection-comp'
 import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
 

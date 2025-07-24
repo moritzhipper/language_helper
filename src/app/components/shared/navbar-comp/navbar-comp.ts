@@ -8,8 +8,8 @@ import { IconComp } from '../icon-comp/icon-comp'
 @Component({
   selector: 'app-navbar',
   imports: [ReactiveFormsModule, IconComp, RouterModule],
-  templateUrl: './navbar.comp.html',
-  styleUrl: './navbar.comp.scss',
+  templateUrl: './navbar-comp.html',
+  styleUrl: './navbar-comp.scss',
   host: {
     '[class.links-open]': 'linksOpen()',
     '[class.practicing]': 'hasCurrentPractice()'

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
-import { NavbarComp } from './components/shared/navbar.comp/navbar.comp'
+import { NavbarComp } from './components/shared/navbar-comp/navbar-comp'
 import { ToastOutletComp } from './components/shared/toast-outlet-comp/toast-outlet-comp'
 
 @Component({
