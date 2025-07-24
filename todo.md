@@ -2,9 +2,11 @@
 
 ## Right Now
 
-- show popup after import
-
 - export ids with collections to prevent double exports
+- export and import create double ids
+- move allexport and import mappers into one file
+
+- show popup after import
 
 - export and import leads to double IDs -> fix somehow
 - import cards functionality (using zod as validation)

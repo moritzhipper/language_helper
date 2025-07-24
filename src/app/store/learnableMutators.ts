@@ -1,13 +1,12 @@
 import {
-  CollectionExport,
   Learnable,
   LearnableBase,
   LearnableCollection,
-  LearnableExport,
   LearnablePartialWithId,
   LearnablesStoreType,
   StoreExport
 } from '../types_and_schemas/types'
+import { mapFileImportToAddableLearnables } from '../utils/import-export-utils'
 
 export const startPractice =
   (ids: string[], reverseDirection: boolean) =>
@@ -23,7 +22,7 @@ export const startPractice =
     }
   }
 
-export const saveNewLearnables =
+export const saveNewlyCreatedLearnables =
   (learnablesBase: LearnableBase[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     const learnables = mapBaseToFullToLearnables(learnablesBase)
@@ -149,11 +148,8 @@ const mergeLearnables = (
 export const saveImportedCollections =
   (storeImport: StoreExport) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const newLearnables: Learnable[] = mapLearnableExportToFullLearnable(
-      storeImport.learnables
-    )
-    const newCollections: LearnableCollection[] =
-      mapCollectionExportToFullCollection(storeImport.collections)
+    const { learnables: newLearnables, collections: newCollections } =
+      mapFileImportToAddableLearnables(storeImport)
 
     return {
       ...state,
@@ -177,38 +173,6 @@ const mapBaseToFullToLearnables = (
       lexeme: [false, false, false, false, false],
       translation: [false, false, false, false, false]
     }
-  }))
-}
-
-const mapLearnableExportToFullLearnable = (
-  learnable: LearnableExport[]
-): Learnable[] => {
-  const now = new Date()
-  return learnable.map((l) => ({
-    id: l.id,
-    created: now,
-    type: l.type,
-    lexeme: l.lexeme,
-    translation: l.translation,
-    notes: l.notes,
-    guesses: {
-      lexeme: [false, false, false, false, false],
-      translation: [false, false, false, false, false]
-    }
-  }))
-}
-
-const mapCollectionExportToFullCollection = (
-  collections: CollectionExport[]
-): LearnableCollection[] => {
-  const now = new Date()
-
-  return collections.map((c) => ({
-    id: crypto.randomUUID(),
-    created: now,
-    name: c.name,
-    learnableIDs: c.learnableIDs,
-    practicedDates: []
   }))
 }
 

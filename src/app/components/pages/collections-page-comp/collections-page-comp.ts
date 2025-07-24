@@ -4,7 +4,7 @@ import { BlobService } from '../../../services/blob-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
-  mapFromExpCollection,
+  parseFileImportString,
   verifiyImportedFileValidity
 } from '../../../utils/import-export-utils'
 import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-comp'
@@ -105,7 +105,7 @@ export class CollectionsPageComp {
   private _fileReaderLoad = (e: ProgressEvent<FileReader>) => {
     const content = e.target?.result as string
     try {
-      const collections = mapFromExpCollection(content)
+      const collections = parseFileImportString(content)
       this._lState.importExportedCollections(collections)
     } catch (e) {
       this._toastS.showToast({

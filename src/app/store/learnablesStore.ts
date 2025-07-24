@@ -18,7 +18,7 @@ import {
   removeLearnables,
   renameCollection,
   saveImportedCollections,
-  saveNewLearnables,
+  saveNewlyCreatedLearnables,
   setGuess,
   startPractice,
   updateLearnables
@@ -36,7 +36,7 @@ export const LearnablesStore = signalStore(
 
     return {
       addLearnables(learnablesBase: LearnableBase[]) {
-        patchState(state, saveNewLearnables(learnablesBase))
+        patchState(state, saveNewlyCreatedLearnables(learnablesBase))
       },
       updateLearnables(learnables: LearnablePartialWithId[]) {
         patchState(state, updateLearnables(learnables))

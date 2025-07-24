@@ -8,6 +8,9 @@ import {
   StoreExport
 } from '../types_and_schemas/types'
 
+// #region Export Functions
+
+// todo reassign new ids here to prevent double entries on reimport
 export const mapToExport = (
   learnables: Learnable[],
   collections: LearnableCollection[]
@@ -47,7 +50,7 @@ export const mapToExport = (
   }
 }
 
-export const mapFromExpCollection = (fileAsString: string): StoreExport => {
+export const parseFileImportString = (fileAsString: string): StoreExport => {
   try {
     return StoreExportSchema.parse(JSON.parse(fileAsString))
   } catch (e) {
@@ -68,4 +71,52 @@ export const verifiyImportedFileValidity = (file: File): void => {
   if (!fileSuffixIsCorrect) {
     throw new Error('Wrong file extension.')
   }
+}
+
+// #region Import Functions
+
+export const mapFileImportToAddableLearnables = (
+  fileImport: StoreExport
+): { learnables: Learnable[]; collections: LearnableCollection[] } => {
+  const learnables = mapLearnableImportToFullLearnables(fileImport.learnables)
+  const collections = mapCollectionExportToFullCollection(
+    fileImport.collections
+  )
+
+  return {
+    learnables,
+    collections
+  }
+}
+
+export const mapLearnableImportToFullLearnables = (
+  learnable: LearnableExport[]
+): Learnable[] => {
+  const now = new Date()
+  return learnable.map((l) => ({
+    id: l.id,
+    created: now,
+    type: l.type,
+    lexeme: l.lexeme,
+    translation: l.translation,
+    notes: l.notes,
+    guesses: {
+      lexeme: [false, false, false, false, false],
+      translation: [false, false, false, false, false]
+    }
+  }))
+}
+
+export const mapCollectionExportToFullCollection = (
+  collections: CollectionExport[]
+): LearnableCollection[] => {
+  const now = new Date()
+
+  return collections.map((c) => ({
+    id: crypto.randomUUID(),
+    created: now,
+    name: c.name,
+    learnableIDs: c.learnableIDs,
+    practicedDates: []
+  }))
 }
