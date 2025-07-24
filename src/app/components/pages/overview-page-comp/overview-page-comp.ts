@@ -62,6 +62,8 @@ export class OverviewComp {
       .filter(Boolean) as Learnable[]
   })
 
+  cardsVisible = computed(() => this._learnables().length !== 0)
+
   collections = this._lStore.collections
   selectedCollectionId = signal<string | null>(null)
 

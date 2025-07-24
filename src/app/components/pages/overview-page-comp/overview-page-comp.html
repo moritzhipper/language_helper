@@ -17,7 +17,18 @@
       </button>
     }
   </div>
-  <app-filter-form-comp (filter)="updateFilter($event)" />
+  @if (cardsVisible()) {
+    <app-filter-form-comp (filter)="updateFilter($event)" />
+  } @else {
+    @if (selectedCollectionId()) {
+      <p class="empty-state">no cards in this collection</p>
+    } @else {
+      <p class="empty-state">
+        no cards available <br />
+        add some :)
+      </p>
+    }
+  }
   <div
     class="edit-bubbles"
     [class]="{
