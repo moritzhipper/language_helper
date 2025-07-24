@@ -18,3 +18,10 @@
     padding: var(--distance-2);
   }
 }
+
+.empty-state {
+  padding: 30vh var(--distance-5) 0 var(--distance-5);
+  text-align: center;
+  font-weight: var(--font-weight-bold);
+  color: var(--col-primary);
+}

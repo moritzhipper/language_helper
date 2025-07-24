@@ -2,7 +2,7 @@
 
 ## Right Now
 
-- empty states
+- form width auf desktop min width setzen -> use the page wrapper logic?
 
 ## Later
 
@@ -10,7 +10,6 @@
 - add 'every word' mode for notes and stuff
 - refactor forms handling to allow escape to cancel
 - prohibit scroll on open modal
-- form width auf desktop min width setzen -> use the page wrapper logic?
 
 - add notes function in learning view
 - save practices history

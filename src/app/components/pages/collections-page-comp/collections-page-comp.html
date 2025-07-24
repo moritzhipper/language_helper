@@ -26,7 +26,12 @@
       <app-icon-comp type="trash" />
     </button>
   </div>
-
+  @if (collections().length === 0) {
+    <p class="empty-state">
+      no collections available <br />
+      create some :)
+    </p>
+  }
   <div class="collections">
     @for (collection of collections(); track collection.id) {
       <button

@@ -12,6 +12,6 @@ export const initialLearnables: LearnablesStoreType = {
 export const initialSettings: SettingsStoreType = {
   apiKey: '',
   learningLang: 'dutch',
-  speakingLang: 'english',
+  speakingLang: 'german',
   tokensUsed: 0
 }
