@@ -10,6 +10,10 @@ import {
 
 // #region Export Functions
 
+/**
+ * Maps the learnables and collections to a format suitable to put into a file for export.
+ * Ensures unique IDs for learnables to avoid conflicts when reimporting.
+ */
 export const mapToExport = (
   learnables: Learnable[],
   collections: LearnableCollection[]
@@ -29,23 +33,18 @@ export const mapToExport = (
     relevantLearnables.push(...filteredLearnables)
   }
 
-  // create a map to ensure unique IDs in the export
-  // this is necessary to avoid conflicts when reimporting
-  const idMap = new Map<string, string>()
-  relevantLearnables.forEach((l) => idMap.set(l.id, crypto.randomUUID()))
-
   const learnableExp: LearnableExport[] = relevantLearnables.map(
     (learnable) => ({
       lexeme: learnable.lexeme,
       translation: learnable.translation,
       type: learnable.type,
       notes: learnable.notes,
-      id: idMap.get(learnable.id)!
+      id: learnable.id
     })
   )
   const collectionExp: CollectionExport[] = collections.map((c) => ({
     name: c.name,
-    learnableIDs: c.learnableIDs.map((id) => idMap.get(id)!)
+    learnableIDs: c.learnableIDs
   }))
 
   return {
@@ -53,6 +52,8 @@ export const mapToExport = (
     collections: collectionExp
   }
 }
+
+// #region Import Functions
 
 export const parseFileImportString = (fileAsString: string): StoreExport => {
   try {
@@ -77,28 +78,19 @@ export const verifiyImportedFileValidity = (file: File): void => {
   }
 }
 
-// #region Import Functions
-
 export const mapFileImportToAddableLearnables = (
   fileImport: StoreExport
 ): { learnables: Learnable[]; collections: LearnableCollection[] } => {
-  const learnables = mapLearnableImportToFullLearnables(fileImport.learnables)
-  const collections = mapCollectionExportToFullCollection(
-    fileImport.collections
-  )
+  // create a map to ensure unique IDs in the import
+  // this is necessary to avoid conflicts with existing learnables
+  const idMap = new Map<string, string>()
+  fileImport.learnables.forEach((l) => idMap.set(l.id, crypto.randomUUID()))
 
-  return {
-    learnables,
-    collections
-  }
-}
-
-export const mapLearnableImportToFullLearnables = (
-  learnable: LearnableExport[]
-): Learnable[] => {
   const now = new Date()
-  return learnable.map((l) => ({
-    id: l.id,
+
+  // dont use spread here to avoid bleeding old or unused attributes into the store
+  const learnables = fileImport.learnables.map((l) => ({
+    id: idMap.get(l.id)!,
     created: now,
     type: l.type,
     lexeme: l.lexeme,
@@ -109,18 +101,17 @@ export const mapLearnableImportToFullLearnables = (
       translation: [false, false, false, false, false]
     }
   }))
-}
 
-export const mapCollectionExportToFullCollection = (
-  collections: CollectionExport[]
-): LearnableCollection[] => {
-  const now = new Date()
-
-  return collections.map((c) => ({
+  const collections = fileImport.collections.map((c) => ({
     id: crypto.randomUUID(),
     created: now,
     name: c.name,
-    learnableIDs: c.learnableIDs,
+    learnableIDs: c.learnableIDs.map((id) => idMap.get(id)!),
     practicedDates: []
   }))
+
+  return {
+    learnables,
+    collections
+  }
 }

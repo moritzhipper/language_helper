@@ -28,7 +28,7 @@ https://remixicon.com/icon/arrow-up-s-line
 
 ## Put in readme
 
-whats an ai kez
+whats an ai key
 what does the confidence level mean
 what do the dots mean
 relationship between collections and all cards
