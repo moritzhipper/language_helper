@@ -12,7 +12,6 @@ import {
 
 /**
  * Maps the learnables and collections to a format suitable to put into a file for export.
- * Ensures unique IDs for learnables to avoid conflicts when reimporting.
  */
 export const mapToExport = (
   learnables: Learnable[],
@@ -78,11 +77,16 @@ export const verifiyImportedFileValidity = (file: File): void => {
   }
 }
 
+/**
+ * Maps the file import to a format suitable for adding to the store.
+ * Reassigns new IDs to ensure uniqueness and avoid conflicts with existing learnables when reimporting collections.
+ *
+ */
 export const mapFileImportToAddableLearnables = (
   fileImport: StoreExport
 ): { learnables: Learnable[]; collections: LearnableCollection[] } => {
   // create a map to ensure unique IDs in the import
-  // this is necessary to avoid conflicts with existing learnables
+  // this is necessary to avoid conflicts with existing learnables on reimport
   const idMap = new Map<string, string>()
   fileImport.learnables.forEach((l) => idMap.set(l.id, crypto.randomUUID()))
 
