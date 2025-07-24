@@ -10,7 +10,6 @@ import {
 
 // #region Export Functions
 
-// todo reassign new ids here to prevent double entries on reimport
 export const mapToExport = (
   learnables: Learnable[],
   collections: LearnableCollection[]
@@ -30,18 +29,23 @@ export const mapToExport = (
     relevantLearnables.push(...filteredLearnables)
   }
 
+  // create a map to ensure unique IDs in the export
+  // this is necessary to avoid conflicts when reimporting
+  const idMap = new Map<string, string>()
+  relevantLearnables.forEach((l) => idMap.set(l.id, crypto.randomUUID()))
+
   const learnableExp: LearnableExport[] = relevantLearnables.map(
     (learnable) => ({
       lexeme: learnable.lexeme,
       translation: learnable.translation,
       type: learnable.type,
       notes: learnable.notes,
-      id: learnable.id
+      id: idMap.get(learnable.id)!
     })
   )
   const collectionExp: CollectionExport[] = collections.map((c) => ({
     name: c.name,
-    learnableIDs: c.learnableIDs
+    learnableIDs: c.learnableIDs.map((id) => idMap.get(id)!)
   }))
 
   return {
