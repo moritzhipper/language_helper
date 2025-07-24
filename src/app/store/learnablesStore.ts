@@ -3,11 +3,11 @@ import { inject } from '@angular/core'
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals'
 import { AiService } from '../services/ai.service'
 import {
-  ExportedCollection,
   LearnableBase,
-  LearnablePartialWithId
+  LearnablePartialWithId,
+  StoreExport
 } from '../types_and_schemas/types'
-import { mapToExpCollection } from '../utils/import-export-utils'
+import { mapToExport } from '../utils/import-export-utils'
 import { initialLearnables } from './initialStates'
 import {
   createCollection,
@@ -18,7 +18,7 @@ import {
   removeLearnables,
   renameCollection,
   saveImportedCollections,
-  saveNewLearnables,
+  saveNewlyCreatedLearnables,
   setGuess,
   startPractice,
   updateLearnables
@@ -36,7 +36,7 @@ export const LearnablesStore = signalStore(
 
     return {
       addLearnables(learnablesBase: LearnableBase[]) {
-        patchState(state, saveNewLearnables(learnablesBase))
+        patchState(state, saveNewlyCreatedLearnables(learnablesBase))
       },
       updateLearnables(learnables: LearnablePartialWithId[]) {
         patchState(state, updateLearnables(learnables))
@@ -60,27 +60,27 @@ export const LearnablesStore = signalStore(
           editCollectionLearnables(collectionID, addIDs, deleteIDs)
         )
       },
-      getExportableCollections(
-        onlyForCollectionId?: string
-      ): ExportedCollection[] {
-        // return all when no id is peciffied
-        const collections = state
-          .collections()
-          .filter((c) =>
-            onlyForCollectionId ? c.id === onlyForCollectionId : true
-          )
+      getExportableCollections(onlyForCollectionId?: string): StoreExport {
+        const relevantCollection =
+          state.collections().filter((c) => c.id === onlyForCollectionId) || []
 
-        const allLearnables = state.learnables()
-        return collections.map((c) => mapToExpCollection(allLearnables, c))
+        return mapToExport(state.learnables(), relevantCollection)
       },
-      importExportedCollections(impCollections: ExportedCollection[]) {
-        patchState(state, saveImportedCollections(impCollections))
+      importExportedCollections(importStore: StoreExport) {
+        patchState(state, saveImportedCollections(importStore))
       },
       editCollection(name: string, id: string) {
         patchState(state, renameCollection(name, id))
       },
-      deleteCollection(id: string) {
+      deleteCollection(id: string, removeLearnables: boolean = false) {
+        const collection = state.collections().find((c) => c.id === id)
+        if (!collection) return
+        const learnableIDs = collection.learnableIDs
         patchState(state, deleteCollection(id))
+
+        if (removeLearnables) {
+          this.removeLearnables(learnableIDs)
+        }
       },
       quitPracticePrematurly() {
         patchState(state, quitPracticeEarly())

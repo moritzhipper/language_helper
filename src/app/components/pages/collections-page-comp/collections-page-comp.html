@@ -7,7 +7,7 @@
       <app-icon-comp type="import" />
       <input
         type="file"
-        accept=".vocab"
+        [accept]="'.' + config.fileExportSuffix"
         #fileInput
         (change)="importCollection($event)"
       />
@@ -50,11 +50,8 @@
   />
 </app-modal-wrapper-comp>
 <app-modal-wrapper-comp #deleteCollectionModal>
-  <app-confirm-form-comp
-    label="delete"
+  <app-delete-collection-comp
     (cancel)="deleteCollectionModal.close()"
-    (confirm)="deleteCollection()"
-  >
-    Dissolve {{ selectedCollection()?.name }}?
-  </app-confirm-form-comp>
+    (confirm)="deleteCollection($event)"
+  />
 </app-modal-wrapper-comp>

@@ -1,17 +1,19 @@
-<div class="label">{{ label() }}</div>
+@if (label(); as label) {
+  <div class="label">{{ label }}</div>
+}
 
 <div class="values">
-  @for(option of config(); track option) {
-  <label>
-    <input
-      type="radio"
-      [value]="option.value"
-      [checked]="value === option.value"
-      (change)="setValue($event)"
-      (blur)="onTouched()"
-    />
+  @for (option of config(); track option) {
+    <label>
+      <input
+        type="radio"
+        [value]="option.value"
+        [checked]="value === option.value"
+        (change)="setValue($event)"
+        (blur)="onTouched()"
+      />
 
-    <span>{{ option.label || option.value }}</span>
-  </label>
+      <span>{{ option.label || option.value }}</span>
+    </label>
   }
 </div>

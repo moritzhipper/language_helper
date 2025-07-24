@@ -41,7 +41,6 @@ export class FilterFormComp {
     effect(() => {
       const filter = this.formSignal() as LearnablesFilterConfig
       untracked(() => {
-        console.log('Filter updated:', filter)
         this.filter.emit(filter)
       })
     })

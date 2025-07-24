@@ -14,8 +14,8 @@ import { LearnablesFilterConfig } from '../../../types_and_schemas/types'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
+import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { RadioComp } from '../../shared/radio-comp/radio-comp'
-import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
 
 @Component({
   selector: 'app-practice',
@@ -26,8 +26,8 @@ import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
     CounterComp,
     IconComp
   ],
-  templateUrl: './practice.comp.html',
-  styleUrl: './practice.comp.scss'
+  templateUrl: './practice-page-comp.html',
+  styleUrl: './practice-page-comp.scss'
 })
 export class PracticeComp {
   @HostListener('window:keydown', ['$event']) handleKeyDown(
@@ -50,7 +50,8 @@ export class PracticeComp {
   private readonly _fb = inject(NonNullableFormBuilder)
   form = this._fb.group({
     type: 'all',
-    confidence: 'low',
+    collection: 'all',
+    confidence: 'all',
     reverseDirection: false
   })
   private readonly _formSignal = toSignal(this.form.valueChanges, {
@@ -58,6 +59,7 @@ export class PracticeComp {
   })
 
   private readonly learnablesS = inject(LearnablesStore)
+  collections = this.learnablesS.collections
 
   isRevealed = signal(false)
   showStats = signal(false)
@@ -107,10 +109,22 @@ export class PracticeComp {
       type: formValue.type,
       confidence: formValue.confidence
     } as LearnablesFilterConfig
-    if (!filter) return []
 
-    const learnables = this.learnablesS.learnables()
-    return filterLearnables(learnables, filter).map((l) => l.id)
+    const allLearnableIDsFiltered = filterLearnables(
+      this.learnablesS.learnables(),
+      filter
+    ).map((l) => l.id)
+
+    const selectedCollection = this.collections().find(
+      (c) => c.id === formValue.collection
+    )
+
+    if (selectedCollection) {
+      return allLearnableIDsFiltered.filter((id) =>
+        selectedCollection.learnableIDs.includes(id)
+      )
+    }
+    return allLearnableIDsFiltered
   })
 
   hasFinishedPractice = computed(() => {

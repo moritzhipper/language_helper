@@ -1,16 +1,20 @@
 import { Component, computed, inject, signal, viewChild } from '@angular/core'
-import { ImportExportService } from '../../../services/import-export-service'
+import { config } from '../../../../config'
+import { BlobService } from '../../../services/blob-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
-  mapFromExpCollection,
+  parseFileImportString,
   verifiyImportedFileValidity
 } from '../../../utils/import-export-utils'
-import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
-import { PageWrapperComp } from '../page-wrapper-comp/page-wrapper-comp'
+import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { CollectionComp } from './collection-comp/collection-comp'
+import {
+  ConfirmCollectionDeletionType,
+  DeleteCollectionComp
+} from './delete-collection-comp/delete-collection-comp'
 import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
 
 @Component({
@@ -19,9 +23,9 @@ import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
     PageWrapperComp,
     IconComp,
     ModalWrapperComp,
-    ConfirmFormComp,
     EditCollectionComp,
-    CollectionComp
+    CollectionComp,
+    DeleteCollectionComp
   ],
   templateUrl: './collections-page-comp.html',
   styleUrl: './collections-page-comp.scss'
@@ -29,7 +33,7 @@ import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
 export class CollectionsPageComp {
   private readonly _lState = inject(LearnablesStore)
   private readonly _toastS = inject(ToastService)
-  private readonly _makeBlobS = inject(ImportExportService)
+  private readonly _makeBlobS = inject(BlobService)
 
   private deleteCollectionModal = viewChild.required<ModalWrapperComp>(
     'deleteCollectionModal'
@@ -37,6 +41,8 @@ export class CollectionsPageComp {
   private renameCollectionModal = viewChild.required<ModalWrapperComp>(
     'renameCollectionModal'
   )
+
+  config = config
 
   private fileReader = new FileReader()
 
@@ -53,7 +59,6 @@ export class CollectionsPageComp {
   collectionDownload = computed(() => {
     const collection = this.selectedCollection()
     if (!collection) return null
-    console.log({ collection })
 
     return this._makeBlobS.createDownloadableFromLearnables(
       this._lState.getExportableCollections(collection.id),
@@ -69,10 +74,16 @@ export class CollectionsPageComp {
     }
   }
 
-  deleteCollection() {
+  deleteCollection(deleteType: ConfirmCollectionDeletionType) {
     const collectionId = this.selectedCollectionId()
     if (!collectionId) return
-    this._lState.deleteCollection(collectionId)
+
+    if (deleteType.deletionType === 'dissolve') {
+      this._lState.deleteCollection(collectionId)
+    } else {
+      this._lState.deleteCollection(collectionId, true)
+    }
+
     this.selectedCollectionId.set(null)
     this.deleteCollectionModal().close()
   }
@@ -103,7 +114,7 @@ export class CollectionsPageComp {
   private _fileReaderLoad = (e: ProgressEvent<FileReader>) => {
     const content = e.target?.result as string
     try {
-      const collections = mapFromExpCollection(content)
+      const collections = parseFileImportString(content)
       this._lState.importExportedCollections(collections)
     } catch (e) {
       this._toastS.showToast({
@@ -125,6 +136,8 @@ export class CollectionsPageComp {
       ...l.guesses.lexeme,
       ...l.guesses.translation
     ])
+
+    if (allGuesses.length === 0) return 0
 
     const trueGuesses = allGuesses.filter(Boolean).length
     const confidencePercent = trueGuesses / allGuesses.length

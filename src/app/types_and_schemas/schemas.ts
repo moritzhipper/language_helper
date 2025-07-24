@@ -15,9 +15,16 @@ export const LearnableResponseSchema = z.object({
   learnables: z.array(LearnableBaseFromAiSchema)
 })
 
-export const ExportedCollectionSchema = z.object({
-  learnables: z.array(LearnableBaseSchema),
-  name: z.string()
+export const CollectionExportSchema = z.object({
+  name: z.string(),
+  learnableIDs: z.array(z.uuid())
 })
 
-export const ExportCollectionArraySchema = z.array(ExportedCollectionSchema)
+export const LearnableExportSchema = LearnableBaseSchema.extend({
+  id: z.uuid()
+})
+
+export const StoreExportSchema = z.object({
+  learnables: z.array(LearnableExportSchema),
+  collections: z.array(CollectionExportSchema)
+})

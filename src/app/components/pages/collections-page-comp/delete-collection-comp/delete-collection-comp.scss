@@ -1,0 +1,24 @@
+form {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr auto auto;
+  gap: var(--distance-4);
+
+  .title {
+    place-self: center;
+    font-size: var(--font-size-2);
+  }
+
+  .title {
+    grid-column: span 2;
+  }
+
+  app-radio-comp {
+    grid-column: span 2;
+  }
+
+  button {
+    margin-top: var(--distance-4);
+  }
+}

@@ -1,0 +1,15 @@
+<form [formGroup]="form" (ngSubmit)="onConfirm()">
+  <div class="title">Delete Collection</div>
+
+  <app-radio-comp
+    formControlName="deletionType"
+    label="completely remove the contained cards as well?"
+    [config]="[
+      { value: 'dissolve', label: 'keep cards' },
+      { value: 'remove', label: 'remove cards' }
+    ]"
+  />
+
+  <button type="button" class="big" (click)="onCancel()">cancel</button>
+  <button type="submit">delete</button>
+</form>

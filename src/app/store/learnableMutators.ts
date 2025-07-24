@@ -1,11 +1,12 @@
 import {
-  ExportedCollection,
   Learnable,
   LearnableBase,
   LearnableCollection,
   LearnablePartialWithId,
-  LearnablesStoreType
+  LearnablesStoreType,
+  StoreExport
 } from '../types_and_schemas/types'
+import { mapFileImportToAddableLearnables } from '../utils/import-export-utils'
 
 export const startPractice =
   (ids: string[], reverseDirection: boolean) =>
@@ -21,7 +22,7 @@ export const startPractice =
     }
   }
 
-export const saveNewLearnables =
+export const saveNewlyCreatedLearnables =
   (learnablesBase: LearnableBase[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     const learnables = mapBaseToFullToLearnables(learnablesBase)
@@ -75,10 +76,32 @@ export const removeLearnables =
   (ids: string[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     const learnables = state.learnables.filter((l) => !ids.includes(l.id))
+    const remainingIDs = learnables.map((l) => l.id)
+
+    // remove all dead ids from collections
+    const collections = state.collections.map((c) => ({
+      ...c,
+      learnableIDs: c.learnableIDs.filter((id) => remainingIDs.includes(id))
+    }))
+
+    // reset practice to prevent lost ids and loose indexes in practice
+    const currentPracticeHasDeletedIds = state.currentPractice?.ids.some((id) =>
+      ids.includes(id)
+    )
+
+    if (currentPracticeHasDeletedIds) {
+      return {
+        ...state,
+        learnables,
+        collections,
+        currentPractice: null
+      }
+    }
 
     return {
       ...state,
-      learnables
+      learnables,
+      collections
     }
   }
 
@@ -123,22 +146,10 @@ const mergeLearnables = (
 }
 
 export const saveImportedCollections =
-  (expCollections: ExportedCollection[]) =>
+  (storeImport: StoreExport) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const newLearnables: Learnable[] = []
-    const newCollections: LearnableCollection[] = []
-
-    for (const collection of expCollections) {
-      const learnablesFromCollection = mapBaseToFullToLearnables(
-        collection.learnables
-      )
-      const collectionFromExpColl = createNewCollection(
-        collection.name,
-        learnablesFromCollection.map((l) => l.id)
-      )
-      newLearnables.push(...learnablesFromCollection)
-      newCollections.push(collectionFromExpColl)
-    }
+    const { learnables: newLearnables, collections: newCollections } =
+      mapFileImportToAddableLearnables(storeImport)
 
     return {
       ...state,
@@ -157,7 +168,7 @@ const mapBaseToFullToLearnables = (
     type: l.type,
     lexeme: l.lexeme,
     translation: l.translation,
-    notes: l.notes || '',
+    notes: l.notes,
     guesses: {
       lexeme: [false, false, false, false, false],
       translation: [false, false, false, false, false]

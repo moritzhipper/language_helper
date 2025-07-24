@@ -21,7 +21,7 @@ export type RadioCompInputConfig = {
 })
 export class RadioComp implements ControlValueAccessor {
   config = input.required<RadioCompInputConfig>()
-  label = input.required<string>()
+  label = input<string>()
 
   value: string | number | boolean | undefined = undefined
 

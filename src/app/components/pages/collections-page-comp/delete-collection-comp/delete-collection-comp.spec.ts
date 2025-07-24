@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingsComp } from './settings.comp';
+import { DeleteCollectionComp } from './delete-collection-comp';
 
-describe('SettingsComp', () => {
-  let component: SettingsComp;
-  let fixture: ComponentFixture<SettingsComp>;
+describe('DeleteCollectionComp', () => {
+  let component: DeleteCollectionComp;
+  let fixture: ComponentFixture<DeleteCollectionComp>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SettingsComp]
+      imports: [DeleteCollectionComp]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SettingsComp);
+    fixture = TestBed.createComponent(DeleteCollectionComp);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
