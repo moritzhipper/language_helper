@@ -10,6 +10,7 @@
 - add 'every word' mode for notes and stuff
 - refactor forms handling to allow escape to cancel
 - prohibit scroll on open modal
+- theme toggle
 
 - animations!
 - add notes function in learning view

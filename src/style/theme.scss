@@ -1,20 +1,18 @@
 :root {
-  --col-base-0: #011936ff; // Oxford Blue
-  --col-base-1: #465362ff; // Charcoal
-  --col-base-2: #82a3a1ff; // Cambridge Blue
-  --col-base-3: #9fc490ff; // Olivine
-  --col-base-4: #c0dfa1ff; // Tea Green
-  --col-base-5: #c74635; // warn
+  --col-base-0: #191a1cff;
+  --col-base-1: #5348b0ff;
+  --col-base-2: #dd93e5ff;
+  --col-base-3: #e8cfecff;
+  --col-base-4: #b34e69ff; // warn
 
   --col-text: var(--col-base-0);
   --col-primary: var(--col-base-1);
-  --col-secondary: var(--col-base-2);
-  --col-accent: var(--col-base-3);
-  --col-bg: var(--col-base-4);
-  --col-warning: var(--col-base-5);
+  --col-accent: var(--col-base-2);
+  --col-bg: var(--col-base-3);
+  --col-warning: var(--col-base-4);
 
   --shadow-big: 0px 10px 20px -7px var(--col-primary);
-  --shadow-small: 0px 5px 10px -5px var(--col-secondary);
+  --shadow-small: 0px 5px 10px -7px var(--col-primary);
 
   --font-weight-normal: 500;
   --font-weight-bold: 600;
