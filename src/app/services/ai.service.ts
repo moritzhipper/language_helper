@@ -34,7 +34,6 @@ export class AiService {
     config: LearnableCreationConfig
   ): Promise<LearnableBase[]> {
     const prompt = this._getSystemPrompt(config.type)
-    debugger
     const cards = await this._createCards(config.input, prompt)
 
     return cards.map((l) => ({ ...l, notes: '' }))
