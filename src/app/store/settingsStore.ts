@@ -14,10 +14,9 @@ export const SettingsStore = signalStore(
     updateSettings(settings: Partial<SettingsStoreType>) {
       patchState(store, settings)
     },
-    addTokensUsed(tokens: number | undefined) {
-      const cost = tokens ?? 0
+    addTokensUsed(tokens: number) {
       patchState(store, {
-        tokensUsed: store.tokensUsed() + cost
+        tokensUsed: store.tokensUsed() + tokens
       })
     }
   }))

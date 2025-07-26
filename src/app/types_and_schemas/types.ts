@@ -46,9 +46,8 @@ export type LearnablesStoreType = {
 }
 
 export type LearnableCreationConfig = {
-  text: string
-  allowWords: boolean
-  allowPhrases: boolean
+  input: string
+  type: 'words' | 'phrases' | 'both'
 }
 
 export type Guess = {

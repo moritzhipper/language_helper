@@ -2,7 +2,12 @@
 
 ## Right Now
 
+- filter current cards form input, not put them in system prompt
+- words and phrases call always seperate
+  - words call: filter words from input (also convert phrase to words to filter)
+  - when both: create phrases, then filter output + current from input to generate words
 - form width auf desktop min width setzen -> use the page wrapper logic?
+- fix prompts to be more precise
 
 ## Later
 
@@ -12,7 +17,7 @@
 - prohibit scroll on open modal
 - theme toggle
 
-- animations!
+- animations! -> angular 20.2 bring them back woop woop
 - add notes function in learning view
 - save practices history
   - "spaced repetition"

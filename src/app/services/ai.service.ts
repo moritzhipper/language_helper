@@ -9,7 +9,11 @@ import {
   LearnableCreationConfig
 } from '../types_and_schemas/types'
 import { zodTextFormat } from '../utils/genaral-utils'
-import { getCreateLearnablesPrompt, getSystemPrompt } from './prompts'
+import {
+  getPhrasesPrompt,
+  getWordsAndPhrasesPrompt,
+  getWordsPrompt
+} from './ai-prompts/prompt'
 
 @Injectable({
   providedIn: 'root'
@@ -26,55 +30,48 @@ export class AiService {
       })
   )
 
-  private readonly systemPrompt = computed(() =>
-    getSystemPrompt(
-      this.settingsStore.learningLang(),
-      this.settingsStore.speakingLang()
-    )
-  )
-
   async createLearnablesFromString(
-    config: LearnableCreationConfig,
-    excludedWords: string[]
+    config: LearnableCreationConfig
   ): Promise<LearnableBase[]> {
-    const learnablesPrompt = getCreateLearnablesPrompt(
-      this.settingsStore.learningLang(),
-      this.settingsStore.speakingLang(),
-      excludedWords,
-      config.allowWords,
-      config.allowPhrases
-    )
+    const prompt = this._getSystemPrompt(config.type)
+    debugger
+    const cards = await this._createCards(config.input, prompt)
 
-    const systemPrompt = this.systemPrompt()
+    return cards.map((l) => ({ ...l, notes: '' }))
+  }
 
+  private async _createCards(userInput: string, systemPrompt: string) {
     const response = await this.oAi().responses.parse({
       model: this.model,
       text: {
         format: zodTextFormat(LearnableResponseSchema, 'learnable_base')
       },
       input: [
-        systemPrompt,
-        learnablesPrompt,
-        { role: 'user', content: config.text }
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userInput }
       ]
     })
 
-    this.settingsStore.addTokensUsed(response.usage?.total_tokens)
+    this.settingsStore.addTokensUsed(response.usage?.total_tokens ?? 0)
 
-    const learnablesBase = response.output_parsed
-    if (!learnablesBase) {
-      console.error('No parsed output received from AI', response)
-      throw new Error('No parsed output received from AI')
-    }
-    return learnablesBase.learnables.map((l) => ({ ...l, notes: '' }))
+    return response.output_parsed?.learnables || []
   }
 
-  async useInSentence(word: string): Promise<string> {
-    // const messages = await this.oAi().chat.completions.create({
-    //   model: this.model,
-    //   messages: [this.systemPrompt(), getUseInSentencePrompt(word)]
-    // })
-
-    return ''
+  private _getSystemPrompt(type: LearnableCreationConfig['type']) {
+    if (type === 'phrases') {
+      return getPhrasesPrompt(
+        this.settingsStore.learningLang(),
+        this.settingsStore.speakingLang()
+      )
+    } else if (type === 'words') {
+      return getWordsPrompt(
+        this.settingsStore.learningLang(),
+        this.settingsStore.speakingLang()
+      )
+    }
+    return getWordsAndPhrasesPrompt(
+      this.settingsStore.learningLang(),
+      this.settingsStore.speakingLang()
+    )
   }
 }
