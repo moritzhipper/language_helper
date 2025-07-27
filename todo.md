@@ -3,16 +3,11 @@
 ## Right Now
 
 - filter current cards form input, not put them in system prompt
-- words and phrases call always seperate
-  - words call: filter words from input? (also convert phrase to words to filter)
-  - when both: create phrases, then filter output + current from input to generate words
 - form width auf desktop min width setzen -> use the page wrapper logic?
-- fix prompts to be more precise
 
 ## Later
 
-- show popup after import
-- add 'every word' mode for notes and stuff
+- add 'every word' mode for notes and stuff - do specific call only containing three words each
 - refactor forms handling to allow escape to cancel
 - prohibit scroll on open modal
 - theme toggle

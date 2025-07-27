@@ -114,8 +114,13 @@ export class CollectionsPageComp {
   private _fileReaderLoad = (e: ProgressEvent<FileReader>) => {
     const content = e.target?.result as string
     try {
-      const collections = parseFileImportString(content)
-      this._lState.importExportedCollections(collections)
+      const imported = parseFileImportString(content)
+
+      this._lState.importExportedCollections(imported)
+      this._toastS.showToast({
+        type: 'info',
+        message: `${imported.collections} collections imported!`
+      })
     } catch (e) {
       this._toastS.showToast({
         type: 'error',
