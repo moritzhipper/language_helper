@@ -11,10 +11,13 @@ import { mapFileImportToAddableLearnables } from '../utils/import-export-utils'
 export const startPractice =
   (ids: string[], reverseDirection: boolean) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
+    // randomize order of ids to prevent memorization of order
+    const randomizedIds = [...ids].sort(() => Math.random() - 0.5)
+
     return {
       ...state,
       currentPractice: {
-        ids,
+        ids: randomizedIds,
         index: 0,
         guesses: [],
         reverseDirection
@@ -137,7 +140,6 @@ const mergeLearnables = (
 ): Learnable => {
   if (!lmerge) return lbase
 
-  // Shallow merge only, no nested learning/translation objects
   return {
     ...lbase,
     ...lmerge

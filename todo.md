@@ -2,6 +2,8 @@
 
 ## Right Now
 
+- fix progress bar
+- edit or delete from practice mode
 - form width auf desktop min width setzen -> use the page wrapper logic?
 - nur outout von lvocabelkarten filtern
 - auch hier batches wie phrases
