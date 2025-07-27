@@ -41,7 +41,7 @@ export class AiService {
       cardPromises.push(this._createPhrases(config.input))
     }
     if (config.type === 'words' || config.type === 'both') {
-      cardPromises.concat(this._createWords(config.input, config.excludeWords))
+      cardPromises.push(...this._createWords(config.input, config.excludeWords))
     }
 
     const cardLists = await Promise.all(cardPromises)
@@ -65,7 +65,7 @@ export class AiService {
       this.settingsStore.learningLang(),
       this.settingsStore.speakingLang()
     )
-
+    debugger
     // this is a workaround for gpt-4o missing a lot of words when given a longer input
     // splitting the input into batches of smaller words improves adherence to input
     // increasing batchsize may improve speed, but reduce accuracy
@@ -74,7 +74,6 @@ export class AiService {
 
     const batches = this._splitArrayIntoBatches(newUniqueWords, batchSize)
 
-    debugger
     const learnablePromises = batches.map((batch) =>
       this._createCards(batch.join(','), prompt)
     )
