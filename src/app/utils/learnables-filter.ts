@@ -106,34 +106,3 @@ const getWrongGuesses = (learnable: Learnable): number => {
     (g) => !g
   ).length
 }
-
-// not uset to filter learnables, but to filter words from user input
-// but has filter in its names, so i will rpobably look here first when searching for it
-/**
- * Removes the words from the user input that are already in the learnables.
- *
- * @param userInput
- * @param learnables
- * @returns list of new and unique words
- */
-export const filterWordsFromInput = (
-  userInput: string,
-  exludeWords: string[]
-): string[] => {
-  const wordsDelimiters = /[ \n.,]+/g
-
-  const allExistingWords = exludeWords.map((w) => w.toLowerCase())
-  const allExistingWordsSet = new Set(allExistingWords)
-
-  const userInputWords = userInput
-    .split(wordsDelimiters)
-    .filter((w) => w.length > 0)
-    .map((w) => w.toLowerCase())
-  const userInputWordsSet = new Set(userInputWords)
-
-  const uniqueFilteredNewWords = [...userInputWordsSet].filter(
-    (w) => !allExistingWordsSet.has(w)
-  )
-
-  return uniqueFilteredNewWords
-}

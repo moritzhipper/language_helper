@@ -12,8 +12,13 @@ import {
   LearnableCreationConfig
 } from '../types_and_schemas/types'
 import { zodTextFormat } from '../utils/genaral-utils'
-import { filterWordsFromInput } from '../utils/learnables-filter'
-import { getPhrasesPrompt, getWordsPrompt } from './prompt'
+
+import {
+  mapAndFilterWordsFromInput,
+  mapPhrasesFromInputToChunks,
+  splitArrayIntoBatches
+} from './ai/ai-utils'
+import { getPhrasesPrompt, getWordsPrompt } from './ai/prompt'
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +46,7 @@ export class AiService {
       cardPromises.push(this._createPhrases(config.input))
     }
     if (config.type === 'words' || config.type === 'both') {
-      cardPromises.push(...this._createWords(config.input, config.excludeWords))
+      cardPromises.push(this._createWords(config.input, config.excludeWords))
     }
 
     const cardLists = await Promise.all(cardPromises)
@@ -58,31 +63,51 @@ export class AiService {
       this.settingsStore.speakingLang()
     )
 
-    return this._createCards(userInput, prompt)
+    // this is a workaround for gpt-4o missing a lot of phrases when given to long input
+    // increasing batchsize may improve speed, but reduce accuracy
+    // reducing it increases accuracy, but reduces speed and increases token usage
+    const maxChunkSize = 500
+    const chunks = mapPhrasesFromInputToChunks(userInput, maxChunkSize)
+    const chunkPromises = chunks.map((chunk) =>
+      this._createCards(chunk, prompt)
+    )
+    const cardsLists = await Promise.all(chunkPromises)
+
+    return cardsLists.flat(1)
   }
 
-  private _createWords(
+  private async _createWords(
     userInput: string,
     excludeWords: string[]
-  ): Promise<LearnableBaseFromAi[]>[] {
-    const newUniqueWords = filterWordsFromInput(userInput, excludeWords)
+  ): Promise<LearnableBaseFromAi[]> {
+    // preemptively filter words from input that are in excluded words
+    // to not make ai create double entries and thus reduce token usage
+    const newUniqueWords = mapAndFilterWordsFromInput(userInput, excludeWords)
     const prompt = getWordsPrompt(
       this.settingsStore.learningLang(),
       this.settingsStore.speakingLang()
     )
 
     // this is a workaround for gpt-4o missing a lot of words when given a longer input
-    // splitting the input into batches of smaller words improves adherence to input
+    // splitting the input into batches of smaller words improves input adherence
     // increasing batchsize may improve speed, but reduce accuracy
     // reducing it increases accuracy, but reduces speed and increases token usage
     const batchSize = 20
-    const batches = this._splitArrayIntoBatches(newUniqueWords, batchSize)
-
-    const learnablePromises = batches.map((batch) =>
+    const batches = splitArrayIntoBatches(newUniqueWords, batchSize)
+    const cardPromises = batches.map((batch) =>
       this._createCards(batch.join(','), prompt)
     )
 
-    return learnablePromises
+    const cardsLists = await Promise.all(cardPromises)
+    const cards = cardsLists.flat(1)
+
+    // when the input language is not the speaking language, the can not be filtered preemptively
+    // as a result it is necessary to filter the cards again after creation
+    const filteredCards = cards.filter(
+      (c) => !newUniqueWords.includes(c.lexeme)
+    )
+
+    return filteredCards
   }
 
   private async _createCards(
@@ -102,19 +127,5 @@ export class AiService {
 
     this.settingsStore.addTokensUsed(response.usage?.total_tokens ?? 0)
     return response.output_parsed?.learnables || []
-  }
-
-  private _splitArrayIntoBatches<T>(array: T[], batchSize: number): T[][] {
-    const numberOfChunks = Math.ceil(array.length / batchSize)
-    const chunks: T[][] = []
-
-    for (let i = 0; i < numberOfChunks; i++) {
-      const chunkStart = i * batchSize
-      const chunkEnd = (i + 1) * batchSize
-
-      chunks.push(array.slice(chunkStart, chunkEnd))
-    }
-
-    return chunks
   }
 }

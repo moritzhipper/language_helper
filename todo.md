@@ -27,6 +27,8 @@ https://remixicon.com/icon/arrow-up-s-line
 
 ## Put in readme
 
+words are filtered before and after ebcause of translation and token reduction
+phrases are not
 whats an ai key
 what does the confidence level mean
 what do the dots mean
