@@ -1,18 +1,28 @@
 import { z } from 'zod'
 
-// add grammatial info here
-export const LearnableBaseFromAiSchema = z.object({
+export const LearnableWordsFromAiSchema = z.object({
+  vocabulary_cards: z.array(
+    z.object({
+      word: z.string(),
+      translation: z.string()
+    })
+  )
+})
+
+export const LearnablePhrasesFromAiSchema = z.object({
+  phrase_cards: z.array(
+    z.object({
+      phrase: z.string(),
+      translation: z.string()
+    })
+  )
+})
+
+export const LearnableBaseSchema = z.object({
   lexeme: z.string(),
   translation: z.string(),
-  type: z.enum(['word', 'phrase'])
-})
-
-export const LearnableBaseSchema = LearnableBaseFromAiSchema.extend({
-  notes: z.string()
-})
-
-export const LearnableResponseSchema = z.object({
-  learnables: z.array(LearnableBaseFromAiSchema)
+  notes: z.string(),
+  type: z.enum(['phrase', 'word'])
 })
 
 export const CollectionExportSchema = z.object({
