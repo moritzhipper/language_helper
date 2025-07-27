@@ -44,6 +44,7 @@ export class MagicAddComp {
       type: formValue.type,
       excludeWords: this.existingWords()
     } as LearnableCreationConfig
+
     try {
       this.isConverting.set(true)
       const baseLearnables =

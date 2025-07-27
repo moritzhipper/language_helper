@@ -71,6 +71,7 @@ export class AiService {
     const chunkPromises = chunks.map((chunk) =>
       this._createCards(chunk, prompt)
     )
+
     const cardsLists = await Promise.all(chunkPromises)
 
     return cardsLists.flat(1)

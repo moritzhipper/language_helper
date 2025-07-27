@@ -2,7 +2,7 @@
 
 ## Right Now
 
-- filter current cards form input, not put them in system prompt
+- promise all ai service surround with try catch and handle errors
 - form width auf desktop min width setzen -> use the page wrapper logic?
 
 - first create phrases, then use in phrases contained words to filter out words form input, create thourough words form filtered input
