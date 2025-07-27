@@ -50,7 +50,9 @@ export class AiService {
     return cards.map((l) => ({ ...l, notes: '' }))
   }
 
-  private async _createPhrases(userInput: string) {
+  private async _createPhrases(
+    userInput: string
+  ): Promise<LearnableBaseFromAi[]> {
     const prompt = getPhrasesPrompt(
       this.settingsStore.learningLang(),
       this.settingsStore.speakingLang()
@@ -59,19 +61,21 @@ export class AiService {
     return this._createCards(userInput, prompt)
   }
 
-  private _createWords(userInput: string, excludeWords: string[]) {
+  private _createWords(
+    userInput: string,
+    excludeWords: string[]
+  ): Promise<LearnableBaseFromAi[]>[] {
     const newUniqueWords = filterWordsFromInput(userInput, excludeWords)
     const prompt = getWordsPrompt(
       this.settingsStore.learningLang(),
       this.settingsStore.speakingLang()
     )
-    debugger
+
     // this is a workaround for gpt-4o missing a lot of words when given a longer input
     // splitting the input into batches of smaller words improves adherence to input
     // increasing batchsize may improve speed, but reduce accuracy
     // reducing it increases accuracy, but reduces speed and increases token usage
     const batchSize = 20
-
     const batches = this._splitArrayIntoBatches(newUniqueWords, batchSize)
 
     const learnablePromises = batches.map((batch) =>

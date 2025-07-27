@@ -11,7 +11,9 @@ Your task is to create learnable cards from the input in the following manner:
   - be very, very thorough
   - do not miss anything from the input
   - every single thing from the user‑provided input should become a card
-  - always transfer the lexeme to ${learningLanguage} and the translation to ${speakingLanguage}
+  - always transfer the lexeme to ${speakingLanguage} and the translation to ${learningLanguage}
+  - always, and without exception, transfer the lexeme to ${speakingLanguage}, even when the input is not in ${speakingLanguage}
+  - always, and without exception, transfer the translation to ${learningLanguage}
   - the user has to pass an exam tomorow from wich not only his future is at stake, but also his job and his family. so be very throurough and create a vocabulary card for everything you get
 `
 
