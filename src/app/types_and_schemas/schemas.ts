@@ -9,15 +9,6 @@ export const LearnablesFromAiSchema = z.object({
   )
 })
 
-export const LearnablePhrasesFromAiSchema = z.object({
-  phrase_cards: z.array(
-    z.object({
-      lexeme: z.string(),
-      translation: z.string()
-    })
-  )
-})
-
 export const LearnableBaseSchema = z.object({
   lexeme: z.string(),
   translation: z.string(),

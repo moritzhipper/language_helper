@@ -7,8 +7,15 @@
 
 .stats {
   display: grid;
-  gap: var(--distance-4);
+  gap: var(--distance-6) var(--distance-4);
   place-self: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  .tokens {
+    width: 100%;
+  }
 }
 
 form {

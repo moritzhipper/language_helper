@@ -69,7 +69,9 @@ export class AiService {
     // reducing it increases accuracy, but reduces speed and increases token usage
     const maxChunkSize = 1000
     const chunks = mapPhrasesFromInputToChunks(userInput, maxChunkSize)
-    const chunkPromises = chunks.map((chunk) => this._extractPhraseCards(chunk))
+    const chunkPromises = chunks.map((chunk) =>
+      this._extractCards(chunk, 'phrases')
+    )
 
     const cardsLists = await Promise.all(chunkPromises)
 
@@ -81,27 +83,35 @@ export class AiService {
     // splitting the input into batches of smaller words improves input adherence
     // increasing batchsize may improve speed, but reduce accuracy
     // reducing it increases accuracy, but reduces speed and increases token usage
-    const chunkSize = 200
+    const chunkSize = 300
     const batches = mapPhrasesFromInputToChunks(userInput, chunkSize)
-    const cardPromises = batches.map((batch) => this._extractWordCards(batch))
+    const cardPromises = batches.map((batch) =>
+      this._extractCards(batch, 'words')
+    )
 
     const cardsLists = await Promise.all(cardPromises)
     return cardsLists.flat(1)
   }
 
-  private async _extractPhraseCards(
-    userInput: string
+  private async _extractCards(
+    userInput: string,
+    type: LearnableCreationConfig['type']
   ): Promise<LearnableBase[]> {
-    const prompt = this._phrasesPrompt()
+    const prompt =
+      type === 'phrases' ? this._phrasesPrompt() : this._wordsPrompt()
+    const cardType = type === 'phrases' ? 'phrase' : 'word'
 
     const response = await this.oAi().responses.parse({
       model: this.model,
       text: {
-        format: zodTextFormat(LearnablesFromAiSchema, 'phrase_cards')
+        format: zodTextFormat(LearnablesFromAiSchema, 'learnable_cards')
       },
       input: [
         { role: 'system', content: prompt },
-        { role: 'user', content: userInput }
+        {
+          role: 'user',
+          content: 'transfer the follwing into cards: ' + userInput
+        }
       ]
     })
 
@@ -112,32 +122,7 @@ export class AiService {
       lexeme: c.lexeme,
       translation: c.translation,
       notes: '',
-      type: 'phrase'
-    }))
-  }
-
-  private async _extractWordCards(userInput: string): Promise<LearnableBase[]> {
-    const prompt = this._wordsPrompt()
-
-    const response = await this.oAi().responses.parse({
-      model: this.model,
-      text: {
-        format: zodTextFormat(LearnablesFromAiSchema, 'word_cards')
-      },
-      input: [
-        { role: 'system', content: prompt },
-        { role: 'user', content: userInput }
-      ]
-    })
-
-    this.settingsStore.addTokensUsed(response.usage?.total_tokens ?? 0)
-    const cards = response.output_parsed?.cards || []
-
-    return cards.map((c) => ({
-      lexeme: c.lexeme,
-      translation: c.translation,
-      notes: '',
-      type: 'word'
+      type: cardType
     }))
   }
 }

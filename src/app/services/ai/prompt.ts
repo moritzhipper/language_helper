@@ -19,13 +19,14 @@ Your task is to create learnable cards from the input in the following manner:
 
 const wordsPrompt = () => `
 The user only and exclusively learns individual words, never phrases.
-No card ever should have the lexeme and translation in the same language. 
+Every card you create has to be a single word.
 The word to learn should always be in the users speaking language and the translation in the users learning language.
 When the input seems to be random notes or already a list looking like vocabulary lists with words and their corresponding translations, create one card from a pair (word - translation) 
 `
 
 const phrasesPrompt = () => `
 The user only and exclusively learns  sayings, expressions, idioms, or similar, never whole sentences or individual words.
+Extract as many of those as you find in the input.
 Be exhaustive: create one card per phrase or expression found in the input.
 Ensure correct capitalization for both lexeme and translation on all phrase cards.
 Never create a card for single words, only phrases.

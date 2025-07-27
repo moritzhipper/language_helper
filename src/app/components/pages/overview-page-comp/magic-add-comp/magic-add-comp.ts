@@ -31,7 +31,7 @@ export class MagicAddComp {
 
   convertForm = this._fb.group({
     input: ['', Validators.required],
-    type: 'both'
+    type: 'words'
   })
 
   async convert() {
