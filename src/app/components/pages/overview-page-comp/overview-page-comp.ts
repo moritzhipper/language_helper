@@ -1,11 +1,13 @@
 import { Component, computed, inject, signal, viewChild } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
+import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
   Learnable,
   LearnableBase,
   LearnablesFilterConfig
 } from '../../../types_and_schemas/types'
+import { filterDoubleEntries } from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-comp'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
@@ -49,6 +51,7 @@ export class OverviewComp {
     viewChild.required<ModalWrapperComp>('collectionAddModal')
 
   private readonly _lStore = inject(LearnablesStore)
+  private readonly _toastService = inject(ToastService)
 
   private _learnables = computed(() => {
     const learnables = this._lStore.learnables()
@@ -116,8 +119,6 @@ export class OverviewComp {
   }
 
   confirmAdd(learnables: LearnableBase[]) {
-    const learnablesLengthBeforeAdd = this._lStore.learnables().length
-
     // save new learnables to the store
     this._addAndMarkLearnables(learnables)
     this.addModal().close()
@@ -131,6 +132,26 @@ export class OverviewComp {
   }
 
   private _addAndMarkLearnables(learnables: LearnableBase[]) {
+    const existingLearnables = this._lStore.learnables()
+
+    const uniqueLearnables = filterDoubleEntries(
+      learnables,
+      this._lStore.learnables()
+    )
+    const filteredLearnablesCount = learnables.length - uniqueLearnables.length
+
+    this._toastService.showToast({
+      message: `Created ${uniqueLearnables.length} cards!`,
+      type: 'info'
+    })
+
+    if (filteredLearnablesCount > 0) {
+      this._toastService.showToast({
+        message: `Skipped adding ${filteredLearnablesCount} because you already have those!`,
+        type: 'info'
+      })
+    }
+
     this._lStore.addLearnables(learnables)
     this.selectedLearnableIds.set(this._lStore.addedLatestIDs())
     const collectionId = this.selectedCollectionId()

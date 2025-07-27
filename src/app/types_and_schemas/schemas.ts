@@ -1,18 +1,9 @@
 import { z } from 'zod'
 
-export const LearnableWordsFromAiSchema = z.object({
-  vocabulary_cards: z.array(
+export const LearnablesFromAiSchema = z.object({
+  cards: z.array(
     z.object({
-      word: z.string(),
-      translation: z.string()
-    })
-  )
-})
-
-export const LearnablePhrasesFromAiSchema = z.object({
-  phrase_cards: z.array(
-    z.object({
-      phrase: z.string(),
+      lexeme: z.string(),
       translation: z.string()
     })
   )

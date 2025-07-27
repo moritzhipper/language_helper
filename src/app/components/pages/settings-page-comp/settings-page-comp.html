@@ -1,10 +1,13 @@
 <app-page-wrapper-comp title="Settings" [shrinkOnDesktop]="true">
   <div class="wrapper">
     <div class="stats">
-      <app-counter-comp label="learnables added" size="l">
+      <app-counter-comp label="learnables" size="l">
         {{ learnables().length }}
       </app-counter-comp>
-      <app-counter-comp label="tokens used" size="l">
+      <app-counter-comp label="collections" size="l">
+        {{ collections().length }}
+      </app-counter-comp>
+      <app-counter-comp label="tokens used" class="tokens">
         {{ tokensUsed() }}
       </app-counter-comp>
     </div>

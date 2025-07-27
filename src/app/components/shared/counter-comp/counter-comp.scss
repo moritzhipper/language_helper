@@ -21,10 +21,15 @@
   &.l {
     .count {
       font-size: var(--font-size-4);
+      line-height: var(--font-size-4);
     }
   }
 }
 
 .count {
   font-weight: bold;
+}
+
+.label {
+  opacity: var(--opacity-1);
 }

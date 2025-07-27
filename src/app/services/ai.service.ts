@@ -5,21 +5,14 @@ import OpenAI from 'openai'
 // import { zodTextFormat } from 'openai/helpers/zod'
 import { ChatModel } from 'openai/resources/shared.mjs'
 import { SettingsStore } from '../store/settingsStore'
-import {
-  LearnablePhrasesFromAiSchema,
-  LearnableWordsFromAiSchema
-} from '../types_and_schemas/schemas'
+import { LearnablesFromAiSchema } from '../types_and_schemas/schemas'
 import {
   LearnableBase,
   LearnableCreationConfig
 } from '../types_and_schemas/types'
 import { zodTextFormat } from '../utils/genaral-utils'
 
-import {
-  mapAndFilterWordsFromInput,
-  mapPhrasesFromInputToChunks,
-  splitArrayIntoBatches
-} from './ai/ai-utils'
+import { mapPhrasesFromInputToChunks } from './ai/ai-utils'
 import { getPhrasesPrompt, getWordsPrompt } from './ai/prompt'
 
 @Injectable({
@@ -61,7 +54,7 @@ export class AiService {
       cardPromises.push(this._createPhrases(config.input))
     }
     if (config.type === 'words' || config.type === 'both') {
-      cardPromises.push(this._createWords(config.input, config.excludeWords))
+      cardPromises.push(this._createWords(config.input))
     }
 
     const cardLists = await Promise.all(cardPromises)
@@ -74,92 +67,62 @@ export class AiService {
     // this is a workaround for gpt-4o missing a lot of phrases when given to long input
     // increasing batchsize may improve speed, but reduce accuracy
     // reducing it increases accuracy, but reduces speed and increases token usage
-    const maxChunkSize = 500
+    const maxChunkSize = 1000
     const chunks = mapPhrasesFromInputToChunks(userInput, maxChunkSize)
-    const chunkPromises = chunks.map((chunk) => this._extractPhraseCards(chunk))
+    const chunkPromises = chunks.map((chunk) =>
+      this._extractCards(chunk, 'phrases')
+    )
 
     const cardsLists = await Promise.all(chunkPromises)
 
     return cardsLists.flat(1)
   }
 
-  private async _createWords(
-    userInput: string,
-    excludeWords: string[]
-  ): Promise<LearnableBase[]> {
-    // preemptively filter words from input that are in excluded words
-    // to not make ai create double entries and thus reduce token usage
-    const newUniqueWords = mapAndFilterWordsFromInput(userInput, excludeWords)
-
+  private async _createWords(userInput: string): Promise<LearnableBase[]> {
     // this is a workaround for gpt-4o missing a lot of words when given a longer input
     // splitting the input into batches of smaller words improves input adherence
     // increasing batchsize may improve speed, but reduce accuracy
     // reducing it increases accuracy, but reduces speed and increases token usage
-    const batchSize = 20
-    const batches = splitArrayIntoBatches(newUniqueWords, batchSize)
+    const chunkSize = 300
+    const batches = mapPhrasesFromInputToChunks(userInput, chunkSize)
     const cardPromises = batches.map((batch) =>
-      this._extractWordCards('create vocabulary cards for:' + batch.join(','))
+      this._extractCards(batch, 'words')
     )
 
     const cardsLists = await Promise.all(cardPromises)
-    const cards = cardsLists.flat(1)
-    debugger
-    // when the input language is not the speaking language, the can not be filtered preemptively
-    // as a result it is necessary to filter the cards again after creation
-    const filteredCards = cards.filter((c) => !excludeWords.includes(c.lexeme))
-
-    return filteredCards
+    return cardsLists.flat(1)
   }
 
-  private async _extractPhraseCards(
-    userInput: string
+  private async _extractCards(
+    userInput: string,
+    type: LearnableCreationConfig['type']
   ): Promise<LearnableBase[]> {
-    const prompt = this._phrasesPrompt()
+    const prompt =
+      type === 'phrases' ? this._phrasesPrompt() : this._wordsPrompt()
+    const cardType = type === 'phrases' ? 'phrase' : 'word'
 
     const response = await this.oAi().responses.parse({
       model: this.model,
       text: {
-        format: zodTextFormat(LearnableWordsFromAiSchema, 'vocabulary_cards')
+        format: zodTextFormat(LearnablesFromAiSchema, 'learnable_cards')
       },
       input: [
         { role: 'system', content: prompt },
-        { role: 'user', content: userInput }
+        {
+          role: 'user',
+          content: 'transfer the follwing into cards: ' + userInput
+        }
       ]
     })
 
     this.settingsStore.addTokensUsed(response.usage?.total_tokens ?? 0)
-    const cards = response.output_parsed?.vocabulary_cards || []
+    const cards = response.output_parsed?.cards || []
 
     return cards.map((c) => ({
-      lexeme: c.word,
+      lexeme: c.lexeme,
       translation: c.translation,
       notes: '',
-      type: 'word'
-    }))
-  }
-
-  private async _extractWordCards(userInput: string): Promise<LearnableBase[]> {
-    const prompt = this._wordsPrompt()
-
-    const response = await this.oAi().responses.parse({
-      model: this.model,
-      text: {
-        format: zodTextFormat(LearnablePhrasesFromAiSchema, 'phrase_cards')
-      },
-      input: [
-        { role: 'system', content: prompt },
-        { role: 'user', content: userInput }
-      ]
-    })
-
-    this.settingsStore.addTokensUsed(response.usage?.total_tokens ?? 0)
-    const cards = response.output_parsed?.phrase_cards || []
-
-    return cards.map((c) => ({
-      lexeme: c.phrase,
-      translation: c.translation,
-      notes: '',
-      type: 'phrase'
+      type: cardType
     }))
   }
 }
