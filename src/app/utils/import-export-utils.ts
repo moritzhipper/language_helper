@@ -3,6 +3,7 @@ import { StoreExportSchema } from '../types_and_schemas/schemas'
 import {
   CollectionExport,
   Learnable,
+  LearnableBase,
   LearnableCollection,
   LearnableExport,
   StoreExport
@@ -112,4 +113,30 @@ export const mapFileImportToAddableLearnables = (
     learnables,
     collections
   }
+}
+
+export const filterDoubleEntries = (
+  newLearnables: LearnableBase[],
+  existingLearnables: Learnable[]
+): LearnableBase[] => {
+  const setOfLexemes = new Set<string>()
+
+  // remove double entries from ai generated learnables
+  const uniqueNewLearnables = newLearnables.filter((l) => {
+    const isUnique = !setOfLexemes.has(l.lexeme)
+    setOfLexemes.add(l.lexeme)
+    return isUnique
+  })
+
+  // filter out learnables that already exist in the store
+  const filteredNewLearnables = newLearnables.filter(
+    (newL) =>
+      !existingLearnables.some(
+        (existingL) =>
+          existingL.lexeme === newL.lexeme &&
+          existingL.translation === newL.translation
+      )
+  )
+
+  return filteredNewLearnables
 }

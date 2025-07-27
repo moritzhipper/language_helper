@@ -26,12 +26,11 @@ export const saveNewlyCreatedLearnables =
   (learnablesBase: LearnableBase[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     const learnables = mapBaseToFullToLearnables(learnablesBase)
-    const filteredLearnables = filterDoubleEntries(learnables)
-    const addedIDs = filteredLearnables.map((l) => l.id)
+    const addedIDs = learnables.map((l) => l.id)
 
     return {
       ...state,
-      learnables: [...filteredLearnables, ...state.learnables],
+      learnables: [...learnables, ...state.learnables],
       addedLatestIDs: addedIDs
     }
   }
@@ -174,17 +173,6 @@ const mapBaseToFullToLearnables = (
       translation: [false, false, false, false, false]
     }
   }))
-}
-
-const filterDoubleEntries = (learnables: Learnable[]): Learnable[] => {
-  const uniqueLexemes = new Set<string>()
-  return learnables.filter((l) => {
-    if (uniqueLexemes.has(l.lexeme)) {
-      return false
-    }
-    uniqueLexemes.add(l.lexeme)
-    return true
-  })
 }
 
 const addGuessToLearnable = (

@@ -1,4 +1,4 @@
-import { Component, inject, input, output, signal } from '@angular/core'
+import { Component, inject, output, signal } from '@angular/core'
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -26,7 +26,6 @@ export class MagicAddComp {
 
   isConverting = signal(false)
 
-  existingWords = input.required<string[]>()
   cancel = output<void>()
   confirm = output<LearnableBase[]>()
 
@@ -41,19 +40,13 @@ export class MagicAddComp {
 
     const creationConf = {
       input: formValue.input,
-      type: formValue.type,
-      excludeWords: this.existingWords()
+      type: formValue.type
     } as LearnableCreationConfig
 
     try {
       this.isConverting.set(true)
       const baseLearnables =
         await this.aiS.createLearnablesFromString(creationConf)
-
-      this.toastService.showToast({
-        message: `Created ${baseLearnables.length} new learnables!`,
-        type: 'info'
-      })
 
       this.confirm.emit(baseLearnables)
       this.reset()
