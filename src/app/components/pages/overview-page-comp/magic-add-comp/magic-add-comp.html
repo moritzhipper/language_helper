@@ -1,13 +1,13 @@
 <form [formGroup]="convertForm" (ngSubmit)="convert()">
   <textarea
     class="wide"
-    formControlName="text"
+    formControlName="input"
     placeholder="paste vocabulary cards or text here"
   ></textarea>
   <app-radio-comp
     class="wide"
     [config]="[{ value: 'words' }, { value: 'phrases' }, { value: 'both' }]"
-    formControlName="allowType"
+    formControlName="type"
     label="types"
   />
   <button class="big cancel" type="button" (click)="onCancel()">cancel</button>

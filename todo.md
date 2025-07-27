@@ -6,13 +6,12 @@
 
 ## Later
 
-- show popup after import
-- add 'every word' mode for notes and stuff
+- add 'every word' mode for notes and stuff - do specific call only containing three words each
 - refactor forms handling to allow escape to cancel
 - prohibit scroll on open modal
 - theme toggle
 
-- animations!
+- animations! -> angular 20.2 bring them back woop woop
 - add notes function in learning view
 - save practices history
   - "spaced repetition"
@@ -25,6 +24,8 @@ https://remixicon.com/icon/arrow-up-s-line
 
 ## Put in readme
 
+words are filtered before and after ebcause of translation and token reduction
+phrases are not
 whats an ai key
 what does the confidence level mean
 what do the dots mean

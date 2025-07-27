@@ -26,37 +26,29 @@ export class MagicAddComp {
 
   isConverting = signal(false)
 
-  excludedWords = input.required<string[]>()
+  existingWords = input.required<string[]>()
   cancel = output<void>()
   confirm = output<LearnableBase[]>()
 
   convertForm = this._fb.group({
-    text: ['', Validators.required],
-    allowType: 'both'
+    input: ['', Validators.required],
+    type: 'both'
   })
 
   async convert() {
     if (this.isConverting()) return
+    const formValue = this.convertForm.value
 
-    const text = this.convertForm.value.text
-    const allowType = this.convertForm.value.allowType
-    const allowWords = allowType === 'words' || allowType === 'both'
-    const allowPhrases = allowType === 'phrases' || allowType === 'both'
-
-    if (this.convertForm.invalid || !text) return
-    const config: LearnableCreationConfig = {
-      text,
-      allowWords,
-      allowPhrases
-    }
-
-    this.isConverting.set(true)
+    const creationConf = {
+      input: formValue.input,
+      type: formValue.type,
+      excludeWords: this.existingWords()
+    } as LearnableCreationConfig
 
     try {
-      const baseLearnables = await this.aiS.createLearnablesFromString(
-        config,
-        this.excludedWords()
-      )
+      this.isConverting.set(true)
+      const baseLearnables =
+        await this.aiS.createLearnablesFromString(creationConf)
 
       this.toastService.showToast({
         message: `Created ${baseLearnables.length} new learnables!`,
