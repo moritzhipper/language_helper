@@ -26,7 +26,7 @@ export class MagicAddComp {
 
   isConverting = signal(false)
 
-  excludedWords = input.required<string[]>()
+  existingWords = input.required<string[]>()
   cancel = output<void>()
   confirm = output<LearnableBase[]>()
 
@@ -37,12 +37,17 @@ export class MagicAddComp {
 
   async convert() {
     if (this.isConverting()) return
-    const config = this.convertForm.value as LearnableCreationConfig
-    if (this.convertForm.invalid || !config) return
-    this.isConverting.set(true)
-    debugger
+    const formValue = this.convertForm.value
+
+    const creationConf = {
+      input: formValue.input,
+      type: formValue.type,
+      excludeWords: this.existingWords()
+    } as LearnableCreationConfig
     try {
-      const baseLearnables = await this.aiS.createLearnablesFromString(config)
+      this.isConverting.set(true)
+      const baseLearnables =
+        await this.aiS.createLearnablesFromString(creationConf)
 
       this.toastService.showToast({
         message: `Created ${baseLearnables.length} new learnables!`,

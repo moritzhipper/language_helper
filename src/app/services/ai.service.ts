@@ -1,5 +1,7 @@
 import { computed, inject, Injectable } from '@angular/core'
 import OpenAI from 'openai'
+// reimport when zod v4 + openai compatibility bug is fixed
+// until then use helper function zodTextFormat from utils/genaral-utils
 // import { zodTextFormat } from 'openai/helpers/zod'
 import { ChatModel } from 'openai/resources/shared.mjs'
 import { SettingsStore } from '../store/settingsStore'
@@ -10,6 +12,7 @@ import {
   LearnableCreationConfig
 } from '../types_and_schemas/types'
 import { zodTextFormat } from '../utils/genaral-utils'
+import { filterWordsFromInput } from '../utils/learnables-filter'
 import { getPhrasesPrompt, getWordsPrompt } from './prompt'
 
 @Injectable({
@@ -30,30 +33,59 @@ export class AiService {
   async createLearnablesFromString(
     config: LearnableCreationConfig
   ): Promise<LearnableBase[]> {
-    const prompt = this._getSystemPrompt(config.type)
     const cardPromises: Promise<LearnableBaseFromAi[]>[] = []
+
     // when both, do call phrase and cards, if one of them, call one of them
     // chatgpt skips a lot of input when doing both at once
-    if (config.type === 'both') {
-      cardPromises.push(
-        this._createCards(config.input, 'phrases'),
-        this._createCards(config.input, 'words')
-      )
-    } else {
-      cardPromises.push(this._createCards(config.input, config.type))
+    if (config.type === 'phrases' || config.type === 'both') {
+      cardPromises.push(this._createPhrases(config.input))
+    }
+    if (config.type === 'words' || config.type === 'both') {
+      cardPromises.concat(this._createWords(config.input, config.excludeWords))
     }
 
-    const cards = await (await Promise.all(cardPromises)).flatMap((c) => c)
+    const cardLists = await Promise.all(cardPromises)
+    const cards = cardLists.flat(1)
 
     return cards.map((l) => ({ ...l, notes: '' }))
   }
 
+  private async _createPhrases(userInput: string) {
+    const prompt = getPhrasesPrompt(
+      this.settingsStore.learningLang(),
+      this.settingsStore.speakingLang()
+    )
+
+    return this._createCards(userInput, prompt)
+  }
+
+  private _createWords(userInput: string, excludeWords: string[]) {
+    const newUniqueWords = filterWordsFromInput(userInput, excludeWords)
+    const prompt = getWordsPrompt(
+      this.settingsStore.learningLang(),
+      this.settingsStore.speakingLang()
+    )
+
+    // this is a workaround for gpt-4o missing a lot of words when given a longer input
+    // splitting the input into batches of smaller words improves adherence to input
+    // increasing batchsize may improve speed, but reduce accuracy
+    // reducing it increases accuracy, but reduces speed and increases token usage
+    const batchSize = 20
+
+    const batches = this._splitArrayIntoBatches(newUniqueWords, batchSize)
+
+    debugger
+    const learnablePromises = batches.map((batch) =>
+      this._createCards(batch.join(','), prompt)
+    )
+
+    return learnablePromises
+  }
+
   private async _createCards(
     userInput: string,
-    type: LearnableCreationConfig['type']
-  ) {
-    const prompt = this._getSystemPrompt(type)
-
+    prompt: string
+  ): Promise<LearnableBaseFromAi[]> {
     const response = await this.oAi().responses.parse({
       model: this.model,
       text: {
@@ -66,19 +98,20 @@ export class AiService {
     })
 
     this.settingsStore.addTokensUsed(response.usage?.total_tokens ?? 0)
-
     return response.output_parsed?.learnables || []
   }
 
-  private _getSystemPrompt(type: LearnableCreationConfig['type']) {
-    return type === 'phrases'
-      ? getPhrasesPrompt(
-          this.settingsStore.learningLang(),
-          this.settingsStore.speakingLang()
-        )
-      : getWordsPrompt(
-          this.settingsStore.learningLang(),
-          this.settingsStore.speakingLang()
-        )
+  private _splitArrayIntoBatches<T>(array: T[], batchSize: number): T[][] {
+    const numberOfChunks = Math.ceil(array.length / batchSize)
+    const chunks: T[][] = []
+
+    for (let i = 0; i < numberOfChunks; i++) {
+      const chunkStart = i * batchSize
+      const chunkEnd = (i + 1) * batchSize
+
+      chunks.push(array.slice(chunkStart, chunkEnd))
+    }
+
+    return chunks
   }
 }

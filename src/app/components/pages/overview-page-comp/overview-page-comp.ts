@@ -75,8 +75,10 @@ export class OverviewComp {
     this._learnables().filter((l) => this.selectedLearnableIds().includes(l.id))
   )
 
-  learnableLexemes = computed(() =>
-    this.selectedLearnables().map((l) => l.lexeme)
+  learnableWordsLexemes = computed(() =>
+    this._learnables()
+      .filter((l) => l.type === 'word')
+      .map((l) => l.lexeme)
   )
 
   filteredLearnables = computed(() => {

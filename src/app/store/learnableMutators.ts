@@ -286,7 +286,6 @@ export const deleteCollection =
 export const renameCollection =
   (id: string, name: string) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    debugger
     const collections = state.collections.map((c) => {
       if (c.id !== id) return c
 

@@ -5,6 +5,8 @@
 - filter current cards form input, not put them in system prompt
 - form width auf desktop min width setzen -> use the page wrapper logic?
 
+- first create phrases, then use in phrases contained words to filter out words form input, create thourough words form filtered input
+
 ## Later
 
 - add 'every word' mode for notes and stuff - do specific call only containing three words each
