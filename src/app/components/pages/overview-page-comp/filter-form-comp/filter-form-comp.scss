@@ -54,7 +54,9 @@
     flex-wrap: wrap;
     gap: var(--distance-2) var(--distance-4);
     align-items: end;
-
+    input {
+      width: 250px;
+    }
     &.opened {
       margin-bottom: var(--distance-4);
     }

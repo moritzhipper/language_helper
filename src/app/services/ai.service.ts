@@ -6,14 +6,11 @@ import { SettingsStore } from '../store/settingsStore'
 import { LearnableResponseSchema } from '../types_and_schemas/schemas'
 import {
   LearnableBase,
+  LearnableBaseFromAi,
   LearnableCreationConfig
 } from '../types_and_schemas/types'
 import { zodTextFormat } from '../utils/genaral-utils'
-import {
-  getPhrasesPrompt,
-  getWordsAndPhrasesPrompt,
-  getWordsPrompt
-} from './ai-prompts/prompt'
+import { getPhrasesPrompt, getWordsPrompt } from './prompt'
 
 @Injectable({
   providedIn: 'root'
@@ -34,19 +31,36 @@ export class AiService {
     config: LearnableCreationConfig
   ): Promise<LearnableBase[]> {
     const prompt = this._getSystemPrompt(config.type)
-    const cards = await this._createCards(config.input, prompt)
+    const cardPromises: Promise<LearnableBaseFromAi[]>[] = []
+    // when both, do call phrase and cards, if one of them, call one of them
+    // chatgpt skips a lot of input when doing both at once
+    if (config.type === 'both') {
+      cardPromises.push(
+        this._createCards(config.input, 'phrases'),
+        this._createCards(config.input, 'words')
+      )
+    } else {
+      cardPromises.push(this._createCards(config.input, config.type))
+    }
+
+    const cards = await (await Promise.all(cardPromises)).flatMap((c) => c)
 
     return cards.map((l) => ({ ...l, notes: '' }))
   }
 
-  private async _createCards(userInput: string, systemPrompt: string) {
+  private async _createCards(
+    userInput: string,
+    type: LearnableCreationConfig['type']
+  ) {
+    const prompt = this._getSystemPrompt(type)
+
     const response = await this.oAi().responses.parse({
       model: this.model,
       text: {
         format: zodTextFormat(LearnableResponseSchema, 'learnable_base')
       },
       input: [
-        { role: 'system', content: systemPrompt },
+        { role: 'system', content: prompt },
         { role: 'user', content: userInput }
       ]
     })
@@ -57,20 +71,14 @@ export class AiService {
   }
 
   private _getSystemPrompt(type: LearnableCreationConfig['type']) {
-    if (type === 'phrases') {
-      return getPhrasesPrompt(
-        this.settingsStore.learningLang(),
-        this.settingsStore.speakingLang()
-      )
-    } else if (type === 'words') {
-      return getWordsPrompt(
-        this.settingsStore.learningLang(),
-        this.settingsStore.speakingLang()
-      )
-    }
-    return getWordsAndPhrasesPrompt(
-      this.settingsStore.learningLang(),
-      this.settingsStore.speakingLang()
-    )
+    return type === 'phrases'
+      ? getPhrasesPrompt(
+          this.settingsStore.learningLang(),
+          this.settingsStore.speakingLang()
+        )
+      : getWordsPrompt(
+          this.settingsStore.learningLang(),
+          this.settingsStore.speakingLang()
+        )
   }
 }
