@@ -13,7 +13,7 @@ import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
 import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-comp'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
-import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
+import { ModalWrapperComp } from '../../shared/forms/modal-wrapper-comp/modal-wrapper-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 @Component({
   selector: 'app-settings.comp',

@@ -7,8 +7,8 @@ import {
   parseFileImportString,
   verifiyImportedFileValidity
 } from '../../../utils/import-export-utils'
+import { ModalWrapperComp } from '../../shared/forms/modal-wrapper-comp/modal-wrapper-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
-import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { CollectionComp } from './collection-comp/collection-comp'
 import {

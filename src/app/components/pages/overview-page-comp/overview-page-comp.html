@@ -36,10 +36,10 @@
       'cards-selected': selectedLearnables().length > 0
     }"
   >
-    <button (click)="addModal.open()" class="create ai">
+    <button (click)="addNew()" class="create ai">
       <app-icon-comp type="magic" />
     </button>
-    <button (click)="bulkEditModal.open()" class="create manual">
+    <button class="create manual">
       <app-icon-comp type="pen" />
     </button>
     <button (click)="resetLearnableSelection()" class="edit reset">
@@ -48,7 +48,7 @@
       </span>
       <app-icon-comp type="reset" />
     </button>
-    <button (click)="collectionAddModal.open()" class="edit add-to-collection">
+    <button class="edit add-to-collection">
       <app-icon-comp type="collection-add" />
     </button>
     <button
@@ -57,7 +57,7 @@
     >
       <app-icon-comp type="collection-remove" />
     </button>
-    <button (click)="deleteModal.open()" class="edit trash">
+    <button class="edit trash">
       <app-icon-comp type="trash" />
     </button>
   </div>
@@ -74,13 +74,9 @@
     }
   </div>
 </app-page-wrapper-comp>
-<app-modal-wrapper-comp #addModal>
-  <app-magic-add-comp
-    (cancel)="addModal.close()"
-    (confirm)="confirmAdd($event)"
-  />
-</app-modal-wrapper-comp>
-<app-modal-wrapper-comp #bulkEditModal>
+<app-modal-wrapper-comp />
+
+<!-- <app-modal-wrapper-comp #bulkEditModal>
   <app-bulk-edit-comp
     [preset]="selectedLearnables()"
     (cancel)="bulkEditModal.close()"
@@ -104,4 +100,4 @@
     (cancel)="collectionAddModal.close()"
     (confirm)="confirmCollectionAdd($event)"
   />
-</app-modal-wrapper-comp>
+</app-modal-wrapper-comp> -->

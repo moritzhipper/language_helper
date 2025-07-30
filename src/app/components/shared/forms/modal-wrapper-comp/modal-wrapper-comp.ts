@@ -1,0 +1,93 @@
+import { NgComponentOutlet } from '@angular/common'
+import {
+  Component,
+  computed,
+  DOCUMENT,
+  effect,
+  inject,
+  output,
+  OutputRefSubscription,
+  untracked,
+  viewChild
+} from '@angular/core'
+import {
+  getModalComponent,
+  ModalResult
+} from '../../../../services/modal-config'
+import { ModalService } from '../../../../services/modal-service'
+import { BaseModalDirective } from '../base-modal-directive'
+
+export abstract class ModalContent {
+  abstract cancel: () => void
+  abstract confirm: () => void
+}
+
+@Component({
+  selector: 'app-modal-wrapper-comp',
+  imports: [NgComponentOutlet],
+  templateUrl: './modal-wrapper-comp.html',
+  styleUrl: './modal-wrapper-comp.scss',
+  host: {
+    '[class.open]': 'isOpen()'
+  }
+})
+export class ModalWrapperComp {
+  closed = output<void>()
+  isOpen = computed(() => !!this.modalService.currentlyOpenModalConfig())
+  outlet = viewChild(NgComponentOutlet)
+  private _submitSubscription: OutputRefSubscription | null = null
+
+  modalService = inject(ModalService)
+  private document = inject(DOCUMENT)
+
+  currentModalConfig = computed(() => {
+    const modalConf = this.modalService.currentlyOpenModalConfig()
+    if (!modalConf) return null
+    const component = getModalComponent(modalConf.type)
+    if (!component) return null
+
+    const { preset, config } = modalConf
+
+    if (!preset && !config) {
+      return { component }
+    }
+    if (preset && !config) {
+      return { component, inputs: { preset } }
+    }
+    if (!preset && config) {
+      return { component, inputs: { config } }
+    }
+
+    return {
+      inputs: { preset, config },
+      component
+    }
+  })
+
+  constructor() {
+    effect(() => {
+      const instance = this.outlet()?.componentInstance as BaseModalDirective
+
+      untracked(() => {
+        if (instance) {
+          this.document.body.style.overflow = 'hidden'
+          this._submitSubscription = instance.resolve.subscribe(
+            this.formResolve
+          )
+        } else {
+          this.document.body.style.overflow = 'auto'
+          this._submitSubscription?.unsubscribe()
+          this._submitSubscription = null
+        }
+      })
+    })
+  }
+
+  private formResolve = (result: ModalResult<unknown>): void => {
+    this.modalService.resolveModal(result as ModalResult<unknown>)
+  }
+
+  open() {}
+
+  close() {}
+}
