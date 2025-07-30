@@ -1,4 +1,4 @@
-<app-page-wrapper-comp title="Cards" [shrinkOnDesktop]="false">
+<app-page-wrapper-comp title="Cards" [shrinkOnDesktop]="false" icon="list">
   <div class="collections">
     <button
       class="silent collection"
@@ -29,37 +29,35 @@
       </p>
     }
   }
-  <div
-    class="edit-bubbles"
-    [class]="{
-      'collection-selected': selectedCollectionId(),
-      'cards-selected': selectedLearnables().length > 0
-    }"
-  >
-    <button (click)="addModal.open()" class="create ai">
+  <div class="edit-bubbles">
+    <button (click)="addNew()" class="create ai">
       <app-icon-comp type="magic" />
     </button>
-    <button (click)="bulkEditModal.open()" class="create manual">
+    <button (click)="bulkEdit()" class="create manual">
       <app-icon-comp type="pen" />
     </button>
-    <button (click)="resetLearnableSelection()" class="edit reset">
-      <span>
-        {{ selectedLearnables().length }}
-      </span>
-      <app-icon-comp type="reset" />
-    </button>
-    <button (click)="collectionAddModal.open()" class="edit add-to-collection">
-      <app-icon-comp type="collection-add" />
-    </button>
-    <button
-      (click)="removeSelectionFromCollection()"
-      class="edit remove-from-collection"
-    >
-      <app-icon-comp type="collection-remove" />
-    </button>
-    <button (click)="deleteModal.open()" class="edit trash">
-      <app-icon-comp type="trash" />
-    </button>
+    @if (selectedLearnables().length > 0) {
+      <button (click)="resetLearnableSelection()" class="edit reset">
+        <span>
+          {{ selectedLearnables().length }}
+        </span>
+        <app-icon-comp type="reset" />
+      </button>
+      @if (selectedCollectionId()) {
+        <button
+          (click)="removeSelectionFromCollection()"
+          class="edit remove-from-collection"
+        >
+          <app-icon-comp type="collection-remove" />
+        </button>
+      }
+      <button (click)="addToCollection()" class="edit add-to-collection">
+        <app-icon-comp type="collection-add" />
+      </button>
+      <button class="edit trash" (click)="removeSelection()">
+        <app-icon-comp type="trash" />
+      </button>
+    }
   </div>
 
   <div class="learnables">
@@ -74,34 +72,3 @@
     }
   </div>
 </app-page-wrapper-comp>
-<app-modal-wrapper-comp #addModal>
-  <app-magic-add-comp
-    (cancel)="addModal.close()"
-    (confirm)="confirmAdd($event)"
-  />
-</app-modal-wrapper-comp>
-<app-modal-wrapper-comp #bulkEditModal>
-  <app-bulk-edit-comp
-    [preset]="selectedLearnables()"
-    (cancel)="bulkEditModal.close()"
-    (confirm)="confirmEdit($event)"
-  />
-</app-modal-wrapper-comp>
-<app-modal-wrapper-comp #deleteModal>
-  <app-confirm-form-comp
-    (cancel)="deleteModal.close()"
-    (confirm)="confirmDelete()"
-    label="delete cards"
-  >
-    <app-counter-comp label="cards selected" size="l">
-      {{ selectedLearnables().length }}
-    </app-counter-comp>
-  </app-confirm-form-comp>
-</app-modal-wrapper-comp>
-<app-modal-wrapper-comp #collectionAddModal>
-  <app-collection-add-comp
-    [collections]="collections()"
-    (cancel)="collectionAddModal.close()"
-    (confirm)="confirmCollectionAdd($event)"
-  />
-</app-modal-wrapper-comp>

@@ -66,9 +66,7 @@
       add
       <app-icon-comp type="add" [size]="20" />
     </button>
-    <button type="button" class="cancel big" (click)="cancelForm()">
-      cancel
-    </button>
+    <button type="button" class="cancel big" (click)="cancel()">cancel</button>
     <button type="submit" class="submit" [disabled]="!learnablesForm.valid">
       submit
     </button>

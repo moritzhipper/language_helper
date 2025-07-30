@@ -10,7 +10,7 @@
     formControlName="type"
     label="types"
   />
-  <button class="big cancel" type="button" (click)="onCancel()">cancel</button>
+  <button class="big cancel" type="button" (click)="cancel()">cancel</button>
   <button type="submit" class="big submit" [disabled]="!convertForm.valid">
     @if (isConverting()) {
       <span>converting...</span>

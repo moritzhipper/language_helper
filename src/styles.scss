@@ -1,11 +1,14 @@
 @use './style/theme.scss';
 @use './style/reusable.scss';
 
+html {
+  background-color: var(--col-bg);
+}
 body,
 html {
   margin: 0;
-  background-color: var(--col-bg);
   scrollbar-color: var(--col-accent) transparent;
+  position: relative;
 }
 
 body,

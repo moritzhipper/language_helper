@@ -1,6 +1,9 @@
 @if (title(); as title) {
   <h1>{{ title }}</h1>
 }
+@if (icon(); as icon) {
+  <app-icon-comp [type]="icon" class="icon" />
+}
 
 <div class="content">
   <ng-content />

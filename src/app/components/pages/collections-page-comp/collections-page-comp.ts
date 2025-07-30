@@ -1,32 +1,22 @@
-import { Component, computed, inject, signal, viewChild } from '@angular/core'
+import { Component, computed, inject, signal } from '@angular/core'
 import { config } from '../../../../config'
 import { BlobService } from '../../../services/blob-service'
+import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
+import { LearnableCollection } from '../../../types_and_schemas/types'
 import {
   parseFileImportString,
   verifiyImportedFileValidity
 } from '../../../utils/import-export-utils'
+import { ConfirmCollectionDeletionType } from '../../shared/forms/delete-collection-comp/delete-collection-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
-import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { CollectionComp } from './collection-comp/collection-comp'
-import {
-  ConfirmCollectionDeletionType,
-  DeleteCollectionComp
-} from './delete-collection-comp/delete-collection-comp'
-import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
 
 @Component({
   selector: 'app-collections-page-comp',
-  imports: [
-    PageWrapperComp,
-    IconComp,
-    ModalWrapperComp,
-    EditCollectionComp,
-    CollectionComp,
-    DeleteCollectionComp
-  ],
+  imports: [PageWrapperComp, IconComp, CollectionComp],
   templateUrl: './collections-page-comp.html',
   styleUrl: './collections-page-comp.scss'
 })
@@ -34,13 +24,7 @@ export class CollectionsPageComp {
   private readonly _lState = inject(LearnablesStore)
   private readonly _toastS = inject(ToastService)
   private readonly _makeBlobS = inject(BlobService)
-
-  private deleteCollectionModal = viewChild.required<ModalWrapperComp>(
-    'deleteCollectionModal'
-  )
-  private renameCollectionModal = viewChild.required<ModalWrapperComp>(
-    'renameCollectionModal'
-  )
+  private readonly _modalService = inject(ModalService)
 
   config = config
 
@@ -74,26 +58,27 @@ export class CollectionsPageComp {
     }
   }
 
-  deleteCollection(deleteType: ConfirmCollectionDeletionType) {
-    const collectionId = this.selectedCollectionId()
-    if (!collectionId) return
+  async deleteCollection(coll: LearnableCollection) {
+    const result =
+      await this._modalService.open<ConfirmCollectionDeletionType>(
+        'collection-delete'
+      )
+    if (result.type !== 'confirm') return
 
-    if (deleteType.deletionType === 'dissolve') {
-      this._lState.deleteCollection(collectionId)
-    } else {
-      this._lState.deleteCollection(collectionId, true)
-    }
+    const removeCardsCompletely = result.value.deletionType === 'remove'
+    this._lState.deleteCollection(coll.id, removeCardsCompletely)
 
     this.selectedCollectionId.set(null)
-    this.deleteCollectionModal().close()
   }
 
-  renameCollection(name: string) {
-    const collectionId = this.selectedCollectionId()
-    if (!collectionId) return
-    this._lState.editCollection(collectionId, name)
+  async renameCollection(coll: LearnableCollection) {
+    const result = await this._modalService.open<string>('collection-rename', {
+      name: coll.name
+    })
+    if (result.type !== 'confirm') return
+
+    this._lState.editCollection(coll.id, result.value)
     this.selectedCollectionId.set(null)
-    this.renameCollectionModal().close()
   }
 
   importCollection(event: Event) {

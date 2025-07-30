@@ -1,8 +1,9 @@
-<app-page-wrapper-comp title="Collections" [shrinkOnDesktop]="false">
-  <div
-    class="edit-bubbles"
-    [class.collection-selected]="selectedCollectionId()"
-  >
+<app-page-wrapper-comp
+  title="Collections"
+  [shrinkOnDesktop]="false"
+  icon="collection"
+>
+  <div class="edit-bubbles">
     <button type="" class="import" (click)="fileInput.click()">
       <app-icon-comp type="import" />
       <input
@@ -12,19 +13,21 @@
         (change)="importCollection($event)"
       />
     </button>
-    <a
-      class="export"
-      [download]="collectionDownload()?.fileName"
-      [attr.href]="collectionDownload()?.blobUrl"
-    >
-      <app-icon-comp type="share" />
-    </a>
-    <button class="edit" (click)="renameCollectionModal.open()">
-      <app-icon-comp type="edit" />
-    </button>
-    <button (click)="deleteCollectionModal.open()" class="delete">
-      <app-icon-comp type="trash" />
-    </button>
+    @if (selectedCollection(); as collection) {
+      <a
+        class="export"
+        [download]="collectionDownload()?.fileName"
+        [attr.href]="collectionDownload()?.blobUrl"
+      >
+        <app-icon-comp type="share" />
+      </a>
+      <button class="edit" (click)="renameCollection(collection)">
+        <app-icon-comp type="edit" />
+      </button>
+      <button (click)="deleteCollection(collection)" class="delete">
+        <app-icon-comp type="trash" />
+      </button>
+    }
   </div>
   @if (collections().length === 0) {
     <p class="empty-state">no collections available</p>
@@ -44,16 +47,3 @@
     }
   </div>
 </app-page-wrapper-comp>
-<app-modal-wrapper-comp #renameCollectionModal>
-  <app-edit-collection-comp
-    (cancel)="renameCollectionModal.close()"
-    (confirm)="renameCollection($event)"
-    [preset]="selectedCollection()?.name"
-  />
-</app-modal-wrapper-comp>
-<app-modal-wrapper-comp #deleteCollectionModal>
-  <app-delete-collection-comp
-    (cancel)="deleteCollectionModal.close()"
-    (confirm)="deleteCollection($event)"
-  />
-</app-modal-wrapper-comp>

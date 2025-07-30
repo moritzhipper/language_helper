@@ -54,7 +54,7 @@ const filterBySearch = (
 ): boolean => {
   if (!filter.search) return true
   const lexeme = learnable.lexeme.toLowerCase()
-  const translation = learnable.lexeme.toLowerCase()
+  const translation = learnable.translation.toLowerCase()
   const search = filter.search.toLowerCase()
   return lexeme.includes(search) || translation.includes(search)
 }

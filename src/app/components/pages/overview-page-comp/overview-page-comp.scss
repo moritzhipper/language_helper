@@ -44,9 +44,7 @@
   .manual {
     padding: var(--distance-3);
   }
-  .reset {
-    padding: var(--distance-3);
-  }
+
   .edit {
     display: grid;
 
@@ -58,28 +56,6 @@
     span,
     app-icon-comp {
       grid-area: 1 /1;
-    }
-  }
-  &:not(.cards-selected) {
-    .reset,
-    .trash,
-    .add-to-collection,
-    .remove-from-collection {
-      display: none;
-    }
-  }
-
-  &.cards-selected {
-    .manual {
-      padding: var(--distance-4);
-    }
-    .ai {
-      display: none;
-    }
-  }
-  &:not(.collection-selected) {
-    .remove-from-collection {
-      display: none;
     }
   }
 }

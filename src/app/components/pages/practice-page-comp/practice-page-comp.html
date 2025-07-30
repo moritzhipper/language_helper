@@ -70,7 +70,7 @@
       </div>
     </app-page-wrapper-comp>
   } @else {
-    <app-page-wrapper-comp title="Practice">
+    <app-page-wrapper-comp title="Practice" icon="learn">
       <div class="finished-view">
         <div class="summary">
           <div class="counter">
@@ -84,7 +84,7 @@
     </app-page-wrapper-comp>
   }
 } @else {
-  <app-page-wrapper-comp title="Practice">
+  <app-page-wrapper-comp title="Practice" icon="learn">
     <div class="selection-view">
       <app-counter-comp label="cards in set" size="l">
         {{ selectedCardsIds().length }}

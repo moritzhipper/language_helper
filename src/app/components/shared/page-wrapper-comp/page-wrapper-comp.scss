@@ -7,6 +7,9 @@
   box-sizing: border-box;
   display: grid;
 
+  h1 {
+    position: relative;
+  }
   &:has(h1) {
     grid-template-rows: auto 1fr;
   }
@@ -15,11 +18,32 @@
     width: 100%;
     overflow: hidden;
   }
+
+  .icon {
+    color: var(--col-accent);
+    position: fixed;
+    z-index: -1;
+    opacity: var(--opacity-0);
+    rotate: -10deg;
+  }
 }
 
-:host.shrink-on-desktop {
-  @include isDesktop() {
+@include isDesktop() {
+  :host {
+    .icon {
+      left: -150px;
+      top: -150px;
+      width: 550px;
+      height: 550px;
+    }
+  }
+
+  :host.shrink-on-desktop {
     h1 {
+      margin-left: var(--distance-6);
+      line-height: var(--distance-7);
+      font-size: var(--font-size-4);
+      rotate: -4deg;
       place-self: start;
     }
     .content {
@@ -31,5 +55,14 @@
       border: 1px solid var(--col-accent);
       border-radius: var(--radius-2);
     }
+  }
+}
+
+@include isPhone() {
+  .icon {
+    left: -40vw;
+    top: -40vw;
+    width: 120vw;
+    height: 120vw;
   }
 }

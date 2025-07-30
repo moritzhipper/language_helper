@@ -1,0 +1,10 @@
+<div class="content">
+  @if (message(); as message) {
+    {{ message }}
+  } @else {
+    <ng-content />
+  }
+</div>
+
+<button class="big" type="button" (click)="cancel()">cancel</button>
+<button type="submit" (click)="confirm()">{{ label() }}</button>

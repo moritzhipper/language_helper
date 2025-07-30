@@ -1,6 +1,8 @@
 :host {
   display: grid;
   place-items: center;
+  width: var(--dimension);
+  height: var(--dimension);
 }
 svg {
   display: block;

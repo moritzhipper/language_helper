@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -6,12 +6,10 @@ import {
 } from '@angular/forms'
 import { AiService } from '../../../../services/ai.service'
 import { ToastService } from '../../../../services/toast-service'
-import {
-  LearnableBase,
-  LearnableCreationConfig
-} from '../../../../types_and_schemas/types'
-import { IconComp } from '../../../shared/icon-comp/icon-comp'
-import { RadioComp } from '../../../shared/radio-comp/radio-comp'
+import { LearnableCreationConfig } from '../../../../types_and_schemas/types'
+import { IconComp } from '../../icon-comp/icon-comp'
+import { RadioComp } from '../../radio-comp/radio-comp'
+import { BaseModalDirective } from '../base-modal-directive'
 
 @Component({
   selector: 'app-magic-add-comp',
@@ -19,15 +17,12 @@ import { RadioComp } from '../../../shared/radio-comp/radio-comp'
   templateUrl: './magic-add-comp.html',
   styleUrl: './magic-add-comp.scss'
 })
-export class MagicAddComp {
+export class MagicAddComp extends BaseModalDirective {
   private readonly _fb = inject(NonNullableFormBuilder)
   private readonly aiS = inject(AiService)
   private toastService = inject(ToastService)
 
   isConverting = signal(false)
-
-  cancel = output<void>()
-  confirm = output<LearnableBase[]>()
 
   convertForm = this._fb.group({
     input: ['', Validators.required],
@@ -48,8 +43,7 @@ export class MagicAddComp {
       const baseLearnables =
         await this.aiS.createLearnablesFromString(creationConf)
 
-      this.confirm.emit(baseLearnables)
-      this.reset()
+      this.confirm(baseLearnables)
     } catch (error) {
       this.isConverting.set(false)
 
@@ -61,15 +55,5 @@ export class MagicAddComp {
 
       console.error('Error creating learnables:', error)
     }
-  }
-
-  onCancel() {
-    this.cancel.emit()
-    this.reset()
-  }
-
-  reset() {
-    this.isConverting.set(false)
-    this.convertForm.reset()
   }
 }

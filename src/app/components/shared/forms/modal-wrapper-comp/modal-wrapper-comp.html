@@ -1,0 +1,9 @@
+@if (currentModalConfig(); as modalConf) {
+  <div class="fake-dialog">
+    <ng-container
+      [ngComponentOutlet]="modalConf.component"
+      [ngComponentOutletInputs]="modalConf.inputs"
+    />
+  </div>
+  <div class="backdrop"></div>
+}

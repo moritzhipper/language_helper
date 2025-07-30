@@ -1,5 +1,6 @@
-import { Component, computed, inject, signal, viewChild } from '@angular/core'
+import { Component, computed, inject, signal } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
+import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
@@ -9,19 +10,12 @@ import {
 } from '../../../types_and_schemas/types'
 import { filterDoubleEntries } from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
-import { ConfirmFormComp } from '../../shared/confirm-form-comp/confirm-form-comp'
-import { CounterComp } from '../../shared/counter-comp/counter-comp'
+import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
+import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
-import { ModalWrapperComp } from '../../shared/modal-wrapper-comp/modal-wrapper-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
-import { BulkEditComp, ConfirmationType } from './bulk-add-comp/bulk-edit-comp'
-import {
-  CollectionAddComp,
-  ConfirmCollectionAddType
-} from './collection-add-comp/collection-add-comp'
 import { FilterFormComp } from './filter-form-comp/filter-form-comp'
 import { LearnableComp } from './learnable-comp/learnable-comp'
-import { MagicAddComp } from './magic-add-comp/magic-add-comp'
 
 @Component({
   selector: 'app-overview',
@@ -32,26 +26,13 @@ import { MagicAddComp } from './magic-add-comp/magic-add-comp'
     LearnableComp,
     PageWrapperComp,
     IconComp,
-    ModalWrapperComp,
-    MagicAddComp,
-    BulkEditComp,
-    ConfirmFormComp,
-    CounterComp,
-    FilterFormComp,
-    CollectionAddComp
+    FilterFormComp
   ]
 })
 export class OverviewComp {
-  private readonly addModal = viewChild.required<ModalWrapperComp>('addModal')
-  private readonly deleteModal =
-    viewChild.required<ModalWrapperComp>('deleteModal')
-  private readonly bulkEditModal =
-    viewChild.required<ModalWrapperComp>('bulkEditModal')
-  private readonly collectionAddModal =
-    viewChild.required<ModalWrapperComp>('collectionAddModal')
-
   private readonly _lStore = inject(LearnablesStore)
   private readonly _toastService = inject(ToastService)
+  private readonly _modalService = inject(ModalService)
 
   private _learnables = computed(() => {
     const learnables = this._lStore.learnables()
@@ -92,12 +73,43 @@ export class OverviewComp {
     return filterLearnables(this._learnables(), filter)
   })
 
+  async addNew() {
+    const result = await this._modalService.open<LearnableBase[]>('magic-add')
+
+    if (result.type !== 'confirm') return
+    this._addAndMarkLearnables(result.value)
+  }
+
+  async bulkEdit() {
+    const result = await this._modalService.open<ConfirmationType>(
+      'bulk-edit',
+      {
+        learnables: this.selectedLearnables()
+      }
+    )
+
+    if (result.type !== 'confirm') return
+    const { update, deleteIDs, add } = result.value
+    this._lStore.updateLearnables(update)
+    this._lStore.removeLearnables(deleteIDs)
+    this._addAndMarkLearnables(add)
+  }
+
   resetLearnableSelection() {
     this.selectedLearnableIds.set([])
   }
 
-  confirmCollectionAdd({ createName, addToId }: ConfirmCollectionAddType) {
+  async addToCollection() {
+    const result = await this._modalService.open<ConfirmCollectionAddType>(
+      'collection-add',
+      { collections: this.collections() }
+    )
+
+    if (result.type !== 'confirm') return
+
+    const { createName, addToId } = result.value
     const selectedIDs = this.selectedLearnableIds()
+
     if (createName) {
       this._lStore.createCollection(createName, selectedIDs)
     }
@@ -105,10 +117,9 @@ export class OverviewComp {
       this._lStore.editCollectionLearnables(addToId, selectedIDs, [])
     }
     this.selectedLearnableIds.set([])
-    this.collectionAddModal().close()
   }
 
-  removeSelectionFromCollection() {
+  async removeSelectionFromCollection() {
     const collectionId = this.selectedCollectionId()
     if (!collectionId) return
     this._lStore.editCollectionLearnables(
@@ -118,17 +129,14 @@ export class OverviewComp {
     )
   }
 
-  confirmAdd(learnables: LearnableBase[]) {
-    // save new learnables to the store
-    this._addAndMarkLearnables(learnables)
-    this.addModal().close()
-  }
+  async removeSelection() {
+    const confirm = await this._modalService.open<ConfirmationType>('confirm', {
+      message: `Are you sure you want to delete ${this.selectedLearnableIds().length} cards?`
+    })
 
-  confirmEdit(conf: ConfirmationType) {
-    this._lStore.updateLearnables(conf.update)
-    this._lStore.removeLearnables(conf.deleteIDs)
-    this._addAndMarkLearnables(conf.add)
-    this.bulkEditModal().close()
+    if (confirm.type !== 'confirm') return
+    this._lStore.removeLearnables(this.selectedLearnableIds())
+    this.selectedLearnableIds.set([])
   }
 
   private _addAndMarkLearnables(learnables: LearnableBase[]) {
@@ -162,11 +170,6 @@ export class OverviewComp {
         []
       )
     }
-  }
-
-  confirmDelete() {
-    this.deleteModal().close()
-    this._lStore.removeLearnables(this.selectedLearnableIds())
   }
 
   toggleLearnableSelection(lId: string) {
