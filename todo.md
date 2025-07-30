@@ -6,6 +6,7 @@
 - form width auf desktop min width setzen -> use the page wrapper logic?
 - edit card from practice mode
 - check overview and collections for unused things
+- replace css show hide with template syntax
 
 ## Later
 

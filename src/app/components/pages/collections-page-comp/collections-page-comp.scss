@@ -27,14 +27,6 @@ input[type='file'] {
   .export {
     padding: var(--distance-3);
   }
-
-  &:not(.collection-selected) {
-    .edit,
-    .delete,
-    .export {
-      display: none;
-    }
-  }
 }
 @include isDesktop() {
   .collections {

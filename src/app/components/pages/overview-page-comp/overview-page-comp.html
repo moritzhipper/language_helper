@@ -29,37 +29,37 @@
       </p>
     }
   }
-  <div
-    class="edit-bubbles"
-    [class]="{
-      'collection-selected': selectedCollectionId(),
-      'cards-selected': selectedLearnables().length > 0
-    }"
-  >
+  <div class="edit-bubbles">
+    @let hasSelected = selectedLearnables().length > 0;
+
     <button (click)="addNew()" class="create ai">
       <app-icon-comp type="magic" />
     </button>
     <button (click)="bulkEdit()" class="create manual">
       <app-icon-comp type="pen" />
     </button>
-    <button (click)="resetLearnableSelection()" class="edit reset">
-      <span>
-        {{ selectedLearnables().length }}
-      </span>
-      <app-icon-comp type="reset" />
-    </button>
-    <button (click)="addToCollection()" class="edit add-to-collection">
-      <app-icon-comp type="collection-add" />
-    </button>
-    <button
-      (click)="removeSelectionFromCollection()"
-      class="edit remove-from-collection"
-    >
-      <app-icon-comp type="collection-remove" />
-    </button>
-    <button class="edit trash" (click)="removeSelection()">
-      <app-icon-comp type="trash" />
-    </button>
+    @if (hasSelected) {
+      <button (click)="resetLearnableSelection()" class="edit reset">
+        <span>
+          {{ selectedLearnables().length }}
+        </span>
+        <app-icon-comp type="reset" />
+      </button>
+      @if (selectedCollectionId()) {
+        <button
+          (click)="removeSelectionFromCollection()"
+          class="edit remove-from-collection"
+        >
+          <app-icon-comp type="collection-remove" />
+        </button>
+      }
+      <button (click)="addToCollection()" class="edit add-to-collection">
+        <app-icon-comp type="collection-add" />
+      </button>
+      <button class="edit trash" (click)="removeSelection()">
+        <app-icon-comp type="trash" />
+      </button>
+    }
   </div>
 
   <div class="learnables">
