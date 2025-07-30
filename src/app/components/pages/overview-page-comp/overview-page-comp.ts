@@ -12,7 +12,6 @@ import { filterDoubleEntries } from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
 import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
-import { ModalWrapperComp } from '../../shared/forms/modal-wrapper-comp/modal-wrapper-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { FilterFormComp } from './filter-form-comp/filter-form-comp'
@@ -27,7 +26,6 @@ import { LearnableComp } from './learnable-comp/learnable-comp'
     LearnableComp,
     PageWrapperComp,
     IconComp,
-    ModalWrapperComp,
     FilterFormComp
   ]
 })

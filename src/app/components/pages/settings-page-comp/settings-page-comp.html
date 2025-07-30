@@ -27,9 +27,7 @@
       </label>
     </form>
     <div class="data-interact">
-      <button class="delete" (click)="deleteModal.open()">
-        delete all cards
-      </button>
+      <button class="delete" (click)="reset()">delete all cards</button>
       <a
         class="big"
         [download]="learnablesDownload().fileName"
@@ -39,17 +37,3 @@
     </div>
   </div>
 </app-page-wrapper-comp>
-<app-modal-wrapper-comp #deleteModal>
-  <app-confirm-form-comp
-    (cancel)="deleteModal.close()"
-    (confirm)="reset()"
-    label="delete all of them"
-  >
-    <app-counter-comp label="cards" size="l">
-      {{ learnables().length }}
-    </app-counter-comp>
-    <app-counter-comp label="collections" size="l">
-      {{ collections().length }}
-    </app-counter-comp>
-  </app-confirm-form-comp>
-</app-modal-wrapper-comp>
