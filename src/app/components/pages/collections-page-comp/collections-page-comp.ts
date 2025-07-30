@@ -1,6 +1,7 @@
-import { Component, computed, inject, signal, viewChild } from '@angular/core'
+import { Component, computed, inject, signal } from '@angular/core'
 import { config } from '../../../../config'
 import { BlobService } from '../../../services/blob-service'
+import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
@@ -15,7 +16,6 @@ import {
   ConfirmCollectionDeletionType,
   DeleteCollectionComp
 } from './delete-collection-comp/delete-collection-comp'
-import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
 
 @Component({
   selector: 'app-collections-page-comp',
@@ -23,7 +23,6 @@ import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
     PageWrapperComp,
     IconComp,
     ModalWrapperComp,
-    EditCollectionComp,
     CollectionComp,
     DeleteCollectionComp
   ],
@@ -34,13 +33,7 @@ export class CollectionsPageComp {
   private readonly _lState = inject(LearnablesStore)
   private readonly _toastS = inject(ToastService)
   private readonly _makeBlobS = inject(BlobService)
-
-  private deleteCollectionModal = viewChild.required<ModalWrapperComp>(
-    'deleteCollectionModal'
-  )
-  private renameCollectionModal = viewChild.required<ModalWrapperComp>(
-    'renameCollectionModal'
-  )
+  private readonly _modalService = inject(ModalService)
 
   config = config
 
@@ -85,15 +78,19 @@ export class CollectionsPageComp {
     }
 
     this.selectedCollectionId.set(null)
-    this.deleteCollectionModal().close()
   }
 
-  renameCollection(name: string) {
+  async renameCollection() {
     const collectionId = this.selectedCollectionId()
     if (!collectionId) return
-    this._lState.editCollection(collectionId, name)
+
+    const result = await this._modalService.open<string>('collection-rename', {
+      name: this.selectedCollection()?.name
+    })
+    if (result.type !== 'confirm') return
+
+    this._lState.editCollection(collectionId, result.value)
     this.selectedCollectionId.set(null)
-    this.renameCollectionModal().close()
   }
 
   importCollection(event: Event) {

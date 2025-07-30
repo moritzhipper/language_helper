@@ -75,29 +75,3 @@
   </div>
 </app-page-wrapper-comp>
 <app-modal-wrapper-comp />
-
-<!-- <app-modal-wrapper-comp #bulkEditModal>
-  <app-bulk-edit-comp
-    [preset]="selectedLearnables()"
-    (cancel)="bulkEditModal.close()"
-    (confirm)="confirmEdit($event)"
-  />
-</app-modal-wrapper-comp>
-<app-modal-wrapper-comp #deleteModal>
-  <app-confirm-form-comp
-    (cancel)="deleteModal.close()"
-    (confirm)="confirmDelete()"
-    label="delete cards"
-  >
-    <app-counter-comp label="cards selected" size="l">
-      {{ selectedLearnables().length }}
-    </app-counter-comp>
-  </app-confirm-form-comp>
-</app-modal-wrapper-comp>
-<app-modal-wrapper-comp #collectionAddModal>
-  <app-collection-add-comp
-    [collections]="collections()"
-    (cancel)="collectionAddModal.close()"
-    (confirm)="confirmCollectionAdd($event)"
-  />
-</app-modal-wrapper-comp> -->

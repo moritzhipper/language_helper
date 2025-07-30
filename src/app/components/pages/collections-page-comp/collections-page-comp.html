@@ -19,7 +19,7 @@
     >
       <app-icon-comp type="share" />
     </a>
-    <button class="edit" (click)="renameCollectionModal.open()">
+    <button class="edit" (click)="renameCollection()">
       <app-icon-comp type="edit" />
     </button>
     <button (click)="deleteCollectionModal.open()" class="delete">
@@ -44,13 +44,7 @@
     }
   </div>
 </app-page-wrapper-comp>
-<app-modal-wrapper-comp #renameCollectionModal>
-  <app-edit-collection-comp
-    (cancel)="renameCollectionModal.close()"
-    (confirm)="renameCollection($event)"
-    [preset]="selectedCollection()?.name"
-  />
-</app-modal-wrapper-comp>
+
 <app-modal-wrapper-comp #deleteCollectionModal>
   <app-delete-collection-comp
     (cancel)="deleteCollectionModal.close()"
