@@ -1,5 +1,5 @@
 import { Directive, output } from '@angular/core'
-import { ModalResult } from '../../../services/modal-config'
+import { ModalResult } from './modal-config'
 
 @Directive()
 export abstract class BaseModalDirective {

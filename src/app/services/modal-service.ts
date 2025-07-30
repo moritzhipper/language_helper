@@ -1,5 +1,9 @@
 import { computed, Injectable, signal } from '@angular/core'
-import { ModalResult, OpenModalConfig } from './modal-config'
+import {
+  ModalResult,
+  ModalType,
+  OpenModalConfig
+} from '../components/shared/forms/modal-config'
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +14,8 @@ export class ModalService {
 
   resolver: ((result: unknown) => void) | null = null
 
-  async openModal<T>(config: OpenModalConfig): Promise<ModalResult<T>> {
-    console.log('opening modal with config:', config)
-    this._openModal.set(config)
+  async open<T>(type: ModalType, config?: unknown): Promise<ModalResult<T>> {
+    this._openModal.set({ type, config })
 
     return new Promise<ModalResult<T>>((resolve) => {
       this.resolver = (result) => resolve(result as ModalResult<T>)

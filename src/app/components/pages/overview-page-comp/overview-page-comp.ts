@@ -10,11 +10,11 @@ import {
 } from '../../../types_and_schemas/types'
 import { filterDoubleEntries } from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
+import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
 import { ModalWrapperComp } from '../../shared/forms/modal-wrapper-comp/modal-wrapper-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { ConfirmationType } from './bulk-add-comp/bulk-edit-comp'
-import { ConfirmCollectionAddType } from './collection-add-comp/collection-add-comp'
 import { FilterFormComp } from './filter-form-comp/filter-form-comp'
 import { LearnableComp } from './learnable-comp/learnable-comp'
 
@@ -84,9 +84,7 @@ export class OverviewComp {
   })
 
   async addNew() {
-    const result = await this._modalService.openModal<LearnableBase[]>({
-      type: 'magic-add'
-    })
+    const result = await this._modalService.open<LearnableBase[]>('magic-add')
 
     if (result.type !== 'confirm') return
     this._addAndMarkLearnables(result.value)
@@ -94,6 +92,14 @@ export class OverviewComp {
 
   resetLearnableSelection() {
     this.selectedLearnableIds.set([])
+  }
+
+  async addCollection() {
+    const result =
+      await this._modalService.open<ConfirmCollectionAddType>('collection-add')
+
+    if (result.type !== 'confirm') return
+    this.confirmCollectionAdd(result.value)
   }
 
   confirmCollectionAdd({ createName, addToId }: ConfirmCollectionAddType) {
@@ -109,11 +115,6 @@ export class OverviewComp {
   }
 
   async removeSelectionFromCollection() {
-    const res = await this._modalService.openModal({
-      type: 'magic-add',
-      preset: null,
-      config: {}
-    })
     // Now res is typed as Learnable[] specifically
     const collectionId = this.selectedCollectionId()
     if (!collectionId) return

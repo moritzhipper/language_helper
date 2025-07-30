@@ -10,12 +10,9 @@ import {
   untracked,
   viewChild
 } from '@angular/core'
-import {
-  getModalComponent,
-  ModalResult
-} from '../../../../services/modal-config'
 import { ModalService } from '../../../../services/modal-service'
 import { BaseModalDirective } from '../base-modal-directive'
+import { getModalComponent, ModalResult } from '../modal-config'
 
 export abstract class ModalContent {
   abstract cancel: () => void
@@ -46,20 +43,14 @@ export class ModalWrapperComp {
     const component = getModalComponent(modalConf.type)
     if (!component) return null
 
-    const { preset, config } = modalConf
+    const config = modalConf.config
 
-    if (!preset && !config) {
+    if (!config) {
       return { component }
-    }
-    if (preset && !config) {
-      return { component, inputs: { preset } }
-    }
-    if (!preset && config) {
-      return { component, inputs: { config } }
     }
 
     return {
-      inputs: { preset, config },
+      inputs: { config },
       component
     }
   })
