@@ -8,7 +8,7 @@ export abstract class BaseModalDirective {
   cancel(): void {
     this.resolve.emit({ type: 'cancel' })
   }
-  confirm(value: unknown): void {
+  confirm(value?: unknown): void {
     this.resolve.emit({ type: 'confirm', value })
   }
 }

@@ -122,7 +122,6 @@ export class OverviewComp {
   }
 
   async removeSelectionFromCollection() {
-    // Now res is typed as Learnable[] specifically
     const collectionId = this.selectedCollectionId()
     if (!collectionId) return
     this._lStore.editCollectionLearnables(
@@ -130,6 +129,16 @@ export class OverviewComp {
       [],
       [...this.selectedLearnableIds()]
     )
+  }
+
+  async removeSelection() {
+    const confirm = await this._modalService.open<ConfirmationType>('confirm', {
+      message: `Are you sure you want to delete ${this.selectedLearnableIds().length} cards?`
+    })
+
+    if (confirm.type !== 'confirm') return
+    this._lStore.removeLearnables(this.selectedLearnableIds())
+    this.selectedLearnableIds.set([])
   }
 
   private _addAndMarkLearnables(learnables: LearnableBase[]) {
@@ -163,10 +172,6 @@ export class OverviewComp {
         []
       )
     }
-  }
-
-  confirmDelete() {
-    this._lStore.removeLearnables(this.selectedLearnableIds())
   }
 
   toggleLearnableSelection(lId: string) {

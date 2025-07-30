@@ -2,6 +2,7 @@
 
 ## Right Now
 
+- remove sizes from all forms
 - form width auf desktop min width setzen -> use the page wrapper logic?
 - edit card from practice mode
 

@@ -1,7 +1,7 @@
 import { Type } from '@angular/core'
-import { ConfirmFormComp } from '../confirm-form-comp/confirm-form-comp'
 import { BulkEditComp } from './bulk-add-comp/bulk-edit-comp'
 import { CollectionAddComp } from './collection-add-comp/collection-add-comp'
+import { ConfirmFormComp } from './confirm-form-comp/confirm-form-comp'
 import { MagicAddComp } from './magic-add-comp/magic-add-comp'
 
 export type ModalType = 'magic-add' | 'bulk-edit' | 'confirm' | 'collection-add'
