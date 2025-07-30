@@ -39,7 +39,7 @@
     <button (click)="addNew()" class="create ai">
       <app-icon-comp type="magic" />
     </button>
-    <button class="create manual">
+    <button (click)="bulkEdit()" class="create manual">
       <app-icon-comp type="pen" />
     </button>
     <button (click)="resetLearnableSelection()" class="edit reset">
@@ -48,7 +48,7 @@
       </span>
       <app-icon-comp type="reset" />
     </button>
-    <button class="edit add-to-collection">
+    <button (click)="addToCollection()" class="edit add-to-collection">
       <app-icon-comp type="collection-add" />
     </button>
     <button

@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onConfirm()">
+<form [formGroup]="form" (ngSubmit)="confirm(form.value)">
   <div class="collections">
     @for (collection of collections(); track collection.id) {
       <label class="radio">
@@ -13,14 +13,17 @@
     <input
       type="text"
       class="create"
-      formControlName="create"
-      [class.selected]="form.value.create && !form.value.addToId"
+      formControlName="createName"
+      [class.selected]="form.value.createName && !form.value.addToId"
       (input)="resetCollectionSelection()"
       (click)="resetCollectionSelection()"
     />
   </label>
-  <button class="big" type="button" (click)="onCancel()">cancel</button>
-  <button type="submit" [disabled]="!form.value.create && !form.value.addToId">
+  <button class="big" type="button" (click)="cancel()">cancel</button>
+  <button
+    type="submit"
+    [disabled]="!form.value.createName && !form.value.addToId"
+  >
     confirm
   </button>
 </form>

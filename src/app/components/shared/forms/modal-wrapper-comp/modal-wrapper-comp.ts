@@ -50,7 +50,7 @@ export class ModalWrapperComp {
     }
 
     return {
-      inputs: { config },
+      inputs: { ...config },
       component
     }
   })

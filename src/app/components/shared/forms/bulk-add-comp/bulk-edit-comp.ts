@@ -4,7 +4,6 @@ import {
   effect,
   inject,
   input,
-  output,
   signal,
   untracked
 } from '@angular/core'
@@ -16,7 +15,6 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms'
-import { ToastService } from '../../../../services/toast-service'
 import {
   Learnable,
   LearnableBase,
@@ -24,6 +22,7 @@ import {
 } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 import { RadioComp } from '../../../shared/radio-comp/radio-comp'
+import { BaseModalDirective } from '../base-modal-directive'
 
 export type ConfirmationType = {
   update: LearnablePartialWithId[]
@@ -37,24 +36,21 @@ export type ConfirmationType = {
   templateUrl: './bulk-edit-comp.html',
   styleUrl: './bulk-edit-comp.scss'
 })
-export class BulkEditComp {
+export class BulkEditComp extends BaseModalDirective {
   private readonly _fb = inject(NonNullableFormBuilder)
-  private readonly _toastService = inject(ToastService)
 
-  preset = input<Learnable[] | null>()
+  learnables = input<Learnable[] | null>()
 
   deletedLIDs = signal<string[]>([])
-
-  confirm = output<ConfirmationType>()
-  cancel = output<void>()
 
   learnablesForm = this._fb.group({
     learnables: this._fb.array<LearnableBase>([])
   })
 
   constructor() {
+    super()
     effect(() => {
-      const preset = this.preset()
+      const preset = this.learnables()
       if (!preset) return
       untracked(() => {
         this.mapLearnablesToFormArray(preset)
@@ -119,14 +115,7 @@ export class BulkEditComp {
       update: updated,
       add: added
     }
-
-    this.confirm.emit(confirm)
-    this.reset()
-  }
-
-  cancelForm() {
-    this.reset()
-    this.cancel.emit()
+    this.confirm(confirm)
   }
 
   mapLearnablesToFormArray(learnables: Learnable[]): void {
@@ -134,14 +123,5 @@ export class BulkEditComp {
     learnables.forEach((learnable) =>
       this.learnablesFormArray.push(this.createLearnableFormGroup(learnable))
     )
-  }
-
-  reset() {
-    this.deletedLIDs.set([])
-    this.learnablesForm.reset()
-    const preset = this.preset()
-    if (preset) {
-      this.mapLearnablesToFormArray(preset)
-    }
   }
 }
