@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core'
 
-type IconType =
+export type IconType =
   | 'settings'
   | 'chevron'
   | 'list'
@@ -25,7 +25,10 @@ type IconType =
   selector: 'app-icon-comp',
   imports: [],
   templateUrl: './icon-comp.html',
-  styleUrl: './icon-comp.scss'
+  styleUrl: './icon-comp.scss',
+  host: {
+    '[style.--dimension]': 'size() + "px"'
+  }
 })
 export class IconComp {
   type = input.required<IconType>()

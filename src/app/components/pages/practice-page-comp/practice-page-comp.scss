@@ -45,6 +45,8 @@
     button.toggle-navigation {
       padding: var(--distance-4) 0;
       opacity: var(--opacity-1);
+      display: grid;
+      place-items: center;
       .expanded {
         rotate: 180deg;
       }

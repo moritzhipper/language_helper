@@ -1,4 +1,4 @@
-<app-page-wrapper-comp title="Cards" [shrinkOnDesktop]="false">
+<app-page-wrapper-comp title="Cards" [shrinkOnDesktop]="false" icon="list">
   <div class="collections">
     <button
       class="silent collection"
@@ -30,15 +30,13 @@
     }
   }
   <div class="edit-bubbles">
-    @let hasSelected = selectedLearnables().length > 0;
-
     <button (click)="addNew()" class="create ai">
       <app-icon-comp type="magic" />
     </button>
     <button (click)="bulkEdit()" class="create manual">
       <app-icon-comp type="pen" />
     </button>
-    @if (hasSelected) {
+    @if (selectedLearnables().length > 0) {
       <button (click)="resetLearnableSelection()" class="edit reset">
         <span>
           {{ selectedLearnables().length }}

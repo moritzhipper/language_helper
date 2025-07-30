@@ -5,13 +5,11 @@
 - remove sizes from all forms
 - form width auf desktop min width setzen -> use the page wrapper logic?
 - edit card from practice mode
-- check overview and collections for unused things
 - replace css show hide with template syntax
+- remove width css from all modals
 
 ## Later
 
-- refactor forms handling to allow escape to cancel
-- prohibit scroll on open modal
 - theme toggle
 
 - animations! -> angular 20.2 bring them back woop woop
@@ -42,12 +40,6 @@
   - Oben links positioniert
   - Im `LageWrapper` als `Icon` definieren
   - Optional: `outline`-Modus fürs Icon
-
-### Modals
-
-- **Form Handling**:
-  - Form bekommt nur den **Wrapper** als `reference`
-  - Der Wrapper übernimmt `submit` und `cancel`
 
 ### Page Wrapper vs. Modal
 

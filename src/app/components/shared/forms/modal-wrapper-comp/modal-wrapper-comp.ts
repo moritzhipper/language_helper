@@ -4,8 +4,8 @@ import {
   computed,
   DOCUMENT,
   effect,
+  HostListener,
   inject,
-  output,
   OutputRefSubscription,
   untracked,
   viewChild
@@ -29,7 +29,6 @@ export abstract class ModalContent {
   }
 })
 export class ModalWrapperComp {
-  closed = output<void>()
   isOpen = computed(() => !!this.modalService.currentlyOpenModalConfig())
   outlet = viewChild(NgComponentOutlet)
   private _submitSubscription: OutputRefSubscription | null = null
@@ -78,7 +77,8 @@ export class ModalWrapperComp {
     this.modalService.resolveModal(result as ModalResult<unknown>)
   }
 
-  open() {}
-
-  close() {}
+  @HostListener('window:keydown.escape')
+  close() {
+    this.modalService.resolveModal({ type: 'cancel' })
+  }
 }
