@@ -1,9 +1,5 @@
-:host {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
+form {
   grid-template-rows: 1fr auto;
-  gap: var(--distance-4);
-
   .content {
     grid-column: span 2;
 

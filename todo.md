@@ -2,11 +2,9 @@
 
 ## Right Now
 
-- remove sizes from all forms
-- form width auf desktop min width setzen -> use the page wrapper logic?
+- bulk edit: cards can get too wide on mobile an make x scrollable
 - edit card from practice mode
 - replace css show hide with template syntax
-- remove width css from all modals
 
 ## Later
 

@@ -25,3 +25,11 @@
   font-weight: var(--font-weight-bold);
   color: var(--col-primary);
 }
+form.modal {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  padding: var(--distance-6);
+  box-sizing: border-box;
+  gap: var(--distance-6) var(--distance-4);
+  height: 100%;
+}

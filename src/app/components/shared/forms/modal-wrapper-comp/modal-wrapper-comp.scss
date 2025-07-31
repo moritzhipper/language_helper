@@ -29,9 +29,12 @@
   backdrop-filter: blur(10px);
 }
 
+:host-context(form) {
+  padding: var(--distacne-5);
+}
+
 @include isPhone() {
   .fake-dialog {
-    padding: var(--distance-5);
     place-self: stretch;
   }
 }

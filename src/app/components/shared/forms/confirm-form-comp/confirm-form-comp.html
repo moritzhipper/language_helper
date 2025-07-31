@@ -1,10 +1,12 @@
-<div class="content">
-  @if (message(); as message) {
-    {{ message }}
-  } @else {
-    <ng-content />
-  }
-</div>
+<form class="modal">
+  <div class="content">
+    @if (message(); as message) {
+      {{ message }}
+    } @else {
+      <ng-content />
+    }
+  </div>
 
-<button class="big" type="button" (click)="cancel()">cancel</button>
-<button type="submit" (click)="confirm()">{{ label() }}</button>
+  <button class="big" type="button" (click)="cancel()">cancel</button>
+  <button type="submit" (click)="confirm()">{{ label() }}</button>
+</form>
