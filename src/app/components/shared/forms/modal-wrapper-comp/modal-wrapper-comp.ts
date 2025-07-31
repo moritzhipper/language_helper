@@ -23,10 +23,7 @@ export abstract class ModalContent {
   selector: 'app-modal-wrapper-comp',
   imports: [NgComponentOutlet],
   templateUrl: './modal-wrapper-comp.html',
-  styleUrl: './modal-wrapper-comp.scss',
-  host: {
-    '[class.open]': 'isOpen()'
-  }
+  styleUrl: './modal-wrapper-comp.scss'
 })
 export class ModalWrapperComp {
   isOpen = computed(() => !!this.modalService.currentlyOpenModalConfig())

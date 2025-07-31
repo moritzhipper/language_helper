@@ -1,8 +1,5 @@
-:host {
-  min-height: 200px;
-}
-
 form {
+  height: 100%;
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-rows: 1fr auto;

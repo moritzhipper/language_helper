@@ -1,11 +1,7 @@
-@use '../../../../../style/mixins.scss' as *;
-
 :host {
   display: grid;
-
   grid-template-columns: 1fr 2fr;
   grid-template-rows: 1fr auto;
-
   gap: var(--distance-4);
 
   .content {
@@ -15,11 +11,5 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-  }
-}
-@include isDesktop() {
-  :host {
-    height: 300px;
-    width: 400px;
   }
 }

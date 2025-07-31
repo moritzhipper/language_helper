@@ -1,6 +1,7 @@
 @use '../../../../../style/mixins.scss' as *;
 
 form {
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-rows: 1fr auto auto;
@@ -35,15 +36,12 @@ form {
 
 @include isDesktop() {
   form {
-    padding: var(--distance-4);
-    width: 400px;
-    height: 500px;
+    height: 600px;
   }
 }
 
 @include isPhone() {
   form {
-    width: 100%;
     height: 100%;
   }
 }

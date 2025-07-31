@@ -102,7 +102,7 @@ form {
 @include isDesktop() {
   form {
     --big: 90px;
-    height: 100dvh;
+    height: 100vh;
     width: 100vw;
     padding: var(--big) var(--big) var(--distance-5) var(--big);
     box-sizing: border-box;
