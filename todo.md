@@ -2,7 +2,6 @@
 
 ## Right Now
 
-- bulk edit: cards can get too wide on mobile an make x scrollable
 - edit card from practice mode
 - replace css show hide with template syntax
 - clean app toast stuff: only in page components. bubble up errors until caught there

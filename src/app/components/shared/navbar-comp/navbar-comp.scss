@@ -10,9 +10,6 @@
   gap: var(--distance-2);
 
   &.links-open {
-    .link {
-      display: block;
-    }
     .toggle {
       background-color: var(--col-bg);
       app-icon-comp {
@@ -22,10 +19,6 @@
   }
 }
 
-.link {
-  display: none;
-}
-
 .link,
 .toggle {
   padding: var(--distance-2);
@@ -33,19 +26,6 @@
   padding: var(--distance-3);
   border-radius: 100%;
   box-shadow: var(--shadow-small);
-}
-
-:host {
-  &.practicing.links-open {
-    .practice {
-      animation: pulse 2s infinite;
-    }
-  }
-  &.practicing:not(.links-open) {
-    .toggle {
-      animation: pulse 2s infinite;
-    }
-  }
 }
 
 @keyframes pulse {

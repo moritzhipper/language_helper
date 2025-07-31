@@ -13,7 +13,6 @@ form {
 
   .learnables {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     grid-auto-rows: min-content;
     place-items: start stretch;
     border-radius: var(--radius-1);
@@ -108,6 +107,7 @@ form {
     .learnables {
       height: 100%;
       width: 100%;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     }
     .navigation {
       width: 600px;
@@ -117,6 +117,9 @@ form {
 }
 
 @include isPhone() {
+  .learnables {
+    grid-template-columns: 1fr;
+  }
   .navigation {
     width: 100%;
     place-self: end;
