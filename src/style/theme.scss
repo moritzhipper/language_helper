@@ -5,21 +5,6 @@
   --col-base-3: #e8cfecff;
   --col-base-4: #b34e69ff; // warn
 
-  @media (prefers-color-scheme: light) {
-    --col-text: var(--col-base-0);
-    --col-primary: var(--col-base-1);
-    --col-accent: var(--col-base-2);
-    --col-bg: var(--col-base-3);
-    --col-warning: var(--col-base-4);
-  }
-  @media (prefers-color-scheme: dark) {
-    --col-text: var(--col-base-3);
-    --col-primary: var(--col-base-2);
-    --col-accent: var(--col-base-1);
-    --col-bg: var(--col-base-0);
-    --col-warning: var(--col-base-4);
-  }
-
   --shadow-big: 0px 10px 20px -7px var(--col-base-0);
   --shadow-small: 0px 5px 10px -7px var(--col-base-0);
 
@@ -54,4 +39,23 @@
   --duration-2: 0.6s;
 
   --max-width: 768px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --col-text: var(--col-base-0);
+    --col-primary: var(--col-base-1);
+    --col-accent: var(--col-base-2);
+    --col-bg: var(--col-base-3);
+    --col-warning: var(--col-base-4);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --col-text: var(--col-base-3);
+    --col-primary: var(--col-base-2);
+    --col-accent: var(--col-base-1);
+    --col-bg: var(--col-base-0);
+    --col-warning: var(--col-base-4);
+  }
 }

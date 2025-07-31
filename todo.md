@@ -3,12 +3,9 @@
 ## Right Now
 
 - edit card from practice mode
-- replace css show hide with template syntax
 - clean app toast stuff: only in page components. bubble up errors until caught there
 
 ## Later
-
-- theme toggle
 
 - animations! -> angular 20.2 bring them back woop woop
 - save practices history
