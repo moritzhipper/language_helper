@@ -1,13 +1,12 @@
 @use '../../../../../style/mixins.scss' as *;
 
 form {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-template-rows: 1fr auto auto;
+  grid-template-rows: 1fr auto;
 
-  gap: var(--distance-4);
-
-  .wide {
+  .content {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: var(--distance-4);
     grid-column: span 2;
   }
 
@@ -18,7 +17,6 @@ form {
 
   button {
     display: inline-flex;
-    margin-top: var(--distance-4);
     gap: var(--distance-2);
     justify-content: center;
 
@@ -35,15 +33,12 @@ form {
 
 @include isDesktop() {
   form {
-    padding: var(--distance-4);
-    width: 400px;
-    height: 500px;
+    height: 600px;
   }
 }
 
 @include isPhone() {
   form {
-    width: 100%;
     height: 100%;
   }
 }

@@ -1,15 +1,15 @@
-<form [formGroup]="convertForm" (ngSubmit)="convert()">
-  <textarea
-    class="wide"
-    formControlName="input"
-    placeholder="paste vocabulary cards or text here"
-  ></textarea>
-  <app-radio-comp
-    class="wide"
-    [config]="[{ value: 'words' }, { value: 'phrases' }, { value: 'both' }]"
-    formControlName="type"
-    label="types"
-  />
+<form [formGroup]="convertForm" (ngSubmit)="convert()" class="modal">
+  <div class="content">
+    <textarea
+      formControlName="input"
+      placeholder="paste vocabulary cards or text here"
+    ></textarea>
+    <app-radio-comp
+      [config]="[{ value: 'words' }, { value: 'phrases' }, { value: 'both' }]"
+      formControlName="type"
+      label="types"
+    />
+  </div>
   <button class="big cancel" type="button" (click)="cancel()">cancel</button>
   <button type="submit" class="big submit" [disabled]="!convertForm.valid">
     @if (isConverting()) {

@@ -1,6 +1,6 @@
 @use '../../../../../style/mixins.scss' as *;
 
-:host {
+.wrapper {
   z-index: 15;
   position: fixed;
   top: 0;
@@ -8,13 +8,7 @@
   display: grid;
   height: 100dvh;
   width: 100vw;
-
-  &:not(.open) {
-    display: none;
-  }
-  &.open {
-    display: grid;
-  }
+  display: grid;
 }
 
 .backdrop,
@@ -35,9 +29,18 @@
   backdrop-filter: blur(10px);
 }
 
+:host-context(form) {
+  padding: var(--distacne-5);
+}
+
 @include isPhone() {
   .fake-dialog {
-    padding: var(--distance-5);
     place-self: stretch;
+  }
+}
+@include isDesktop() {
+  .fake-dialog {
+    min-height: 300px;
+    min-width: 450px;
   }
 }

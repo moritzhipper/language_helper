@@ -27,7 +27,7 @@
   button {
     text-align: inherit;
     font-size: inherit;
-    border: 2px solid rgb(from var(--col-accent) r g b / var(--opacity-1));
+    border: 2px solid var(--col-accent);
     border-radius: var(--radius-1);
     padding: 0;
 

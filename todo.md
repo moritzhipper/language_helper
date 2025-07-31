@@ -2,15 +2,10 @@
 
 ## Right Now
 
-- remove sizes from all forms
-- form width auf desktop min width setzen -> use the page wrapper logic?
 - edit card from practice mode
-- replace css show hide with template syntax
-- remove width css from all modals
+- clean app toast stuff: only in page components. bubble up errors until caught there
 
 ## Later
-
-- theme toggle
 
 - animations! -> angular 20.2 bring them back woop woop
 - save practices history
@@ -28,17 +23,7 @@
 
 - Einfaches kleines Textfeld
 
-### Page Wrapper vs. Modal
-
-- Unterschiedlich behandelt
-- **Reusable Modal-Komponente**:
-  - Props:
-    - `Überschrift`
-    - `Content`
-    - `Label Confirm`
-  - Layout:
-    - Desktop: feste Größe
-    - Mobile: volle Breite/Höhe
+- fix openai + zod issue and
 
 # sources
 

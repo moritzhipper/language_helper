@@ -1,17 +1,5 @@
-:host {
-  height: 100%;
-  overflow: hidden;
-}
-
 form {
-  height: 100%;
-  min-height: 300px;
-  min-width: 300px;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
   grid-template-rows: 1fr auto auto;
-
-  gap: var(--distance-4);
 
   label,
   .collections {

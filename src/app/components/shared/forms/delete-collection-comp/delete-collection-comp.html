@@ -1,9 +1,9 @@
-<form [formGroup]="form" (ngSubmit)="confirm(form.value)">
-  <div class="title">Delete Collection</div>
+<form [formGroup]="form" (ngSubmit)="confirm(form.value)" class="modal">
+  <div class="title">dissolve collection?</div>
 
   <app-radio-comp
     formControlName="deletionType"
-    label="completely remove the contained cards as well?"
+    label="keep or remove cards?"
     [config]="[
       { value: 'dissolve', label: 'keep cards' },
       { value: 'remove', label: 'remove cards' }
@@ -11,5 +11,5 @@
   />
 
   <button type="button" class="big" (click)="cancel()">cancel</button>
-  <button type="submit">delete</button>
+  <button type="submit">confirm</button>
 </form>
