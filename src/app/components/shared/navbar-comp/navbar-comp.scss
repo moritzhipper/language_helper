@@ -9,6 +9,10 @@
   z-index: 3;
   gap: var(--distance-2);
 
+  .toggle.open,
+  .toggle.subdue {
+    background-color: var(--col-bg);
+  }
   .toggle.open {
     background-color: var(--col-bg);
     app-icon-comp {

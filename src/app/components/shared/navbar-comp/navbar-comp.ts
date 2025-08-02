@@ -25,7 +25,15 @@ export class NavbarComp {
   })
 
   pulseToggle = computed(() => !this.isOnPracticePage() && !this.linksAreOpen())
-  pulsePractice = computed(() => this.linksAreOpen())
+  subdueToggle = computed(
+    () =>
+      this.isOnPracticePage() &&
+      !this.linksAreOpen() &&
+      this.hasCurrentPractice()
+  )
+  pulsePractice = computed(
+    () => this.linksAreOpen() && this.hasCurrentPractice()
+  )
 
   constructor() {
     effect(() => {

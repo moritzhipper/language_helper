@@ -1,7 +1,11 @@
 <button
   class="toggle"
   (click)="toggleLinks()"
-  [class]="{ pulse: pulseToggle(), open: linksAreOpen() }"
+  [class]="{
+    pulse: pulseToggle(),
+    open: linksAreOpen(),
+    subdue: subdueToggle()
+  }"
 >
   <app-icon-comp type="menu" />
 </button>
