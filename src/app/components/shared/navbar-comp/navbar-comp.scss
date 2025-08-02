@@ -9,14 +9,21 @@
   z-index: 3;
   gap: var(--distance-2);
 
-  .toggle.open,
-  .toggle.subdue {
-    background-color: var(--col-bg);
-  }
-  .toggle.open {
-    background-color: var(--col-bg);
-    app-icon-comp {
-      rotate: 180deg;
+  .toggle {
+    &.open,
+    &.subdue {
+      background-color: var(--col-bg);
+    }
+
+    &.open {
+      app-icon-comp {
+        rotate: 180deg;
+      }
+    }
+
+    &.subdue {
+      opacity: var(--opacity-1);
+      box-shadow: none;
     }
   }
 }
