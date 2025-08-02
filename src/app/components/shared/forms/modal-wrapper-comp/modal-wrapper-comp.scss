@@ -46,17 +46,10 @@
   }
 }
 
-// preparation for angular 20.2
+// todo preparation for new angular 20.2 animations
 @keyframes bd-appear {
   from {
     opacity: 0;
     backdrop-filter: blur(0px);
-  }
-}
-
-@keyframes modal-appear {
-  from {
-    opacity: 0;
-    translate: -20px;
   }
 }

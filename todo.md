@@ -3,7 +3,6 @@
 ## Right Now
 
 - animations: do appear inamations, put at end, comment : preparation. add to notes all animations that need to be done
-- make page wrapper not cut selection
 - replace newestbydate filter with newest by last
 
 - edit card from practice mode
