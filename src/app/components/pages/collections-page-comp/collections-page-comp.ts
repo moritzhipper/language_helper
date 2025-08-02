@@ -5,6 +5,7 @@ import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { LearnableCollection } from '../../../types_and_schemas/types'
+import { calculateAverageConfidencePercent } from '../../../utils/genaral-utils'
 import {
   parseFileImportString,
   verifiyImportedFileValidity
@@ -122,16 +123,6 @@ export class CollectionsPageComp {
       .learnables()
       .filter((l) => collection.learnableIDs.includes(l.id))
 
-    const allGuesses = learnables.flatMap((l) => [
-      ...l.guesses.lexeme,
-      ...l.guesses.translation
-    ])
-
-    if (allGuesses.length === 0) return 0
-
-    const trueGuesses = allGuesses.filter(Boolean).length
-    const confidencePercent = trueGuesses / allGuesses.length
-
-    return Math.round(confidencePercent * 100)
+    return calculateAverageConfidencePercent(learnables)
   }
 }

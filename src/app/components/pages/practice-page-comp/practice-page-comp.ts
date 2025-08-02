@@ -11,6 +11,7 @@ import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
 import { LearnablesFilterConfig } from '../../../types_and_schemas/types'
+import { calculateAverageConfidencePercent } from '../../../utils/genaral-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
@@ -58,12 +59,12 @@ export class PracticeComp {
     initialValue: this.form.value
   })
 
-  private readonly learnablesS = inject(LearnablesStore)
-  collections = this.learnablesS.collections
+  private readonly _lStore = inject(LearnablesStore)
+  collections = this._lStore.collections
 
   isRevealed = signal(false)
   showStats = signal(false)
-  currentPractice = this.learnablesS.currentPractice
+  currentPractice = this._lStore.currentPractice
 
   // this summary is only used to display info to the user
   // and not for further calculations
@@ -111,7 +112,7 @@ export class PracticeComp {
     } as LearnablesFilterConfig
 
     const allLearnableIDsFiltered = filterLearnables(
-      this.learnablesS.learnables(),
+      this._lStore.learnables(),
       filter
     ).map((l) => l.id)
 
@@ -138,7 +139,7 @@ export class PracticeComp {
     const currentPractice = this.currentPractice()
     if (!currentPractice) return null
     const learnableId = currentPractice.ids[currentPractice.index]
-    return this.learnablesS.learnables().find((l) => l.id === learnableId)
+    return this._lStore.learnables().find((l) => l.id === learnableId)
   })
 
   showStatsToggle() {
@@ -155,16 +156,16 @@ export class PracticeComp {
       type: 'guess'
     })
     this.isRevealed.set(false)
-    this.learnablesS.setGuess(isCorrect)
+    this._lStore.setGuess(isCorrect)
   }
 
   endPracticeEarly() {
-    this.learnablesS.quitPracticePrematurly()
+    this._lStore.quitPracticePrematurly()
     this._resetPageState()
   }
 
   endPractice() {
-    this.learnablesS.quitPractice()
+    this._lStore.quitPractice()
     this._resetPageState()
   }
 
@@ -176,6 +177,17 @@ export class PracticeComp {
 
   start() {
     const reverseDirection = !!this._formSignal().reverseDirection
-    this.learnablesS.startPractice(this.selectedCardsIds(), reverseDirection)
+    this._lStore.startPractice(this.selectedCardsIds(), reverseDirection)
+  }
+
+  calculateAverageConfidence(collectionId: string): number {
+    const collection = this.collections().find((c) => c.id === collectionId)
+    if (!collection) return 0
+    const learnables = this._lStore
+      .learnables()
+      .filter((l) => collection.learnableIDs.includes(l.id))
+
+    const percent = calculateAverageConfidencePercent(learnables)
+    return percent
   }
 }

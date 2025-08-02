@@ -121,6 +121,7 @@
             @for (collection of collections(); track collection.id) {
               <option [value]="collection.id">
                 {{ collection.name }}
+                ({{ calculateAverageConfidence(collection.id) }}%)
               </option>
             }
           </select>

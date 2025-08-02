@@ -48,7 +48,7 @@ form.modal {
       var(--duration-2)
       cubic-bezier(0.161, 1.756, 0.394, 0.985)
       backwards;
-    animation-delay: calc(0.1s * #{$i} + var(--duration-0));
+    animation-delay: calc(0.07s * #{$i} + var(--duration-0));
   }
 }
 

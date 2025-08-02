@@ -1,15 +1,18 @@
 .collections {
   display: flex;
-  gap: var(--distance-4);
+  gap: var(--distance-3);
 
   overflow-x: scroll;
   scrollbar-width: none;
+  margin: var(--distance-1) 0 var(--distance-6) 0;
 
   .collection {
     text-wrap: nowrap;
-    margin-bottom: var(--distance-5);
+
     font-size: var(--font-size-2);
     font-weight: var(--font-weight-bold);
+    margin: var(--distance-1);
+
     &:not(.selected) {
       opacity: var(--opacity-1);
     }

@@ -3,9 +3,8 @@
 ## Right Now
 
 - animations: do appear inamations, put at end, comment : preparation. add to notes all animations that need to be done
-- make all scrollbas the same
-- remove borders, make outline
 - make page wrapper not cut selection
+- replace newestbydate filter with newest by last
 
 - edit card from practice mode
 - make edit collection modal scrollable
@@ -14,11 +13,12 @@
 - Filer markieren wenn zu und gesetzt
 - Phrase Prompt anpasseny soll phrases nicht in infinitiv übertragen
 - Doppelte vocabeln in practice mode?
-  Neuer mode: direct translation
-  Add confidence to practice dropdown
+- Neuer mode: direct translation
+- Add confidence to practice dropdown
 
 ## Later
 
+- add select filtered button
 - animations! -> angular 20.2 bring them back woop woop
 - save practices history
 - "spaced repetition"
