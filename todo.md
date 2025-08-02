@@ -3,7 +3,6 @@
 ## Right Now
 
 - animations: do appear inamations, put at end, comment : preparation. add to notes all animations that need to be done
-- Pulse fehlt
 - make all scrollbas the same
 - remove borders, make outline
 - make page wrapper not cut selection

@@ -9,12 +9,10 @@
   z-index: 3;
   gap: var(--distance-2);
 
-  &.links-open {
-    .toggle {
-      background-color: var(--col-bg);
-      app-icon-comp {
-        rotate: 180deg;
-      }
+  .toggle.open {
+    background-color: var(--col-bg);
+    app-icon-comp {
+      rotate: 180deg;
     }
   }
 }
@@ -26,6 +24,10 @@
   padding: var(--distance-3);
   border-radius: 100%;
   box-shadow: var(--shadow-small);
+}
+
+.pulse {
+  animation: pulse 2s infinite;
 }
 
 @keyframes pulse {

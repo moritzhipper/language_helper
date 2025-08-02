@@ -1,8 +1,16 @@
-<button (click)="toggleLinks()" class="toggle">
+<button
+  class="toggle"
+  (click)="toggleLinks()"
+  [class]="{ pulse: pulseToggle(), open: linksAreOpen() }"
+>
   <app-icon-comp type="menu" />
 </button>
-@if (linksOpen()) {
-  <a routerLink="practice" class="link practice">
+@if (linksAreOpen()) {
+  <a
+    class="link practice"
+    routerLink="practice"
+    [class.pulse]="pulsePractice()"
+  >
     <app-icon-comp type="learn" />
   </a>
   <a routerLink="cards" class="link">
