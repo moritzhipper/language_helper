@@ -1,8 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="confirm(form.value)" class="modal">
-  <h2 class="fly-in-0">dissolve collection?</h2>
+  <h2 class="fly-in-y-0">dissolve collection?</h2>
 
   <app-radio-comp
-    class="fly-in-0"
+    class="fly-in-y-0"
     formControlName="deletionType"
     label="keep or remove cards?"
     [config]="[
@@ -11,6 +11,8 @@
     ]"
   />
 
-  <button type="button" class="big fly-in-1" (click)="cancel()">cancel</button>
-  <button type="submit" class="fly-in-2">confirm</button>
+  <button type="button" class="big fly-in-y-1" (click)="cancel()">
+    cancel
+  </button>
+  <button type="submit" class="fly-in-y-2">confirm</button>
 </form>

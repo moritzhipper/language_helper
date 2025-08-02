@@ -1,5 +1,5 @@
 <form [formGroup]="learnablesForm" (ngSubmit)="confirmForm()" class="modal">
-  <div formArrayName="learnables" class="learnables fly-in-0">
+  <div formArrayName="learnables" class="learnables fly-in-y-0">
     @for (
       learnable of learnablesFormArray.controls;
       track learnable.value;
@@ -61,17 +61,17 @@
       type="button"
       (click)="addLearnable()"
       [disabled]="!learnablesForm.valid"
-      class="add big fly-in-0"
+      class="add big fly-in-y-0"
     >
       add
       <app-icon-comp type="add" [size]="20" />
     </button>
-    <button type="button" class="cancel big fly-in-1" (click)="cancel()">
+    <button type="button" class="cancel big fly-in-y-1" (click)="cancel()">
       cancel
     </button>
     <button
       type="submit"
-      class="submit fly-in-2"
+      class="submit fly-in-y-2"
       [disabled]="!learnablesForm.valid"
     >
       submit

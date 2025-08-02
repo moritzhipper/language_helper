@@ -8,8 +8,18 @@
   padding: var(--distance-4);
   z-index: 3;
   gap: var(--distance-2);
+  flex-flow: row-reverse;
 
   .toggle {
+    transition:
+      outline var(--duration-0),
+      background-color var(--duration-1),
+      box-shdow var(--duration-1);
+
+    app-icon-comp {
+      transition: transform var(--duration-1);
+    }
+
     &.open,
     &.subdue {
       background-color: var(--col-bg);
@@ -17,7 +27,7 @@
 
     &.open {
       app-icon-comp {
-        rotate: 180deg;
+        transform: rotateY(180deg);
       }
     }
 

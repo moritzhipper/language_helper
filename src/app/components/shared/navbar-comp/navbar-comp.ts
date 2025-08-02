@@ -24,7 +24,12 @@ export class NavbarComp {
     return false
   })
 
-  pulseToggle = computed(() => !this.isOnPracticePage() && !this.linksAreOpen())
+  pulseToggle = computed(
+    () =>
+      !this.isOnPracticePage() &&
+      !this.linksAreOpen() &&
+      this.hasCurrentPractice()
+  )
   subdueToggle = computed(
     () =>
       this.isOnPracticePage() &&

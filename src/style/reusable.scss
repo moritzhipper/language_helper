@@ -40,20 +40,4 @@ form.modal {
     place-self: center;
     text-align: center;
   }
-  @for $i from 0 through 5 {
-    .fly-in-#{$i} {
-      animation: fly-in
-        var(--duration-2)
-        cubic-bezier(0.161, 1.756, 0.394, 0.985)
-        backwards;
-      animation-delay: calc(0.07s * #{$i} + var(--duration-0));
-    }
-  }
-}
-
-@keyframes fly-in {
-  from {
-    opacity: 0;
-    translate: 15px 15px;
-  }
 }

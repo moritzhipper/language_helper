@@ -1,5 +1,5 @@
 <form class="modal">
-  <div class="content fly-in-0">
+  <div class="content fly-in-y-0">
     @if (message(); as message) {
       <h2>
         {{ message }}
@@ -9,8 +9,10 @@
     }
   </div>
 
-  <button type="button" (click)="cancel()" class="big fly-in-1">cancel</button>
-  <button type="submit" (click)="confirm()" class="fly-in-2">
+  <button type="button" (click)="cancel()" class="big fly-in-y-1">
+    cancel
+  </button>
+  <button type="submit" (click)="confirm()" class="fly-in-y-2">
     {{ label() }}
   </button>
 </form>

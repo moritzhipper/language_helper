@@ -1,5 +1,5 @@
 <form [formGroup]="convertForm" (ngSubmit)="convert()" class="modal">
-  <div class="content fly-in-0">
+  <div class="content fly-in-y-0">
     <textarea
       formControlName="input"
       placeholder="paste notes, articles or any other text here"
@@ -10,12 +10,12 @@
       label="types"
     />
   </div>
-  <button class="big cancel fly-in-1" type="button" (click)="cancel()">
+  <button class="big cancel fly-in-y-1" type="button" (click)="cancel()">
     cancel
   </button>
   <button
     type="submit"
-    class="big submit fly-in-2"
+    class="big submit fly-in-y-2"
     [disabled]="!convertForm.valid"
   >
     @if (isConverting()) {

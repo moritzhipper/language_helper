@@ -1,5 +1,6 @@
-@use './style/theme.scss';
-@use './style/reusable.scss';
+@use './style/theme';
+@use './style/reusable';
+@use './style/animations';
 
 html {
   background-color: var(--col-bg);
