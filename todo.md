@@ -13,7 +13,6 @@
 - Phrase Prompt anpasseny soll phrases nicht in infinitiv übertragen
 - Doppelte vocabeln in practice mode?
 - Neuer mode: direct translation
-- Add confidence to practice dropdown
 
 ## Later
 

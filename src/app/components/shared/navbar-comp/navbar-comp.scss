@@ -37,12 +37,12 @@
   box-shadow: var(--shadow-small);
 }
 
-.pulse {
-  animation: pulse 2s infinite;
+.pulse app-icon-comp {
+  animation: pulse 4s infinite;
 }
 
 @keyframes pulse {
   50% {
-    color: rgb(from var(--col-primary) r g b / var(--opacity-1));
+    color: var(--col-bg);
   }
 }

@@ -63,7 +63,7 @@
   <div class="learnables">
     @for (learnable of filteredLearnables(); track learnable.id) {
       <button
-        class="l"
+        class="silent"
         (click)="toggleLearnableSelection(learnable.id)"
         [class.selected]="isSelected(learnable.id)"
       >
