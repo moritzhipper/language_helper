@@ -7,7 +7,7 @@ html {
 body,
 html {
   margin: 0;
-  scrollbar-color: rgb(from var(--col-accent) r g b / var(--opacity-0))
+  scrollbar-color: rgb(from var(--col-accent) r g b / var(--opacity-1))
     transparent;
   scrollbar-width: thin;
   position: relative;
@@ -96,6 +96,15 @@ select {
   }
 }
 
+* {
+  outline-offset: 2px;
+  outline: 2px solid transparent;
+  transition: outline var(--duration-1);
+  &:focus-visible {
+    outline: 2px solid var(--col-accent);
+  }
+}
+
 label {
   display: grid;
   grid-template-columns: 1fr;
@@ -114,8 +123,4 @@ select {
 a {
   text-decoration: none;
   font-weight: var(--font-weight-bold);
-}
-
-.mb-4 {
-  margin-bottom: var(--distance-4);
 }
