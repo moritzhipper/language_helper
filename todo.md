@@ -2,7 +2,6 @@
 
 ## Right Now
 
-- animations: do appear inamations, put at end, comment : preparation. add to notes all animations that need to be done
 - replace newestbydate filter with newest by last
 
 - edit card from practice mode
@@ -18,10 +17,6 @@
 
 - add select filtered button
 - animations! -> angular 20.2 bring them back woop woop
-- save practices history
-- "spaced repetition"
-- show last practice times in collection view
-- also show stats like in practice comp
 
 ### Practice-Flow
 
@@ -32,7 +27,6 @@
 ### Note
 
 - Einfaches kleines Textfeld
-
 - fix openai + zod issue and
 
 # sources

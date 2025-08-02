@@ -14,7 +14,8 @@
     transition:
       outline var(--duration-0),
       background-color var(--duration-1),
-      box-shdow var(--duration-1);
+      box-shdow var(--duration-1),
+      opacity var(--duration-1);
 
     app-icon-comp {
       transition: transform var(--duration-1);
@@ -48,11 +49,16 @@
 }
 
 .pulse app-icon-comp {
-  animation: pulse 4s infinite;
+  animation: pulse 8s infinite;
 }
 
 @keyframes pulse {
-  50% {
-    color: var(--col-bg);
+  60%,
+  80% {
+    opacity: 1;
+  }
+  70%,
+  90% {
+    opacity: var(--opacity-0);
   }
 }
