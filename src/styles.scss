@@ -7,7 +7,9 @@ html {
 body,
 html {
   margin: 0;
-  scrollbar-color: var(--col-accent) transparent;
+  scrollbar-color: rgb(from var(--col-accent) r g b / var(--opacity-0))
+    transparent;
+  scrollbar-width: thin;
   position: relative;
 }
 
@@ -87,10 +89,11 @@ button.big,
 select {
   background-color: var(--col-accent);
   color: var(--col-text);
-
   border-radius: var(--radius-1);
-
   border: none;
+  &::placeholder {
+    color: rgb(from var(--col-text) r g b / var(--opacity-1));
+  }
 }
 
 label {

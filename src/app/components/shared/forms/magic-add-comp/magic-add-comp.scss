@@ -19,14 +19,11 @@ form {
     display: inline-flex;
     gap: var(--distance-2);
     justify-content: center;
+    align-items: center;
 
     &.submit {
       color: var(--col-bg);
       background-color: var(--col-primary);
-    }
-
-    &.cancel {
-      background-color: var(--col-accent);
     }
   }
 }

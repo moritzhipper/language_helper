@@ -2,17 +2,29 @@
 
 ## Right Now
 
+- animations: do appear inamations, put at end, comment : preparation. add to notes all animations that need to be done
+- Pulse fehlt
+- make all scrollbas the same
+- remove borders, make outline
+- make page wrapper not cut selection
+
 - edit card from practice mode
 - make edit collection modal scrollable
 - clean app toast stuff: only in page components. bubble up errors until caught there
+
+- Filer markieren wenn zu und gesetzt
+- Phrase Prompt anpasseny soll phrases nicht in infinitiv übertragen
+- Doppelte vocabeln in practice mode?
+  Neuer mode: direct translation
+  Add confidence to practice dropdown
 
 ## Later
 
 - animations! -> angular 20.2 bring them back woop woop
 - save practices history
-  - "spaced repetition"
-  - show last practice times in collection view
-  - also show stats like in practice comp
+- "spaced repetition"
+- show last practice times in collection view
+- also show stats like in practice comp
 
 ### Practice-Flow
 
