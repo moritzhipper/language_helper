@@ -3,6 +3,7 @@
 ## Right Now
 
 - edit card from practice mode
+- make edit collection modal scrollable
 - clean app toast stuff: only in page components. bubble up errors until caught there
 
 ## Later

@@ -25,8 +25,9 @@
 }
 
 .backdrop {
+  animation: bd-appear var(--duration-1) ease;
   background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(215px);
 }
 
 :host-context(form) {
@@ -42,5 +43,20 @@
   .fake-dialog {
     min-height: 300px;
     min-width: 450px;
+  }
+}
+
+// preparation for angular 20.2
+@keyframes bd-appear {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+}
+
+@keyframes modal-appear {
+  from {
+    opacity: 0;
+    translate: -20px;
   }
 }

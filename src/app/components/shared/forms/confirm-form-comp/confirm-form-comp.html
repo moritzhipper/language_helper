@@ -1,12 +1,16 @@
 <form class="modal">
-  <div class="content">
+  <div class="content fly-in-0">
     @if (message(); as message) {
-      {{ message }}
+      <h2>
+        {{ message }}
+      </h2>
     } @else {
       <ng-content />
     }
   </div>
 
-  <button class="big" type="button" (click)="cancel()">cancel</button>
-  <button type="submit" (click)="confirm()">{{ label() }}</button>
+  <button type="button" (click)="cancel()" class="big fly-in-1">cancel</button>
+  <button type="submit" (click)="confirm()" class="fly-in-2">
+    {{ label() }}
+  </button>
 </form>

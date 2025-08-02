@@ -1,11 +1,6 @@
 form {
   grid-template-rows: 1fr auto auto;
 
-  .title {
-    place-self: center;
-    grid-column: span 2;
-  }
-
   app-radio-comp {
     grid-column: span 2;
   }
