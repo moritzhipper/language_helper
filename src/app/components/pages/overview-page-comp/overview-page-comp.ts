@@ -130,8 +130,13 @@ export class OverviewComp {
   }
 
   async removeSelection() {
+    const message =
+      this.selectedLearnableIds().length === 1
+        ? `Are you sure you want to delete this card?`
+        : `Are you sure you want to delete ${this.selectedLearnableIds().length} cards?`
+
     const confirm = await this._modalService.open<ConfirmationType>('confirm', {
-      message: `Are you sure you want to delete ${this.selectedLearnableIds().length} cards?`
+      message
     })
 
     if (confirm.type !== 'confirm') return

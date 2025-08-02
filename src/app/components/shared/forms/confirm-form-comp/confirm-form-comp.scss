@@ -1,8 +1,12 @@
 form {
   grid-template-rows: 1fr auto;
+  h2 {
+    padding: 0 var(--distance-4);
+    max-width: 350px;
+  }
   .content {
+    overflow: hidden;
     grid-column: span 2;
-
     text-align: center;
     display: flex;
     flex-direction: column;

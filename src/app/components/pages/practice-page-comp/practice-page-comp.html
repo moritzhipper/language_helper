@@ -79,7 +79,7 @@
           </div>
           Cards guessed correctly!
         </div>
-        <button (click)="endPractice()" class="big">start new!</button>
+        <button (click)="endPractice()" class="big">finish practice</button>
       </div>
     </app-page-wrapper-comp>
   }
@@ -121,6 +121,7 @@
             @for (collection of collections(); track collection.id) {
               <option [value]="collection.id">
                 {{ collection.name }}
+                ({{ calculateAverageConfidence(collection.id) }}%)
               </option>
             }
           </select>

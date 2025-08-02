@@ -1,18 +1,21 @@
 @use '../../../../style/mixins.scss' as *;
 
 .collections {
+  margin-top: calc(var(--distance-6) + var(--distance-2));
   display: grid;
   gap: var(--distance-4);
-  margin-top: var(--distance-4);
 }
 
 .collection {
+  transition:
+    border var(--duration-0),
+    outline var(--duration-0);
   border-radius: var(--radius-2);
   border: 2px solid var(--col-accent);
   overflow: hidden;
 
   &.selected {
-    border: 2px solid rgb(from var(--col-primary) r g b / var(--opacity-1));
+    border: 2px solid var(--col-primary);
   }
 }
 

@@ -4,6 +4,7 @@ import {
 } from 'openai/lib/parser.mjs'
 import { ResponseFormatTextJSONSchemaConfig } from 'openai/resources/responses/responses.mjs'
 import z from 'zod'
+import { Learnable } from '../types_and_schemas/types'
 
 /**
  *
@@ -28,4 +29,20 @@ export function zodTextFormat<ZodInput extends z.ZodType>(
     },
     (content) => zodObject.parse(JSON.parse(content))
   )
+}
+
+export const calculateAverageConfidencePercent = (
+  learnables: Learnable[]
+): number => {
+  const allGuesses = learnables.flatMap((l) => [
+    ...l.guesses.lexeme,
+    ...l.guesses.translation
+  ])
+
+  if (allGuesses.length === 0) return 0
+
+  const trueGuesses = allGuesses.filter(Boolean).length
+  const confidencePercent = trueGuesses / allGuesses.length
+
+  return Math.round(confidencePercent * 100)
 }

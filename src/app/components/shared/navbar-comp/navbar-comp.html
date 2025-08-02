@@ -1,17 +1,29 @@
-<button (click)="toggleLinks()" class="toggle">
+<button
+  class="toggle"
+  (click)="toggleLinks()"
+  [class]="{
+    pulse: pulseToggle(),
+    open: linksAreOpen(),
+    subdue: subdueToggle()
+  }"
+>
   <app-icon-comp type="menu" />
 </button>
-@if (linksOpen()) {
-  <a routerLink="practice" class="link practice">
-    <app-icon-comp type="learn" />
+@if (linksAreOpen()) {
+  <a routerLink="settings" class="link fly-in-x-0">
+    <app-icon-comp type="settings" />
   </a>
-  <a routerLink="cards" class="link">
-    <app-icon-comp type="list" />
-  </a>
-  <a routerLink="collections" class="link">
+  <a routerLink="collections" class="link fly-in-x-1">
     <app-icon-comp type="collection" />
   </a>
-  <a routerLink="settings" class="link">
-    <app-icon-comp type="settings" />
+  <a routerLink="cards" class="link fly-in-x-2">
+    <app-icon-comp type="list" />
+  </a>
+  <a
+    class="link practice fly-in-x-3"
+    routerLink="practice"
+    [class.pulse]="pulsePractice()"
+  >
+    <app-icon-comp type="learn" />
   </a>
 }

@@ -1,5 +1,5 @@
 form {
-  grid-template-rows: 1fr auto auto;
+  grid-template-rows: 1fr auto;
 
   label,
   .collections {
@@ -22,10 +22,6 @@ form {
     gap: var(--distance-4);
     overflow-y: scroll;
     height: 100%;
-  }
-
-  button {
-    margin-top: var(--distance-4);
   }
 
   label.radio {

@@ -2,16 +2,21 @@
 
 ## Right Now
 
+- replace newestbydate filter with newest by last
+
 - edit card from practice mode
+- make edit collection modal scrollable
 - clean app toast stuff: only in page components. bubble up errors until caught there
+
+- Filer markieren wenn zu und gesetzt
+- Phrase Prompt anpasseny soll phrases nicht in infinitiv übertragen
+- Doppelte vocabeln in practice mode?
+- Neuer mode: direct translation
 
 ## Later
 
+- add select filtered button
 - animations! -> angular 20.2 bring them back woop woop
-- save practices history
-  - "spaced repetition"
-  - show last practice times in collection view
-  - also show stats like in practice comp
 
 ### Practice-Flow
 
@@ -22,7 +27,6 @@
 ### Note
 
 - Einfaches kleines Textfeld
-
 - fix openai + zod issue and
 
 # sources

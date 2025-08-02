@@ -4,7 +4,7 @@
   icon="collection"
 >
   <div class="edit-bubbles">
-    <button type="" class="import" (click)="fileInput.click()">
+    <button class="import" (click)="fileInput.click()">
       <app-icon-comp type="import" />
       <input
         type="file"
@@ -15,16 +15,16 @@
     </button>
     @if (selectedCollection(); as collection) {
       <a
-        class="export"
+        class="export fly-in-x-0"
         [download]="collectionDownload()?.fileName"
         [attr.href]="collectionDownload()?.blobUrl"
       >
         <app-icon-comp type="share" />
       </a>
-      <button class="edit" (click)="renameCollection(collection)">
+      <button class="edit fly-in-x-1" (click)="renameCollection(collection)">
         <app-icon-comp type="edit" />
       </button>
-      <button (click)="deleteCollection(collection)" class="delete">
+      <button (click)="deleteCollection(collection)" class="delete fly-in-x-2">
         <app-icon-comp type="trash" />
       </button>
     }

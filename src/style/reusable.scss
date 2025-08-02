@@ -25,6 +25,7 @@
   font-weight: var(--font-weight-bold);
   color: var(--col-primary);
 }
+
 form.modal {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -32,4 +33,11 @@ form.modal {
   box-sizing: border-box;
   gap: var(--distance-6) var(--distance-4);
   height: 100%;
+
+  h2 {
+    line-height: 42px;
+    grid-column: span 2;
+    place-self: center;
+    text-align: center;
+  }
 }
