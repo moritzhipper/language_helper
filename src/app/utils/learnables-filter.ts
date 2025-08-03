@@ -1,7 +1,7 @@
 import { Learnable, LearnablesFilterConfig } from '../types_and_schemas/types'
 
-export const newerThanOneDay = (date: Date): boolean => {
-  return new Date(date).getTime() > Date.now() - 24 * 60 * 60 * 1000
+export const newerThanDays = (date: Date, days: number): boolean => {
+  return new Date(date).getTime() > Date.now() - days * 24 * 60 * 60 * 1000
 }
 
 export const filterLearnables = (
@@ -10,9 +10,10 @@ export const filterLearnables = (
 ): Learnable[] => {
   const filtered = learnables
     .filter((v) => filterByType(filterConfig, v))
-    .filter((v) => filterByAmountWrongGuesses(filterConfig, v))
-    .filter((v) => filterByNewerThanOneDay(filterConfig, v))
+    .filter((v) => filterByConfidence(filterConfig, v))
     .filter((v) => filterBySearch(filterConfig, v))
+    .filter((v) => filterByIDs(filterConfig, v))
+    .filter((v) => filterByNewerThanOneDay(filterConfig, v))
 
   return sortLearnables(filterConfig, filtered)
 }
@@ -26,7 +27,7 @@ const filterByType = (
   return learnable.type === filter.type
 }
 
-const filterByAmountWrongGuesses = (
+const filterByConfidence = (
   filter: LearnablesFilterConfig,
   learnable: Learnable
 ): boolean => {
@@ -34,18 +35,12 @@ const filterByAmountWrongGuesses = (
   const isBetween = (min: number, max: number): boolean =>
     wrongGuesses >= min && wrongGuesses <= max
 
-  if (filter.confidence === 'high') return isBetween(0, 1)
-  if (filter.confidence === 'medium') return isBetween(2, 4)
-  if (filter.confidence === 'low') return wrongGuesses >= 5
-  return true
-}
+  if (filter.confidence === 'high') return wrongGuesses <= 1
+  if (filter.confidence === 'medium') return isBetween(2, 5)
+  if (filter.confidence === 'low') return isBetween(6, 10)
 
-const filterByNewerThanOneDay = (
-  filter: LearnablesFilterConfig,
-  learnable: Learnable
-): boolean => {
-  if (filter.age !== 'newerThanOneDay') return true
-  return newerThanOneDay(new Date(learnable.created))
+  // case all
+  return true
 }
 
 const filterBySearch = (
@@ -57,6 +52,22 @@ const filterBySearch = (
   const translation = learnable.translation.toLowerCase()
   const search = filter.search.toLowerCase()
   return lexeme.includes(search) || translation.includes(search)
+}
+
+const filterByIDs = (
+  filterConfig: LearnablesFilterConfig,
+  v: Learnable
+): boolean => {
+  return !filterConfig.ids || filterConfig.ids.includes(v.id)
+}
+
+const filterByNewerThanOneDay = (
+  filter: LearnablesFilterConfig,
+  learnable: Learnable
+): boolean => {
+  if (filter.age === 'all' || !filter.age) return true
+
+  return newerThanDays(new Date(learnable.created), filter.age)
 }
 
 // #region Sort Functions

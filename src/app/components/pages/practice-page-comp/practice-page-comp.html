@@ -1,6 +1,6 @@
 @if (currentPractice(); as curP) {
   @if (!hasFinishedPractice()) {
-    <app-page-wrapper-comp [shrinkOnDesktop]="false">
+    <app-page-wrapper-comp [shrinkOnDesktop]="false" icon="learn">
       <div class="practice-view">
         <div class="lexeme">
           @if (curP.reverseDirection) {

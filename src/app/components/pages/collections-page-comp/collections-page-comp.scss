@@ -12,6 +12,7 @@
     outline var(--duration-0);
   border-radius: var(--radius-2);
   border: 2px solid var(--col-accent);
+  background-color: var(--col-accent);
 
   &.selected {
     border: 2px solid var(--col-primary);

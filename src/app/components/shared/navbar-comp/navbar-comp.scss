@@ -45,7 +45,7 @@
   background-color: var(--col-accent);
   padding: var(--distance-3);
   border-radius: 100%;
-  box-shadow: var(--shadow-small);
+  box-shadow: var(--shadow-big);
 }
 
 .pulse app-icon-comp {
@@ -53,12 +53,13 @@
 }
 
 @keyframes pulse {
-  60%,
-  80% {
+  0%,
+  20%,
+  40% {
     opacity: 1;
   }
-  70%,
-  90% {
+  10%,
+  30% {
     opacity: var(--opacity-0);
   }
 }

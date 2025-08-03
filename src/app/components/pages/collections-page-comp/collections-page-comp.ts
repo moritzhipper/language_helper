@@ -68,8 +68,12 @@ export class CollectionsPageComp {
 
     const removeCardsCompletely = result.value.deletionType === 'remove'
     this._lState.deleteCollection(coll.id, removeCardsCompletely)
-
     this.selectedCollectionId.set(null)
+
+    this._toastS.showToast({
+      type: 'info',
+      message: `Collection ${coll.name} deleted`
+    })
   }
 
   async renameCollection(coll: LearnableCollection) {
@@ -105,7 +109,7 @@ export class CollectionsPageComp {
       this._lState.importExportedCollections(imported)
       this._toastS.showToast({
         type: 'info',
-        message: `${imported.collections} collections imported!`
+        message: `${imported.learnables.length} cards imported`
       })
     } catch (e) {
       this._toastS.showToast({

@@ -1,4 +1,4 @@
-<app-page-wrapper-comp title="Cards" [shrinkOnDesktop]="false" icon="list">
+<app-page-wrapper-comp title="Cards" [shrinkOnDesktop]="false" icon="card">
   <div class="collections">
     <button
       class="silent collection"
@@ -66,11 +66,14 @@
   <div class="learnables">
     @for (learnable of filteredLearnables(); track learnable.id) {
       <button
-        class="silent"
+        class="silent learnable"
         (click)="toggleLearnableSelection(learnable.id)"
         [class.selected]="isSelected(learnable.id)"
       >
-        <app-learnable-comp [learnable]="learnable" />
+        <app-learnable-comp
+          [learnable]="learnable"
+          [showNewBadge]="isLastAdded(learnable.id)"
+        />
       </button>
     }
   </div>

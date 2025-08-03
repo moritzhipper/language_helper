@@ -3,7 +3,7 @@ import { Component, input } from '@angular/core'
 export type IconType =
   | 'settings'
   | 'chevron'
-  | 'list'
+  | 'card'
   | 'learn'
   | 'magic'
   | 'menu'
@@ -19,7 +19,9 @@ export type IconType =
   | 'collection-add'
   | 'collection-remove'
   | 'share'
+  | 'share-fill'
   | 'import'
+  | 'warn'
 
 @Component({
   selector: 'app-icon-comp',

@@ -15,7 +15,7 @@ export class ToastService {
 
   showToast(config: ToastOptions) {
     this._toasts.update((toasts) => [...toasts, config])
-    const time = config.type === 'guess' ? 1000 : 4000
+    const time = config.type === 'guess' ? 1000 : 6000
 
     setTimeout(() => {
       this._toasts.update((t) => t.slice(1))

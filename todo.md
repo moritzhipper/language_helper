@@ -2,33 +2,21 @@
 
 ## Right Now
 
-- replace newestbydate filter with newest by last
-
 - edit card from practice mode
-- make edit collection modal scrollable
-- clean app toast stuff: only in page components. bubble up errors until caught there
 
-- Filer markieren wenn zu und gesetzt
-- Phrase Prompt anpasseny soll phrases nicht in infinitiv übertragen
-- Doppelte vocabeln in practice mode?
-- Neuer mode: direct translation
-- implement protected throughout
+- implement protected and private corrrectly throughout
+- replace underscore with #
 
 ## Later
 
 - add select filtered button
 - animations! -> angular 20.2 bring them back woop woop
+- history: add practice with date
+- fix openai + zod issue and
 
 ### Practice-Flow
 
-- **Editieren** direkt aus der Practice heraus:
-  - **Rechter Button**: erstellt eine Note
-  - **Linker Button**: beendet die Practice
-
 ### Note
-
-- Einfaches kleines Textfeld
-- fix openai + zod issue and
 
 # sources
 

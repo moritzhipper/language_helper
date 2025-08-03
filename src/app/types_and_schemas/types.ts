@@ -64,7 +64,8 @@ export type LearnablesFilterConfig = {
   order?: 'asc' | 'desc'
   orderBy?: 'created' | 'lexeme' | 'confidence' | 'random'
   type?: 'word' | 'phrase' | 'all'
-  age?: 'newerThanOneDay' | 'all'
+  ids?: string[]
+  age?: number | 'all'
   confidence?: 'high' | 'medium' | 'low' | 'all'
   search?: string
 }

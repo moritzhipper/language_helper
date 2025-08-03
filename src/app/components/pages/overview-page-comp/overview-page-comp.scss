@@ -25,9 +25,11 @@
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: var(--distance-4);
 
-  button {
+  .learnable {
     border: 2px solid var(--col-accent);
     border-radius: var(--radius-1);
+    background-color: var(--col-accent);
+
     transition:
       border var(--duration-0),
       outline var(--duration-0);

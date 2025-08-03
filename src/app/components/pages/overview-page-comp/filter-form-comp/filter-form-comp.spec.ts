@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { FilterFormComp } from './filter-form-comp';
+import { FilterFormComp } from './filter-form-comp'
 
 describe('FilterFormComp', () => {
-  let component: FilterFormComp;
-  let fixture: ComponentFixture<FilterFormComp>;
+  let component: FilterFormComp
+  let fixture: ComponentFixture<FilterFormComp>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FilterFormComp]
-    })
-    .compileComponents();
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(FilterFormComp);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(FilterFormComp)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

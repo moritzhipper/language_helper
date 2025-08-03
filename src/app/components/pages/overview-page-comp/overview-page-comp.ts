@@ -14,7 +14,10 @@ import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-com
 import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
-import { FilterFormComp } from './filter-form-comp/filter-form-comp'
+import {
+  FilterFormComp,
+  LearnablesFilterFormType
+} from './filter-form-comp/filter-form-comp'
 import { LearnableComp } from './learnable-comp/learnable-comp'
 
 @Component({
@@ -116,6 +119,14 @@ export class OverviewComp {
     if (addToId) {
       this._lStore.editCollectionLearnables(addToId, selectedIDs, [])
     }
+
+    const collectionName =
+      createName || this.collections().find((c) => c.id === addToId)?.name
+
+    this._toastService.showToast({
+      message: `Added ${selectedIDs.length} cards to ${collectionName}`,
+      type: 'info'
+    })
     this.selectedLearnableIds.set([])
   }
 
@@ -130,10 +141,11 @@ export class OverviewComp {
   }
 
   async removeSelection() {
+    const deleteCardsAmount = this.selectedLearnableIds().length
     const message =
-      this.selectedLearnableIds().length === 1
+      deleteCardsAmount === 1
         ? `Are you sure you want to delete this card?`
-        : `Are you sure you want to delete ${this.selectedLearnableIds().length} cards?`
+        : `Are you sure you want to delete ${deleteCardsAmount} cards?`
 
     const confirm = await this._modalService.open<ConfirmationType>('confirm', {
       message
@@ -142,30 +154,23 @@ export class OverviewComp {
     if (confirm.type !== 'confirm') return
     this._lStore.removeLearnables(this.selectedLearnableIds())
     this.selectedLearnableIds.set([])
+
+    this._toastService.showToast({
+      message: `Removed ${deleteCardsAmount} cards`,
+      type: 'info'
+    })
   }
 
   private _addAndMarkLearnables(learnables: LearnableBase[]) {
+    if (learnables.length === 0) return
     const existingLearnables = this._lStore.learnables()
 
     const uniqueLearnables = filterDoubleEntries(
       learnables,
       this._lStore.learnables()
     )
-    const filteredLearnablesCount = learnables.length - uniqueLearnables.length
 
-    this._toastService.showToast({
-      message: `Created ${uniqueLearnables.length} cards!`,
-      type: 'info'
-    })
-
-    if (filteredLearnablesCount > 0) {
-      this._toastService.showToast({
-        message: `Skipped adding ${filteredLearnablesCount} because you already have those!`,
-        type: 'info'
-      })
-    }
-
-    this._lStore.addLearnables(learnables)
+    this._lStore.addLearnables(uniqueLearnables)
     this.selectedLearnableIds.set(this._lStore.addedLatestIDs())
     const collectionId = this.selectedCollectionId()
     if (collectionId) {
@@ -175,6 +180,23 @@ export class OverviewComp {
         []
       )
     }
+
+    this._toastService.showToast({
+      message: `created ${uniqueLearnables.length} cards.`,
+      type: 'info'
+    })
+
+    const filteredLearnablesCount = learnables.length - uniqueLearnables.length
+    if (filteredLearnablesCount !== 0) {
+      this._toastService.showToast({
+        message: `skipped adding ${filteredLearnablesCount} duplicates`,
+        type: 'info'
+      })
+    }
+  }
+
+  isLastAdded(lId: string): boolean {
+    return this._lStore.addedLatestIDs().includes(lId)
   }
 
   toggleLearnableSelection(lId: string) {
@@ -189,8 +211,18 @@ export class OverviewComp {
     return this.selectedLearnableIds().includes(lId)
   }
 
-  updateFilter(filter: LearnablesFilterConfig) {
-    this.filter.set(filter)
+  updateFilter(filter: LearnablesFilterFormType) {
+    const filterConfig: LearnablesFilterConfig = {
+      type: filter.type,
+      confidence: filter.confidence,
+      orderBy: filter.orderBy,
+      order: filter.order,
+      age: filter.age,
+      search: filter.search,
+      ids: filter.added === 'last' ? this._lStore.addedLatestIDs() : undefined
+    }
+
+    this.filter.set(filterConfig)
   }
 
   selectCollection(collectionId: string | null) {

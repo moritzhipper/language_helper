@@ -1,9 +1,7 @@
 :host {
-  background-color: var(--col-accent);
   padding: var(--distance-4);
   display: grid;
   grid-template-columns: 1fr auto;
-  border-radius: var(--radius-1);
 
   .name {
     font-weight: var(--weight-bold);

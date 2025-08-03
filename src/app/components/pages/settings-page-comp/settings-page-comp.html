@@ -33,11 +33,13 @@
     <div class="data-interact">
       <button class="delete" (click)="reset()">delete all cards</button>
       <a
-        class="big"
+        class="big icon"
         [download]="learnablesDownload().fileName"
         [attr.href]="learnablesDownload().blobUrl"
-        >export all cards</a
-      >
+        >export all cards
+
+        <app-icon-comp type="share-fill" />
+      </a>
     </div>
   </div>
 </app-page-wrapper-comp>

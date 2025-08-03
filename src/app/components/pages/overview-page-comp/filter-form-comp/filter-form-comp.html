@@ -5,6 +5,11 @@
       <input type="text" formControlName="search" />
     </label>
     <app-radio-comp
+      [config]="[{ value: 'all' }, { value: 'word' }, { value: 'phrase' }]"
+      formControlName="type"
+      label="type"
+    />
+    <app-radio-comp
       class="confidence"
       [config]="[
         { value: 'all' },
@@ -17,15 +22,15 @@
     />
 
     <app-radio-comp
-      [config]="[{ value: 'all' }, { value: 'newerThanOneDay', label: 'new' }]"
+      [config]="[{ value: 'all' }, { value: '3 days' }]"
       formControlName="age"
-      label="age"
+      label="max age"
     />
 
     <app-radio-comp
-      [config]="[{ value: 'all' }, { value: 'word' }, { value: 'phrase' }]"
-      formControlName="type"
-      label="type"
+      [config]="[{ value: 'all' }, { value: 'last' }]"
+      formControlName="added"
+      label="added"
     />
 
     <app-radio-comp
@@ -50,6 +55,9 @@
     (click)="toggleExpanded()"
     [class.expanded]="showFilter()"
   >
+    @if (!isInitialValue()) {
+      <app-icon-comp type="warn" class="icon warn" />
+    }
     <span>filter</span>
     <app-icon-comp type="chevron" [size]="30" class="icon" />
   </button>
