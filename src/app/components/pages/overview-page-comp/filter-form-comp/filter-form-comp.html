@@ -50,9 +50,6 @@
     (click)="toggleExpanded()"
     [class.expanded]="showFilter()"
   >
-    @if (!isInitialValue()) {
-      <app-icon-comp type="warn" class="icon warn" />
-    }
     <span>filter</span>
     <app-icon-comp type="chevron" [size]="30" class="icon" />
   </button>
