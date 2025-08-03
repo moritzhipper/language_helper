@@ -1,17 +1,15 @@
+:root {
+  --overshot: cubic-bezier(0.161, 1.756, 0.394, 0.985);
+}
+
 @for $i from 0 through 8 {
   .fly-in-y-#{$i} {
-    animation: fly-in-y
-      var(--duration-2)
-      cubic-bezier(0.161, 1.756, 0.394, 0.985)
-      backwards;
+    animation: fly-in-y var(--duration-3) var(--overshot) backwards;
     animation-delay: calc(0.07s * #{$i});
   }
 
   .fly-in-x-#{$i} {
-    animation: fly-in-x
-      var(--duration-2)
-      cubic-bezier(0.161, 1.756, 0.394, 0.985)
-      backwards;
+    animation: fly-in-x var(--duration-3) var(--overshot) backwards;
     animation-delay: calc(0.04s * #{$i});
   }
 }

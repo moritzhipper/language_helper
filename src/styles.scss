@@ -125,6 +125,10 @@ select {
   padding: var(--distance-3) var(--distance-4);
 }
 
+select {
+  appearance: none;
+}
+
 a {
   text-decoration: none;
   font-weight: var(--font-weight-bold);

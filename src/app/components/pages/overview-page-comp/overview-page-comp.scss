@@ -1,7 +1,6 @@
 .collections {
   display: flex;
   gap: var(--distance-3);
-
   overflow-x: scroll;
   scrollbar-width: none;
   margin: var(--distance-1) 0 var(--distance-6) 0;
@@ -32,7 +31,6 @@
     transition:
       border var(--duration-0),
       outline var(--duration-0);
-    overflow: hidden;
 
     &.selected {
       border: 2px solid var(--col-primary);
