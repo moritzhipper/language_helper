@@ -2,7 +2,7 @@
 
 ## Right Now
 
-- replace newestbydate filter by collection
+- replace newestbydate filter by collection -> update learnable selection and filter comp accordingly
 
 - edit card from practice mode
 - make edit collection modal scrollable

@@ -29,6 +29,7 @@ export class FilterFormComp {
     type: 'all',
     confidence: 'all',
     orderBy: 'created',
+    age: 'all',
     order: 'asc',
     search: ''
   }
