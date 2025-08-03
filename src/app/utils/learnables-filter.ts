@@ -13,7 +13,7 @@ export const filterLearnables = (
     .filter((v) => filterByConfidence(filterConfig, v))
     .filter((v) => filterBySearch(filterConfig, v))
     .filter((v) => filterByIDs(filterConfig, v))
-    .filter((v) => filterByNewerThanOneDay(filterConfig, v))
+    .filter((v) => filterByNewerThanDays(filterConfig, v))
 
   return sortLearnables(filterConfig, filtered)
 }
@@ -61,7 +61,7 @@ const filterByIDs = (
   return !filterConfig.ids || filterConfig.ids.includes(v.id)
 }
 
-const filterByNewerThanOneDay = (
+const filterByNewerThanDays = (
   filter: LearnablesFilterConfig,
   learnable: Learnable
 ): boolean => {

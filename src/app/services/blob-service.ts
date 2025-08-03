@@ -22,7 +22,9 @@ export class BlobService {
     URL.revokeObjectURL(this._blobUrl)
 
     const jsonString = JSON.stringify(storeExport)
-    const blob = new Blob([jsonString], { type: 'application/json' })
+
+    // use application/octet-stream to force download as *.suffix and not as *.suffix.json in browsers
+    const blob = new Blob([jsonString], { type: 'application/octet-stream' })
     const blobUrl = URL.createObjectURL(blob)
 
     const name = `${this.config.fileExportName} - ${fileName} - ${new Date().toDateString()}.${this.config.fileExportSuffix}`

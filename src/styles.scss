@@ -56,17 +56,17 @@ button {
     font-size: var(--font-size-0);
     font-weight: var(--font-weight-bold);
   }
+
   &.big {
     font-size: var(--font-size-1);
     padding: var(--distance-3) var(--distance-5);
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-bold);
   }
 
   &[type='submit'] {
+    font-weight: var(--font-weight-bold);
     font-size: var(--font-size-1);
-
     padding: var(--distance-3) var(--distance-5);
-    font-weight: var(--font-weight-normal);
     background-color: var(--col-primary);
     color: var(--col-bg);
     border-radius: var(--radius-1);
