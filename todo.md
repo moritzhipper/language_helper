@@ -5,7 +5,6 @@
 - replace newestbydate filter by collection -> update learnable selection and filter comp accordingly
 
 - edit card from practice mode
-- make edit collection modal scrollable
 - clean app toast stuff: only in page components. bubble up errors until caught there
 
 - Phrase Prompt anpasseny soll phrases nicht in infinitiv übertragen

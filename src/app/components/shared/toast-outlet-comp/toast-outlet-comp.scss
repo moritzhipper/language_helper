@@ -24,7 +24,7 @@
 
   &.error,
   &.info {
-    box-shadow: var(--shadow-small);
+    box-shadow: var(--shadow-big);
     padding: var(--distance-3) var(--distance-4);
     border-radius: var(--radius-2);
     animation: toast 4000ms ease-in-out both;
@@ -36,7 +36,8 @@
   }
 
   &.info {
-    background-color: var(--col-accent);
+    color: var(--col-bg);
+    background-color: var(--col-primary);
   }
 }
 

@@ -130,10 +130,11 @@ export class OverviewComp {
   }
 
   async removeSelection() {
+    const deleteCardsAmount = this.selectedLearnableIds().length
     const message =
-      this.selectedLearnableIds().length === 1
+      deleteCardsAmount === 1
         ? `Are you sure you want to delete this card?`
-        : `Are you sure you want to delete ${this.selectedLearnableIds().length} cards?`
+        : `Are you sure you want to delete ${deleteCardsAmount} cards?`
 
     const confirm = await this._modalService.open<ConfirmationType>('confirm', {
       message
@@ -142,6 +143,11 @@ export class OverviewComp {
     if (confirm.type !== 'confirm') return
     this._lStore.removeLearnables(this.selectedLearnableIds())
     this.selectedLearnableIds.set([])
+
+    this._toastService.showToast({
+      message: `Removed ${deleteCardsAmount} cards`,
+      type: 'info'
+    })
   }
 
   private _addAndMarkLearnables(learnables: LearnableBase[]) {
