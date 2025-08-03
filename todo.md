@@ -2,13 +2,12 @@
 
 ## Right Now
 
-- replace newestbydate filter with newest by last
+- replace newestbydate filter by collection
 
 - edit card from practice mode
 - make edit collection modal scrollable
 - clean app toast stuff: only in page components. bubble up errors until caught there
 
-- Filer markieren wenn zu und gesetzt
 - Phrase Prompt anpasseny soll phrases nicht in infinitiv übertragen
 - Doppelte vocabeln in practice mode?
 - Neuer mode: direct translation

@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   effect,
   inject,
   output,
@@ -24,17 +25,23 @@ export class FilterFormComp {
   showFilter = signal(false)
   filter = output<LearnablesFilterConfig>()
 
-  form = this._fb.group<LearnablesFilterConfig>({
+  private initialValue: LearnablesFilterConfig = {
     type: 'all',
     confidence: 'all',
-    age: 'all',
     orderBy: 'created',
     order: 'asc',
     search: ''
-  })
+  }
+
+  form = this._fb.group<LearnablesFilterConfig>(this.initialValue)
 
   formSignal = toSignal(this.form.valueChanges, {
-    initialValue: this.form.value
+    initialValue: this.initialValue
+  })
+
+  isInitialValue = computed(() => {
+    const currentValue = this.formSignal()
+    return JSON.stringify(currentValue) === JSON.stringify(this.initialValue)
   })
 
   constructor() {

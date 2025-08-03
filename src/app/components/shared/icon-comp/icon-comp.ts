@@ -20,6 +20,7 @@ export type IconType =
   | 'collection-remove'
   | 'share'
   | 'import'
+  | 'warn'
 
 @Component({
   selector: 'app-icon-comp',
