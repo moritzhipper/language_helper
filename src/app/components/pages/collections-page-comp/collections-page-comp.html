@@ -1,49 +1,58 @@
-<app-page-wrapper-comp
-  title="Collections"
-  [shrinkOnDesktop]="false"
-  icon="collection"
->
-  <div class="edit-bubbles">
-    <button class="import" (click)="fileInput.click()">
-      <app-icon-comp type="import" />
-      <input
-        type="file"
-        [accept]="'.' + config.fileExportSuffix"
-        #fileInput
-        (change)="importCollection($event)"
-      />
+@let hasCollections = collections().length !== 0;
+
+<div class="edit-bubbles">
+  <button class="import" (click)="fileInput.click()">
+    <app-icon-comp type="import" />
+    <input
+      type="file"
+      [accept]="'.' + config.fileExportSuffix"
+      #fileInput
+      (change)="importCollection($event)"
+    />
+  </button>
+  @if (selectedCollection(); as collection) {
+    <a
+      class="export fly-in-x-0"
+      [download]="collectionDownload()?.fileName"
+      [attr.href]="collectionDownload()?.blobUrl"
+    >
+      <app-icon-comp type="share" />
+    </a>
+    <button class="edit fly-in-x-1" (click)="renameCollection(collection)">
+      <app-icon-comp type="edit" />
     </button>
-    @if (selectedCollection(); as collection) {
-      <a
-        class="export fly-in-x-0"
-        [download]="collectionDownload()?.fileName"
-        [attr.href]="collectionDownload()?.blobUrl"
-      >
-        <app-icon-comp type="share" />
-      </a>
-      <button class="edit fly-in-x-1" (click)="renameCollection(collection)">
-        <app-icon-comp type="edit" />
-      </button>
-      <button (click)="deleteCollection(collection)" class="delete fly-in-x-2">
-        <app-icon-comp type="trash" />
-      </button>
-    }
-  </div>
-  @if (collections().length === 0) {
-    <p class="empty-state">no collections added yet</p>
+    <button (click)="deleteCollection(collection)" class="delete fly-in-x-2">
+      <app-icon-comp type="trash" />
+    </button>
   }
-  <div class="collections">
-    @for (collection of collections(); track collection.id) {
-      <button
-        class="silent collection"
-        (click)="select(collection.id)"
-        [class.selected]="selectedCollectionId() === collection.id"
-      >
-        <app-collection-comp
-          [collection]="collection"
-          [avgGuessesPercent]="calcAvgGuesses(collection.id)"
-        />
-      </button>
-    }
-  </div>
-</app-page-wrapper-comp>
+</div>
+@if (hasCollections) {
+  <app-page-wrapper-comp
+    title="Collections"
+    desktopMode="full"
+    icon="collection"
+  >
+    <div class="collections">
+      @for (collection of collections(); track collection.id) {
+        <button
+          class="silent collection"
+          (click)="select(collection.id)"
+          [class.selected]="selectedCollectionId() === collection.id"
+        >
+          <app-collection-comp
+            [collection]="collection"
+            [avgGuessesPercent]="calcAvgGuesses(collection.id)"
+          />
+        </button>
+      }
+    </div>
+  </app-page-wrapper-comp>
+} @else {
+  <app-page-wrapper-comp
+    title="Collections"
+    desktopMode="center"
+    icon="collection"
+  >
+    <strong>add collections man</strong>
+  </app-page-wrapper-comp>
+}

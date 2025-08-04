@@ -29,7 +29,7 @@ h3 {
 }
 
 h1 {
-  margin: var(--distance-3) 0 var(--distance-4) 0;
+  font-weight: var(--font-weight-bold);
 }
 
 button,
@@ -43,6 +43,11 @@ textarea,
 input,
 select {
   font-size: var(--font-size-1);
+}
+
+strong {
+  font-weight: var(--font-weight-bold);
+  color: var(--col-primary);
 }
 
 button {
