@@ -1,12 +1,12 @@
 .collections {
   display: flex;
-  gap: var(--distance-3);
+  gap: var(--distance-2);
   overflow-x: scroll;
   scrollbar-width: none;
   margin-bottom: var(--distance-6);
 
   .collection {
-    transition: none;
+    transition-property: outline;
     text-wrap: nowrap;
     font-size: var(--font-size-2);
     font-weight: var(--font-weight-bold);
