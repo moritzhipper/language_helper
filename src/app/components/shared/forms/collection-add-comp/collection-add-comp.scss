@@ -6,11 +6,9 @@ form {
     grid-column: span 2;
   }
 
-  input.create {
-    &.selected {
-      color: var(--col-bg);
-      background-color: var(--col-primary);
-    }
+  input.create.selected {
+    color: var(--col-bg);
+    background-color: var(--col-primary);
   }
 
   .collections {

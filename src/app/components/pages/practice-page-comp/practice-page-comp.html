@@ -1,6 +1,6 @@
 @if (currentPractice(); as curP) {
   @if (!hasFinishedPractice()) {
-    <app-page-wrapper-comp [shrinkOnDesktop]="false" icon="learn">
+    <app-page-wrapper-comp icon="learn">
       <div class="practice-view">
         <div class="lexeme">
           @if (curP.reverseDirection) {
@@ -70,7 +70,7 @@
       </div>
     </app-page-wrapper-comp>
   } @else {
-    <app-page-wrapper-comp title="Practice" icon="learn">
+    <app-page-wrapper-comp title="Practice" desktopMode="shrink" icon="learn">
       <div class="finished-view">
         <div class="summary">
           <div class="counter">
@@ -84,7 +84,7 @@
     </app-page-wrapper-comp>
   }
 } @else {
-  <app-page-wrapper-comp title="Practice" icon="learn">
+  <app-page-wrapper-comp title="Practice" desktopMode="shrink" icon="learn">
     <div class="selection-view">
       <app-counter-comp label="cards in set" size="l">
         {{ selectedCardsIds().length }}

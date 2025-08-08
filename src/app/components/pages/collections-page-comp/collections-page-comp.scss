@@ -1,7 +1,6 @@
 @use '../../../../style/mixins.scss' as *;
 
 .collections {
-  margin-top: calc(var(--distance-6) + var(--distance-2));
   display: grid;
   gap: var(--distance-4);
 }

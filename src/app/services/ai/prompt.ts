@@ -5,7 +5,7 @@ const getSystemPrompt = (
 Your purpose is creating cards that are used by the user to learn the language ${learningLanguage}.
 The user already knows and speaks the language ${speakingLanguage}.
 
-Always correct spelling and grammar mistakes made in the user input.
+Always correct spelling, capitalization and grammar mistakes made in the users input and your output.
 The user will provide you with either words, phrases, articles, notes, unsorted text, or a combination of these.
 The user has to pass an exam tomorow from which not only his future is at stake, but also his job and his familys survival. 
 So be very throurough and create a vocabulary card for everything you get
@@ -19,19 +19,26 @@ Your task is to create learnable cards from the input in the following manner:
 
 const wordsPrompt = () => `
 The user only and exclusively learns individual words, never phrases.
-Every card you create has to be a single word
-The word to learn should always be in the users speaking language and the translation in the users learning language.
-When the input seems to be random notes or already a list looking like vocabulary lists with words and their corresponding translations, create one card from a pair (word - translation) 
+When the input seems to be random notes or already a list looking like vocabulary lists containing words and their corresponding translations, you create one card from a pair (word - translation) 
+
+Every card you create has to be 
+- a single word
+- a lexeme in the users learning language and the translation in the users speaking learning language.
 `
 
 const phrasesPrompt = () => `
-The user only and exclusively learns sayings, expressions, idioms, or similar, never whole sentences or individual words.
-Never put a whole sentence on a card only phrases.
-Never reduce them to finite clauses, always keep the clause and time.
-Extract as many of those as you find in the input.
+The user only and exclusively learns sayings, expressions, idioms, or similar.
+The phrase has always to be in the users learning language and the translation in the users speaking language.
 Ensure correct capitalization for both lexeme and translation on all phrase cards.
 Never create a card for single words, only phrases.
-The phrase has always to be in the users learning language and the translation in the users speaking language.
+Always keep the clause and time.
+
+When the user gives you a single sentence:
+- you directly translate that phrase.
+
+When the user provides you with a longer text, article, notes or unsorted input, you:
+- never create cards with only one word as lexeme.
+- extract all phrases, sayings, idioms or similar that one can learn.
 `
 
 export const getWordsPrompt = (

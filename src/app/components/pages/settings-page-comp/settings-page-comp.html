@@ -1,6 +1,6 @@
 <app-page-wrapper-comp
   title="Settings"
-  [shrinkOnDesktop]="true"
+  [desktopMode]="'shrink'"
   icon="settings"
 >
   <div class="wrapper">
@@ -22,18 +22,18 @@
         <input type="password" formControlName="apiKey" />
       </label>
       <label>
-        <span> I am speaking </span>
-        <input type="text" formControlName="speakingLang" />
-      </label>
-      <label>
         <span> I am learning </span>
         <input type="text" formControlName="learningLang" />
+      </label>
+      <label>
+        <span> I am speaking </span>
+        <input type="text" formControlName="speakingLang" />
       </label>
     </form>
     <div class="data-interact">
       <button class="delete" (click)="reset()">delete all cards</button>
       <a
-        class="big icon"
+        class="big icon export"
         [download]="learnablesDownload().fileName"
         [attr.href]="learnablesDownload().blobUrl"
         >export all cards

@@ -7,11 +7,12 @@ import { IconComp, IconType } from '../icon-comp/icon-comp'
   templateUrl: './page-wrapper-comp.html',
   styleUrl: './page-wrapper-comp.scss',
   host: {
-    '[class.shrink-on-desktop]': 'shrinkOnDesktop()'
+    '[class.shrink-on-desktop]': 'desktopMode() === "shrink"',
+    '[class.center-on-desktop]': 'desktopMode() === "center"'
   }
 })
 export class PageWrapperComp {
   title = input<string>()
-  shrinkOnDesktop = input(true)
+  desktopMode = input<'shrink' | 'center' | 'full'>('full')
   icon = input<IconType | null>(null)
 }

@@ -37,7 +37,7 @@ export class OverviewComp {
   private readonly _toastService = inject(ToastService)
   private readonly _modalService = inject(ModalService)
 
-  private _learnables = computed(() => {
+  private _learnablesInSelectedCollection = computed(() => {
     const learnables = this._lStore.learnables()
     const selectCollection = this.collections().find(
       (c) => c.id === this.selectedCollectionId()
@@ -49,31 +49,25 @@ export class OverviewComp {
       .filter(Boolean) as Learnable[]
   })
 
-  cardsVisible = computed(() => this._learnables().length !== 0)
+  collectionHasCards = computed(
+    () => this._learnablesInSelectedCollection().length !== 0
+  )
+
+  userHasCards = computed(() => this._lStore.learnables().length !== 0)
 
   collections = this._lStore.collections
   selectedCollectionId = signal<string | null>(null)
 
+  // learnables after filtering
   private filter = signal<LearnablesFilterConfig | null>(null)
-
   selectedLearnableIds = signal<string[]>([])
 
-  selectedLearnables = computed(() =>
-    this._learnables().filter((l) => this.selectedLearnableIds().includes(l.id))
-  )
-
-  learnableWordsLexemes = computed(() =>
-    this._learnables()
-      .filter((l) => l.type === 'word')
-      .map((l) => l.lexeme)
-  )
-
-  filteredLearnables = computed(() => {
+  visibleLearnables = computed(() => {
     const filter = this.filter()
-    const learnables = this._learnables()
+    const learnables = this._learnablesInSelectedCollection()
     if (!filter) return learnables
 
-    return filterLearnables(this._learnables(), filter)
+    return filterLearnables(this._learnablesInSelectedCollection(), filter)
   })
 
   async addNew() {
@@ -84,11 +78,13 @@ export class OverviewComp {
   }
 
   async bulkEdit() {
+    const learnables = this._learnablesInSelectedCollection().filter((l) =>
+      this.selectedLearnableIds().includes(l.id)
+    )
+
     const result = await this._modalService.open<ConfirmationType>(
       'bulk-edit',
-      {
-        learnables: this.selectedLearnables()
-      }
+      { learnables }
     )
 
     if (result.type !== 'confirm') return

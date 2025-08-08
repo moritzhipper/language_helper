@@ -6,7 +6,7 @@
   display: grid;
 
   h1 {
-    margin: var(--distance-6) var(--distance-4) 0 var(--distance-4);
+    margin: var(--distance-6) var(--distance-4);
   }
 
   &:has(h1) {
@@ -37,24 +37,38 @@
       width: 550px;
       height: 550px;
     }
-  }
 
-  :host.shrink-on-desktop {
-    h1 {
-      margin-left: var(--distance-6);
-      line-height: var(--distance-7);
-      font-size: var(--font-size-4);
-      rotate: -4deg;
-      place-self: start;
+    &.shrink-on-desktop,
+    &.center-on-desktop {
+      grid-template-rows: 1fr;
+
+      h1 {
+        margin-left: var(--distance-6);
+        line-height: var(--distance-7);
+        font-size: var(--font-size-4);
+        rotate: -4deg;
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+      .content {
+        place-self: center;
+        box-sizing: border-box;
+        padding: var(--distance-4);
+      }
     }
-    .content {
-      place-self: center;
+
+    &.shrink-on-desktop .content {
       width: 400px;
       height: 600px;
-      box-sizing: border-box;
-      padding: var(--distance-4);
-      border: 1px solid var(--col-accent);
+      background-color: rgb(from var(--col-accent) r g b / 0.06);
+      border: 1px solid rgb(from var(--col-accent) r g b / var(--opacity-1));
       border-radius: var(--radius-2);
+    }
+
+    &.center-on-desktop .content {
+      // text-align: center;
+      width: 600px;
     }
   }
 }

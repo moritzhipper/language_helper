@@ -52,7 +52,13 @@ form {
     .add {
       display: flex;
       justify-content: center;
+      padding: var(--distance-3) var(--distance-5);
+      background-color: var(--col-primary);
+      color: var(--col-bg);
       gap: var(--distance-2);
+      border-radius: var(--radius-3) var(--radius-1) var(--radius-1)
+        var(--radius-1);
+      place-self: end;
     }
   }
 }

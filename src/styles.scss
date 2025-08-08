@@ -29,7 +29,17 @@ h3 {
 }
 
 h1 {
-  margin: var(--distance-3) 0 var(--distance-4) 0;
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-weight: var(--font-weight-normal);
+  margin: 0 0 var(--distance-5) 0;
+}
+
+p {
+  line-height: 24px;
+  margin: var(--distance-4) 0;
 }
 
 button,
@@ -45,9 +55,14 @@ select {
   font-size: var(--font-size-1);
 }
 
+strong {
+  font-weight: var(--font-weight-bold);
+  color: var(--col-primary);
+}
+
 button {
   border-radius: var(--radius-0);
-  transition-property: background-color, opacity, outline;
+  transition-property: background-color, opacity, outline, color;
   transition-duration: var(--duration-0);
   transition-timing-function: ease-out;
 
@@ -91,7 +106,6 @@ a[download] {
   padding: var(--distance-3) var(--distance-5);
 }
 
-a,
 input,
 textarea,
 button.small,

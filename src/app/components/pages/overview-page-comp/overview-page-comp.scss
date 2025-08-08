@@ -1,21 +1,26 @@
 .collections {
   display: flex;
-  gap: var(--distance-3);
+  gap: var(--distance-2);
   overflow-x: scroll;
   scrollbar-width: none;
-  margin: var(--distance-1) 0 var(--distance-6) 0;
+  margin-bottom: var(--distance-6);
 
   .collection {
+    transition-property: outline;
     text-wrap: nowrap;
     font-size: var(--font-size-2);
     font-weight: var(--font-weight-bold);
     margin: var(--distance-1);
+    padding: var(--distance-0) var(--distance-2);
+    border-radius: var(--radius-1);
 
     &:not(.selected) {
       opacity: var(--opacity-1);
     }
+
     &.selected {
-      opacity: 1;
+      color: var(--col-bg);
+      background-color: var(--col-primary);
     }
   }
 }
