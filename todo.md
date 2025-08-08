@@ -2,6 +2,7 @@
 
 ## Right Now
 
+- fix prompt for prase: keep when on sentence or notes, make phrases when article
 - edit card from practice mode
 - implement protected and private corrrectly throughout
 - replace underscore with #

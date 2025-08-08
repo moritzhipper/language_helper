@@ -1,8 +1,13 @@
 :host {
   display: grid;
   place-items: center;
-  width: var(--dimension);
   height: var(--dimension);
+  width: var(--dimension);
+
+  &.inline {
+    display: inline-flex;
+    translate: 0 3px;
+  }
 }
 svg {
   display: block;

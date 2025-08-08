@@ -6,7 +6,7 @@
   display: grid;
 
   h1 {
-    margin: var(--distance-6) var(--distance-4) 0 var(--distance-4);
+    margin: var(--distance-6) var(--distance-4);
   }
 
   &:has(h1) {
@@ -37,9 +37,7 @@
       width: 550px;
       height: 550px;
     }
-  }
 
-  :host {
     &.shrink-on-desktop,
     &.center-on-desktop {
       grid-template-rows: 1fr;
@@ -69,7 +67,7 @@
     }
 
     &.center-on-desktop .content {
-      text-align: center;
+      // text-align: center;
       width: 600px;
     }
   }

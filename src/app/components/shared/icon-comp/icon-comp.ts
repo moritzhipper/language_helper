@@ -29,10 +29,12 @@ export type IconType =
   templateUrl: './icon-comp.html',
   styleUrl: './icon-comp.scss',
   host: {
-    '[style.--dimension]': 'size() + "px"'
+    '[style.--dimension]': 'size() + "px"',
+    '[class.inline]': 'inline()'
   }
 })
 export class IconComp {
   type = input.required<IconType>()
   size = input<number>(24)
+  inline = input<boolean>(false)
 }

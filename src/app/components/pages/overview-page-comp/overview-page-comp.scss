@@ -3,7 +3,7 @@
   gap: var(--distance-3);
   overflow-x: scroll;
   scrollbar-width: none;
-  margin-top: var(--distance-1);
+  margin-bottom: var(--distance-6);
 
   .collection {
     text-wrap: nowrap;
@@ -38,11 +38,6 @@
       border: 2px solid var(--col-primary);
     }
   }
-}
-
-app-filter-form-comp {
-  display: block;
-  margin-top: var(--distance-6);
 }
 
 .edit-bubbles {

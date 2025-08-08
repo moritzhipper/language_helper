@@ -49,29 +49,18 @@ export class OverviewComp {
       .filter(Boolean) as Learnable[]
   })
 
-  cardsAreVisible = computed(
-    () => this._learnablesInSelectedCollection().length === 0
+  collectionHasCards = computed(
+    () => this._learnablesInSelectedCollection().length !== 0
   )
+
   userHasCards = computed(() => this._lStore.learnables().length !== 0)
 
   collections = this._lStore.collections
   selectedCollectionId = signal<string | null>(null)
 
+  // learnables after filtering
   private filter = signal<LearnablesFilterConfig | null>(null)
-
   selectedLearnableIds = signal<string[]>([])
-
-  selectedLearnables = computed(() =>
-    this._learnablesInSelectedCollection().filter((l) =>
-      this.selectedLearnableIds().includes(l.id)
-    )
-  )
-
-  learnableWordsLexemes = computed(() =>
-    this._learnablesInSelectedCollection()
-      .filter((l) => l.type === 'word')
-      .map((l) => l.lexeme)
-  )
 
   visibleLearnables = computed(() => {
     const filter = this.filter()
@@ -89,11 +78,13 @@ export class OverviewComp {
   }
 
   async bulkEdit() {
+    const learnables = this._learnablesInSelectedCollection().filter((l) =>
+      this.selectedLearnableIds().includes(l.id)
+    )
+
     const result = await this._modalService.open<ConfirmationType>(
       'bulk-edit',
-      {
-        learnables: this.selectedLearnables()
-      }
+      { learnables }
     )
 
     if (result.type !== 'confirm') return
