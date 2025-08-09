@@ -37,8 +37,10 @@ h2 {
 }
 
 textarea {
-  line-height: 24px;
+  padding: var(--distance-4);
+  resize: none;
 }
+
 p {
   line-height: 24px;
   margin: var(--distance-4) 0;

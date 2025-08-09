@@ -35,7 +35,7 @@ form {
 .data-interact {
   margin-top: var(--distance-4);
   display: grid;
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: var(--distance-4);
 
   .delete {

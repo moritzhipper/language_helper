@@ -10,21 +10,17 @@ form {
     grid-column: span 2;
   }
 
-  textarea {
-    padding: var(--distance-4);
-    resize: none;
+  textarea.converting {
+    background: linear-gradient(
+      -45deg,
+      var(--col-accent) 30%,
+      rgb(from var(--col-primary) r g b / var(--opacity-1)) 50%,
+      var(--col-accent) 80%
+    );
+    background-size: 400% 400%;
+    animation: converting 3s infinite;
 
-    &.converting {
-      background: linear-gradient(
-        -45deg,
-        var(--col-accent) 30%,
-        rgb(from var(--col-primary) r g b / var(--opacity-1)) 50%,
-        var(--col-accent) 80%
-      );
-
-      background-size: 400% 400%;
-      animation: converting 3s infinite;
-    }
+    line-height: 24px;
   }
 }
 

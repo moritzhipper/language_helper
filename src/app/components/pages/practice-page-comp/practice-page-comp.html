@@ -32,7 +32,11 @@
 
           @if (showStats()) {
             <div class="stats">
-              <div class="guesses full"></div>
+              @if (currentLearnable()?.notes) {
+                <p class="notes full">
+                  {{ currentLearnable()?.notes }}
+                </p>
+              }
 
               <div class="progress full">
                 <div
@@ -45,9 +49,10 @@
                   {{ practiceSummary().cardsLeft }} left
                 </span>
               </div>
-              <button class="big full warning" (click)="endPracticeEarly()">
+              <button class="small warning" (click)="endPracticeEarly()">
                 quit
               </button>
+              <button type="button" class="small secondary">edit card</button>
             </div>
           } @else {
             <div class="interact">
@@ -101,8 +106,7 @@
           [config]="[
             { value: null, label: 'all' },
             { value: 'low' },
-            { value: 'medium' },
-            { value: 'high' }
+            { value: 'medium' }
           ]"
           formControlName="confidence"
           label="max confidence"
