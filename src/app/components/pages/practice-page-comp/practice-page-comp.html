@@ -36,7 +36,7 @@
                 @if (currentLearnable()?.notes; as notes) {
                   {{ notes }}
                 } @else {
-                  <span class="placeholder">( press edit to add notes )</span>
+                  <span class="placeholder">( edit to add notes )</span>
                 }
               </p>
 
@@ -54,7 +54,9 @@
               <button class="big warning" (click)="endPracticeEarly()">
                 quit
               </button>
-              <button type="button" class="big secondary">edit card</button>
+              <button type="button" class="big secondary" (click)="editCard()">
+                edit card
+              </button>
             </div>
           } @else {
             <div class="interact">

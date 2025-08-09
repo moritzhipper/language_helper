@@ -35,6 +35,9 @@ form.modal {
     place-self: center;
     text-align: center;
   }
+  .full {
+    grid-column: span 2;
+  }
 }
 
 button.icon,

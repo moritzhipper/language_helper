@@ -2,8 +2,6 @@
 
 ## Right Now
 
-- edit card from practice mode
-
 ## Later
 
 - cool in practice animations

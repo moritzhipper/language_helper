@@ -90,7 +90,10 @@
           height: 100%;
           width: 100%;
           opacity: var(--opacity-1);
-          background-color: var(--col-accent);
+          background-color: rgb(
+            from var(--col-accent) r g b / var(--opacity-1)
+          );
+
           top: 0;
           left: 0;
         }
@@ -128,17 +131,13 @@
 }
 
 @include isDesktop() {
-  .practice-view {
-    .navigation {
-      width: 600px;
-    }
+  .practice-view .navigation {
+    width: 500px;
   }
 }
 
 @include isPhone() {
-  .practice-view {
-    .navigation {
-      place-self: stretch;
-    }
+  .practice-view .navigation {
+    place-self: stretch;
   }
 }

@@ -1,0 +1,32 @@
+form {
+  grid-template-rows: 1fr auto;
+
+  .fake-card {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    app-radio-comp {
+      margin-bottom: var(--distance-2);
+    }
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      outline: none;
+      grid-column: span 2;
+      padding: var(--distance-4);
+
+      &.lexeme {
+        border-radius: var(--radius-1) var(--radius-1) 0 0;
+        font-weight: var(--font-weight-bold);
+        padding-bottom: 0;
+      }
+      &.translation {
+        border-radius: 0;
+        font-style: italic;
+        padding-bottom: 0;
+      }
+      &.notes {
+        border-radius: 0 0 var(--radius-1) var(--radius-1);
+      }
+    }
+  }
+}
