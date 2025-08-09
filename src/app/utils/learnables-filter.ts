@@ -12,22 +12,14 @@ export const filterLearnables = (
 
   if (filterConfig.type && filterConfig.type !== 'all') {
     filteredLearnables = filterByType(filterConfig, filteredLearnables)
-  }
-
-  if (filterConfig.confidence && filterConfig.confidence !== 'all') {
+  } else if (filterConfig.confidence && filterConfig.confidence !== 'all') {
     filteredLearnables = filterByConfidence(filterConfig, filteredLearnables)
-  }
-
-  if (filterConfig.search) {
+  } else if (filterConfig.search) {
     filteredLearnables = filterBySearch(filterConfig, filteredLearnables)
-  }
-
-  if (filterConfig.ids) {
+  } else if (filterConfig.ids) {
     filteredLearnables = filterByIDs(filterConfig, filteredLearnables)
-  }
-
-  if (filterConfig.age && filterConfig.age !== 'all') {
-    filteredLearnables = filterByNewerThanDays(filterConfig, filteredLearnables)
+  } else if (filterConfig.age && filterConfig.age !== 'all') {
+    filteredLearnables = filterByAge(filterConfig, filteredLearnables)
   }
 
   return sortLearnables(filterConfig, filteredLearnables)
@@ -83,13 +75,24 @@ const filterByIDs = (
   )
 }
 
-const filterByNewerThanDays = (
+const filterByAge = (
   filter: LearnablesFilterConfig,
   learnables: Learnable[]
 ): Learnable[] => {
   if (filter.age === 'all' || !filter.age) return learnables
   if (filter.age === 'newest') {
-    return learnables // or implement specific logic for newest
+    if (learnables.length === 0) return learnables
+
+    // Find the newest creation date
+    const dates = learnables.map((learnable) =>
+      new Date(learnable.created).getTime()
+    )
+    const newestDate = Math.max(...dates)
+
+    // Return all learnables with that newest date
+    return learnables.filter(
+      (learnable) => new Date(learnable.created).getTime() === newestDate
+    )
   }
 
   return learnables.filter((learnable) =>
