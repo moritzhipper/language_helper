@@ -1,6 +1,7 @@
 <form [formGroup]="convertForm" (ngSubmit)="convert()" class="modal">
   <div class="content fly-in-y-0">
     <textarea
+      [class.converting]="isConverting()"
       formControlName="input"
       placeholder="paste notes, articles or any other text here"
     ></textarea>
@@ -15,8 +16,8 @@
   </button>
   <button
     type="submit"
-    class="big submit icon fly-in-y-2"
-    [disabled]="!convertForm.valid"
+    class="icon fly-in-y-2"
+    [disabled]="!convertForm.valid || isConverting()"
   >
     @if (isConverting()) {
       <span>converting...</span>

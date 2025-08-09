@@ -2,9 +2,7 @@
 
 ## Right Now
 
-- add one new empty card when opening bulk edit with nothing
 - converting state animieren
-- make bulk form unsibmittable when no card exists
 
 ## Later
 
