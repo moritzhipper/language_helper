@@ -2,7 +2,6 @@
 
 ## Right Now
 
-- build filter by like sort -> reduce iterations
 - consolidate newest and date added filter in forms and filters
 - edit card from practice mode
 - implement protected and private corrrectly throughout
@@ -13,7 +12,12 @@
 - converting state animieren
 - empty state ergaenzen durch empty state component
   hide collections selector in overview when no collections exist
-  - select filtered (number)
+- reset filter
+- select filtered (number)
+- make filter less spacious
+- add no cards found when filter set and no result
+- add one new empty card when opening bulk edit with nothing
+- make bulk form unsibmittable when no card exists
 
 - add about page -> wie nutzen?
 - add select filtered button

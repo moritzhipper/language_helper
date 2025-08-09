@@ -28,10 +28,10 @@ export class FilterFormComp {
   filter = output<LearnablesFilterFormType>()
 
   private initialValue: LearnablesFilterFormType = {
-    type: 'all',
-    confidence: 'all',
+    type: null,
+    confidence: null,
+    age: null,
     orderBy: 'created',
-    age: 'all',
     order: 'asc',
     search: ''
   }

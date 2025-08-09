@@ -7,9 +7,8 @@
     <label>
       <input
         type="radio"
-        [value]="option.value"
-        [checked]="value === option.value"
-        (change)="setValue($event)"
+        [checked]="option.value === value"
+        (change)="setValue(option.value)"
         (blur)="onTouched()"
       />
 

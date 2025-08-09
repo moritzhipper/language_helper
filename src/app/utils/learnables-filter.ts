@@ -1,28 +1,45 @@
 import { Learnable, LearnablesFilterConfig } from '../types_and_schemas/types'
 
-export const newerThanDays = (date: Date, days: number): boolean => {
-  return new Date(date).getTime() > Date.now() - days * 24 * 60 * 60 * 1000
-}
-
 export const filterLearnables = (
   learnables: Learnable[],
   filterConfig: LearnablesFilterConfig
 ): Learnable[] => {
   let filteredLearnables: Learnable[] = [...learnables]
 
-  if (filterConfig.type && filterConfig.type !== 'all') {
+  if (filterConfig.type) {
     filteredLearnables = filterByType(filterConfig, filteredLearnables)
-  } else if (filterConfig.confidence && filterConfig.confidence !== 'all') {
+  } else if (filterConfig.confidence) {
     filteredLearnables = filterByConfidence(filterConfig, filteredLearnables)
   } else if (filterConfig.search) {
     filteredLearnables = filterBySearch(filterConfig, filteredLearnables)
   } else if (filterConfig.ids) {
     filteredLearnables = filterByIDs(filterConfig, filteredLearnables)
-  } else if (filterConfig.age && filterConfig.age !== 'all') {
+  } else if (filterConfig.age) {
     filteredLearnables = filterByAge(filterConfig, filteredLearnables)
   }
 
   return sortLearnables(filterConfig, filteredLearnables)
+}
+
+const sortLearnables = (
+  filter: LearnablesFilterConfig,
+  learnables: Learnable[]
+): Learnable[] => {
+  let sortedLearnables: Learnable[] = [...learnables]
+
+  if (filter.orderBy === 'lexeme') {
+    sortedLearnables = sortedLearnables.sort(orderByLexeme)
+  } else if (filter.orderBy === 'confidence') {
+    sortedLearnables = sortedLearnables.sort(orderByConfidence)
+  } else if (filter.orderBy === 'random') {
+    sortedLearnables = sortedLearnables.sort(orderByRandom)
+  } else {
+    sortedLearnables = sortedLearnables.sort(orderByDate)
+  }
+
+  if (filter.order === 'desc') return sortedLearnables.reverse()
+
+  return sortedLearnables
 }
 
 // #region Filter Functions
@@ -30,7 +47,7 @@ const filterByType = (
   filter: LearnablesFilterConfig,
   learnables: Learnable[]
 ): Learnable[] => {
-  if (filter.type === 'all') return learnables
+  if (!filter.type) return learnables
   return learnables.filter((learnable) => learnable.type === filter.type)
 }
 
@@ -79,10 +96,8 @@ const filterByAge = (
   filter: LearnablesFilterConfig,
   learnables: Learnable[]
 ): Learnable[] => {
-  if (filter.age === 'all' || !filter.age) return learnables
+  if (!filter.age) return learnables
   if (filter.age === 'newest') {
-    if (learnables.length === 0) return learnables
-
     // Find the newest creation date
     const dates = learnables.map((learnable) =>
       new Date(learnable.created).getTime()
@@ -95,33 +110,17 @@ const filterByAge = (
     )
   }
 
-  return learnables.filter((learnable) =>
-    newerThanDays(new Date(learnable.created), filter.age as number)
+  const now = Date.now()
+  const oneDayInMs = 24 * 60 * 60 * 1000
+  const maxAgeInDaysAsMs = (filter.age as number) * oneDayInMs
+
+  return learnables.filter(
+    (learnable) =>
+      new Date(learnable.created).getTime() > now - maxAgeInDaysAsMs
   )
 }
 
 // #region Sort Functions
-
-const sortLearnables = (
-  filter: LearnablesFilterConfig,
-  learnables: Learnable[]
-): Learnable[] => {
-  let sortedLearnables: Learnable[] = [...learnables]
-
-  if (filter.orderBy === 'lexeme') {
-    sortedLearnables = sortedLearnables.sort(orderByLexeme)
-  } else if (filter.orderBy === 'confidence') {
-    sortedLearnables = sortedLearnables.sort(orderByConfidence)
-  } else if (filter.orderBy === 'random') {
-    sortedLearnables = sortedLearnables.sort(orderByRandom)
-  } else {
-    sortedLearnables = sortedLearnables.sort(orderByDate)
-  }
-
-  if (filter.order === 'desc') return sortedLearnables.reverse()
-
-  return sortedLearnables
-}
 
 const orderByDate = (a: Learnable, b: Learnable): number => {
   const dateA = new Date(a.created).getTime()

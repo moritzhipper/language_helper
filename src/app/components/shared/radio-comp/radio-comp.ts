@@ -1,9 +1,10 @@
 import { Component, forwardRef, input } from '@angular/core'
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 
+type RadioCompValueType = string | number | boolean | null
 export type RadioCompInputConfig = {
   label?: string
-  value: string | number | boolean
+  value: RadioCompValueType
 }[]
 
 @Component({
@@ -23,13 +24,14 @@ export class RadioComp implements ControlValueAccessor {
   config = input.required<RadioCompInputConfig>()
   label = input<string>()
 
-  value: string | number | boolean | undefined = undefined
+  value: RadioCompValueType = null
 
-  onChange = (value: string | number | boolean) => {}
+  onChange = (value: RadioCompValueType) => {}
   onTouched = () => {}
 
-  writeValue(value: string | number | boolean): void {
-    this.value = value
+  writeValue(value: RadioCompValueType): void {
+    // Treat undefined like null for easier optional handling
+    this.value = value ?? null
   }
 
   registerOnChange(fn: any): void {
@@ -40,21 +42,10 @@ export class RadioComp implements ControlValueAccessor {
     this.onTouched = fn
   }
 
-  setValue(event: Event) {
-    const target = event.target as HTMLInputElement
-    const selectedStringValue = target.value
-
-    // Find the matching option to preserve the original data type (string or number)
-    const matchingOption = this.config().find(
-      (option) => String(option.value) === selectedStringValue
-    )
-
-    if (matchingOption) {
-      const originalValue = matchingOption.value
-      this.writeValue(originalValue)
-      this.onChange(originalValue)
-    }
-
+  setValue(selected: RadioCompValueType) {
+    const normalized = selected ?? null
+    this.writeValue(normalized)
+    this.onChange(normalized)
     this.onTouched()
   }
 }

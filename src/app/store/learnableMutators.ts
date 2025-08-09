@@ -33,8 +33,7 @@ export const saveNewlyCreatedLearnables =
 
     return {
       ...state,
-      learnables: [...learnables, ...state.learnables],
-      addedLatestIDs: addedIDs
+      learnables: [...learnables, ...state.learnables]
     }
   }
 

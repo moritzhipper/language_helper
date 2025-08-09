@@ -50,11 +50,12 @@ export class PracticeComp {
 
   private readonly _fb = inject(NonNullableFormBuilder)
   form = this._fb.group({
-    type: 'all',
+    type: null,
     collection: 'all',
-    confidence: 'all',
+    confidence: undefined,
     reverseDirection: false
   })
+
   private readonly _formSignal = toSignal(this.form.valueChanges, {
     initialValue: this.form.value
   })

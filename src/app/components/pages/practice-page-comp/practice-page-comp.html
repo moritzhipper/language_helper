@@ -92,13 +92,17 @@
 
       <form [formGroup]="form">
         <app-radio-comp
-          [config]="[{ value: 'all' }, { value: 'word' }, { value: 'phrase' }]"
+          [config]="[
+            { label: 'all', value: null },
+            { value: 'word' },
+            { value: 'phrase' }
+          ]"
           formControlName="type"
           label="type"
         />
         <app-radio-comp
           [config]="[
-            { value: 'all' },
+            { value: null, label: 'all' },
             { value: 'low' },
             { value: 'medium' },
             { value: 'high' }
