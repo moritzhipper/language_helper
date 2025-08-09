@@ -18,13 +18,13 @@
   }
 
   &:not(.expanded) {
-    .icon {
-      rotate: 180deg;
+    .chevron {
+      rotate: 90deg;
     }
   }
   &.expanded {
-    .icon {
-      rotate: 0deg;
+    .chevron {
+      rotate: 180deg;
     }
   }
 }
