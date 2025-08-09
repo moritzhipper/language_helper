@@ -6,6 +6,7 @@
   justify-content: center;
   opacity: var(--opacity-1);
   margin: 0 var(--distance-3);
+
   span {
     font-size: var(--font-size-0);
     font-weight: var(--font-weight-bold);
@@ -27,43 +28,42 @@
     }
   }
 }
+form {
+  margin: var(--distance-6) 0;
+}
 
 @include isPhone() {
   form {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--distance-2);
-
     .search {
       margin-bottom: var(--distance-4);
+    }
+
+    .radios {
+      display: grid;
+      gap: var(--distance-2);
+      grid-template-columns: 1fr;
+      margin-top: var(--distance-6);
     }
 
     .toggle {
       grid-area: 1 -1;
       place-self: start;
     }
-
-    &.opened {
-      margin: var(--distance-0) 0 var(--distance-4) 0;
-
-      .toggle {
-        margin-top: var(--distance-2);
-      }
-    }
   }
 }
 
 @include isDesktop {
   form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--distance-2) var(--distance-4);
-    align-items: end;
-    input {
-      width: 250px;
+    .radios {
+      margin-top: var(--distance-4);
+
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--distance-2) var(--distance-4);
+      align-items: end;
     }
-    &.opened {
-      margin-bottom: var(--distance-4);
+    label {
+      width: 400px;
     }
   }
 }
