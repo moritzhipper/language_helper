@@ -6,11 +6,10 @@ import { ModalService } from '../../../services/modal-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
-import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 @Component({
   selector: 'app-settings.comp',
-  imports: [ReactiveFormsModule, PageWrapperComp, CounterComp, IconComp],
+  imports: [ReactiveFormsModule, PageWrapperComp, CounterComp],
   templateUrl: './settings-page-comp.html',
   styleUrl: './settings-page-comp.scss'
 })

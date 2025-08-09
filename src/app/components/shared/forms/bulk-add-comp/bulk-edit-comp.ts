@@ -40,9 +40,7 @@ export class BulkEditComp extends BaseModalDirective {
   private readonly _fb = inject(NonNullableFormBuilder)
 
   learnables = input<Learnable[]>()
-
   deletedLIDs = signal<string[]>([])
-
   learnablesForm = this._fb.group({
     learnables: this._fb.array<LearnableBase>([])
   })
@@ -104,7 +102,6 @@ export class BulkEditComp extends BaseModalDirective {
       LearnableBase & { id?: string }
     >[]
 
-    // fix this -> doesnt map to. the orrect type back
     // learnables which came from preset, that the user wants to update
     const updated = formArrayValue.filter(
       (v) => v.id
@@ -121,7 +118,7 @@ export class BulkEditComp extends BaseModalDirective {
     this.confirm(confirm)
   }
 
-  mapLearnablesToFormArray(learnables: Learnable[]): void {
+  private mapLearnablesToFormArray(learnables: Learnable[]): void {
     this.learnablesFormArray.clear()
     learnables.forEach((learnable) =>
       this.learnablesFormArray.push(this.createLearnableFormGroup(learnable))
