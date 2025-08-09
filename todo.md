@@ -2,18 +2,18 @@
 
 ## Right Now
 
-- edit card from practice mode
-- implement protected and private corrrectly throughout
-- replace underscore with #
-
-## Later
-
-- converting state animieren
 - reset filter
 - select filtered (number)
 - make filter less spacious
 - add no cards found when filter set and no result
+
+## Later
+
+- converting state animieren
 - add one new empty card when opening bulk edit with nothing
+- edit card from practice mode
+- implement protected and private corrrectly throughout
+- replace underscore with #
 - make bulk form unsibmittable when no card exists
 
 - add about page -> wie nutzen?
