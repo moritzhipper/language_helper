@@ -4,13 +4,13 @@
 
 - add one new empty card when opening bulk edit with nothing
 - converting state animieren
+- make bulk form unsibmittable when no card exists
 
 ## Later
 
 - edit card from practice mode
 - implement protected and private corrrectly throughout
 - replace underscore with #
-- make bulk form unsibmittable when no card exists
 
 - add about page -> wie nutzen?
 - animations! -> angular 20.2 bring them back woop woop

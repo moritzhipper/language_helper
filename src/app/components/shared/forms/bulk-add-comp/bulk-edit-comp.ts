@@ -39,7 +39,7 @@ export type ConfirmationType = {
 export class BulkEditComp extends BaseModalDirective {
   private readonly _fb = inject(NonNullableFormBuilder)
 
-  learnables = input<Learnable[] | null>()
+  learnables = input<Learnable[]>()
 
   deletedLIDs = signal<string[]>([])
 
@@ -51,9 +51,12 @@ export class BulkEditComp extends BaseModalDirective {
     super()
     effect(() => {
       const preset = this.learnables()
-      if (!preset) return
       untracked(() => {
-        this.mapLearnablesToFormArray(preset)
+        if (!preset || preset.length === 0) {
+          this.addLearnable()
+        } else {
+          this.mapLearnablesToFormArray(preset)
+        }
       })
     })
   }

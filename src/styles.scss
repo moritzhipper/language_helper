@@ -62,7 +62,7 @@ strong {
 
 button {
   border-radius: var(--radius-0);
-  transition-property: background-color, opacity, outline, color;
+  transition-property: background-color, opacity, outline, color, box-shadow;
   transition-duration: var(--duration-0);
   transition-timing-function: ease-out;
 
@@ -98,6 +98,7 @@ button {
   &[disabled] {
     opacity: var(--opacity-1);
     cursor: not-allowed;
+    box-shadow: none;
   }
 }
 
