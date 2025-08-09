@@ -183,7 +183,7 @@ export class OverviewComp {
     }
 
     this._toastService.showToast({
-      message: `created ${uniqueLearnables.length} cards.`,
+      message: `created ${uniqueLearnables.length} cards`,
       type: 'info'
     })
 

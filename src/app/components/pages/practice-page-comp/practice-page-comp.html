@@ -32,11 +32,13 @@
 
           @if (showStats()) {
             <div class="stats">
-              @if (currentLearnable()?.notes) {
-                <p class="notes full">
-                  {{ currentLearnable()?.notes }}
-                </p>
-              }
+              <p class="notes full">
+                @if (currentLearnable()?.notes; as notes) {
+                  {{ notes }}
+                } @else {
+                  <span class="placeholder">( press edit to add notes )</span>
+                }
+              </p>
 
               <div class="progress full">
                 <div
@@ -49,10 +51,10 @@
                   {{ practiceSummary().cardsLeft }} left
                 </span>
               </div>
-              <button class="small warning" (click)="endPracticeEarly()">
+              <button class="big warning" (click)="endPracticeEarly()">
                 quit
               </button>
-              <button type="button" class="small secondary">edit card</button>
+              <button type="button" class="big secondary">edit card</button>
             </div>
           } @else {
             <div class="interact">
@@ -137,7 +139,7 @@
           [disabled]="selectedCardsIds().length === 0"
         >
           start
-          <app-icon-comp type="learn" [size]="20" />
+          <app-icon-comp type="learn" />
         </button>
       </form>
     </div>

@@ -43,4 +43,8 @@ a.icon {
   align-items: center;
   justify-content: center;
   gap: var(--distance-2);
+
+  app-icon-comp {
+    height: var(--font-size-1);
+  }
 }
