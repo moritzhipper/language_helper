@@ -8,66 +8,93 @@ export const filterLearnables = (
   learnables: Learnable[],
   filterConfig: LearnablesFilterConfig
 ): Learnable[] => {
-  const filtered = learnables
-    .filter((v) => filterByType(filterConfig, v))
-    .filter((v) => filterByConfidence(filterConfig, v))
-    .filter((v) => filterBySearch(filterConfig, v))
-    .filter((v) => filterByIDs(filterConfig, v))
-    .filter((v) => filterByNewerThanDays(filterConfig, v))
+  let filteredLearnables: Learnable[] = [...learnables]
 
-  return sortLearnables(filterConfig, filtered)
+  if (filterConfig.type && filterConfig.type !== 'all') {
+    filteredLearnables = filterByType(filterConfig, filteredLearnables)
+  }
+
+  if (filterConfig.confidence && filterConfig.confidence !== 'all') {
+    filteredLearnables = filterByConfidence(filterConfig, filteredLearnables)
+  }
+
+  if (filterConfig.search) {
+    filteredLearnables = filterBySearch(filterConfig, filteredLearnables)
+  }
+
+  if (filterConfig.ids) {
+    filteredLearnables = filterByIDs(filterConfig, filteredLearnables)
+  }
+
+  if (filterConfig.age && filterConfig.age !== 'all') {
+    filteredLearnables = filterByNewerThanDays(filterConfig, filteredLearnables)
+  }
+
+  return sortLearnables(filterConfig, filteredLearnables)
 }
 
 // #region Filter Functions
 const filterByType = (
   filter: LearnablesFilterConfig,
-  learnable: Learnable
-): boolean => {
-  if (filter.type === 'all') return true
-  return learnable.type === filter.type
+  learnables: Learnable[]
+): Learnable[] => {
+  if (filter.type === 'all') return learnables
+  return learnables.filter((learnable) => learnable.type === filter.type)
 }
 
 const filterByConfidence = (
   filter: LearnablesFilterConfig,
-  learnable: Learnable
-): boolean => {
-  const wrongGuesses = getWrongGuesses(learnable)
-  const isBetween = (min: number, max: number): boolean =>
-    wrongGuesses >= min && wrongGuesses <= max
+  learnables: Learnable[]
+): Learnable[] => {
+  return learnables.filter((learnable) => {
+    const wrongGuesses = getWrongGuesses(learnable)
+    const isBetween = (min: number, max: number): boolean =>
+      wrongGuesses >= min && wrongGuesses <= max
 
-  if (filter.confidence === 'high') return wrongGuesses <= 1
-  if (filter.confidence === 'medium') return isBetween(2, 5)
-  if (filter.confidence === 'low') return isBetween(6, 10)
+    if (filter.confidence === 'high') return wrongGuesses <= 1
+    if (filter.confidence === 'medium') return isBetween(2, 5)
+    if (filter.confidence === 'low') return isBetween(6, 10)
 
-  // case all
-  return true
+    // case all
+    return true
+  })
 }
 
 const filterBySearch = (
   filter: LearnablesFilterConfig,
-  learnable: Learnable
-): boolean => {
-  if (!filter.search) return true
-  const lexeme = learnable.lexeme.toLowerCase()
-  const translation = learnable.translation.toLowerCase()
+  learnables: Learnable[]
+): Learnable[] => {
+  if (!filter.search) return learnables
   const search = filter.search.toLowerCase()
-  return lexeme.includes(search) || translation.includes(search)
+  return learnables.filter((learnable) => {
+    const lexeme = learnable.lexeme.toLowerCase()
+    const translation = learnable.translation.toLowerCase()
+    return lexeme.includes(search) || translation.includes(search)
+  })
 }
 
 const filterByIDs = (
   filterConfig: LearnablesFilterConfig,
-  v: Learnable
-): boolean => {
-  return !filterConfig.ids || filterConfig.ids.includes(v.id)
+  learnables: Learnable[]
+): Learnable[] => {
+  if (!filterConfig.ids) return learnables
+  return learnables.filter((learnable) =>
+    filterConfig.ids!.includes(learnable.id)
+  )
 }
 
 const filterByNewerThanDays = (
   filter: LearnablesFilterConfig,
-  learnable: Learnable
-): boolean => {
-  if (filter.age === 'all' || !filter.age) return true
+  learnables: Learnable[]
+): Learnable[] => {
+  if (filter.age === 'all' || !filter.age) return learnables
+  if (filter.age === 'newest') {
+    return learnables // or implement specific logic for newest
+  }
 
-  return newerThanDays(new Date(learnable.created), filter.age)
+  return learnables.filter((learnable) =>
+    newerThanDays(new Date(learnable.created), filter.age as number)
+  )
 }
 
 // #region Sort Functions

@@ -2,6 +2,8 @@
 
 ## Right Now
 
+- build filter by like sort -> reduce iterations
+- consolidate newest and date added filter in forms and filters
 - edit card from practice mode
 - implement protected and private corrrectly throughout
 - replace underscore with #
@@ -11,6 +13,7 @@
 - converting state animieren
 - empty state ergaenzen durch empty state component
   hide collections selector in overview when no collections exist
+  - select filtered (number)
 
 - add about page -> wie nutzen?
 - add select filtered button
