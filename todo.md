@@ -2,7 +2,6 @@
 
 ## Right Now
 
-- consolidate newest and date added filter in forms and filters
 - edit card from practice mode
 - implement protected and private corrrectly throughout
 - replace underscore with #
@@ -10,8 +9,6 @@
 ## Later
 
 - converting state animieren
-- empty state ergaenzen durch empty state component
-  hide collections selector in overview when no collections exist
 - reset filter
 - select filtered (number)
 - make filter less spacious
@@ -23,7 +20,7 @@
 - add select filtered button
 - animations! -> angular 20.2 bring them back woop woop
 - history: add practice with date
-- fix openai + zod issue and
+- fix openai + zod issue: remove helper function from utils
 
 # sources
 

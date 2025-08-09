@@ -18,18 +18,17 @@
       [config]="[
         { value: null, label: 'all' },
         { value: 'low' },
-        { value: 'medium' },
-        { value: 'high' }
+        { value: 'medium' }
       ]"
       formControlName="confidence"
-      label="confidence"
+      label="max confidence"
     />
 
     <app-radio-comp
       [config]="[
         { value: null, label: 'all' },
         { value: 'newest' },
-        { value: 3, label: '3 days' }
+        { value: 3, label: '< 3 days' }
       ]"
       formControlName="age"
       label="age"

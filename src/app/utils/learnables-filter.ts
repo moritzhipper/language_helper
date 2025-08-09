@@ -60,9 +60,8 @@ const filterByConfidence = (
     const isBetween = (min: number, max: number): boolean =>
       wrongGuesses >= min && wrongGuesses <= max
 
-    if (filter.confidence === 'high') return wrongGuesses <= 1
-    if (filter.confidence === 'medium') return isBetween(2, 5)
-    if (filter.confidence === 'low') return isBetween(6, 10)
+    if (filter.confidence === 'medium') return wrongGuesses > 4
+    if (filter.confidence === 'low') return wrongGuesses > 6
 
     // case all
     return true

@@ -68,7 +68,7 @@ export type LearnablesFilterConfig = Optional<{
   type: 'word' | 'phrase'
   ids: string[]
   age: number | 'newest'
-  confidence: 'high' | 'medium' | 'low'
+  confidence: 'medium' | 'low'
   search: string
 }>
 
