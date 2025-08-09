@@ -1,5 +1,9 @@
 @use '../../../../../style/mixins.scss' as *;
 
+form {
+  margin: var(--distance-6) 0;
+}
+
 .toggle {
   display: flex;
   align-items: center;
@@ -17,32 +21,25 @@
     margin-right: var(--distance-1);
   }
 
-  &:not(.expanded) {
-    .chevron {
-      rotate: 90deg;
-    }
+  .chevron:not(.rotated) {
+    rotate: 90deg;
   }
-  &.expanded {
-    .chevron {
-      rotate: 180deg;
-    }
+  .chevron.rotated {
+    rotate: 180deg;
   }
-}
-form {
-  margin: var(--distance-6) 0;
 }
 
 @include isPhone() {
   form {
-    .search {
-      margin-bottom: var(--distance-4);
-    }
-
     .radios {
       display: grid;
       gap: var(--distance-2);
       grid-template-columns: 1fr;
       margin-top: var(--distance-6);
+    }
+
+    .search {
+      margin-bottom: var(--distance-4);
     }
 
     .toggle {
@@ -54,6 +51,9 @@ form {
 
 @include isDesktop {
   form {
+    .search {
+      width: 400px;
+    }
     .radios {
       margin-top: var(--distance-4);
 
@@ -61,9 +61,6 @@ form {
       flex-wrap: wrap;
       gap: var(--distance-2) var(--distance-4);
       align-items: end;
-    }
-    label {
-      width: 400px;
     }
   }
 }

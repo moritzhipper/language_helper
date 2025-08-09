@@ -1,6 +1,6 @@
 .collections {
   display: flex;
-  gap: var(--distance-2);
+  gap: var(--distance-0);
   overflow-x: scroll;
   scrollbar-width: none;
   margin-bottom: var(--distance-6);
@@ -11,7 +11,7 @@
     font-size: var(--font-size-2);
     font-weight: var(--font-weight-bold);
     margin: var(--distance-1);
-    padding: var(--distance-0) var(--distance-2);
+    padding: var(--distance-1) var(--distance-3);
     border-radius: var(--radius-1);
 
     &:not(.selected) {
