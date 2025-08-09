@@ -33,20 +33,26 @@
   .lexeme,
   .translation {
     font-size: var(--font-size-3);
+    line-height: calc(var(--font-size-3) + 12px);
+    padding: var(--distance-4);
   }
 
   .lexeme {
     font-weight: var(--font-weight-bold);
   }
 
+  .translation {
+    font-style: italic;
+  }
+
   .navigation {
     display: grid;
 
     button.toggle-navigation {
-      padding: var(--distance-4) 0;
+      margin: var(--distance-4) 0;
       opacity: var(--opacity-1);
       display: grid;
-      place-items: center;
+      place-self: center;
       .expanded {
         rotate: 180deg;
       }
@@ -68,19 +74,25 @@
         border-radius: var(--radius-1);
         overflow: hidden;
         font-size: var(--font-size-0);
-        color: var(--col-primary);
         text-align: center;
-        padding: var(--distance-0) 0;
-        border: 1px solid var(--col-accent);
+        background-color: rgb(from var(--col-accent) r g b / var(--opacity-1));
 
         .indicator {
-          position: absolute;
-          top: 0;
-          left: 0;
           z-index: 1;
           height: 100%;
           opacity: var(--opacity-1);
           background-color: var(--col-accent);
+          height: var(--distance-5);
+        }
+        .text {
+          position: absolute;
+          display: grid;
+          place-items: center;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          color: var(--col-primary);
         }
       }
     }

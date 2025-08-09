@@ -78,7 +78,8 @@ export class PracticeComp {
         correctAmountPercent: 0,
         progressPercent: 0,
         currentIndex: 0,
-        guessesTotal: 0
+        guessesTotal: 0,
+        cardsLeft: 0
       }
 
     const guesses = currentPractice.guesses
@@ -93,6 +94,7 @@ export class PracticeComp {
       (currentPractice.index / cardsAmountTotal) * 100
     )
     const currentIndex = currentPractice.index
+    const cardsLeft = cardsAmountTotal - currentIndex
 
     return {
       guessesTotal,
@@ -100,7 +102,8 @@ export class PracticeComp {
       correctAmountTotal,
       correctAmountPercent,
       progressPercent,
-      currentIndex
+      currentIndex,
+      cardsLeft
     }
   })
 

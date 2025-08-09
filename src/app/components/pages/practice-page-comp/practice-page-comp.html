@@ -22,7 +22,7 @@
           }
         </div>
         <div class="navigation">
-          <button class="toggle-navigation" (click)="showStatsToggle()">
+          <button class="silent toggle-navigation" (click)="showStatsToggle()">
             <app-icon-comp
               type="chevron"
               [size]="32"
@@ -32,20 +32,17 @@
 
           @if (showStats()) {
             <div class="stats">
-              <div class="guesses full">
-                {{ practiceSummary().correctAmountTotal }} of
-                {{ practiceSummary().guessesTotal }}
-                guessed correctly
-              </div>
+              <div class="guesses full"></div>
 
               <div class="progress full">
                 <div
                   class="indicator"
                   [style.width]="practiceSummary().progressPercent + '%'"
                 ></div>
-                <span
-                  >{{ practiceSummary().currentIndex }} /
-                  {{ practiceSummary().cardsAmountTotal }}
+                <span class="text">
+                  {{ practiceSummary().correctAmountTotal }} of
+                  {{ practiceSummary().guessesTotal }} correct |
+                  {{ practiceSummary().cardsLeft }} left
                 </span>
               </div>
               <button class="big full warning" (click)="endPracticeEarly()">

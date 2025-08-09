@@ -2,17 +2,16 @@
 
 ## Right Now
 
-- converting state animieren
+- edit card from practice mode
 
 ## Later
 
-- edit card from practice mode
+- cool in practice animations
+- add about page -> wie nutzen?
 - implement protected and private corrrectly throughout
 - replace underscore with #
 
-- add about page -> wie nutzen?
 - animations! -> angular 20.2 bring them back woop woop
-- history: add practice with date
 - fix openai + zod issue: remove helper function from utils
 
 # sources
