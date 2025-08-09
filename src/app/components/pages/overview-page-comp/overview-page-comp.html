@@ -55,26 +55,27 @@
       </div>
     }
 
-    @if (collectionHasCards()) {
-      <app-filter-form-comp (filter)="updateFilter($event)" />
-    } @else {
+    @if (collectionIsEmpty()) {
       <p>collection is empty</p>
+    } @else {
+      <app-filter-form-comp (filter)="updateFilter($event)" />
+      <div class="learnables">
+        @for (learnable of filteredLearnables(); track learnable.id) {
+          <button
+            class="silent learnable"
+            (click)="toggleLearnableSelection(learnable.id)"
+            [class.selected]="isSelected(learnable.id)"
+          >
+            <app-learnable-comp
+              [learnable]="learnable"
+              [showNewBadge]="isLastAdded(learnable.id)"
+            />
+          </button>
+        } @empty {
+          <p>no cards found</p>
+        }
+      </div>
     }
-
-    <div class="learnables">
-      @for (learnable of visibleLearnables(); track learnable.id) {
-        <button
-          class="silent learnable"
-          (click)="toggleLearnableSelection(learnable.id)"
-          [class.selected]="isSelected(learnable.id)"
-        >
-          <app-learnable-comp
-            [learnable]="learnable"
-            [showNewBadge]="isLastAdded(learnable.id)"
-          />
-        </button>
-      }
-    </div>
   </app-page-wrapper-comp>
 } @else {
   <app-page-wrapper-comp title="Cards" desktopMode="center" icon="card">

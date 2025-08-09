@@ -10,16 +10,15 @@ form {
     grid-column: span 2;
   }
 
-  textarea {
-    padding: var(--distance-4);
-    resize: none;
-  }
-
-  button {
-    &.submit {
-      color: var(--col-bg);
-      background-color: var(--col-primary);
-    }
+  textarea.converting {
+    background: linear-gradient(
+      -45deg,
+      var(--col-accent) 30%,
+      var(--col-primary) 50%,
+      var(--col-accent) 80%
+    );
+    background-size: 400% 400%;
+    animation: converting 3s infinite;
   }
 }
 
@@ -32,5 +31,15 @@ form {
 @include isPhone() {
   form {
     height: 100%;
+  }
+}
+
+@keyframes converting {
+  from {
+    background-position: 0% 0%;
+  }
+  80%,
+  100% {
+    background-position: 100% 100%;
   }
 }

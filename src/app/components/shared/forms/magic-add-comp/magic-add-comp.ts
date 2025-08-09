@@ -30,7 +30,6 @@ export class MagicAddComp extends BaseModalDirective {
   })
 
   async convert() {
-    if (this.isConverting()) return
     const formValue = this.convertForm.value
 
     const creationConf = {

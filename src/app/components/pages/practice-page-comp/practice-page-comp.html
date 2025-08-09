@@ -22,7 +22,7 @@
           }
         </div>
         <div class="navigation">
-          <button class="toggle-navigation" (click)="showStatsToggle()">
+          <button class="silent toggle-navigation" (click)="showStatsToggle()">
             <app-icon-comp
               type="chevron"
               [size]="32"
@@ -32,24 +32,30 @@
 
           @if (showStats()) {
             <div class="stats">
-              <div class="guesses full">
-                {{ practiceSummary().correctAmountTotal }} of
-                {{ practiceSummary().guessesTotal }}
-                guessed correctly
-              </div>
+              <button class="notes silent full" (click)="editCard()">
+                @if (currentLearnable()?.notes; as notes) {
+                  {{ notes }}
+                } @else {
+                  <span class="placeholder">( edit to add notes )</span>
+                }
+              </button>
 
               <div class="progress full">
                 <div
                   class="indicator"
                   [style.width]="practiceSummary().progressPercent + '%'"
                 ></div>
-                <span
-                  >{{ practiceSummary().currentIndex }} /
-                  {{ practiceSummary().cardsAmountTotal }}
+                <span class="text">
+                  {{ practiceSummary().correctAmountTotal }} of
+                  {{ practiceSummary().guessesTotal }} correct |
+                  {{ practiceSummary().cardsLeft }} left
                 </span>
               </div>
-              <button class="big full warning" (click)="endPracticeEarly()">
+              <button class="big warning" (click)="endPracticeEarly()">
                 quit
+              </button>
+              <button type="button" class="big secondary" (click)="editCard()">
+                edit card
               </button>
             </div>
           } @else {
@@ -90,21 +96,24 @@
         {{ selectedCardsIds().length }}
       </app-counter-comp>
 
-      <form [formGroup]="form">
+      <form [formGroup]="form" (ngSubmit)="start()">
         <app-radio-comp
-          [config]="[{ value: 'all' }, { value: 'word' }, { value: 'phrase' }]"
+          [config]="[
+            { label: 'all', value: null },
+            { value: 'word' },
+            { value: 'phrase' }
+          ]"
           formControlName="type"
           label="type"
         />
         <app-radio-comp
           [config]="[
-            { value: 'all' },
+            { value: null, label: 'all' },
             { value: 'low' },
-            { value: 'medium' },
-            { value: 'high' }
+            { value: 'medium' }
           ]"
           formControlName="confidence"
-          label="card confidence level"
+          label="max confidence"
         />
         <app-radio-comp
           [config]="[
@@ -127,11 +136,12 @@
           </select>
         </label>
         <button
-          class="big"
-          (click)="start()"
+          type="submit"
+          class="icon"
           [disabled]="selectedCardsIds().length === 0"
         >
           start
+          <app-icon-comp type="learn" />
         </button>
       </form>
     </div>

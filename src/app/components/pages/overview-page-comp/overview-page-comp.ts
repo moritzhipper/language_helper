@@ -49,8 +49,8 @@ export class OverviewComp {
       .filter(Boolean) as Learnable[]
   })
 
-  collectionHasCards = computed(
-    () => this._learnablesInSelectedCollection().length !== 0
+  collectionIsEmpty = computed(
+    () => this._learnablesInSelectedCollection().length === 0
   )
 
   userHasCards = computed(() => this._lStore.learnables().length !== 0)
@@ -62,12 +62,19 @@ export class OverviewComp {
   private filter = signal<LearnablesFilterConfig | null>(null)
   selectedLearnableIds = signal<string[]>([])
 
-  visibleLearnables = computed(() => {
+  filteredLearnables = computed(() => {
     const filter = this.filter()
     const learnables = this._learnablesInSelectedCollection()
     if (!filter) return learnables
 
     return filterLearnables(this._learnablesInSelectedCollection(), filter)
+  })
+
+  private _latestIDs = computed(() => {
+    const latestLearnableIDs = filterLearnables(this._lStore.learnables(), {
+      age: 'newest'
+    }).map((l) => l.id)
+    return latestLearnableIDs
   })
 
   async addNew() {
@@ -167,21 +174,20 @@ export class OverviewComp {
     )
 
     this._lStore.addLearnables(uniqueLearnables)
-    this.selectedLearnableIds.set(this._lStore.addedLatestIDs())
+    this.selectedLearnableIds.set(this._latestIDs())
+
+    // add to collection, if user has one selected
     const collectionId = this.selectedCollectionId()
     if (collectionId) {
-      this._lStore.editCollectionLearnables(
-        collectionId,
-        this._lStore.addedLatestIDs(),
-        []
-      )
+      this._lStore.editCollectionLearnables(collectionId, this._latestIDs(), [])
     }
 
     this._toastService.showToast({
-      message: `created ${uniqueLearnables.length} cards.`,
+      message: `created ${uniqueLearnables.length} cards`,
       type: 'info'
     })
 
+    // show skipped reminder, when user tried creating one that already exists
     const filteredLearnablesCount = learnables.length - uniqueLearnables.length
     if (filteredLearnablesCount !== 0) {
       this._toastService.showToast({
@@ -192,7 +198,7 @@ export class OverviewComp {
   }
 
   isLastAdded(lId: string): boolean {
-    return this._lStore.addedLatestIDs().includes(lId)
+    return this._latestIDs().includes(lId)
   }
 
   toggleLearnableSelection(lId: string) {
@@ -214,8 +220,7 @@ export class OverviewComp {
       orderBy: filter.orderBy,
       order: filter.order,
       age: filter.age,
-      search: filter.search,
-      ids: filter.added === 'last' ? this._lStore.addedLatestIDs() : undefined
+      search: filter.search
     }
 
     this.filter.set(filterConfig)

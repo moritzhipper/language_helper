@@ -43,9 +43,10 @@
       grid-template-rows: 1fr;
 
       h1 {
-        margin-left: var(--distance-6);
+        margin: var(--distance-7) var(--distance-6);
         line-height: var(--distance-7);
         font-size: var(--font-size-4);
+        transform-origin: top left;
         rotate: -4deg;
         position: fixed;
         top: 0;

@@ -33,59 +33,88 @@
   .lexeme,
   .translation {
     font-size: var(--font-size-3);
+    line-height: calc(var(--font-size-3) + 12px);
+    padding: var(--distance-4);
   }
 
   .lexeme {
     font-weight: var(--font-weight-bold);
   }
 
+  .translation {
+    font-style: italic;
+  }
+
   .navigation {
     display: grid;
 
     button.toggle-navigation {
-      padding: var(--distance-4) 0;
+      margin: var(--distance-4) 0;
       opacity: var(--opacity-1);
       display: grid;
-      place-items: center;
+      place-self: center;
       .expanded {
         rotate: 180deg;
       }
     }
-    .interact,
-    .stats {
+    .interact {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: var(--distance-4);
-      button.warning {
-        background-color: var(--col-warning);
-        color: var(--col-bg);
-      }
     }
 
     .stats {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: var(--distance-4) var(--distance-4);
+
+      .notes {
+        place-self: center;
+        text-align: center;
+        margin: 0 0 var(--distance-4) 0;
+
+        .placeholder {
+          opacity: var(--opacity-0);
+        }
+      }
+
       .progress {
         position: relative;
-        border-radius: var(--radius-1);
+        border-radius: var(--radius-2);
         overflow: hidden;
         font-size: var(--font-size-0);
-        color: var(--col-primary);
         text-align: center;
-        padding: var(--distance-0) 0;
-        border: 1px solid var(--col-accent);
+        background-color: rgb(from var(--col-accent) r g b / var(--opacity-0));
 
         .indicator {
           position: absolute;
+          z-index: -1;
+          height: 100%;
+          width: 100%;
+          opacity: var(--opacity-1);
+          background-color: rgb(
+            from var(--col-accent) r g b / var(--opacity-1)
+          );
+
           top: 0;
           left: 0;
-          z-index: 1;
-          height: 100%;
-          opacity: var(--opacity-1);
-          background-color: var(--col-accent);
+        }
+
+        .text {
+          display: grid;
+          place-items: center;
+          color: var(--col-primary);
+          margin: var(--distance-1) 0;
         }
       }
     }
     .full {
       grid-column: span 2;
+    }
+
+    button.warning {
+      background-color: var(--col-warning);
+      color: var(--col-bg);
     }
   }
 }
@@ -104,17 +133,13 @@
 }
 
 @include isDesktop() {
-  .practice-view {
-    .navigation {
-      width: 600px;
-    }
+  .practice-view .navigation {
+    width: 500px;
   }
 }
 
 @include isPhone() {
-  .practice-view {
-    .navigation {
-      place-self: stretch;
-    }
+  .practice-view .navigation {
+    place-self: stretch;
   }
 }

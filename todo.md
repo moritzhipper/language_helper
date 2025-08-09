@@ -2,21 +2,17 @@
 
 ## Right Now
 
-- edit card from practice mode
-- implement protected and private corrrectly throughout
-- replace underscore with #
+- repeat vocabs in practice: how??
 
 ## Later
 
-- converting state animieren
-- empty state ergaenzen durch empty state component
-  hide collections selector in overview when no collections exist
-
+- cool in practice animations
 - add about page -> wie nutzen?
-- add select filtered button
+- implement protected and private corrrectly throughout
+- replace underscore with #
+
 - animations! -> angular 20.2 bring them back woop woop
-- history: add practice with date
-- fix openai + zod issue and
+- fix openai + zod issue: remove helper function from utils
 
 # sources
 

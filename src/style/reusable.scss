@@ -35,6 +35,9 @@ form.modal {
     place-self: center;
     text-align: center;
   }
+  .full {
+    grid-column: span 2;
+  }
 }
 
 button.icon,
@@ -43,4 +46,8 @@ a.icon {
   align-items: center;
   justify-content: center;
   gap: var(--distance-2);
+
+  app-icon-comp {
+    height: var(--font-size-1);
+  }
 }

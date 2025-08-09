@@ -13,9 +13,7 @@ import { LearnablesFilterConfig } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 import { RadioComp } from '../../../shared/radio-comp/radio-comp'
 
-export type LearnablesFilterFormType = Omit<LearnablesFilterConfig, 'ids'> & {
-  added: 'last' | 'all'
-}
+export type LearnablesFilterFormType = Omit<LearnablesFilterConfig, 'ids'>
 
 @Component({
   selector: 'app-filter-form-comp',
@@ -30,11 +28,10 @@ export class FilterFormComp {
   filter = output<LearnablesFilterFormType>()
 
   private initialValue: LearnablesFilterFormType = {
-    type: 'all',
-    confidence: 'all',
+    type: null,
+    confidence: null,
+    age: null,
     orderBy: 'created',
-    added: 'all',
-    age: 'all',
     order: 'asc',
     search: ''
   }

@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core'
+import { RouterLink } from '@angular/router'
 import { config } from '../../../../config'
 import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
@@ -17,7 +18,7 @@ import { CollectionComp } from './collection-comp/collection-comp'
 
 @Component({
   selector: 'app-collections-page-comp',
-  imports: [PageWrapperComp, IconComp, CollectionComp],
+  imports: [PageWrapperComp, IconComp, CollectionComp, RouterLink],
   templateUrl: './collections-page-comp.html',
   styleUrl: './collections-page-comp.scss'
 })

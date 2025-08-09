@@ -14,6 +14,7 @@ Your task is to create learnable cards from the input in the following manner:
   - Be very, very thorough
   - Always, and without exception, the lexeme has to be in  ${learningLanguage} 
   - When the users input is not in ${learningLanguage}, transfer it to ${learningLanguage} so the lexeme of the card is always and exclusively in ${learningLanguage}
+  - Always, and without exception, the lexeme has to be in ${learningLanguage}, even if the input is in any other language
   - Always, and without exception, transfer the translation to ${speakingLanguage}
 `
 
@@ -28,17 +29,16 @@ Every card you create has to be
 
 const phrasesPrompt = () => `
 The user only and exclusively learns sayings, expressions, idioms, or similar.
-The phrase has always to be in the users learning language and the translation in the users speaking language.
-Ensure correct capitalization for both lexeme and translation on all phrase cards.
 Never create a card for single words, only phrases.
-Always keep the clause and time.
+Always keep the clause and time, without changing their form; for example, if the text says 'I learned a language' do not rewrite it as 'learning a language'
 
 When the user gives you a single sentence:
 - you directly translate that phrase.
 
 When the user provides you with a longer text, article, notes or unsorted input, you:
 - never create cards with only one word as lexeme.
-- extract all phrases, sayings, idioms or similar that one can learn.
+- extract all phrases, sayings, idioms or similar.
+- you keep the phrases VERY short
 `
 
 export const getWordsPrompt = (

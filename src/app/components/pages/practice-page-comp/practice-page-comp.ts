@@ -7,10 +7,14 @@ import {
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
+import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
-import { LearnablesFilterConfig } from '../../../types_and_schemas/types'
+import {
+  LearnableBase,
+  LearnablesFilterConfig
+} from '../../../types_and_schemas/types'
 import { calculateAverageConfidencePercent } from '../../../utils/genaral-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
@@ -45,16 +49,18 @@ export class PracticeComp {
 
   private readonly _toastService = inject(ToastService)
   private readonly sStore = inject(SettingsStore)
+  private readonly _modalS = inject(ModalService)
   learningLang = this.sStore.learningLang
   speakingLang = this.sStore.speakingLang
 
   private readonly _fb = inject(NonNullableFormBuilder)
   form = this._fb.group({
-    type: 'all',
+    type: null,
     collection: 'all',
-    confidence: 'all',
+    confidence: undefined,
     reverseDirection: false
   })
+
   private readonly _formSignal = toSignal(this.form.valueChanges, {
     initialValue: this.form.value
   })
@@ -77,7 +83,8 @@ export class PracticeComp {
         correctAmountPercent: 0,
         progressPercent: 0,
         currentIndex: 0,
-        guessesTotal: 0
+        guessesTotal: 0,
+        cardsLeft: 0
       }
 
     const guesses = currentPractice.guesses
@@ -92,6 +99,7 @@ export class PracticeComp {
       (currentPractice.index / cardsAmountTotal) * 100
     )
     const currentIndex = currentPractice.index
+    const cardsLeft = cardsAmountTotal - currentIndex
 
     return {
       guessesTotal,
@@ -99,7 +107,8 @@ export class PracticeComp {
       correctAmountTotal,
       correctAmountPercent,
       progressPercent,
-      currentIndex
+      currentIndex,
+      cardsLeft
     }
   })
 
@@ -167,6 +176,23 @@ export class PracticeComp {
   endPractice() {
     this._lStore.quitPractice()
     this._resetPageState()
+  }
+
+  async editCard() {
+    const currentLearnable = this.currentLearnable()
+    if (!currentLearnable) return
+    const result = await this._modalS.open<LearnableBase>('single-edit', {
+      learnable: currentLearnable
+    })
+
+    if (result.type !== 'confirm') return
+
+    const updatedCard = { ...currentLearnable, ...result.value }
+    this._lStore.updateLearnables([updatedCard])
+    this._toastService.showToast({
+      message: 'updated card',
+      type: 'info'
+    })
   }
 
   private _resetPageState() {

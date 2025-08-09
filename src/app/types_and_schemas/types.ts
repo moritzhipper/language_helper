@@ -30,11 +30,11 @@ export type LearnableCollection = {
   learnableIDs: string[]
   practicedDates: Date[] // put Practices here?
 }
+// addedLatestIDs: string[]
 
 export type LearnablesStoreType = {
   learnables: Learnable[]
   collections: LearnableCollection[]
-  addedLatestIDs: string[]
   currentPractice: {
     ids: string[]
     index: number
@@ -60,15 +60,17 @@ export type SettingsStoreType = {
   tokensUsed: number
 }
 
-export type LearnablesFilterConfig = {
-  order?: 'asc' | 'desc'
-  orderBy?: 'created' | 'lexeme' | 'confidence' | 'random'
-  type?: 'word' | 'phrase' | 'all'
-  ids?: string[]
-  age?: number | 'all'
-  confidence?: 'high' | 'medium' | 'low' | 'all'
-  search?: string
-}
+type Optional<T> = { [K in keyof T]?: T[K] | null }
+
+export type LearnablesFilterConfig = Optional<{
+  order: 'asc' | 'desc'
+  orderBy: 'created' | 'lexeme' | 'confidence' | 'random'
+  type: 'word' | 'phrase'
+  ids: string[]
+  age: number | 'newest'
+  confidence: 'medium' | 'low'
+  search: string
+}>
 
 export type AppConfig = {
   fileExportName: string
