@@ -8,13 +8,17 @@ export const filterLearnables = (
 
   if (filterConfig.type) {
     filteredLearnables = filterByType(filterConfig, filteredLearnables)
-  } else if (filterConfig.confidence) {
+  }
+  if (filterConfig.confidence) {
     filteredLearnables = filterByConfidence(filterConfig, filteredLearnables)
-  } else if (filterConfig.search) {
+  }
+  if (filterConfig.search) {
     filteredLearnables = filterBySearch(filterConfig, filteredLearnables)
-  } else if (filterConfig.ids) {
+  }
+  if (filterConfig.ids) {
     filteredLearnables = filterByIDs(filterConfig, filteredLearnables)
-  } else if (filterConfig.age) {
+  }
+  if (filterConfig.age) {
     filteredLearnables = filterByAge(filterConfig, filteredLearnables)
   }
 

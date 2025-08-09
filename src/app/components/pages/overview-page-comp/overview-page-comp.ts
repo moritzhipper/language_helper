@@ -49,8 +49,8 @@ export class OverviewComp {
       .filter(Boolean) as Learnable[]
   })
 
-  collectionHasCards = computed(
-    () => this._learnablesInSelectedCollection().length !== 0
+  collectionIsEmpty = computed(
+    () => this._learnablesInSelectedCollection().length === 0
   )
 
   userHasCards = computed(() => this._lStore.learnables().length !== 0)
@@ -62,7 +62,7 @@ export class OverviewComp {
   private filter = signal<LearnablesFilterConfig | null>(null)
   selectedLearnableIds = signal<string[]>([])
 
-  visibleLearnables = computed(() => {
+  filteredLearnables = computed(() => {
     const filter = this.filter()
     const learnables = this._learnablesInSelectedCollection()
     if (!filter) return learnables
