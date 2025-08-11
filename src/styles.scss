@@ -11,6 +11,7 @@ html {
 
   position: relative;
 }
+
 * {
   scrollbar-color: rgb(from var(--col-accent) r g b / var(--opacity-1))
     transparent;
@@ -34,7 +35,12 @@ h1 {
 }
 
 h2 {
-  margin: 0 0 var(--distance-5) 0;
+  &:not(:first-child) {
+    margin: var(--distance-6) 0 var(--distance-4) 0;
+  }
+  &:first-child {
+    margin: 0 0 var(--distance-4) 0;
+  }
 }
 
 textarea {
@@ -44,8 +50,8 @@ textarea {
 }
 
 p {
-  line-height: 24px;
-  margin: var(--distance-4) 0;
+  line-height: 26px;
+  margin: var(--distance-3) 0;
 }
 
 button,

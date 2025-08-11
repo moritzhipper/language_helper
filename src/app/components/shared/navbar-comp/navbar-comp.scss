@@ -9,6 +9,7 @@
   z-index: 3;
   gap: var(--distance-2);
   flex-flow: row-reverse;
+  align-items: center;
 
   .toggle {
     transition:
@@ -26,10 +27,8 @@
       background-color: var(--col-bg);
     }
 
-    &.open {
-      app-icon-comp {
-        transform: rotateY(180deg);
-      }
+    &.open app-icon-comp {
+      transform: rotateY(180deg);
     }
 
     &.subdue {
@@ -41,11 +40,14 @@
 
 .link,
 .toggle {
-  padding: var(--distance-2);
   background-color: var(--col-accent);
   padding: var(--distance-3);
   border-radius: 100%;
   box-shadow: var(--shadow-big);
+
+  &.small {
+    padding: var(--distance-2);
+  }
 }
 
 .pulse app-icon-comp {

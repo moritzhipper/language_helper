@@ -22,6 +22,7 @@ export type IconType =
   | 'share-fill'
   | 'import'
   | 'warn'
+  | 'info'
 
 @Component({
   selector: 'app-icon-comp',

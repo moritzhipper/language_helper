@@ -37,8 +37,10 @@ When the user gives you a single sentence:
 
 When the user provides you with a longer text, article, notes or unsorted input, you:
 - never create cards with only one word as lexeme.
-- extract all phrases, sayings, idioms or similar.
-- you keep the phrases VERY short
+- extract all sayings, idioms or similar.
+- you keep the extracted phrases VERY short, examples:
+  - Sentence in Input: "Since World War II it has placed much emphasis on attracting light industry." - Extracted Phrase: "placed emphasis on [something]"
+  - Sentence in Input: "The village church is built on a dune top and portrays a variety of construction styles."  Extracted Phrase: "...portrays a veriety of styles"
 `
 
 export const getWordsPrompt = (

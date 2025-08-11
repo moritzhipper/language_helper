@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router'
+import { AboutPageComp } from './components/pages/about-page-comp/about-page-comp'
 import { CollectionsPageComp } from './components/pages/collections-page-comp/collections-page-comp'
 import { OverviewComp } from './components/pages/overview-page-comp/overview-page-comp'
 import { PracticeComp } from './components/pages/practice-page-comp/practice-page-comp'
@@ -16,6 +17,10 @@ export const routes: Routes = [
   {
     component: CollectionsPageComp,
     path: 'collections'
+  },
+  {
+    component: AboutPageComp,
+    path: 'about'
   },
   {
     component: SettingsComp,

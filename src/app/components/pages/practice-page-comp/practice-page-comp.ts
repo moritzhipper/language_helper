@@ -161,7 +161,7 @@ export class PracticeComp {
 
   setGuess(isCorrect: boolean) {
     this._toastService.showToast({
-      message: isCorrect ? '😊' : '😿',
+      message: this.getRandomExp(isCorrect),
       type: 'guess'
     })
     this.isRevealed.set(false)
@@ -215,5 +215,46 @@ export class PracticeComp {
 
     const percent = calculateAverageConfidencePercent(learnables)
     return percent
+  }
+
+  private getRandomElementFromArray(arr: string[]): string {
+    const randomIndex = Math.floor(Math.random() * arr.length)
+    return arr[randomIndex]
+  }
+
+  private getRandomExp(isHappy: boolean): string {
+    const expHappy = [
+      '🎓',
+      ':)',
+      '🫦',
+      '✨',
+      '😻',
+      '🤩',
+      '🐯',
+      '🧚🏾‍♂️',
+      '🎉',
+      '❤️‍🔥'
+    ]
+    const expSad = [
+      ':(',
+      ':,(',
+      ':|',
+      '💔',
+      '😢',
+      '😞',
+      '😩',
+      '🫤',
+      '😭',
+      '😓',
+      '👿',
+      '😿',
+      '😐',
+      '💀',
+      '🚩'
+    ]
+
+    if (isHappy) return this.getRandomElementFromArray(expHappy)
+
+    return this.getRandomElementFromArray(expSad)
   }
 }
