@@ -4,12 +4,13 @@
   position: fixed;
   top: 0;
   right: 0;
-  display: flex;
+  display: grid;
   padding: var(--distance-4);
   z-index: 3;
   gap: var(--distance-2);
   flex-flow: row-reverse;
   align-items: center;
+  place-items: center;
 
   .toggle {
     transition:
@@ -35,6 +36,27 @@
       opacity: var(--opacity-0);
       box-shadow: none;
     }
+  }
+}
+.link,
+.toggle {
+  grid-area: 1 / 1;
+}
+.link {
+  &:nth-of-type(1) {
+    translate: -70px 0px;
+  }
+  &:nth-of-type(2) {
+    translate: -50px 50px;
+  }
+  &:nth-of-type(3) {
+    translate: 00px 70px;
+  }
+  &:nth-of-type(4) {
+    translate: -120px 0px;
+  }
+  &:nth-of-type(5) {
+    translate: 0px 120px;
   }
 }
 
