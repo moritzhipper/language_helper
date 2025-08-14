@@ -1,5 +1,9 @@
 # ToDo
 
+- rename to learn with me
+- impklemnt share modal (you want to import xy)
+- allow multiple languages
+
 ## Later
 
 - cool in practice animations
