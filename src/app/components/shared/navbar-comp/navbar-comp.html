@@ -10,23 +10,30 @@
   <app-icon-comp type="menu" />
 </button>
 @if (linksAreOpen()) {
-  <a
-    class="link big practice fly-in-x-0"
-    routerLink="practice"
-    [class.pulse]="pulsePractice()"
-  >
-    <app-icon-comp type="learn" />
-  </a>
-  <a routerLink="cards" class="link big fly-in-x-1">
-    <app-icon-comp type="card" />
-  </a>
-  <a routerLink="collections" class="link big fly-in-x-2">
-    <app-icon-comp type="collection" />
-  </a>
-  <a routerLink="about" class="link small fly-in-x-4">
-    <app-icon-comp type="info" />
-  </a>
-  <a routerLink="settings" class="link small fly-in-x-3">
-    <app-icon-comp type="settings" />
-  </a>
+  <div class="wrapper">
+    <a
+      class="link big practice fly-in-x-0"
+      routerLink="practice"
+      [class.pulse]="pulsePractice()"
+    >
+      <app-icon-comp type="learn" />
+      <span>practice</span>
+    </a>
+    <a routerLink="cards" class="link big fly-in-x-1">
+      <app-icon-comp type="card" />
+      <span>cards</span>
+    </a>
+    <a routerLink="collections" class="link big fly-in-x-2">
+      <app-icon-comp type="collection" />
+      <span>collections</span>
+    </a>
+    <a routerLink="about" class="link small fly-in-x-3">
+      <app-icon-comp type="info" />
+      <span>about</span>
+    </a>
+    <a routerLink="settings" class="link small fly-in-x-4">
+      <app-icon-comp type="settings" />
+      <span>settings</span>
+    </a>
+  </div>
 }

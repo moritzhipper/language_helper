@@ -1,9 +1,13 @@
 # ToDo
 
+- navbar desktop cool schief, mobil auch cool schief
 - add social tab
 - rename to learn with me
 - impklemnt share modal (you want to import xy)
 - allow multiple languages
+- show card count in collection pracrtice
+- print view
+- erst mal alles bauen
 
 ## Later
 

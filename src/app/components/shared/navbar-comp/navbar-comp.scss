@@ -1,79 +1,88 @@
 @use '../../../../style/mixins.scss' as *;
 
-:host {
+.toggle {
   position: fixed;
   top: 0;
   right: 0;
-  display: grid;
+  z-index: 20;
+  margin: var(--distance-4);
   padding: var(--distance-4);
-  z-index: 3;
-  gap: var(--distance-2);
-  flex-flow: row-reverse;
-  align-items: center;
-  place-items: center;
-
-  .toggle {
-    transition:
-      outline var(--duration-0),
-      background-color var(--duration-0),
-      box-shdow var(--duration-1),
-      opacity var(--duration-1);
-
-    app-icon-comp {
-      transition: transform var(--duration-1);
-    }
-
-    &.open,
-    &.subdue {
-      background-color: var(--col-bg);
-    }
-
-    &.open app-icon-comp {
-      transform: rotateY(180deg);
-    }
-
-    &.subdue {
-      opacity: var(--opacity-0);
-      box-shadow: none;
-    }
-  }
-}
-.link,
-.toggle {
-  grid-area: 1 / 1;
-}
-.link {
-  &:nth-of-type(1) {
-    translate: -70px 0px;
-  }
-  &:nth-of-type(2) {
-    translate: -50px 50px;
-  }
-  &:nth-of-type(3) {
-    translate: 00px 70px;
-  }
-  &:nth-of-type(4) {
-    translate: -120px 0px;
-  }
-  &:nth-of-type(5) {
-    translate: 0px 120px;
-  }
-}
-
-.link,
-.toggle {
   background-color: var(--col-accent);
   padding: var(--distance-3);
   border-radius: 100%;
   box-shadow: var(--shadow-big);
 
-  &.small {
-    padding: var(--distance-2);
+  transition:
+    outline var(--duration-0),
+    background-color var(--duration-0),
+    box-shdow var(--duration-1),
+    opacity var(--duration-1);
+
+  app-icon-comp {
+    transition: rotate var(--duration-1) var(--overshot);
+  }
+
+  &.open,
+  &.subdue {
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  &.subdue {
+    box-shadow: none;
+    opacity: var(--opacity-0);
   }
 }
 
-.pulse app-icon-comp {
-  animation: pulse 4s infinite;
+@include isPhone() {
+  .toggle.open app-icon-comp {
+    rotate: -30deg;
+  }
+  .wrapper {
+    height: 100dvh;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    z-index: 15;
+    transition: background-color 1s;
+    background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    max-width: 100vw;
+    gap: var(--distance-4);
+
+    .link {
+      rotate: 10deg;
+      box-sizing: border-box;
+      padding: var(--distance-2) 0 var(--distance-2) 20vw;
+      width: 110vw;
+      position: relative;
+      font-size: var(--font-size-3);
+      display: flex;
+      gap: var(--distance-4);
+      align-items: center;
+      justify-content: start;
+      box-shadow: var(--shadow-big);
+
+      background-color: var(--col-primary);
+      backdrop-filter: blur(20px);
+      color: var(--col-bg);
+
+      app-icon-comp {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+}
+
+.pulse {
+  span,
+  app-icon-comp {
+    animation: pulse 4s infinite;
+  }
 }
 
 @keyframes pulse {
