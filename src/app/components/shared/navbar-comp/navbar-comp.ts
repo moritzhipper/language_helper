@@ -9,7 +9,10 @@ import { IconComp } from '../icon-comp/icon-comp'
   selector: 'app-navbar',
   imports: [ReactiveFormsModule, IconComp, RouterModule],
   templateUrl: './navbar-comp.html',
-  styleUrl: './navbar-comp.scss'
+  styleUrl: './navbar-comp.scss',
+  host: {
+    '[class.open]': 'linksAreOpen()'
+  }
 })
 export class NavbarComp {
   private readonly lStore = inject(LearnablesStore)

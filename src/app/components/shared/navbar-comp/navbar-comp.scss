@@ -1,10 +1,6 @@
 @use '../../../../style/mixins.scss' as *;
 
 .toggle {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 20;
   margin: var(--distance-4);
   padding: var(--distance-4);
   background-color: var(--col-accent);
@@ -22,10 +18,15 @@
     transition: rotate var(--duration-1) var(--overshot);
   }
 
-  &.open,
   &.subdue {
     box-shadow: none;
     background-color: transparent;
+  }
+
+  &.open {
+    app-icon-comp {
+      rotate: -30deg;
+    }
   }
 
   &.subdue {
@@ -34,47 +35,95 @@
   }
 }
 
-@include isPhone() {
-  .toggle.open app-icon-comp {
-    rotate: -30deg;
-  }
-  .wrapper {
-    height: 100dvh;
-    position: fixed;
+:host {
+  position: fixed;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--distance-4);
+  z-index: 15;
+  transition: background-color var(--duration-0);
+
+  .link {
     display: flex;
-    justify-content: center;
-    box-sizing: border-box;
-    z-index: 15;
-    transition: background-color 1s;
-    background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
-    flex-direction: column;
+    justify-content: start;
     align-items: center;
-    overflow: hidden;
-    max-width: 100vw;
     gap: var(--distance-4);
+    rotate: 10deg;
+    box-sizing: border-box;
+    box-shadow: var(--shadow-big);
 
-    .link {
-      rotate: 10deg;
-      box-sizing: border-box;
-      padding: var(--distance-2) 0 var(--distance-2) 20vw;
-      width: 110vw;
-      position: relative;
-      font-size: var(--font-size-3);
-      display: flex;
-      gap: var(--distance-4);
-      align-items: center;
-      justify-content: start;
-      box-shadow: var(--shadow-big);
-
-      background-color: var(--col-primary);
-      backdrop-filter: blur(20px);
+    &.big {
       color: var(--col-bg);
+      background-color: var(--col-primary);
+    }
+    &.small {
+      color: var(--col-text);
+      background-color: var(--col-accent);
+      app-icon-comp {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+}
 
+@include isDesktop() {
+  .toggle {
+    align-self: end;
+  }
+  .link {
+    font-size: var(--font-size-2);
+
+    place-self: end;
+    padding: var(--distance-1) var(--distance-5) var(--distance-1)
+      var(--distance-2);
+    transform-origin: bottom right;
+    width: 100%;
+    border-radius: var(--radius-2) 0 0 var(--radius-2);
+
+    &.big {
+      font-size: var(--font-size-3);
       app-icon-comp {
         width: 50px;
         height: 50px;
       }
     }
+
+    &.small {
+      width: 80%;
+    }
+  }
+}
+
+@include isPhone() {
+  :host {
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    &.open {
+      height: 100dvh;
+      background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
+    }
+
+    .link {
+      font-size: var(--font-size-3);
+      width: 110vw;
+      padding: var(--distance-2) 0 var(--distance-2) 20vw;
+
+      &.big app-icon-comp {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+  .toggle {
+    position: fixed;
+    top: 0;
+    right: 0;
   }
 }
 
