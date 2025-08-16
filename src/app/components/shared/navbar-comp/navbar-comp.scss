@@ -24,8 +24,9 @@
   }
 
   &.open {
+    background-color: var(--col-bg);
     app-icon-comp {
-      rotate: -30deg;
+      rotate: -20deg;
     }
   }
 
