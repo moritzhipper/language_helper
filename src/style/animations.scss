@@ -24,6 +24,13 @@
 @keyframes fly-in-x {
   from {
     opacity: 0;
-    translate: 20px 5px;
+    translate: 20px 0px;
+  }
+}
+
+@keyframes bd-appear {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
   }
 }

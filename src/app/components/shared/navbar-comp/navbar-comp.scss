@@ -45,12 +45,23 @@
   z-index: 15;
   transition: background-color var(--duration-0);
 
+  h2,
+  .link {
+    box-sizing: border-box;
+    rotate: 10deg;
+  }
+
+  h2 {
+    text-shadow: 0 10px 20px var(--col-bg);
+    font-size: var(--font-size-3);
+    margin: 0 0 var(--distance-5) 0;
+  }
+
   .link {
     display: flex;
     justify-content: start;
     align-items: center;
     gap: var(--distance-4);
-    rotate: 10deg;
     box-sizing: border-box;
     box-shadow: var(--shadow-big);
 
@@ -70,17 +81,17 @@
 }
 
 @include isDesktop() {
-  .toggle {
-    align-self: end;
-    margin-bottom: var(--distance-7);
-  }
-
   :host {
     padding: var(--distance-4);
+    width: 300px;
+    align-items: stretch;
   }
+
+  .toggle {
+    align-self: flex-end;
+  }
+
   .link {
-    place-self: end;
-    width: 120%;
     border-radius: var(--radius-3);
     font-size: var(--font-size-2);
 
@@ -102,17 +113,37 @@
 @include isPhone() {
   :host {
     width: 100vw;
-    justify-content: center;
     align-items: center;
     overflow: hidden;
+    padding-top: 15vh;
 
-    .toggle {
-      margin: var(--distance-4);
+    h2,
+    .link {
+      transform-origin: top left;
     }
 
     &.open {
       height: 100dvh;
+      animation: bd-appear var(--duration-1) ease;
       background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
+      backdrop-filter: blur(30px);
+    }
+
+    .toggle {
+      margin: var(--distance-4);
+      position: fixed;
+      top: 0;
+      right: 0;
+
+      &.open {
+        background-color: transparent;
+        box-shadow: none;
+      }
+    }
+    h2 {
+      text-align: center;
+      box-sizing: border-box;
+      width: 100%;
     }
 
     .link {
@@ -131,11 +162,6 @@
         padding: var(--distance-0) 0 var(--distance-0) 20vw;
       }
     }
-  }
-  .toggle {
-    position: fixed;
-    top: 0;
-    right: 0;
   }
 }
 
