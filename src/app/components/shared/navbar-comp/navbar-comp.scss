@@ -1,7 +1,6 @@
 @use '../../../../style/mixins.scss' as *;
 
 .toggle {
-  margin: var(--distance-4);
   padding: var(--distance-4);
   background-color: var(--col-accent);
   padding: var(--distance-3);
@@ -62,10 +61,10 @@
     &.small {
       color: var(--col-text);
       background-color: var(--col-accent);
-      app-icon-comp {
-        width: 40px;
-        height: 40px;
-      }
+    }
+
+    &.about {
+      margin-top: var(--distance-4);
     }
   }
 }
@@ -75,25 +74,27 @@
     align-self: end;
     margin-bottom: var(--distance-7);
   }
+
+  :host {
+    padding: var(--distance-4);
+  }
   .link {
     place-self: end;
-    padding: var(--distance-1) var(--distance-6) var(--distance-1)
-      var(--distance-2);
-    transform-origin: bottom right;
-    width: 100%;
-    border-radius: var(--radius-2) 0 0 var(--radius-2);
+    width: 120%;
+    border-radius: var(--radius-3);
+    font-size: var(--font-size-2);
+
+    app-icon-comp {
+      width: 40px;
+      height: 40px;
+    }
 
     &.big {
-      font-size: var(--font-size-3);
-      app-icon-comp {
-        width: 50px;
-        height: 50px;
-      }
+      padding: var(--distance-2) var(--distance-6);
     }
 
     &.small {
-      font-size: var(--font-size-2);
-      width: 70%;
+      padding: var(--distance-0) var(--distance-6);
     }
   }
 }
@@ -105,6 +106,10 @@
     align-items: center;
     overflow: hidden;
 
+    .toggle {
+      margin: var(--distance-4);
+    }
+
     &.open {
       height: 100dvh;
       background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
@@ -113,11 +118,17 @@
     .link {
       font-size: var(--font-size-3);
       width: 110vw;
-      padding: var(--distance-2) 0 var(--distance-2) 20vw;
 
-      &.big app-icon-comp {
+      app-icon-comp {
         width: 50px;
         height: 50px;
+      }
+
+      &.big {
+        padding: var(--distance-2) 0 var(--distance-2) 20vw;
+      }
+      &.small {
+        padding: var(--distance-0) 0 var(--distance-0) 20vw;
       }
     }
   }
