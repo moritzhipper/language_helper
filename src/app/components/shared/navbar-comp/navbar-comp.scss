@@ -73,6 +73,7 @@
 @include isDesktop() {
   .toggle {
     align-self: end;
+    margin-bottom: var(--distance-7);
   }
   .link {
     place-self: end;
