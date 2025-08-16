@@ -75,8 +75,6 @@
     align-self: end;
   }
   .link {
-    font-size: var(--font-size-2);
-
     place-self: end;
     padding: var(--distance-1) var(--distance-6) var(--distance-1)
       var(--distance-2);
@@ -93,6 +91,7 @@
     }
 
     &.small {
+      font-size: var(--font-size-2);
       width: 70%;
     }
   }
