@@ -52,9 +52,8 @@
   }
 
   h2 {
+    margin: 0 0 0 var(--distance-6);
     text-shadow: 0 10px 20px var(--col-bg);
-    font-size: var(--font-size-3);
-    margin: 0 0 var(--distance-5) 0;
   }
 
   .link {
@@ -91,9 +90,13 @@
     align-self: flex-end;
   }
 
+  h2,
+  .link {
+    font-size: var(--font-size-2);
+  }
+
   .link {
     border-radius: var(--radius-3);
-    font-size: var(--font-size-2);
 
     app-icon-comp {
       width: 40px;
@@ -114,12 +117,17 @@
   :host {
     width: 100vw;
     align-items: center;
+    justify-content: center;
     overflow: hidden;
-    padding-top: 15vh;
+    box-sizing: border-box;
+
+    h2 {
+      width: 100%;
+    }
 
     h2,
     .link {
-      transform-origin: top left;
+      font-size: var(--font-size-3);
     }
 
     &.open {
@@ -140,14 +148,8 @@
         box-shadow: none;
       }
     }
-    h2 {
-      text-align: center;
-      box-sizing: border-box;
-      width: 100%;
-    }
 
     .link {
-      font-size: var(--font-size-3);
       width: 110vw;
 
       app-icon-comp {
