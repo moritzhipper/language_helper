@@ -2,7 +2,6 @@
 
 - impklemnt import modal (you want to import xy)
 - allow multiple languages
-- where should i put the name learn with me?
 - add social tab
 - show card count in collection pracrtice
 

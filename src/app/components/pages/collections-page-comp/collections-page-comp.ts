@@ -27,13 +27,12 @@ export class CollectionsPageComp {
   private readonly _toastS = inject(ToastService)
   private readonly _makeBlobS = inject(BlobService)
   private readonly _modalService = inject(ModalService)
+  private readonly _fileReader = new FileReader()
 
   config = config
 
-  private fileReader = new FileReader()
-
   constructor() {
-    this.fileReader.onload = this._fileReaderLoad
+    this._fileReader.onload = this._fileReaderLoad
   }
 
   collections = this._lState.collections
@@ -93,7 +92,7 @@ export class CollectionsPageComp {
     const file = input.files[0]
     try {
       verifiyImportedFileValidity(file)
-      this.fileReader.readAsText(file)
+      this._fileReader.readAsText(file)
     } catch (e) {
       this._toastS.showToast({
         type: 'error',
@@ -129,5 +128,9 @@ export class CollectionsPageComp {
       .filter((l) => collection.learnableIDs.includes(l.id))
 
     return calculateAverageConfidencePercent(learnables)
+  }
+
+  test() {
+    this._modalService.open('collection-import')
   }
 }
