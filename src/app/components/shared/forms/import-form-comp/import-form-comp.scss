@@ -1,0 +1,16 @@
+form {
+  grid-template-rows: 1fr auto;
+
+  .summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--distance-2) var(--distance-4);
+
+    .name {
+      justify-self: end;
+      font-weight: var(--font-weight-bold);
+    }
+    .count {
+    }
+  }
+}

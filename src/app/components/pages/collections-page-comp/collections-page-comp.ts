@@ -131,6 +131,10 @@ export class CollectionsPageComp {
   }
 
   test() {
-    this._modalService.open('collection-import')
+    this._modalService.open('collection-import', {
+      storeExport: this._lState.getExportableCollections(
+        this._lState.collections()[0].id
+      )
+    })
   }
 }

@@ -1,9 +1,13 @@
 # ToDo
 
 - impklemnt import modal (you want to import xy)
+- fill input on improt form
+- somehow doesnt correctly calculate cards niot in collection or doesnt export the colelction idk
+- add makeDOcumentUnscrollableService
 - allow multiple languages
 - add social tab
 - show card count in collection pracrtice
+- somehow prevent dead or repeating ids
 
 ## Later
 

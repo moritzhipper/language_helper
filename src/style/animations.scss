@@ -14,7 +14,7 @@
   }
 
   .fly-in-xy-#{$i} {
-    animation: fly-in-xy var(--duration-2) var(--overshot) backwards;
+    animation: fly-in-xy var(--duration-3) var(--overshot) backwards;
     animation-delay: calc(0.07s * #{$i});
   }
 }
