@@ -2,8 +2,8 @@
 
 - add makeDocumentUnscrollableService
 - allow multiple languages
-- add social tab
 - somehow prevent dead or repeating ids
+- add social tab
 - skipped cards popup on import modal
 - make export all cards button also export all collections
 

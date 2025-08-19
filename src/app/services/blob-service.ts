@@ -52,6 +52,9 @@ export class BlobService {
         try {
           const content = e.target?.result as string
           const imported = parseFileImportString(content)
+          if (imported.learnables.length === 0)
+            throw new Error('File contains no learnables')
+
           resolve(imported)
         } catch (error) {
           reject(error)

@@ -56,6 +56,7 @@ export const mapToExport = (
 // #region Import Functions
 
 export const parseFileImportString = (fileAsString: string): StoreExport => {
+  debugger
   try {
     return StoreExportSchema.parse(JSON.parse(fileAsString))
   } catch (e) {
