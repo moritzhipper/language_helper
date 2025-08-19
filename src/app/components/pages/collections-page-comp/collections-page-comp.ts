@@ -7,10 +7,6 @@ import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { LearnableCollection } from '../../../types_and_schemas/types'
 import { calculateAverageConfidencePercent } from '../../../utils/genaral-utils'
-import {
-  parseFileImportString,
-  verifiyImportedFileValidity
-} from '../../../utils/import-export-utils'
 import { ConfirmCollectionDeletionType } from '../../shared/forms/delete-collection-comp/delete-collection-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
@@ -27,13 +23,8 @@ export class CollectionsPageComp {
   private readonly _toastS = inject(ToastService)
   private readonly _makeBlobS = inject(BlobService)
   private readonly _modalService = inject(ModalService)
-  private readonly _fileReader = new FileReader()
 
   config = config
-
-  constructor() {
-    this._fileReader.onload = this._fileReaderLoad
-  }
 
   collections = this._lState.collections
   selectedCollectionId = signal<string | null>(null)
@@ -86,30 +77,24 @@ export class CollectionsPageComp {
     this.selectedCollectionId.set(null)
   }
 
-  importCollection(event: Event) {
+  async importCollection(event: Event) {
     const input = event.target as HTMLInputElement
     if (!input.files || input.files.length === 0) return
     const file = input.files[0]
+
     try {
-      verifiyImportedFileValidity(file)
-      this._fileReader.readAsText(file)
-    } catch (e) {
-      this._toastS.showToast({
-        type: 'error',
-        message: (e as Error).message
+      const storeExport = await this._makeBlobS.readFile(file)
+
+      const result = await this._modalService.open('collection-import', {
+        storeExport
       })
-    }
-  }
 
-  private _fileReaderLoad = (e: ProgressEvent<FileReader>) => {
-    const content = e.target?.result as string
-    try {
-      const imported = parseFileImportString(content)
+      if (result.type !== 'confirm') return
 
-      this._lState.importExportedCollections(imported)
+      this._lState.importExportedCollections(storeExport)
       this._toastS.showToast({
         type: 'info',
-        message: `${imported.learnables.length} cards imported`
+        message: `${storeExport.learnables.length} cards imported`
       })
     } catch (e) {
       this._toastS.showToast({

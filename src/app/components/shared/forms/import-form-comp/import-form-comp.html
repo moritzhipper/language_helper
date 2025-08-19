@@ -4,7 +4,12 @@
     <div class="collections">
       @for (collection of storeExport().collections; track $index) {
         <span>{{ collection.name }}:</span>
-        <span>({{ collection.learnableIDs.length }} cards)</span>
+        <span>
+          <strong>
+            {{ collection.learnableIDs.length }}
+          </strong>
+          cards</span
+        >
       }
 
       @if (unsortedLearnablesCount() > 0) {

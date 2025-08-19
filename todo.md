@@ -8,6 +8,7 @@
 - add social tab
 - show card count in collection pracrtice
 - somehow prevent dead or repeating ids
+- skipped cards on import modal
 
 ## Later
 

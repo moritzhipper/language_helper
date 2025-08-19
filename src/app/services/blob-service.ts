@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core'
 import { config } from '../../config'
 import { StoreExport } from '../types_and_schemas/types'
+import {
+  parseFileImportString,
+  verifiyImportedFileValidity
+} from '../utils/import-export-utils'
 
 type Downloadable = {
   blobUrl: string
@@ -35,5 +39,30 @@ export class BlobService {
       blobUrl,
       fileName: name
     }
+  }
+
+  async readFile(file: File): Promise<StoreExport> {
+    // Verify file validity first
+    verifiyImportedFileValidity(file)
+
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader()
+
+      fileReader.onload = (e: ProgressEvent<FileReader>) => {
+        try {
+          const content = e.target?.result as string
+          const imported = parseFileImportString(content)
+          resolve(imported)
+        } catch (error) {
+          reject(error)
+        }
+      }
+
+      fileReader.onerror = () => {
+        reject(new Error('Failed to read file'))
+      }
+
+      fileReader.readAsText(file)
+    })
   }
 }
