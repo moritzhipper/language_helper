@@ -1,0 +1,27 @@
+<form (ngSubmit)="confirm()" class="modal">
+  <div class="summary full fly-in-y-0">
+    <h2 class="full">import?</h2>
+    <div class="collections">
+      @for (collection of storeExport().collections; track $index) {
+        <span>{{ collection.name }}:</span>
+        <span>
+          <strong>
+            {{ collection.learnableIDs.length }}
+          </strong>
+          cards</span
+        >
+      }
+
+      @if (unsortedLearnablesCount() > 0) {
+        <span>unsorted:</span>
+        <span>
+          <strong>{{ unsortedLearnablesCount() }}</strong> cards
+        </span>
+      }
+    </div>
+  </div>
+  <button type="button" class="big fly-in-y-1" (click)="cancel()">
+    cancel
+  </button>
+  <button type="submit" class="fly-in-y-2">confirm</button>
+</form>

@@ -56,6 +56,7 @@ export const mapToExport = (
 // #region Import Functions
 
 export const parseFileImportString = (fileAsString: string): StoreExport => {
+  debugger
   try {
     return StoreExportSchema.parse(JSON.parse(fileAsString))
   } catch (e) {
@@ -67,10 +68,9 @@ export const parseFileImportString = (fileAsString: string): StoreExport => {
 export const verifiyImportedFileValidity = (file: File): void => {
   const fileSuffixIsCorrect =
     file.name.split('.').pop()?.toLowerCase() === config.fileExportSuffix
-  const fileTypeIsCorrect = file.type === 'application/octet-stream'
 
-  if (!fileSuffixIsCorrect || !fileTypeIsCorrect) {
-    throw new Error('Wrong file extension or type.')
+  if (!fileSuffixIsCorrect) {
+    throw new Error('Wrong file extension.')
   }
 }
 

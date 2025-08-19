@@ -12,6 +12,11 @@
     animation: fly-in-x var(--duration-2) var(--overshot) backwards;
     animation-delay: calc(0.05s * #{$i});
   }
+
+  .fly-in-xy-#{$i} {
+    animation: fly-in-xy var(--duration-3) var(--overshot) backwards;
+    animation-delay: calc(0.07s * #{$i});
+  }
 }
 
 @keyframes fly-in-y {
@@ -24,6 +29,20 @@
 @keyframes fly-in-x {
   from {
     opacity: 0;
-    translate: 15px 0;
+    translate: 20px 0px;
+  }
+}
+
+@keyframes fly-in-xy {
+  from {
+    opacity: 0;
+    translate: 20px 5px;
+  }
+}
+
+@keyframes bd-appear {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
   }
 }

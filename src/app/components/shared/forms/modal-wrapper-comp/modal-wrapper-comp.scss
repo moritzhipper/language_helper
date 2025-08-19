@@ -1,7 +1,7 @@
 @use '../../../../../style/mixins.scss' as *;
 
 .wrapper {
-  z-index: 15;
+  z-index: 30;
   position: fixed;
   top: 0;
   left: 0;
@@ -30,10 +30,6 @@
   backdrop-filter: blur(30px);
 }
 
-:host-context(form) {
-  padding: var(--distacne-5);
-}
-
 @include isPhone() {
   .fake-dialog {
     place-self: stretch;
@@ -47,9 +43,3 @@
 }
 
 // todo preparation for new angular 20.2 animations
-@keyframes bd-appear {
-  from {
-    opacity: 0;
-    backdrop-filter: blur(0px);
-  }
-}

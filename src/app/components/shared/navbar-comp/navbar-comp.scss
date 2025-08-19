@@ -1,57 +1,200 @@
 @use '../../../../style/mixins.scss' as *;
 
-:host {
-  position: fixed;
-  top: 0;
-  right: 0;
-  display: flex;
-  padding: var(--distance-4);
-  z-index: 3;
-  gap: var(--distance-2);
-  flex-flow: row-reverse;
-  align-items: center;
-
-  .toggle {
-    transition:
-      outline var(--duration-0),
-      background-color var(--duration-0),
-      box-shdow var(--duration-1),
-      opacity var(--duration-1);
-
-    app-icon-comp {
-      transition: transform var(--duration-1);
-    }
-
-    &.open,
-    &.subdue {
-      background-color: var(--col-bg);
-    }
-
-    &.open app-icon-comp {
-      transform: rotateY(180deg);
-    }
-
-    &.subdue {
-      opacity: var(--opacity-0);
-      box-shadow: none;
-    }
-  }
-}
-
-.link,
 .toggle {
+  padding: var(--distance-4);
   background-color: var(--col-accent);
   padding: var(--distance-3);
   border-radius: 100%;
   box-shadow: var(--shadow-big);
 
-  &.small {
-    padding: var(--distance-2);
+  transition:
+    outline var(--duration-0),
+    background-color var(--duration-0),
+    box-shdow var(--duration-1),
+    opacity var(--duration-1);
+
+  app-icon-comp {
+    transition: rotate var(--duration-1) var(--overshot);
+  }
+
+  &.subdue {
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  &.open {
+    background-color: var(--col-bg);
+    app-icon-comp {
+      rotate: -20deg;
+    }
+  }
+
+  &.subdue {
+    box-shadow: none;
+    opacity: var(--opacity-0);
   }
 }
 
-.pulse app-icon-comp {
-  animation: pulse 4s infinite;
+:host {
+  position: fixed;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--distance-4);
+  z-index: 15;
+  transition: background-color var(--duration-0);
+
+  h2,
+  .link {
+    box-sizing: border-box;
+    rotate: 10deg;
+  }
+
+  h2 {
+    margin: 0 0 0 var(--distance-6);
+    text-shadow: 0 10px 12px var(--col-bg);
+  }
+
+  .link {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: var(--distance-4);
+    box-sizing: border-box;
+    box-shadow: var(--shadow-big);
+
+    &.big {
+      color: var(--col-bg);
+      background-color: var(--col-primary);
+    }
+    &.small {
+      color: var(--col-text);
+      background-color: var(--col-accent);
+    }
+
+    &.about {
+      margin-top: var(--distance-5);
+    }
+  }
+}
+
+@include isDesktop() {
+  :host {
+    box-sizing: border-box;
+    margin: var(--distance-4);
+    width: 300px;
+    align-items: stretch;
+
+    .fake-shadow {
+      display: block;
+      top: var(--distance-6);
+      right: 0;
+      filter: blur(50px);
+      opacity: var(--opacity-0);
+      z-index: -1;
+      background-color: var(--col-bg);
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .toggle {
+    align-self: flex-end;
+  }
+
+  h2,
+  .link {
+    font-size: var(--font-size-2);
+  }
+
+  .link {
+    border-radius: var(--radius-3);
+    transition: scale var(--duration-1) var(--overshot);
+
+    app-icon-comp {
+      width: 40px;
+      height: 40px;
+    }
+
+    &.big {
+      padding: var(--distance-2) var(--distance-6);
+    }
+
+    &.small {
+      padding: var(--distance-0) var(--distance-6);
+    }
+
+    &:hover {
+      scale: 1.05;
+    }
+  }
+}
+
+@include isPhone() {
+  :host {
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    .fake-shadow {
+      display: none;
+    }
+
+    h2 {
+      width: 100%;
+    }
+
+    h2,
+    .link {
+      font-size: var(--font-size-3);
+    }
+
+    &.open {
+      height: 100dvh;
+      animation: bd-appear var(--duration-1) ease;
+      background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
+      backdrop-filter: blur(30px);
+    }
+
+    .toggle {
+      margin: var(--distance-4);
+      position: fixed;
+      top: 0;
+      right: 0;
+
+      &.open {
+        background-color: transparent;
+        box-shadow: none;
+      }
+    }
+
+    .link {
+      width: 110vw;
+
+      app-icon-comp {
+        width: 50px;
+        height: 50px;
+      }
+
+      &.big {
+        padding: var(--distance-2) 0 var(--distance-2) 20vw;
+      }
+      &.small {
+        padding: var(--distance-0) 0 var(--distance-0) 20vw;
+      }
+    }
+  }
+}
+
+.pulse {
+  span,
+  app-icon-comp {
+    animation: pulse 4s infinite;
+  }
 }
 
 @keyframes pulse {
