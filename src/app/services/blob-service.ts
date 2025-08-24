@@ -16,7 +16,6 @@ type Downloadable = {
 })
 export class BlobService {
   private _blobUrl = ''
-  config = config
 
   // use service for this to handle revoking last blob for better memory management
   createDownloadableFromLearnables(
@@ -31,7 +30,7 @@ export class BlobService {
     const blob = new Blob([jsonString], { type: 'application/octet-stream' })
     const blobUrl = URL.createObjectURL(blob)
 
-    const name = `${this.config.fileExportName} - ${fileName} - ${new Date().toDateString()}.${this.config.fileExportSuffix}`
+    const name = `${config.fileExportName} - ${fileName} - ${new Date().toDateString()}.${config.fileExportSuffix}`
 
     this._blobUrl = blobUrl
 
