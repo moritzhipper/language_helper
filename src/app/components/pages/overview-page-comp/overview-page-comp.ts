@@ -1,4 +1,11 @@
-import { Component, computed, inject, signal } from '@angular/core'
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+  untracked
+} from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
@@ -41,9 +48,6 @@ export class OverviewComp {
     const learnables = this._lStore.learnables()
     const { collections, pseudoCollections } = this._lStore
 
-    const selectedPseudoCol = pseudoCollections().find(
-      (c) => c.name === this.selectedPseudoCollectionName()
-    )
     const selectedCol = collections().find(
       (c) => c.id === this.selectedCollectionId()
     )
@@ -51,14 +55,32 @@ export class OverviewComp {
     if (selectedCol) {
       return learnables.filter((l) => selectedCol.learnableIDs.includes(l.id))
     }
+
+    const selectedPseudoCol = pseudoCollections().find(
+      (c) => c.name === this.selectedPseudoCollectionName()
+    )
+
     if (selectedPseudoCol) {
       return learnables.filter((l) =>
         selectedPseudoCol.learnableIDs.includes(l.id)
       )
     }
 
-    return learnables
+    return []
   })
+
+  constructor() {
+    effect(() => {
+      const isEmpty = this.collectionIsEmpty()
+      const isPseudoCollection = !!this.selectedPseudoCollectionName()
+
+      untracked(() => {
+        if (isPseudoCollection && isEmpty) {
+          this.selectPseudoCollection('All')
+        }
+      })
+    })
+  }
 
   pseudoCollections = this._lStore.pseudoCollections
 
@@ -124,6 +146,8 @@ export class OverviewComp {
     this._lStore.updateLearnables(update)
     this._lStore.removeLearnables(deleteIDs)
     this._addAndMarkLearnables(add)
+
+    this.selectDefaultColIfPseudoEmpty()
   }
 
   resetLearnableSelection() {
@@ -156,6 +180,8 @@ export class OverviewComp {
       message: `Added ${selectedIDs.length} cards to ${collectionName}`,
       type: 'info'
     })
+
+    this.selectDefaultColIfPseudoEmpty()
     this.selectedLearnableIds.set([])
   }
 
@@ -182,6 +208,7 @@ export class OverviewComp {
 
     if (confirm.type !== 'confirm') return
     this._lStore.removeLearnables(this.selectedLearnableIds())
+    this.selectDefaultColIfPseudoEmpty()
     this.selectedLearnableIds.set([])
 
     this._toastService.showToast({
@@ -258,4 +285,6 @@ export class OverviewComp {
     this.selectedCollectionId.set(null)
     this.selectedPseudoCollectionName.set(name)
   }
+
+  selectDefaultColIfPseudoEmpty() {}
 }

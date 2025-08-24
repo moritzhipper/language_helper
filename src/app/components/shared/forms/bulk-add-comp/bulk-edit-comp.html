@@ -73,7 +73,9 @@
       type="submit"
       class="submit fly-in-y-2"
       [disabled]="
-        !learnablesForm.valid || learnablesFormArray.controls.length === 0
+        !learnablesForm.valid ||
+        (learnablesFormArray.controls.length === 0 &&
+          deletedLIDs().length === 0)
       "
     >
       submit
