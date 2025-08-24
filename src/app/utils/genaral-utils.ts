@@ -46,3 +46,7 @@ export const calculateAverageConfidencePercent = (
 
   return Math.round(confidencePercent * 100)
 }
+
+export const removeDuplicates = (array: string[]): string[] => {
+  return Array.from(new Set(array))
+}

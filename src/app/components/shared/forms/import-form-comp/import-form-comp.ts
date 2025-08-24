@@ -14,7 +14,6 @@ export class ImportFormComp extends BaseModalDirective {
 
   protected unsortedLearnablesCount = computed(() => {
     const lExport = this.storeExport()
-    console.log(lExport)
     const allLearnableIdsSet = new Set(
       lExport.learnables.map((learnable) => learnable.id)
     )

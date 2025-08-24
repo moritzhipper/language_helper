@@ -37,7 +37,7 @@ export class CollectionsPageComp {
     if (!collection) return null
 
     return this._makeBlobS.createDownloadableFromLearnables(
-      this._lState.getExportableCollections(collection.id),
+      this._lState.getExportable([collection.id]),
       collection.name
     )
   })
@@ -84,7 +84,6 @@ export class CollectionsPageComp {
 
     try {
       const storeExport = await this._makeBlobS.readFile(file)
-
       const result = await this._modalService.open('collection-import', {
         storeExport
       })
@@ -113,11 +112,5 @@ export class CollectionsPageComp {
       .filter((l) => collection.learnableIDs.includes(l.id))
 
     return calculateAverageConfidencePercent(learnables)
-  }
-
-  test() {
-    this._modalService.open('collection-import', {
-      storeExport: this._lState.getExportableCollections()
-    })
   }
 }

@@ -24,7 +24,7 @@ export class SettingsComp {
   collections = this._languageS.collections
   learnablesDownload = computed(() =>
     this._makeBlobS.createDownloadableFromLearnables(
-      this._languageS.getExportableCollections(),
+      this._languageS.getExportable(),
       'All Cards'
     )
   )

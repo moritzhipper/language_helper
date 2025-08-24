@@ -1,13 +1,14 @@
 # ToDo
 
-ß check duplicate
-
-- allow multiple languages
-- somehow prevent dead or repeating ids
-- add social tab
 - make export all cards button also export all collections
-- add makeDocumentUnscrollableService
+  - giving all collections
+  - map to export returns all cards and collections given, no filtering of cards not in collection
+- add not in collection tab
+- add select filtered and reste filter button next to fileter toggle
+- add social tab
 - skipped cards popup on import modal
+- allow multiple languages
+- add makeDocumentUnscrollableService
 
 ## Later
 
@@ -20,6 +21,7 @@
 - replace underscore with #
 - implement protected and private corrrectly throughout
 - print view
+- store dump in navbar?
 
 # sources
 
