@@ -4,7 +4,6 @@ import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
-  Learnable,
   LearnableBase,
   LearnablesFilterConfig
 } from '../../../types_and_schemas/types'
@@ -40,23 +39,37 @@ export class OverviewComp {
 
   private _learnablesInSelectedCollection = computed(() => {
     const learnables = this._lStore.learnables()
-    const selectCollection = this.collections().find(
+    const { collections, pseudoCollections } = this._lStore
+
+    const selectedPseudoCol = pseudoCollections().find(
+      (c) => c.name === this.selectedPseudoCollectionName()
+    )
+    const selectedCol = collections().find(
       (c) => c.id === this.selectedCollectionId()
     )
-    if (!selectCollection) return learnables
 
-    return selectCollection.learnableIDs
-      .map((lId) => learnables.find((l) => l.id === lId))
-      .filter(Boolean) as Learnable[]
+    if (selectedCol) {
+      return learnables.filter((l) => selectedCol.learnableIDs.includes(l.id))
+    }
+    if (selectedPseudoCol) {
+      return learnables.filter((l) =>
+        selectedPseudoCol.learnableIDs.includes(l.id)
+      )
+    }
+
+    return learnables
   })
+
+  pseudoCollections = this._lStore.pseudoCollections
 
   collectionIsEmpty = computed(
     () => this._learnablesInSelectedCollection().length === 0
   )
 
   userHasCards = computed(() => this._lStore.learnables().length !== 0)
-
   collections = this._lStore.collections
+
+  selectedPseudoCollectionName = signal<string | null>(null)
   selectedCollectionId = signal<string | null>(null)
 
   // learnables after filtering
@@ -131,6 +144,7 @@ export class OverviewComp {
     if (createName) {
       this._lStore.createCollection(createName, selectedIDs)
     }
+
     if (addToId) {
       this._lStore.editCollectionLearnables(addToId, selectedIDs, [])
     }
@@ -226,22 +240,22 @@ export class OverviewComp {
   }
 
   updateFilter(filter: LearnablesFilterFormType) {
-    const filterConfig: LearnablesFilterConfig = {
-      type: filter.type,
-      confidence: filter.confidence,
-      orderBy: filter.orderBy,
-      order: filter.order,
-      age: filter.age,
-      search: filter.search
-    }
-
-    this.filter.set(filterConfig)
+    this.filter.set(filter)
   }
 
-  selectCollection(collectionId: string | null) {
-    if (collectionId !== this.selectedCollectionId()) {
+  selectCollection(identifier: string | null) {
+    if (identifier !== this.selectedCollectionId()) {
       this.selectedLearnableIds.set([])
     }
-    this.selectedCollectionId.set(collectionId)
+    this.selectedPseudoCollectionName.set(null)
+    this.selectedCollectionId.set(identifier)
+  }
+
+  selectPseudoCollection(name: string | null) {
+    if (name !== this.selectedPseudoCollectionName()) {
+      this.selectedLearnableIds.set([])
+    }
+    this.selectedCollectionId.set(null)
+    this.selectedPseudoCollectionName.set(name)
   }
 }

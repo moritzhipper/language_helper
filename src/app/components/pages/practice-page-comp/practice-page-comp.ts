@@ -57,7 +57,7 @@ export class PracticeComp {
   private readonly _fb = inject(NonNullableFormBuilder)
   form = this._fb.group({
     type: null,
-    collection: 'all',
+    collectionIdentifier: 'All',
     confidence: undefined,
     reverseDirection: false
   })
@@ -68,6 +68,7 @@ export class PracticeComp {
 
   private readonly _lStore = inject(LearnablesStore)
   collections = this._lStore.collections
+  pseudoCollections = this._lStore.pseudoCollections
 
   isRevealed = signal(false)
   showStats = signal(false)
@@ -127,7 +128,11 @@ export class PracticeComp {
     ).map((l) => l.id)
 
     const selectedCollection = this.collections().find(
-      (c) => c.id === formValue.collection
+      (c) => c.id === formValue.collectionIdentifier
+    )
+
+    const selectedPseudoCollection = this.pseudoCollections().find(
+      (c) => c.name === formValue.collectionIdentifier
     )
 
     if (selectedCollection) {
@@ -135,6 +140,13 @@ export class PracticeComp {
         selectedCollection.learnableIDs.includes(id)
       )
     }
+
+    if (selectedPseudoCollection) {
+      return allLearnableIDsFiltered.filter((id) =>
+        selectedPseudoCollection.learnableIDs.includes(id)
+      )
+    }
+
     return allLearnableIDsFiltered
   })
 
@@ -207,12 +219,10 @@ export class PracticeComp {
     this._lStore.startPractice(this.selectedCardsIds(), reverseDirection)
   }
 
-  calculateAverageConfidence(collectionId: string): number {
-    const collection = this.collections().find((c) => c.id === collectionId)
-    if (!collection) return 0
+  calculateAverageConfidence(learnableIds: string[]): number {
     const learnables = this._lStore
       .learnables()
-      .filter((l) => collection.learnableIDs.includes(l.id))
+      .filter((l) => learnableIds.includes(l.id))
 
     const percent = calculateAverageConfidencePercent(learnables)
     return percent

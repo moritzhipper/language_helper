@@ -125,13 +125,18 @@
         />
         <label>
           <span> collection </span>
-          <select formControlName="collection">
-            <option value="all">all cards</option>
+          <select formControlName="collectionIdentifier">
+            @for (pseudo of pseudoCollections(); track pseudo.name) {
+              <option [value]="pseudo.name">
+                {{ pseudo.name }}
+                ({{ calculateAverageConfidence(pseudo.learnableIDs) }}%)
+              </option>
+            }
+
             @for (collection of collections(); track collection.id) {
               <option [value]="collection.id">
                 {{ collection.name }}
-
-                ({{ calculateAverageConfidence(collection.id) }}%)
+                ({{ calculateAverageConfidence(collection.learnableIDs) }}%)
               </option>
             }
           </select>

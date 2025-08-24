@@ -2,9 +2,9 @@
 
 - add not in collection tab
 - add social tab
-- skipped cards popup on import modal
 - allow multiple languages
 - add makeDocumentUnscrollableService
+- handle pseudocollections (unsorted, all, ...collection)
 
 ## Later
 

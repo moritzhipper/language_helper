@@ -1,12 +1,19 @@
 import { withStorageSync } from '@angular-architects/ngrx-toolkit'
-import { inject } from '@angular/core'
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals'
+import { computed, inject } from '@angular/core'
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState
+} from '@ngrx/signals'
 import { AiService } from '../services/ai.service'
 import {
   LearnableBase,
   LearnablePartialWithId,
   StoreExport
 } from '../types_and_schemas/types'
+import { getCollectionlessLearnableIds } from '../utils/genaral-utils'
 import { initialLearnables } from './initialStates'
 import {
   createCollection,
@@ -30,6 +37,36 @@ export const LearnablesStore = signalStore(
     key: 'language_helper_learnables',
     storage: () => localStorage
   }),
+  withComputed(({ learnables, collections }) => ({
+    collectionLessLearnableIds: computed(() =>
+      getCollectionlessLearnableIds(learnables(), collections())
+    ),
+    pseudoCollections: computed(() => {
+      let pseudoCollections: {
+        name: string
+        learnableIDs: string[]
+      }[] = []
+
+      const collectionlessIds = getCollectionlessLearnableIds(
+        learnables(),
+        collections()
+      )
+
+      pseudoCollections.push({
+        name: 'All',
+        learnableIDs: learnables().map((l) => l.id)
+      })
+
+      if (collectionlessIds.length > 0) {
+        pseudoCollections.push({
+          name: 'Unsorted',
+          learnableIDs: collectionlessIds
+        })
+      }
+
+      return pseudoCollections
+    })
+  })),
   withMethods((state) => {
     const aiS = inject(AiService)
 
