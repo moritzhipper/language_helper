@@ -7,6 +7,7 @@ import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { LearnableCollection } from '../../../types_and_schemas/types'
 import { calculateAverageConfidencePercent } from '../../../utils/genaral-utils'
+import { mapToExport } from '../../../utils/import-export-utils'
 import { ConfirmCollectionDeletionType } from '../../shared/forms/delete-collection-comp/delete-collection-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
@@ -24,7 +25,7 @@ export class CollectionsPageComp {
   private readonly _makeBlobS = inject(BlobService)
   private readonly _modalService = inject(ModalService)
 
-  config = config
+  acceptSuffix = '.' + config.fileExportSuffix
 
   collections = this._lState.collections
   selectedCollectionId = signal<string | null>(null)
@@ -37,7 +38,7 @@ export class CollectionsPageComp {
     if (!collection) return null
 
     return this._makeBlobS.createDownloadableFromLearnables(
-      this._lState.getExportable([collection.id]),
+      mapToExport(this._lState.learnables(), [collection], true),
       collection.name
     )
   })

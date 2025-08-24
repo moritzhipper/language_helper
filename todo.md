@@ -27,6 +27,11 @@
 
 https://remixicon.com/icon/arrow-up-s-line
 
+## Hosting
+
+https://www.netcup.com/en/deals
+hetzner
+
 ## Put in readme
 
 whats an ai key

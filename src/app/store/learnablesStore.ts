@@ -7,7 +7,6 @@ import {
   LearnablePartialWithId,
   StoreExport
 } from '../types_and_schemas/types'
-import { mapToExport } from '../utils/import-export-utils'
 import { initialLearnables } from './initialStates'
 import {
   createCollection,
@@ -59,15 +58,6 @@ export const LearnablesStore = signalStore(
           state,
           editCollectionLearnables(collectionID, addIDs, deleteIDs)
         )
-      },
-      getExportable(collectionIDs: string[] = []): StoreExport {
-        const collectionSpecified = collectionIDs.length === 0
-        // todo: is this roundtrip necessary? maybe put in import export service
-        const collections = collectionSpecified
-          ? state.collections()
-          : state.collections().filter((c) => collectionIDs.includes(c.id))
-
-        return mapToExport(state.learnables(), collections, collectionSpecified)
       },
       importExportedCollections(importStore: StoreExport) {
         patchState(state, saveImportedCollections(importStore))
