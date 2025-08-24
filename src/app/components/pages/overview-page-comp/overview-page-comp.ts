@@ -8,6 +8,7 @@ import {
   LearnableBase,
   LearnablesFilterConfig
 } from '../../../types_and_schemas/types'
+import { removeDuplicates } from '../../../utils/genaral-utils'
 import { filterDoubleEntries } from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
@@ -69,6 +70,17 @@ export class OverviewComp {
 
     return filterLearnables(this._learnablesInSelectedCollection(), filter)
   })
+
+  addVisibleToSelection() {
+    const visibleLearnableIDs = this.filteredLearnables().map((l) => l.id)
+
+    const newSelectionIDs = removeDuplicates([
+      ...visibleLearnableIDs,
+      ...this.selectedLearnableIds()
+    ])
+
+    this.selectedLearnableIds.set(newSelectionIDs)
+  }
 
   private _latestIDs = computed(() => {
     const latestLearnableIDs = filterLearnables(this._lStore.learnables(), {

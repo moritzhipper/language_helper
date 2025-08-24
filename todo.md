@@ -1,10 +1,6 @@
 # ToDo
 
-- make export all cards button also export all collections
-  - giving all collections
-  - map to export returns all cards and collections given, no filtering of cards not in collection
 - add not in collection tab
-- add select filtered and reste filter button next to fileter toggle
 - add social tab
 - skipped cards popup on import modal
 - allow multiple languages

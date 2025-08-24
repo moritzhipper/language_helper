@@ -4,28 +4,43 @@ form {
   margin-bottom: var(--distance-6);
 }
 
-.toggle {
+.toggle-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: var(--opacity-1);
-  margin: 0 var(--distance-3);
+  gap: var(--distance-3);
+  padding: 0 var(--distance-3);
+  width: 100%;
+  box-sizing: border-box;
 
-  span {
+  button {
     font-size: var(--font-size-0);
     font-weight: var(--font-weight-bold);
-  }
-  .icon.warn {
-    width: 16px;
-    height: 16px;
-    margin-right: var(--distance-1);
+    opacity: var(--opacity-1);
   }
 
-  .chevron:not(.rotated) {
-    rotate: 0deg;
+  .reset {
+    margin-left: auto;
   }
-  .chevron.rotated {
-    rotate: 180deg;
+
+  .toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+      font-size: var(--font-size-0);
+      font-weight: var(--font-weight-bold);
+    }
+
+    .icon.warn {
+      margin-right: var(--distance-1);
+    }
+
+    .chevron:not(.rotated) {
+      rotate: 0deg;
+    }
+    .chevron.rotated {
+      rotate: 180deg;
+    }
   }
 }
 

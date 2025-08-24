@@ -58,7 +58,10 @@
     @if (collectionIsEmpty()) {
       <p>collection is empty</p>
     } @else {
-      <app-filter-form-comp (filter)="updateFilter($event)" />
+      <app-filter-form-comp
+        (filter)="updateFilter($event)"
+        (selectVisible)="addVisibleToSelection()"
+      />
       <div class="learnables">
         @for (learnable of filteredLearnables(); track learnable.id) {
           <button
