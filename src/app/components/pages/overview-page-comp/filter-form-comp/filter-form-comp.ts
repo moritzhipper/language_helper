@@ -23,9 +23,9 @@ export type LearnablesFilterFormType = Omit<LearnablesFilterConfig, 'ids'>
 })
 export class FilterFormComp {
   private readonly _fb = inject(NonNullableFormBuilder)
-
-  showFilter = signal(false)
+  protected showFilter = signal(false)
   filter = output<LearnablesFilterFormType>()
+  selectVisible = output<void>()
 
   private initialValue: LearnablesFilterFormType = {
     type: null,
@@ -36,9 +36,9 @@ export class FilterFormComp {
     search: ''
   }
 
-  form = this._fb.group<LearnablesFilterFormType>(this.initialValue)
+  protected form = this._fb.group<LearnablesFilterFormType>(this.initialValue)
 
-  formSignal = toSignal(this.form.valueChanges, {
+  protected formSignal = toSignal(this.form.valueChanges, {
     initialValue: this.initialValue
   })
 
@@ -56,7 +56,15 @@ export class FilterFormComp {
     })
   }
 
+  reset() {
+    this.form.reset(this.initialValue)
+  }
+
   toggleExpanded() {
     this.showFilter.update((v) => !v)
+  }
+
+  onSelectVisible() {
+    this.selectVisible.emit()
   }
 }

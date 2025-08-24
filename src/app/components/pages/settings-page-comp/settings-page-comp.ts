@@ -5,6 +5,7 @@ import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
+import { mapToExport } from '../../../utils/import-export-utils'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 @Component({
@@ -24,7 +25,7 @@ export class SettingsComp {
   collections = this._languageS.collections
   learnablesDownload = computed(() =>
     this._makeBlobS.createDownloadableFromLearnables(
-      this._languageS.getExportableCollections(),
+      mapToExport(this._languageS.learnables(), this._languageS.collections()),
       'All Cards'
     )
   )

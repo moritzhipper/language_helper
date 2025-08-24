@@ -54,15 +54,25 @@
     </div>
   </form>
 }
-<button class="toggle silent" type="button" (click)="toggleExpanded()">
+
+<div class="toggle-wrapper">
+  <button class="toggle silent" type="button" (click)="toggleExpanded()">
+    @if (!isInitialValue()) {
+      <app-icon-comp type="warn" [size]="16" class="icon warn" />
+    }
+    <span>filter</span>
+
+    <app-icon-comp
+      type="chevron"
+      [size]="30"
+      class="icon chevron"
+      [class.rotated]="showFilter()"
+    />
+  </button>
   @if (!isInitialValue()) {
-    <app-icon-comp type="warn" class="icon warn" />
+    <button class="silent reset" (click)="reset()">reset filter</button>
+    <button class="silent select" (click)="onSelectVisible()">
+      select visible
+    </button>
   }
-  <span>filter</span>
-  <app-icon-comp
-    type="chevron"
-    [size]="30"
-    class="icon chevron"
-    [class.rotated]="showFilter()"
-  />
-</button>
+</div>

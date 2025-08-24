@@ -61,7 +61,6 @@
     justify-content: start;
     align-items: center;
     gap: var(--distance-4);
-    box-sizing: border-box;
     box-shadow: var(--shadow-big);
 
     &.big {
@@ -91,7 +90,7 @@
       top: var(--distance-6);
       right: 0;
       filter: blur(50px);
-      opacity: var(--opacity-0);
+      opacity: var(--opacity-1);
       z-index: -1;
       background-color: var(--col-bg);
       position: absolute;
@@ -111,7 +110,9 @@
 
   .link {
     border-radius: var(--radius-3);
-    transition: scale var(--duration-1) var(--overshot);
+    transition:
+      scale var(--duration-1) var(--overshot),
+      outline var(--duration-0);
 
     app-icon-comp {
       width: 40px;

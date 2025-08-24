@@ -1,27 +1,27 @@
 # ToDo
 
-- add makeDocumentUnscrollableService
 - allow multiple languages
-- somehow prevent dead or repeating ids
-- add social tab
-- skipped cards popup on import modal
-- make export all cards button also export all collections
 
 ## Later
 
-- add not in collection collection
+- add social tab
 - erst mal alles bauen, dann capital yo
-- fix recurring vocab. remove stray ids regularily -> when?
 - cool in practice animations
 - animations! -> angular 20.2 bring them back woop woop
 - fix openai + zod issue: remove helper function from utils
 - replace underscore with #
-- implement protected and private corrrectly throughout
 - print view
+- implement protected and private corrrectly throughout
+- store dump in navbar?
 
 # sources
 
 https://remixicon.com/icon/arrow-up-s-line
+
+## Hosting
+
+https://www.netcup.com/en/deals
+hetzner
 
 ## Put in readme
 

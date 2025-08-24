@@ -16,21 +16,16 @@ import {
  */
 export const mapToExport = (
   learnables: Learnable[],
-  collections: LearnableCollection[]
+  collections: LearnableCollection[],
+  removeCardsWithoutCollection: boolean = false
 ): StoreExport => {
-  const relevantLearnables: Learnable[] = []
-  const collectionWasSpecified = collections.length > 0
+  let relevantLearnables = learnables
 
-  // when no collection was specified, export all learnables
-  // otherwise, only export learnables that are in the specified collections
-  if (!collectionWasSpecified) {
-    relevantLearnables.push(...learnables)
-  } else {
-    const relevantIds = collections.flatMap((c) => c.learnableIDs)
-    const filteredLearnables = learnables.filter((l) =>
-      relevantIds.includes(l.id)
+  if (removeCardsWithoutCollection) {
+    const idsOfCollections = collections.flatMap((c) => c.learnableIDs)
+    relevantLearnables = relevantLearnables.filter((l) =>
+      idsOfCollections.includes(l.id)
     )
-    relevantLearnables.push(...filteredLearnables)
   }
 
   const learnableExp: LearnableExport[] = relevantLearnables.map(
@@ -42,6 +37,7 @@ export const mapToExport = (
       id: learnable.id
     })
   )
+
   const collectionExp: CollectionExport[] = collections.map((c) => ({
     name: c.name,
     learnableIDs: c.learnableIDs
@@ -56,7 +52,6 @@ export const mapToExport = (
 // #region Import Functions
 
 export const parseFileImportString = (fileAsString: string): StoreExport => {
-  debugger
   try {
     return StoreExportSchema.parse(JSON.parse(fileAsString))
   } catch (e) {

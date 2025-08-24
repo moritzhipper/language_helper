@@ -9,9 +9,19 @@ form {
     gap: var(--distance-4);
 
     .collections {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--distance-2);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--distance-2) 0;
+
+      span {
+        word-break: keep-all;
+        white-space: preserve nowrap;
+
+        &:not(:last-of-type)::after {
+          content: ', ';
+        }
+      }
     }
   }
 }

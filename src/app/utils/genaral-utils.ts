@@ -4,7 +4,11 @@ import {
 } from 'openai/lib/parser.mjs'
 import { ResponseFormatTextJSONSchemaConfig } from 'openai/resources/responses/responses.mjs'
 import z from 'zod'
-import { Learnable } from '../types_and_schemas/types'
+import {
+  CollectionExport,
+  Learnable,
+  LearnableExport
+} from '../types_and_schemas/types'
 
 /**
  *
@@ -45,4 +49,18 @@ export const calculateAverageConfidencePercent = (
   const confidencePercent = trueGuesses / allGuesses.length
 
   return Math.round(confidencePercent * 100)
+}
+
+export const getCollectionlessLearnableIds = (
+  learnables: LearnableExport[],
+  collections: CollectionExport[]
+): string[] => {
+  const collectionLearnableIds = collections.flatMap((c) => c.learnableIDs)
+  return learnables
+    .map((l) => l.id)
+    .filter((id) => !collectionLearnableIds.includes(id))
+}
+
+export const removeDuplicates = (array: string[]): string[] => {
+  return Array.from(new Set(array))
 }
