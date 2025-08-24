@@ -69,7 +69,7 @@ export class OverviewComp {
   userHasCards = computed(() => this._lStore.learnables().length !== 0)
   collections = this._lStore.collections
 
-  selectedPseudoCollectionName = signal<string | null>(null)
+  selectedPseudoCollectionName = signal<string | null>('All')
   selectedCollectionId = signal<string | null>(null)
 
   // learnables after filtering
