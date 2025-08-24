@@ -1,11 +1,13 @@
 # ToDo
 
-- add makeDocumentUnscrollableService
+ß check duplicate
+
 - allow multiple languages
 - somehow prevent dead or repeating ids
 - add social tab
-- skipped cards popup on import modal
 - make export all cards button also export all collections
+- add makeDocumentUnscrollableService
+- skipped cards popup on import modal
 
 ## Later
 

@@ -7,6 +7,7 @@ import {
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
+import { config } from '../../../../config'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
@@ -223,38 +224,8 @@ export class PracticeComp {
   }
 
   private getRandomExp(isHappy: boolean): string {
-    const expHappy = [
-      '🎓',
-      ':)',
-      '🫦',
-      '✨',
-      '😻',
-      '🤩',
-      '🐯',
-      '🧚🏾‍♂️',
-      '🎉',
-      '❤️‍🔥'
-    ]
-    const expSad = [
-      ':(',
-      ':,(',
-      ':|',
-      '💔',
-      '😢',
-      '😞',
-      '😩',
-      '🫤',
-      '😭',
-      '😓',
-      '👿',
-      '😿',
-      '😐',
-      '💀',
-      '🚩'
-    ]
+    if (isHappy) return this.getRandomElementFromArray(config.happyExpressions)
 
-    if (isHappy) return this.getRandomElementFromArray(expHappy)
-
-    return this.getRandomElementFromArray(expSad)
+    return this.getRandomElementFromArray(config.sadExpressions)
   }
 }

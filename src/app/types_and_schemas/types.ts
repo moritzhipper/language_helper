@@ -75,4 +75,6 @@ export type LearnablesFilterConfig = Optional<{
 export type AppConfig = {
   fileExportName: string
   fileExportSuffix: string
+  happyExpressions: string[]
+  sadExpressions: string[]
 }
