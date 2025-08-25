@@ -18,7 +18,6 @@ type ActivePracticeSummary = {
   correctGuesses: number
   guessesDone: number
   guessesLeft: number
-  cardsAmount: number
   progressPercent: number
 }
 
@@ -56,7 +55,6 @@ export class ActivePracticeComp {
         correctGuesses: 0,
         guessesDone: 0,
         guessesLeft: 0,
-        cardsAmount: 0,
         progressPercent: 0
       }
 
@@ -75,7 +73,6 @@ export class ActivePracticeComp {
       correctGuesses,
       guessesDone,
       guessesLeft,
-      cardsAmount,
       progressPercent
     }
   })

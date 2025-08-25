@@ -27,12 +27,12 @@ export class ConfigurePracticeComp {
   private readonly _fb = inject(NonNullableFormBuilder)
   private readonly _lStore = inject(LearnablesStore)
   private readonly sStore = inject(SettingsStore)
-  learningLang = this.sStore.learningLang
-  speakingLang = this.sStore.speakingLang
-  collections = this._lStore.collections
-  pseudoCollections = this._lStore.pseudoCollections
+  protected learningLang = this.sStore.learningLang
+  protected speakingLang = this.sStore.speakingLang
+  protected collections = this._lStore.collections
+  protected pseudoCollections = this._lStore.pseudoCollections
 
-  form = this._fb.group({
+  protected form = this._fb.group({
     type: null,
     collectionIdentifier: 'All',
     confidence: undefined,
@@ -43,7 +43,7 @@ export class ConfigurePracticeComp {
     initialValue: this.form.value
   })
 
-  selectedCardsIds = computed(() => {
+  protected selectedCardsIds = computed(() => {
     const formValue = this._formSignal()
 
     const filter = {
@@ -80,7 +80,7 @@ export class ConfigurePracticeComp {
   })
 
   start() {
-    const reverseDirection = !!this._formSignal().reverseDirection
+    const reverseDirection = !!this.form.value.reverseDirection
     this._lStore.startPractice(this.selectedCardsIds(), reverseDirection)
   }
 
@@ -89,7 +89,6 @@ export class ConfigurePracticeComp {
       .learnables()
       .filter((l) => learnableIds.includes(l.id))
 
-    const percent = calculateAverageConfidencePercent(learnables)
-    return percent
+    return calculateAverageConfidencePercent(learnables)
   }
 }

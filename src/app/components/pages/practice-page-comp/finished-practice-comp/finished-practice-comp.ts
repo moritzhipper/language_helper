@@ -3,7 +3,7 @@ import { LearnablesStore } from '../../../../store/learnablesStore'
 import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
 
 type FinishedSummary = {
-  correctAmount: number
+  correctGuesses: number
   cardsAmount: number
 }
 
@@ -21,15 +21,15 @@ export class FinishedPracticeComp {
     const currentPractice = this.currentPractice()
     if (!currentPractice) {
       return {
-        correctAmount: 0,
+        correctGuesses: 0,
         cardsAmount: 0
       }
     }
-    const correctAmount = currentPractice.guesses.filter(
+    const correctGuesses = currentPractice.guesses.filter(
       (g) => g.isCorrect
     ).length
     return {
-      correctAmount,
+      correctGuesses,
       cardsAmount: currentPractice.ids.length
     }
   })
