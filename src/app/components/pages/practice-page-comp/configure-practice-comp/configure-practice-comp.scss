@@ -1,0 +1,18 @@
+.selection-view {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: var(--distance-4);
+
+  app-counter-comp {
+    place-self: center;
+  }
+
+  form {
+    display: grid;
+    gap: var(--distance-4);
+    align-self: end;
+    button {
+      margin-top: var(--distance-4);
+    }
+  }
+}

@@ -1,0 +1,69 @@
+<app-page-wrapper-comp icon="learn">
+  <div class="practice-view">
+    <div class="lexeme">
+      @if (reverseDirection()) {
+        {{ learnable().translation }}
+      } @else {
+        {{ learnable().lexeme }}
+      }
+    </div>
+
+    <div class="translation">
+      @if (isRevealed()) {
+        @if (reverseDirection()) {
+          {{ learnable()?.lexeme }}
+        } @else {
+          {{ learnable()?.translation }}
+        }
+      } @else {
+        <span>-</span>
+      }
+    </div>
+    <div class="navigation">
+      <button class="silent toggle-navigation" (click)="toggleStats()">
+        <app-icon-comp
+          type="chevron"
+          [size]="32"
+          [class.expanded]="showStats()"
+        />
+      </button>
+
+      @if (showStats()) {
+        <div class="stats">
+          <button class="notes silent full" (click)="editCard()">
+            @if (learnable().notes; as notes) {
+              {{ notes }}
+            } @else {
+              <span class="placeholder">( edit to add notes )</span>
+            }
+          </button>
+
+          <div class="progress full">
+            <div
+              class="indicator"
+              [style.width]="practiceSummary().progressPercent + '%'"
+            ></div>
+            <span class="text">
+              {{ practiceSummary().correctAmountTotal }} of
+              {{ practiceSummary().guessesTotal }} correct |
+              {{ practiceSummary().cardsLeft }} left
+            </span>
+          </div>
+          <button class="big warning" (click)="endPracticeEarly()">quit</button>
+          <button type="button" class="big secondary" (click)="editCard()">
+            edit card
+          </button>
+        </div>
+      } @else {
+        <div class="interact">
+          @if (isRevealed()) {
+            <button class="big" (click)="onSetGuess(false)">I was wrong</button>
+            <button class="big" (click)="onSetGuess(true)">I was right</button>
+          } @else {
+            <button class="big full" (click)="reveal()">show</button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</app-page-wrapper-comp>

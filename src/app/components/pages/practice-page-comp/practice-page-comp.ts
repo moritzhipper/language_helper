@@ -1,13 +1,5 @@
-import {
-  Component,
-  computed,
-  HostListener,
-  inject,
-  signal
-} from '@angular/core'
-import { toSignal } from '@angular/core/rxjs-interop'
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { config } from '../../../../config'
+import { Component, computed, inject, signal } from '@angular/core'
+import { ReactiveFormsModule } from '@angular/forms'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
@@ -18,53 +10,28 @@ import {
 } from '../../../types_and_schemas/types'
 import { calculateAverageConfidencePercent } from '../../../utils/genaral-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
-import { CounterComp } from '../../shared/counter-comp/counter-comp'
-import { IconComp } from '../../shared/icon-comp/icon-comp'
-import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
-import { RadioComp } from '../../shared/radio-comp/radio-comp'
+import { ActivePracticeComp } from './active-practice-comp/active-practice-comp'
+import { ConfigurePracticeComp } from './configure-practice-comp/configure-practice-comp'
+import { FinishedPracticeComp } from './finished-practice-comp/finished-practice-comp'
 
 @Component({
   selector: 'app-practice',
   imports: [
-    RadioComp,
     ReactiveFormsModule,
-    PageWrapperComp,
-    CounterComp,
-    IconComp
+
+    FinishedPracticeComp,
+    ActivePracticeComp,
+    ConfigurePracticeComp
   ],
   templateUrl: './practice-page-comp.html',
   styleUrl: './practice-page-comp.scss'
 })
 export class PracticeComp {
-  @HostListener('window:keydown', ['$event']) handleKeyDown(
-    event: KeyboardEvent
-  ) {
-    if (event.key === 'ArrowUp') {
-      this.reveal()
-    } else if (event.key === 'ArrowLeft' && this.isRevealed()) {
-      this.setGuess(false)
-    } else if (event.key === 'ArrowRight' && this.isRevealed()) {
-      this.setGuess(true)
-    }
-  }
-
   private readonly _toastService = inject(ToastService)
   private readonly sStore = inject(SettingsStore)
   private readonly _modalS = inject(ModalService)
   learningLang = this.sStore.learningLang
   speakingLang = this.sStore.speakingLang
-
-  private readonly _fb = inject(NonNullableFormBuilder)
-  form = this._fb.group({
-    type: null,
-    collectionIdentifier: 'All',
-    confidence: undefined,
-    reverseDirection: false
-  })
-
-  private readonly _formSignal = toSignal(this.form.valueChanges, {
-    initialValue: this.form.value
-  })
 
   private readonly _lStore = inject(LearnablesStore)
   collections = this._lStore.collections
@@ -150,11 +117,17 @@ export class PracticeComp {
     return allLearnableIDsFiltered
   })
 
+  hasNoPractice = computed(() => this.currentPractice())
+
   hasFinishedPractice = computed(() => {
     const currentPractice = this.currentPractice()
     return (
       currentPractice && currentPractice.index === currentPractice.ids.length
     )
+  })
+  hasUnfinishedPractice = computed(() => {
+    const currentPractice = this.currentPractice()
+    return currentPractice && currentPractice.index < currentPractice.ids.length
   })
 
   currentLearnable = computed(() => {
@@ -166,10 +139,6 @@ export class PracticeComp {
 
   showStatsToggle() {
     this.showStats.update((prev) => !prev)
-  }
-
-  reveal() {
-    this.isRevealed.set(true)
   }
 
   setGuess(isCorrect: boolean) {
@@ -226,16 +195,5 @@ export class PracticeComp {
 
     const percent = calculateAverageConfidencePercent(learnables)
     return percent
-  }
-
-  private getRandomElementFromArray(arr: string[]): string {
-    const randomIndex = Math.floor(Math.random() * arr.length)
-    return arr[randomIndex]
-  }
-
-  private getRandomExp(isHappy: boolean): string {
-    if (isHappy) return this.getRandomElementFromArray(config.happyExpressions)
-
-    return this.getRandomElementFromArray(config.sadExpressions)
   }
 }

@@ -156,7 +156,6 @@
 
     &.open {
       height: 100dvh;
-      animation: bd-appear var(--duration-1) ease;
       background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
       backdrop-filter: blur(30px);
     }
