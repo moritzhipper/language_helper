@@ -39,14 +39,14 @@
           </button>
 
           <div class="progress full">
+            @let sum = summary();
             <div
               class="indicator"
-              [style.width]="practiceSummary().progressPercent + '%'"
+              [style.width]="sum.progressPercent + '%'"
             ></div>
             <span class="text">
-              {{ practiceSummary().correctAmountTotal }} of
-              {{ practiceSummary().guessesTotal }} correct |
-              {{ practiceSummary().cardsLeft }} left
+              {{ sum.correctGuesses }} of {{ sum.guessesDone }} correct |
+              {{ sum.guessesLeft }} left
             </span>
           </div>
           <button class="big warning" (click)="endPracticeEarly()">quit</button>

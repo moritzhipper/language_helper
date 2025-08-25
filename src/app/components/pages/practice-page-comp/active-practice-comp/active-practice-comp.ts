@@ -3,6 +3,7 @@ import {
   computed,
   HostListener,
   inject,
+  Signal,
   signal
 } from '@angular/core'
 import { config } from '../../../../../config'
@@ -12,6 +13,14 @@ import { LearnablesStore } from '../../../../store/learnablesStore'
 import { LearnableBase } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
+
+type ActivePracticeSummary = {
+  correctGuesses: number
+  guessesDone: number
+  guessesLeft: number
+  cardsAmount: number
+  progressPercent: number
+}
 
 @Component({
   selector: 'app-active-practice-comp',
@@ -40,41 +49,34 @@ export class ActivePracticeComp {
   showStats = signal(false)
   currentPractice = this._lStore.currentPractice
 
-  practiceSummary = computed(() => {
+  summary: Signal<ActivePracticeSummary> = computed(() => {
     const currentPractice = this.currentPractice()
     if (!currentPractice)
       return {
-        cardsAmountTotal: 0,
-        correctAmountTotal: 0,
-        correctAmountPercent: 0,
-        progressPercent: 0,
-        currentIndex: 0,
-        guessesTotal: 0,
-        cardsLeft: 0
+        correctGuesses: 0,
+        guessesDone: 0,
+        guessesLeft: 0,
+        cardsAmount: 0,
+        progressPercent: 0
       }
 
     const guesses = currentPractice.guesses
 
-    const guessesTotal = guesses.length
-    const cardsAmountTotal = currentPractice.ids.length
-    const correctAmountTotal = guesses.filter((g) => g.isCorrect).length
-    const correctAmountPercent = Math.round(
-      (correctAmountTotal / guessesTotal) * 100
-    )
-    const progressPercent = Math.round(
-      (currentPractice.index / cardsAmountTotal) * 100
-    )
+    const correctGuesses = guesses.filter((g) => g.isCorrect).length
+    const guessesDone = guesses.length
+
+    const cardsAmount = currentPractice.ids.length
     const currentIndex = currentPractice.index
-    const cardsLeft = cardsAmountTotal - currentIndex
+    const guessesLeft = cardsAmount - currentIndex
+
+    const progressPercent = Math.round((currentIndex / cardsAmount) * 100)
 
     return {
-      guessesTotal,
-      cardsAmountTotal,
-      correctAmountTotal,
-      correctAmountPercent,
-      progressPercent,
-      currentIndex,
-      cardsLeft
+      correctGuesses,
+      guessesDone,
+      guessesLeft,
+      cardsAmount,
+      progressPercent
     }
   })
 
