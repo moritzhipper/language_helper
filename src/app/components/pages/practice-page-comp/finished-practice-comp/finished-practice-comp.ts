@@ -1,5 +1,6 @@
 import { Component, computed, inject, Signal } from '@angular/core'
 import { LearnablesStore } from '../../../../store/learnablesStore'
+import { CounterComp } from '../../../shared/counter-comp/counter-comp'
 import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
 
 type FinishedSummary = {
@@ -9,7 +10,7 @@ type FinishedSummary = {
 
 @Component({
   selector: 'app-finished-practice-comp',
-  imports: [PageWrapperComp],
+  imports: [PageWrapperComp, CounterComp],
   templateUrl: './finished-practice-comp.html',
   styleUrl: './finished-practice-comp.scss'
 })

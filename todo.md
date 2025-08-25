@@ -4,6 +4,7 @@
 
 ## Later
 
+- add cool practice finished reactions (stars? crown?)
 - add social tab
 - erst mal alles bauen, dann capital yo
 - cool in practice animations

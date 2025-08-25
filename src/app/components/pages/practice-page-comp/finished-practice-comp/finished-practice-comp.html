@@ -1,12 +1,9 @@
 <app-page-wrapper-comp title="Practice" desktopMode="shrink" icon="learn">
   <div class="finished-view">
-    <div class="summary">
-      <div class="counter">
-        {{ summary().correctGuesses }} of
-        {{ summary().cardsAmount }}
-      </div>
-      Cards guessed correctly!
-    </div>
-    <button (click)="endPractice()" class="big">finish practice</button>
+    <app-counter-comp label="Cards guessed correctly" size="l" class="summary">
+      {{ summary().correctGuesses }} of
+      {{ summary().cardsAmount }}
+    </app-counter-comp>
+    <button (click)="endPractice()" class="big">finish</button>
   </div>
 </app-page-wrapper-comp>
