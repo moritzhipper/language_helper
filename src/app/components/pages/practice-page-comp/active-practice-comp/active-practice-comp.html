@@ -1,19 +1,19 @@
 <app-page-wrapper-comp icon="learn">
   <div class="practice-view">
     <div class="lexeme">
-      @if (reverseDirection()) {
-        {{ learnable().translation }}
+      @if (currentPractice()?.reverseDirection) {
+        {{ currentLearnable()?.translation }}
       } @else {
-        {{ learnable().lexeme }}
+        {{ currentLearnable()?.lexeme }}
       }
     </div>
 
     <div class="translation">
       @if (isRevealed()) {
-        @if (reverseDirection()) {
-          {{ learnable()?.lexeme }}
+        @if (currentPractice()?.reverseDirection) {
+          {{ currentLearnable()?.lexeme }}
         } @else {
-          {{ learnable()?.translation }}
+          {{ currentLearnable()?.translation }}
         }
       } @else {
         <span>-</span>
@@ -31,7 +31,7 @@
       @if (showStats()) {
         <div class="stats">
           <button class="notes silent full" (click)="editCard()">
-            @if (learnable().notes; as notes) {
+            @if (currentLearnable()?.notes; as notes) {
               {{ notes }}
             } @else {
               <span class="placeholder">( edit to add notes )</span>
@@ -57,8 +57,8 @@
       } @else {
         <div class="interact">
           @if (isRevealed()) {
-            <button class="big" (click)="onSetGuess(false)">I was wrong</button>
-            <button class="big" (click)="onSetGuess(true)">I was right</button>
+            <button class="big" (click)="setGuess(false)">I was wrong</button>
+            <button class="big" (click)="setGuess(true)">I was right</button>
           } @else {
             <button class="big full" (click)="reveal()">show</button>
           }

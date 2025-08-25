@@ -1,4 +1,6 @@
 .practice-view {
+  height: 100%;
+  overflow: hidden;
   display: grid;
   grid-template-rows: 1fr 1fr auto;
   place-items: center;
@@ -21,6 +23,7 @@
 
   .navigation {
     display: grid;
+    width: 100%;
     max-width: 500px;
 
     button.toggle-navigation {
@@ -28,6 +31,7 @@
       opacity: var(--opacity-1);
       display: grid;
       place-self: center;
+
       .expanded {
         rotate: 180deg;
       }
