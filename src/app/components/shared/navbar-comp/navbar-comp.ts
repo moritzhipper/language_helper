@@ -11,7 +11,8 @@ import { IconComp } from '../icon-comp/icon-comp'
   templateUrl: './navbar-comp.html',
   styleUrl: './navbar-comp.scss',
   host: {
-    '[class.open]': 'linksAreOpen()'
+    '[class.open]': 'linksAreOpen()',
+    'animate.leave': '"leave"'
   }
 })
 export class NavbarComp {

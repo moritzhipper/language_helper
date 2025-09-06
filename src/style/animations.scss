@@ -15,7 +15,7 @@
 
   .fly-in-xy-#{$i} {
     animation: fly-in-xy var(--duration-3) var(--overshot) backwards;
-    animation-delay: calc(0.07s * #{$i});
+    animation-delay: calc(0.04s * #{$i});
   }
 }
 
@@ -36,13 +36,25 @@
 @keyframes fly-in-xy {
   from {
     opacity: 0;
-    translate: 20px 5px;
+    translate: 70px 7px;
+  }
+}
+
+.fly-out-xy {
+  animation: fly-out-xy var(--duration-1) ease-out;
+}
+
+@keyframes fly-out-xy {
+  to {
+    opacity: 0;
+    translate: 20px 2px;
   }
 }
 
 @keyframes bd-appear {
   from {
     opacity: 0;
+    background-color: transparent;
     backdrop-filter: blur(0px);
   }
 }

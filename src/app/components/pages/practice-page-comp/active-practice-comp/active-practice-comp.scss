@@ -6,14 +6,12 @@
   text-align: center;
 
   .word {
-    overflow: hidden;
     font-size: var(--font-size-3);
     padding: var(--distance-4);
     transition-duration: var(--duration-2);
 
     &.top {
       font-weight: var(--font-weight-bold);
-      opacity: 1;
     }
 
     &.bottom {
@@ -21,93 +19,100 @@
     }
   }
 
-  &.revealed {
-    .word.bottom {
-      animation: fly-in var(--duration-0);
-    }
+  // Animation states
+  &.revealed .word.bottom {
+    animation: fly-in var(--duration-0);
   }
+
   &:not(.revealed) {
     .word.bottom {
       opacity: 0;
     }
+
     .word.top {
       animation: fly-in var(--duration-0);
     }
   }
 
+  // Navigation section
   .navigation {
     display: grid;
     width: 100%;
     max-width: 500px;
     align-self: end;
 
-    button.toggle-navigation {
+    .toggle-navigation {
       margin: var(--distance-4) 0;
       opacity: var(--opacity-1);
       place-self: center;
     }
+
     &.expanded {
       .toggle-navigation {
         rotate: 180deg;
       }
+
       .interact button {
         opacity: var(--opacity-0);
         color: transparent;
         padding: 0;
       }
     }
+
     .interact {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: var(--distance-4);
+
       button {
         transition: all var(--duration-1);
       }
     }
 
-    .stats {
-      .wrapper {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        gap: var(--distance-4);
-        padding-bottom: var(--distance-4);
+    .stats .wrapper {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: var(--distance-4);
+      padding-bottom: var(--distance-4);
 
-        .notes {
-          place-self: center;
-          text-align: center;
-          padding: var(--distance-2);
-          margin-bottom: var(--distance-2);
+      .notes {
+        place-self: center;
+        text-align: center;
+        padding: var(--distance-2);
+        margin-bottom: var(--distance-2);
 
-          .placeholder {
-            opacity: var(--opacity-0);
-          }
-        }
-
-        .progress {
-          position: relative;
-          border-radius: var(--radius-2);
-          font-size: var(--font-size-0);
-          text-align: center;
-          opacity: var(--opacity-1);
+        .placeholder {
+          opacity: var(--opacity-0);
         }
       }
+
+      .progress {
+        position: relative;
+        border-radius: var(--radius-2);
+        font-size: var(--font-size-0);
+        text-align: center;
+        opacity: var(--opacity-1);
+      }
     }
+
     .full {
       grid-column: span 2;
     }
 
-    button.warning {
+    .warning {
       background-color: var(--col-warning);
       color: var(--col-bg);
     }
   }
 }
 
+// Enter/leave animations
 .enter,
 .leave {
   display: grid;
   align-self: flex-end;
   animation: enter var(--duration-1) ease-in-out;
+
   .wrapper {
     overflow: hidden;
   }
@@ -117,6 +122,7 @@
   animation-direction: reverse;
 }
 
+// Keyframe animations
 @keyframes fly-in {
   from {
     opacity: 0;
@@ -129,6 +135,7 @@
     grid-template-rows: 0fr;
     opacity: 0;
   }
+
   to {
     opacity: 1;
     grid-template-rows: 1fr;

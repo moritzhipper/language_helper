@@ -90,12 +90,26 @@
       top: var(--distance-6);
       right: 0;
       filter: blur(50px);
-      opacity: var(--opacity-1);
       z-index: -1;
-      background-color: var(--col-bg);
       position: absolute;
       width: 100%;
       height: 100%;
+      background-color: var(--col-bg);
+      opacity: var(--opacity-0);
+      transition:
+        opacity var(--duration-1),
+        height var(--duration-1);
+
+      &.enter {
+        @starting-style {
+          opacity: 0;
+          height: 0%;
+        }
+      }
+
+      &.leave {
+        opacity: 0;
+      }
     }
   }
 
@@ -135,14 +149,36 @@
 
 @include isPhone() {
   :host {
+    position: fixed;
+    top: 0;
+    right: 0;
     width: 100vw;
+    height: 100dvh;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
     box-sizing: border-box;
 
     .fake-shadow {
-      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100vw;
+      height: 100dvh;
+      transition:
+        backdrop-filter var(--duration-1),
+        background-color var(--duration-1);
+
+      background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
+      backdrop-filter: blur(30px);
+
+      &.enter {
+        animation: bd-appear var(--duration-1) ease;
+      }
+
+      &.leave {
+        animation: bd-appear var(--duration-1) reverse ease;
+      }
     }
 
     h2 {
@@ -154,17 +190,11 @@
       font-size: var(--font-size-3);
     }
 
-    &.open {
-      height: 100dvh;
-      background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
-      backdrop-filter: blur(30px);
-    }
-
     .toggle {
-      margin: var(--distance-4);
       position: fixed;
       top: 0;
       right: 0;
+      margin: var(--distance-4);
 
       &.open {
         background-color: transparent;
@@ -173,7 +203,7 @@
     }
 
     .link {
-      width: 110vw;
+      width: 150vw;
 
       app-icon-comp {
         width: 50px;
@@ -181,10 +211,10 @@
       }
 
       &.big {
-        padding: var(--distance-2) 0 var(--distance-2) 20vw;
+        padding: var(--distance-2) 0 var(--distance-2) 40vw;
       }
       &.small {
-        padding: var(--distance-0) 0 var(--distance-0) 20vw;
+        padding: var(--distance-0) 0 var(--distance-0) 40vw;
       }
     }
   }
