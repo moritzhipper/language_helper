@@ -1,9 +1,12 @@
 # ToDo
 
 - allow multiple languages
+- add de and het to words in prompts
 
 ## Later
 
+- clean up cards view -> put colltion stuff there?
+- split create cards exactly like i split phrases
 - add cool practice finished reactions (stars? crown?)
 - add social tab
 - erst mal alles bauen, dann capital yo

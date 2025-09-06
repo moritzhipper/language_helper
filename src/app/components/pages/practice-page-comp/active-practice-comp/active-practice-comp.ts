@@ -31,12 +31,21 @@ export class ActivePracticeComp {
   @HostListener('window:keydown', ['$event']) handleKeyDown(
     event: KeyboardEvent
   ) {
+    if (
+      this.showStats() &&
+      ['ArrowUp', 'ArrowDown', 'ArrowLeft'].includes(event.key)
+    ) {
+      this.showStats.set(false)
+      return
+    }
     if (event.key === 'ArrowUp') {
       this.reveal()
     } else if (event.key === 'ArrowLeft' && this.isRevealed()) {
       this.setGuess(false)
+      this.showStats.set(false)
     } else if (event.key === 'ArrowRight' && this.isRevealed()) {
       this.setGuess(true)
+      this.showStats.set(false)
     }
   }
 
