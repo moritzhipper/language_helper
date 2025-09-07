@@ -1,0 +1,68 @@
+@let dir = currentPractice()?.reverseDirection;
+@let topWord =
+  dir ? currentLearnable()?.translation : currentLearnable()?.lexeme;
+@let bottomWord =
+  dir ? currentLearnable()?.lexeme : currentLearnable()?.translation;
+
+<app-page-wrapper-comp icon="learn">
+  <div class="practice-view" [class.revealed]="isRevealed()">
+    <div class="word top">
+      {{ topWord }}
+    </div>
+    <div class="word bottom">
+      {{ bottomWord }}
+    </div>
+
+    <div class="navigation" [class.expanded]="showStats()">
+      <button class="silent toggle-navigation" (click)="toggleStats()">
+        <app-icon-comp type="chevron" class="chevron" [size]="32" />
+      </button>
+
+      @if (showStats()) {
+        <div class="stats" animate.enter="enter" animate.leave="leave">
+          <div class="wrapper">
+            <button class="notes silent full" (click)="editCard()">
+              @if (currentLearnable()?.notes; as notes) {
+                {{ notes }}
+              } @else {
+                <span class="placeholder">( add notes )</span>
+              }
+            </button>
+
+            <div class="progress full">
+              @let sum = summary();
+              <span class="text">
+                {{ sum.correctGuesses }} of {{ sum.guessesDone }} correct |
+                {{ sum.guessesLeft }} left
+              </span>
+            </div>
+            <button class="big warning" (click)="endPracticeEarly()">
+              quit
+            </button>
+            <button type="button" class="big secondary" (click)="editCard()">
+              edit card
+            </button>
+          </div>
+        </div>
+      }
+      <div class="interact">
+        @if (isRevealed()) {
+          <button
+            class="big"
+            (click)="setGuess(false)"
+            [disabled]="showStats()"
+          >
+            I was wrong
+          </button>
+          <button class="big" (click)="setGuess(true)" [disabled]="showStats()">
+            I was right
+          </button>
+        } @else {
+          <button class="big full" (click)="reveal()" [disabled]="showStats()">
+            show
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+</app-page-wrapper-comp>

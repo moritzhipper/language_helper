@@ -28,6 +28,7 @@ const wordsPrompt = () => `
   - Lexeme must always be in the learning language.  
   - Translation must always be in the speaking language.  
   - If the input looks like notes or a vocabulary list, create one card per pair (word → translation).  
+  - if the word is a noun, the corresponding article in front of it 
 `
 
 const phrasesPrompt = () => `

@@ -6,7 +6,12 @@
     <app-icon-comp type="pen" />
   </button>
   @if (selectedLearnableIds().length > 0) {
-    <button (click)="resetLearnableSelection()" class="edit reset fly-in-x-0">
+    <button
+      (click)="resetLearnableSelection()"
+      class="edit reset"
+      animate.enter="fly-in-x-0"
+      animate.leave="fly-out-x"
+    >
       <span>
         {{ selectedLearnableIds().length }}
       </span>
@@ -15,18 +20,27 @@
     @if (selectedCollectionId()) {
       <button
         (click)="removeSelectionFromCollection()"
-        class="edit remove-from-collection fly-in-x-1"
+        class="edit remove-from-collection"
+        animate.enter="fly-in-x-1"
+        animate.leave="fly-out-x"
       >
         <app-icon-comp type="collection-remove" />
       </button>
     }
     <button
       (click)="addToCollection()"
-      class="edit add-to-collection fly-in-x-2"
+      class="edit add-to-collection"
+      animate.enter="fly-in-x-2"
+      animate.leave="fly-out-x"
     >
       <app-icon-comp type="collection-add" />
     </button>
-    <button class="edit trash fly-in-x-3" (click)="removeSelection()">
+    <button
+      class="edit trash"
+      animate.enter="fly-in-x-3"
+      animate.leave="fly-out-x"
+      (click)="removeSelection()"
+    >
       <app-icon-comp type="trash" />
     </button>
   }

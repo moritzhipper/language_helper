@@ -1,11 +1,11 @@
 @if (currentModalConfig(); as modalConf) {
-  <div class="wrapper">
+  <div class="wrapper" animate.leave="fly-out-xy">
     <div class="fake-dialog">
       <ng-container
         [ngComponentOutlet]="modalConf.component"
         [ngComponentOutletInputs]="modalConf.inputs"
       />
     </div>
-    <div class="backdrop"></div>
   </div>
+  <div class="backdrop" animate.enter="enter" animate.leave="leave"></div>
 }

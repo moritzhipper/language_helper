@@ -1,56 +1,58 @@
 @if (showFilter()) {
-  <form [formGroup]="form">
-    <label class="search">
-      <span>search</span>
-      <input type="text" formControlName="search" />
-    </label>
+  <form [formGroup]="form" animate.enter="enter" animate.leave="leave">
+    <div class="wrapper">
+      <label class="search">
+        <span>search</span>
+        <input type="text" formControlName="search" />
+      </label>
 
-    <div class="radios">
-      <app-radio-comp
-        [config]="[
-          { value: null, label: 'all' },
-          { value: 'word' },
-          { value: 'phrase' }
-        ]"
-        formControlName="type"
-        label="type"
-      />
-      <app-radio-comp
-        class="confidence"
-        [config]="[
-          { value: null, label: 'all' },
-          { value: 'low' },
-          { value: 'medium' }
-        ]"
-        formControlName="confidence"
-        label="max confidence"
-      />
+      <div class="radios">
+        <app-radio-comp
+          [config]="[
+            { value: null, label: 'all' },
+            { value: 'word' },
+            { value: 'phrase' }
+          ]"
+          formControlName="type"
+          label="type"
+        />
+        <app-radio-comp
+          class="confidence"
+          [config]="[
+            { value: null, label: 'all' },
+            { value: 'low' },
+            { value: 'medium' }
+          ]"
+          formControlName="confidence"
+          label="max confidence"
+        />
 
-      <app-radio-comp
-        [config]="[
-          { value: null, label: 'all' },
-          { value: 'newest' },
-          { value: 3, label: '< 3 days' }
-        ]"
-        formControlName="age"
-        label="age"
-      />
+        <app-radio-comp
+          [config]="[
+            { value: null, label: 'all' },
+            { value: 'newest' },
+            { value: 3, label: '< 3 days' }
+          ]"
+          formControlName="age"
+          label="age"
+        />
 
-      <app-radio-comp
-        [config]="[
-          { value: 'created' },
-          { value: 'lexeme' },
-          { value: 'confidence' }
-        ]"
-        formControlName="orderBy"
-        label="order by"
-      />
+        <app-radio-comp
+          [config]="[
+            { value: 'created' },
+            { value: 'lexeme' },
+            { value: 'confidence' }
+          ]"
+          formControlName="orderBy"
+          label="order by"
+        />
 
-      <app-radio-comp
-        [config]="[{ value: 'asc' }, { value: 'desc' }]"
-        formControlName="order"
-        label="order"
-      />
+        <app-radio-comp
+          [config]="[{ value: 'asc' }, { value: 'desc' }]"
+          formControlName="order"
+          label="order"
+        />
+      </div>
     </div>
   </form>
 }

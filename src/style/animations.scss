@@ -36,13 +36,76 @@
 @keyframes fly-in-xy {
   from {
     opacity: 0;
-    translate: 20px 5px;
+    translate: 60px 10px;
+  }
+}
+
+.fly-out-xy {
+  animation: fly-out-xy var(--duration-1) ease-out;
+}
+
+@keyframes fly-out-xy {
+  to {
+    opacity: 0;
+    translate: 10px 20px;
+  }
+}
+
+.fly-out-y {
+  animation: fly-out-y var(--duration-1) ease-out;
+}
+
+@keyframes fly-out-x {
+  to {
+    opacity: 0;
+    translate: 10px 0px;
+  }
+}
+
+.fly-out-x {
+  animation: fly-out-x var(--duration-1) ease-out;
+}
+
+@keyframes fly-out-xy {
+  to {
+    opacity: 0;
+
+    translate: 0px 20px;
   }
 }
 
 @keyframes bd-appear {
   from {
     opacity: 0;
+    background-color: transparent;
     backdrop-filter: blur(0px);
+  }
+}
+
+// Enter/leave animations
+.enter,
+.leave {
+  display: grid;
+  align-self: flex-end;
+  animation: enter var(--duration-1) ease-in-out;
+
+  .wrapper {
+    overflow: hidden;
+  }
+}
+
+.leave {
+  animation-direction: reverse;
+}
+
+@keyframes enter {
+  from {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    grid-template-rows: 1fr;
   }
 }
