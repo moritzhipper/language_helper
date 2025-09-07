@@ -1,6 +1,6 @@
 @use '../../../../../style/mixins.scss' as *;
 
-form {
+form .wrapper {
   margin-bottom: var(--distance-6);
 }
 
@@ -33,6 +33,10 @@ form {
 
     .icon.warn {
       margin-right: var(--distance-1);
+    }
+
+    .chevron {
+      transition: rotate var(--duration-1);
     }
 
     .chevron:not(.rotated) {

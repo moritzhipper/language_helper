@@ -70,3 +70,31 @@
     backdrop-filter: blur(0px);
   }
 }
+
+// Enter/leave animations
+.enter,
+.leave {
+  display: grid;
+  align-self: flex-end;
+  animation: enter var(--duration-1) ease-in-out;
+
+  .wrapper {
+    overflow: hidden;
+  }
+}
+
+.leave {
+  animation-direction: reverse;
+}
+
+@keyframes enter {
+  from {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    grid-template-rows: 1fr;
+  }
+}

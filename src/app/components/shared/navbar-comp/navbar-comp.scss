@@ -98,7 +98,7 @@
       opacity: var(--opacity-0);
 
       &.enter {
-        animation: bd-appear-desktop var(--duration-1) ease;
+        animation: bd-appear-desktop var(--duration-3) ease;
       }
 
       &.leave {
