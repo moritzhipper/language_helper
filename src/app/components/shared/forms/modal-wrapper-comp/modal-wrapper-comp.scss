@@ -3,11 +3,10 @@
 .wrapper {
   z-index: 30;
   position: fixed;
-  top: 0;
-  left: 0;
-  display: grid;
   height: 100dvh;
   width: 100vw;
+  top: 0;
+  left: 0;
   display: grid;
 }
 
@@ -25,9 +24,22 @@
 }
 
 .backdrop {
-  animation: bd-appear var(--duration-1) ease;
+  position: fixed;
+  height: 100dvh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 29;
   background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
   backdrop-filter: blur(30px);
+
+  &.enter {
+    animation: bd-appear var(--duration-1) ease;
+  }
+
+  &.leave {
+    animation: bd-appear var(--duration-1) ease reverse;
+  }
 }
 
 @include isPhone() {

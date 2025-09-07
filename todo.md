@@ -2,6 +2,7 @@
 
 - allow multiple languages
 - add de and het to words in prompts
+- enter leave directive
 
 ## Later
 

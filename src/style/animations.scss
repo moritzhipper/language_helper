@@ -51,6 +51,18 @@
   }
 }
 
+.fly-out-y {
+  animation: fly-out-y var(--duration-1) ease-out;
+}
+
+@keyframes fly-out-xy {
+  to {
+    opacity: 0;
+
+    translate: 0px 20px;
+  }
+}
+
 @keyframes bd-appear {
   from {
     opacity: 0;
