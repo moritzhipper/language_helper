@@ -96,19 +96,13 @@
       height: 100%;
       background-color: var(--col-bg);
       opacity: var(--opacity-0);
-      transition:
-        opacity var(--duration-1),
-        height var(--duration-1);
 
       &.enter {
-        @starting-style {
-          opacity: 0;
-          height: 0%;
-        }
+        animation: bd-appear-desktop var(--duration-1) ease;
       }
 
       &.leave {
-        opacity: 0;
+        animation: bd-appear-desktop var(--duration-1) reverse ease;
       }
     }
   }
@@ -122,27 +116,33 @@
     font-size: var(--font-size-2);
   }
 
-  .link {
-    border-radius: var(--radius-3);
-    transition:
-      scale var(--duration-1) var(--overshot),
-      outline var(--duration-0);
+  .links-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--distance-3);
 
-    app-icon-comp {
-      width: 40px;
-      height: 40px;
-    }
+    .link {
+      border-radius: var(--radius-3);
+      transition:
+        scale var(--duration-1) var(--overshot),
+        outline var(--duration-0);
 
-    &.big {
-      padding: var(--distance-2) var(--distance-6);
-    }
+      app-icon-comp {
+        width: 40px;
+        height: 40px;
+      }
 
-    &.small {
-      padding: var(--distance-0) var(--distance-6);
-    }
+      &.big {
+        padding: var(--distance-2) var(--distance-6);
+      }
 
-    &:hover {
-      scale: 1.05;
+      &.small {
+        padding: var(--distance-0) var(--distance-6);
+      }
+
+      &:hover {
+        scale: 1.05;
+      }
     }
   }
 }
@@ -152,23 +152,18 @@
     position: fixed;
     top: 0;
     right: 0;
-    width: 100vw;
-    height: 100dvh;
+    display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
 
     .fake-shadow {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       z-index: -1;
       width: 100vw;
       height: 100dvh;
-      transition:
-        backdrop-filter var(--duration-1),
-        background-color var(--duration-1);
-
       background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
       backdrop-filter: blur(30px);
 
@@ -192,9 +187,10 @@
 
     .toggle {
       position: fixed;
+      margin: var(--distance-4);
       top: 0;
       right: 0;
-      margin: var(--distance-4);
+      place-self: end;
 
       &.open {
         background-color: transparent;
@@ -202,19 +198,29 @@
       }
     }
 
-    .link {
-      width: 150vw;
+    .links-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--distance-4);
+      width: 100vw;
+      height: 100dvh;
 
-      app-icon-comp {
-        width: 50px;
-        height: 50px;
-      }
+      .link {
+        width: 170vw;
 
-      &.big {
-        padding: var(--distance-2) 0 var(--distance-2) 40vw;
-      }
-      &.small {
-        padding: var(--distance-0) 0 var(--distance-0) 40vw;
+        app-icon-comp {
+          width: 50px;
+          height: 50px;
+        }
+
+        &.big {
+          padding: var(--distance-2) 0 var(--distance-2) 50vw;
+        }
+        &.small {
+          padding: var(--distance-0) 0 var(--distance-0) 50vw;
+        }
       }
     }
   }
@@ -236,5 +242,12 @@
   30%,
   50% {
     opacity: var(--opacity-0);
+  }
+}
+
+@keyframes bd-appear-desktop {
+  from {
+    opacity: 0;
+    height: 0%;
   }
 }
