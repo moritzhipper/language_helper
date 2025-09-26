@@ -30,6 +30,12 @@ export type LearnableCollection = {
   learnableIDs: string[]
   practicedDates: Date[] // put Practices here?
 }
+
+export type LearnablePsuedoCollection = {
+  id: string
+  name: string
+  learnableIDs: string[]
+}
 // addedLatestIDs: string[]
 
 export type LearnablesStoreType = {

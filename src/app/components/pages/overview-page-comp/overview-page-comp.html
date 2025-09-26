@@ -17,7 +17,7 @@
       </span>
       <app-icon-comp type="reset" />
     </button>
-    @if (selectedCollectionId()) {
+    @if (selectedCollection()) {
       <button
         (click)="removeSelectionFromCollection()"
         class="edit remove-from-collection"
@@ -63,6 +63,8 @@
         }
       </select>
     }
+
+    <app-collection-info-comp [collection]="selectedCollection()" />
 
     @if (collectionIsEmpty()) {
       <p>collection is empty</p>
