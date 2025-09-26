@@ -5,8 +5,6 @@ import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
   LearnableBase,
-  LearnableCollection,
-  LearnablePsuedoCollection,
   LearnablesFilterConfig
 } from '../../../types_and_schemas/types'
 import { removeDuplicates } from '../../../utils/genaral-utils'
@@ -33,8 +31,7 @@ import { LearnableComp } from './learnable-comp/learnable-comp'
     LearnableComp,
     PageWrapperComp,
     IconComp,
-    FilterFormComp,
-    CollectionInfoComp
+    FilterFormComp
   ]
 })
 export class OverviewComp {
@@ -42,47 +39,53 @@ export class OverviewComp {
   private readonly _toastService = inject(ToastService)
   private readonly _modalService = inject(ModalService)
 
-  private _learnablesInSelectedCollection = computed(() => {
-    const selectedCollection = this.selectedCollection()
-    if (!selectedCollection) return this._lStore.learnables()
-
-    return this._lStore
-      .learnables()
-      .filter((l) => selectedCollection.learnableIDs.includes(l.id))
-  })
-
   pseudoCollections = this._lStore.pseudoCollections
-  pseudoCollectionIsSelected = computed(() =>
-    this._lStore
-      .pseudoCollections()
-      .some((c) => c.id === this.selectedCollection().id)
+  nonPseudoCollectionIsSelected = computed(() =>
+    this._lStore.collections().some((c) => c.id === this.selectedCollectionId())
   )
 
   collectionIsEmpty = computed(
-    () => this._learnablesInSelectedCollection().length === 0
+    () => this.selectedCollectionLearnableIds().length === 0
   )
 
   userHasCards = computed(() => this._lStore.learnables().length !== 0)
   collections = this._lStore.collections
 
-  selectedCollection = signal<LearnableCollection | LearnablePsuedoCollection>(
-    this.pseudoCollections()[0]
-  )
-
-  // learnables after filtering
   private filter = signal<LearnablesFilterConfig | null>(null)
-  selectedLearnableIds = signal<string[]>([])
 
-  filteredLearnables = computed(() => {
-    const filter = this.filter()
-    const learnables = this._learnablesInSelectedCollection()
-    if (!filter) return learnables
+  selectedCollectionId = signal<string>(this.pseudoCollections()[0].id)
 
-    return filterLearnables(this._learnablesInSelectedCollection(), filter)
+  selectedCollectionLearnableIds = computed(() => {
+    const collections = [
+      ...this._lStore.collections(),
+      ...this._lStore.pseudoCollections()
+    ]
+
+    const selectedCollection = collections.find(
+      (c) => c.id === this.selectedCollectionId()
+    )
+
+    if (!selectedCollection) return []
+
+    return selectedCollection.learnableIDs
   })
 
+  // learnables after filtering
+  visibleLearnables = computed(() => {
+    const filter = this.filter()
+    const learnables = this._lStore
+      .learnables()
+      .filter((l) => this.selectedCollectionLearnableIds().includes(l.id))
+
+    if (!filter) return learnables
+
+    return filterLearnables(learnables, filter)
+  })
+
+  selectedLearnableIds = signal<string[]>([])
+
   addVisibleToSelection() {
-    const visibleLearnableIDs = this.filteredLearnables().map((l) => l.id)
+    const visibleLearnableIDs = this.visibleLearnables().map((l) => l.id)
 
     const newSelectionIDs = removeDuplicates([
       ...visibleLearnableIDs,
@@ -107,9 +110,9 @@ export class OverviewComp {
   }
 
   async bulkEdit() {
-    const learnables = this._learnablesInSelectedCollection().filter((l) =>
-      this.selectedLearnableIds().includes(l.id)
-    )
+    const learnables = this._lStore
+      .learnables()
+      .filter((l) => this.selectedLearnableIds().includes(l.id))
 
     const result = await this._modalService.open<ConfirmationType>(
       'bulk-edit',
@@ -160,7 +163,7 @@ export class OverviewComp {
   async removeSelectionFromCollection() {
     const selectedIDs = this.selectedLearnableIds()
     this._lStore.editCollectionLearnables(
-      this.selectedCollection().id,
+      this.selectedCollectionId(),
       [],
       [...selectedIDs]
     )
@@ -204,9 +207,9 @@ export class OverviewComp {
     this.selectedLearnableIds.set(this._latestIDs())
 
     // add to collection, if user has one selected that is not a pseudo collection
-    if (!this.pseudoCollectionIsSelected()) {
+    if (this.nonPseudoCollectionIsSelected()) {
       this._lStore.editCollectionLearnables(
-        this.selectedCollection().id,
+        this.selectedCollectionId(),
         this._latestIDs(),
         []
       )
@@ -249,13 +252,16 @@ export class OverviewComp {
 
   onCollectionChange(event: Event) {
     const selection = (event.target as HTMLSelectElement).value
-
+    this.selectedCollectionId.set(selection)
     this.selectedLearnableIds.set([])
-    const colection = this.collections().find((c) => c.id === selection)
-    if (colection) this.selectedCollection.set(colection)
   }
 
   selectDefaultColIfPseudoEmpty() {
-    this.selectedCollection.set(this.pseudoCollections()[0])
+    if (
+      !this.nonPseudoCollectionIsSelected() &&
+      this.selectedCollectionLearnableIds().length === 0
+    ) {
+      this.selectedCollectionId.set(this.pseudoCollections()[0].id)
+    }
   }
 }
