@@ -49,27 +49,19 @@
 @if (userHasCards()) {
   <app-page-wrapper-comp title="Cards" desktopMode="full" icon="card">
     @if (collections().length !== 0) {
-      <div class="collections">
+      <select class="collections" (change)="onCollectionChange($event)">
         @for (pseudo of pseudoCollections(); track pseudo.name) {
-          <button
-            class="silent collection"
-            (click)="selectPseudoCollection(pseudo.name)"
-            [class.selected]="selectedPseudoCollectionName() === pseudo.name"
-          >
+          <option [value]="pseudo.id">
             {{ pseudo.name }}
-          </button>
+          </option>
         }
 
         @for (collection of collections(); track collection.id) {
-          <button
-            class="silent collection"
-            [class.selected]="selectedCollectionId() === collection.id"
-            (click)="selectCollection(collection.id)"
-          >
+          <option [value]="collection.id">
             {{ collection.name }}
-          </button>
+          </option>
         }
-      </div>
+      </select>
     }
 
     @if (collectionIsEmpty()) {

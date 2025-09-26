@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  signal,
-  untracked
-} from '@angular/core'
+import { Component, computed, inject, signal } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
@@ -47,17 +40,16 @@ export class OverviewComp {
   private _learnablesInSelectedCollection = computed(() => {
     const learnables = this._lStore.learnables()
     const { collections, pseudoCollections } = this._lStore
+    const selectedCollectionId = this.selectedCollectionId()
 
-    const selectedCol = collections().find(
-      (c) => c.id === this.selectedCollectionId()
-    )
+    const selectedCol = collections().find((c) => c.id === selectedCollectionId)
 
     if (selectedCol) {
       return learnables.filter((l) => selectedCol.learnableIDs.includes(l.id))
     }
 
     const selectedPseudoCol = pseudoCollections().find(
-      (c) => c.name === this.selectedPseudoCollectionName()
+      (c) => c.id === selectedCollectionId
     )
 
     if (selectedPseudoCol) {
@@ -66,21 +58,11 @@ export class OverviewComp {
       )
     }
 
+    console.warn(
+      `No collection found for id ${selectedCollectionId}, returning empty list`
+    )
     return []
   })
-
-  constructor() {
-    effect(() => {
-      const isEmpty = this.collectionIsEmpty()
-      const isPseudoCollection = !!this.selectedPseudoCollectionName()
-
-      untracked(() => {
-        if (isPseudoCollection && isEmpty) {
-          this.selectPseudoCollection('All')
-        }
-      })
-    })
-  }
 
   pseudoCollections = this._lStore.pseudoCollections
 
@@ -92,7 +74,7 @@ export class OverviewComp {
   collections = this._lStore.collections
 
   selectedPseudoCollectionName = signal<string | null>('All')
-  selectedCollectionId = signal<string | null>(null)
+  selectedCollectionId = signal<string>(this.pseudoCollections()[0].id)
 
   // learnables after filtering
   private filter = signal<LearnablesFilterConfig | null>(null)
@@ -270,21 +252,14 @@ export class OverviewComp {
     this.filter.set(filter)
   }
 
-  selectCollection(identifier: string | null) {
-    if (identifier !== this.selectedCollectionId()) {
-      this.selectedLearnableIds.set([])
-    }
-    this.selectedPseudoCollectionName.set(null)
-    this.selectedCollectionId.set(identifier)
+  onCollectionChange(event: Event) {
+    const selection = (event.target as HTMLSelectElement).value
+    this.selectedLearnableIds.set([])
+    this.selectedCollectionId.set(selection)
   }
 
-  selectPseudoCollection(name: string | null) {
-    if (name !== this.selectedPseudoCollectionName()) {
-      this.selectedLearnableIds.set([])
-    }
-    this.selectedCollectionId.set(null)
-    this.selectedPseudoCollectionName.set(name)
+  selectDefaultColIfPseudoEmpty() {
+    const firstPseudoCollectionID = this.pseudoCollections()[0].id
+    this.selectedCollectionId.set(firstPseudoCollectionID)
   }
-
-  selectDefaultColIfPseudoEmpty() {}
 }

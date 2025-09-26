@@ -45,6 +45,7 @@ export const LearnablesStore = signalStore(
       let pseudoCollections: {
         name: string
         learnableIDs: string[]
+        id: string
       }[] = []
 
       const collectionlessIds = getCollectionlessLearnableIds(
@@ -54,13 +55,15 @@ export const LearnablesStore = signalStore(
 
       pseudoCollections.push({
         name: 'All',
-        learnableIDs: learnables().map((l) => l.id)
+        learnableIDs: learnables().map((l) => l.id),
+        id: crypto.randomUUID()
       })
 
       if (collectionlessIds.length > 0) {
         pseudoCollections.push({
           name: 'Unsorted',
-          learnableIDs: collectionlessIds
+          learnableIDs: collectionlessIds,
+          id: crypto.randomUUID()
         })
       }
 
