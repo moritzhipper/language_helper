@@ -1,6 +1,6 @@
 # ToDo
 
-- allow multiple languages
+- remove collections, add dropdwon to cards, replace with shared
 - be allen karten text: hier findest du alle deine karten
 - bei unsorted: hier alle karten ohne collection
 - bei allen anderen
@@ -12,6 +12,7 @@
   - shared with you
   - when duplicate, add id to imported collection
   - import (from file)
+- allow multiple languages
 
 ## Later
 

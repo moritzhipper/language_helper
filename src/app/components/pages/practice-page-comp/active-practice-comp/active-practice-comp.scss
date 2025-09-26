@@ -60,6 +60,7 @@
         opacity: var(--opacity-0);
         color: transparent;
         padding: 0;
+        margin-top: var(--distance-4);
       }
     }
 
@@ -77,13 +78,11 @@
       display: grid;
       grid-template-columns: 1fr 2fr;
       gap: var(--distance-4);
-      padding-bottom: var(--distance-4);
 
       .notes {
         place-self: center;
         text-align: center;
         padding: var(--distance-2);
-        margin-bottom: var(--distance-2);
 
         .placeholder {
           opacity: var(--opacity-0);
