@@ -11,6 +11,7 @@ import { AiService } from '../services/ai.service'
 import {
   LearnableBase,
   LearnablePartialWithId,
+  LearnablePsuedoCollection,
   StoreExport
 } from '../types_and_schemas/types'
 import { getCollectionlessLearnableIds } from '../utils/genaral-utils'
@@ -42,11 +43,7 @@ export const LearnablesStore = signalStore(
       getCollectionlessLearnableIds(learnables(), collections())
     ),
     pseudoCollections: computed(() => {
-      let pseudoCollections: {
-        name: string
-        learnableIDs: string[]
-        id: string
-      }[] = []
+      const pseudoCollections: LearnablePsuedoCollection[] = []
 
       const collectionlessIds = getCollectionlessLearnableIds(
         learnables(),
@@ -56,14 +53,14 @@ export const LearnablesStore = signalStore(
       pseudoCollections.push({
         name: 'All',
         learnableIDs: learnables().map((l) => l.id),
-        id: crypto.randomUUID()
+        id: 'all'
       })
 
       if (collectionlessIds.length > 0) {
         pseudoCollections.push({
           name: 'Unsorted',
           learnableIDs: collectionlessIds,
-          id: crypto.randomUUID()
+          id: 'unsorted'
         })
       }
 

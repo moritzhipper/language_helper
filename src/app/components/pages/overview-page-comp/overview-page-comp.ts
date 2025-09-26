@@ -56,15 +56,27 @@ export class OverviewComp {
   selectedCollectionId = signal<string>(this.pseudoCollections()[0].id)
 
   selectedCollection = computed(() => {
-    const collections = [
-      ...this._lStore.collections(),
-      ...this._lStore.pseudoCollections()
-    ]
+    const selectedId = this.selectedCollectionId()
 
-    return (
-      collections.find((c) => c.id === this.selectedCollectionId()) ??
-      this.pseudoCollections()[0]
-    )
+    const selectedCollection = [
+      ...this.collections(),
+      ...this.pseudoCollections()
+    ].find((c) => c.id === selectedId)
+
+    const isUserCollection =
+      selectedCollection && this._lStore.collections().some((c) => selectedId)
+
+    const isNonEmptyPseudoCollection =
+      selectedCollection &&
+      selectedCollection.learnableIDs.length !== 0 &&
+      !isUserCollection
+
+    if (isUserCollection || isNonEmptyPseudoCollection) {
+      return selectedCollection
+    }
+
+    // default to 'all' collection if 'unsorted' is left empty
+    return this.pseudoCollections()[0]
   })
 
   // learnables after filtering
@@ -121,8 +133,6 @@ export class OverviewComp {
     this._lStore.updateLearnables(update)
     this._lStore.removeLearnables(deleteIDs)
     this._addAndMarkLearnables(add)
-
-    this.selectDefaultColIfPseudoEmpty()
   }
 
   resetLearnableSelection() {
@@ -151,7 +161,6 @@ export class OverviewComp {
     const collectionName =
       createName || this.collections().find((c) => c.id === addToId)?.name
 
-    this.selectDefaultColIfPseudoEmpty()
     this._finishEditAndShowToast(
       `Added ${selectedIDs.length} cards to ${collectionName}`
     )
@@ -182,7 +191,6 @@ export class OverviewComp {
 
     if (confirm.type !== 'confirm') return
     this._lStore.removeLearnables(this.selectedLearnableIds())
-    this.selectDefaultColIfPseudoEmpty()
     this._finishEditAndShowToast(`Removed ${deleteCardsAmount} cards`)
   }
 
@@ -251,14 +259,5 @@ export class OverviewComp {
     const selection = (event.target as HTMLSelectElement).value
     this.selectedCollectionId.set(selection)
     this.selectedLearnableIds.set([])
-  }
-
-  selectDefaultColIfPseudoEmpty() {
-    if (
-      !this.nonPseudoCollectionIsSelected() &&
-      this.selectedCollection().learnableIDs.length === 0
-    ) {
-      this.selectedCollectionId.set(this.pseudoCollections()[0].id)
-    }
   }
 }

@@ -32,10 +32,11 @@ export type LearnableCollection = {
 }
 
 export type LearnablePsuedoCollection = {
-  id: string
-  name: string
+  name: 'All' | 'Unsorted'
   learnableIDs: string[]
+  id: string
 }
+
 // addedLatestIDs: string[]
 
 export type LearnablesStoreType = {
