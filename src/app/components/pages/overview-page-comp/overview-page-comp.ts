@@ -151,20 +151,21 @@ export class OverviewComp {
     const collectionName =
       createName || this.collections().find((c) => c.id === addToId)?.name
 
-    this._toastService.showToast({
-      message: `Added ${selectedIDs.length} cards to ${collectionName}`,
-      type: 'info'
-    })
-
     this.selectDefaultColIfPseudoEmpty()
-    this.selectedLearnableIds.set([])
+    this._finishEditAndShowToast(
+      `Added ${selectedIDs.length} cards to ${collectionName}`
+    )
   }
 
   async removeSelectionFromCollection() {
+    const selectedIDs = this.selectedLearnableIds()
     this._lStore.editCollectionLearnables(
       this.selectedCollection().id,
       [],
-      [...this.selectedLearnableIds()]
+      [...selectedIDs]
+    )
+    this._finishEditAndShowToast(
+      `Removed ${selectedIDs.length} cards from collection`
     )
   }
 
@@ -182,12 +183,12 @@ export class OverviewComp {
     if (confirm.type !== 'confirm') return
     this._lStore.removeLearnables(this.selectedLearnableIds())
     this.selectDefaultColIfPseudoEmpty()
-    this.selectedLearnableIds.set([])
+    this._finishEditAndShowToast(`Removed ${deleteCardsAmount} cards`)
+  }
 
-    this._toastService.showToast({
-      message: `Removed ${deleteCardsAmount} cards`,
-      type: 'info'
-    })
+  private _finishEditAndShowToast(message: string) {
+    this.selectedLearnableIds.set([])
+    this._toastService.showToast({ message, type: 'info' })
   }
 
   private _addAndMarkLearnables(learnables: LearnableBase[]) {
