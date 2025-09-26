@@ -45,7 +45,7 @@ export class OverviewComp {
   )
 
   collectionIsEmpty = computed(
-    () => this.selectedCollectionLearnableIds().length === 0
+    () => this.selectedCollection().learnableIDs.length === 0
   )
 
   userHasCards = computed(() => this._lStore.learnables().length !== 0)
@@ -55,19 +55,16 @@ export class OverviewComp {
 
   selectedCollectionId = signal<string>(this.pseudoCollections()[0].id)
 
-  selectedCollectionLearnableIds = computed(() => {
+  selectedCollection = computed(() => {
     const collections = [
       ...this._lStore.collections(),
       ...this._lStore.pseudoCollections()
     ]
 
-    const selectedCollection = collections.find(
-      (c) => c.id === this.selectedCollectionId()
+    return (
+      collections.find((c) => c.id === this.selectedCollectionId()) ??
+      this.pseudoCollections()[0]
     )
-
-    if (!selectedCollection) return []
-
-    return selectedCollection.learnableIDs
   })
 
   // learnables after filtering
@@ -75,7 +72,7 @@ export class OverviewComp {
     const filter = this.filter()
     const learnables = this._lStore
       .learnables()
-      .filter((l) => this.selectedCollectionLearnableIds().includes(l.id))
+      .filter((l) => this.selectedCollection().learnableIDs.includes(l.id))
 
     if (!filter) return learnables
 
@@ -259,7 +256,7 @@ export class OverviewComp {
   selectDefaultColIfPseudoEmpty() {
     if (
       !this.nonPseudoCollectionIsSelected() &&
-      this.selectedCollectionLearnableIds().length === 0
+      this.selectedCollection().learnableIDs.length === 0
     ) {
       this.selectedCollectionId.set(this.pseudoCollections()[0].id)
     }
