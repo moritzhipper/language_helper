@@ -1,4 +1,3 @@
-{{ selectedCollection().name }}
 <div class="edit-bubbles">
   <button (click)="addNew()" class="create ai">
     <app-icon-comp type="magic" />
@@ -50,7 +49,7 @@
 @if (userHasCards()) {
   <app-page-wrapper-comp title="Cards" desktopMode="full" icon="card">
     @if (collections().length !== 0) {
-      <select class="collections" (change)="onCollectionChange($event)">
+      <select class="collections" [(ngModel)]="selectedCollectionId">
         @for (pseudo of pseudoCollections(); track pseudo.name) {
           <option [value]="pseudo.id">
             {{ pseudo.name }}

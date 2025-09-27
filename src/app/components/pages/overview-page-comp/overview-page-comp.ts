@@ -1,5 +1,11 @@
-import { Component, computed, inject, signal } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
+import {
+  Component,
+  computed,
+  inject,
+  linkedSignal,
+  signal
+} from '@angular/core'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
@@ -31,7 +37,8 @@ import { LearnableComp } from './learnable-comp/learnable-comp'
     LearnableComp,
     PageWrapperComp,
     IconComp,
-    FilterFormComp
+    FilterFormComp,
+    FormsModule
   ]
 })
 export class OverviewComp {
@@ -53,30 +60,25 @@ export class OverviewComp {
 
   private filter = signal<LearnablesFilterConfig | null>(null)
 
-  selectCollectionId(id: string) {
-    const isNonEmptyPseudoCollection =
-      this.pseudoCollections().find((c) => c.id === id)?.learnableIDs.length !==
-      0
-
-    const isUserCollection = this._lStore.collections().some((c) => id === c.id)
-    if (isUserCollection || isNonEmptyPseudoCollection) {
-      this.selectedCollectionId.set(id)
-    } else {
-      // default to 'all' collection if 'unsorted' is left empty
-      this.selectedCollectionId.set(this.pseudoCollections()[0].id)
+  // select fallback collection, should userselected collection not exist anymore
+  // this can happen, after a pseudocollection is dissolved because all its cards were removed
+  selectedCollectionId = linkedSignal<string[], string>({
+    source: computed(() =>
+      [...this.pseudoCollections(), ...this.collections()].map((c) => c.id)
+    ),
+    computation: (isss, prev) => {
+      const previousValue = prev?.value
+      if (previousValue && isss.includes(previousValue)) return previousValue
+      return isss[0]
     }
-  }
-
-  selectedCollectionId = signal<string>(this.pseudoCollections()[0].id)
-
-  selectedCollection = computed(() => {
-    const selectedCollection = [
-      ...this.collections(),
-      ...this.pseudoCollections()
-    ].find((c) => c.id === this.selectedCollectionId())
-
-    return selectedCollection || this.pseudoCollections()[0]
   })
+
+  selectedCollection = computed(
+    () =>
+      [...this.collections(), ...this.pseudoCollections()].find(
+        (c) => c.id === this.selectedCollectionId()
+      )!
+  )
 
   // learnables after filtering
   visibleLearnables = computed(() => {
@@ -252,11 +254,5 @@ export class OverviewComp {
 
   updateFilter(filter: LearnablesFilterFormType) {
     this.filter.set(filter)
-  }
-
-  onCollectionChange(event: Event) {
-    const selection = (event.target as HTMLSelectElement).value
-    this.selectCollectionId(selection)
-    this.selectedLearnableIds.set([])
   }
 }
