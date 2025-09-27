@@ -53,30 +53,29 @@ export class OverviewComp {
 
   private filter = signal<LearnablesFilterConfig | null>(null)
 
+  selectCollectionId(id: string) {
+    const isNonEmptyPseudoCollection =
+      this.pseudoCollections().find((c) => c.id === id)?.learnableIDs.length !==
+      0
+
+    const isUserCollection = this._lStore.collections().some((c) => id === c.id)
+    if (isUserCollection || isNonEmptyPseudoCollection) {
+      this.selectedCollectionId.set(id)
+    } else {
+      // default to 'all' collection if 'unsorted' is left empty
+      this.selectedCollectionId.set(this.pseudoCollections()[0].id)
+    }
+  }
+
   selectedCollectionId = signal<string>(this.pseudoCollections()[0].id)
 
   selectedCollection = computed(() => {
-    const selectedId = this.selectedCollectionId()
-
     const selectedCollection = [
       ...this.collections(),
       ...this.pseudoCollections()
-    ].find((c) => c.id === selectedId)
+    ].find((c) => c.id === this.selectedCollectionId())
 
-    const isUserCollection =
-      selectedCollection && this._lStore.collections().some((c) => selectedId)
-
-    const isNonEmptyPseudoCollection =
-      selectedCollection &&
-      selectedCollection.learnableIDs.length !== 0 &&
-      !isUserCollection
-
-    if (isUserCollection || isNonEmptyPseudoCollection) {
-      return selectedCollection
-    }
-
-    // default to 'all' collection if 'unsorted' is left empty
-    return this.pseudoCollections()[0]
+    return selectedCollection || this.pseudoCollections()[0]
   })
 
   // learnables after filtering
@@ -257,7 +256,7 @@ export class OverviewComp {
 
   onCollectionChange(event: Event) {
     const selection = (event.target as HTMLSelectElement).value
-    this.selectedCollectionId.set(selection)
+    this.selectCollectionId(selection)
     this.selectedLearnableIds.set([])
   }
 }
