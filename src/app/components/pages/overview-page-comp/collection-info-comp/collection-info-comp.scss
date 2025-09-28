@@ -1,0 +1,48 @@
+@use '../../../../../style/mixins.scss' as *;
+
+:host {
+  display: grid;
+  gap: var(--distance-2);
+  position: relative;
+}
+h2 {
+  top: 0;
+  font-size: var(--font-size-4);
+  position: absolute;
+  opacity: var(--opacity-0);
+
+  z-index: -1;
+}
+.info {
+  padding-top: calc(var(--font-size-4) - var(--distance-4));
+}
+.interact {
+  display: flex;
+  gap: var(--distance-2);
+
+  button {
+    background-color: rgb(from var(--col-primary) r g b / 1);
+    border-radius: var(--radius-1);
+    color: var(--col-bg);
+  }
+}
+
+@include isDesktop() {
+  .interact {
+    button {
+      padding: var(--distance-0) var(--distance-4);
+    }
+  }
+}
+
+@include isPhone() {
+  .interact {
+    width: 100%;
+    button {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: var(--distance-0);
+    }
+  }
+}

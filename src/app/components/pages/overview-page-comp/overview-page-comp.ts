@@ -13,7 +13,10 @@ import {
   LearnableBase,
   LearnablesFilterConfig
 } from '../../../types_and_schemas/types'
-import { removeDuplicates } from '../../../utils/genaral-utils'
+import {
+  calculateAverageConfidencePercent,
+  removeDuplicates
+} from '../../../utils/genaral-utils'
 import { filterDoubleEntries } from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
@@ -46,17 +49,17 @@ export class OverviewComp {
   private readonly _toastService = inject(ToastService)
   private readonly _modalService = inject(ModalService)
 
+  collections = this._lStore.collections
   pseudoCollections = this._lStore.pseudoCollections
   nonPseudoCollectionIsSelected = computed(() =>
     this._lStore.collections().some((c) => c.id === this.selectedCollectionId())
   )
 
   collectionIsEmpty = computed(
-    () => this.selectedCollection().learnableIDs.length === 0
+    () => this._allCollectionLearnables().length === 0
   )
 
   userHasCards = computed(() => this._lStore.learnables().length !== 0)
-  collections = this._lStore.collections
 
   private filter = signal<LearnablesFilterConfig | null>(null)
 
@@ -80,12 +83,20 @@ export class OverviewComp {
       )!
   )
 
+  private _allCollectionLearnables = computed(() =>
+    this._lStore
+      .learnables()
+      .filter((l) => this.selectedCollection().learnableIDs.includes(l.id))
+  )
+
+  collectionAvgConfidencePercent = computed(() =>
+    calculateAverageConfidencePercent(this._allCollectionLearnables())
+  )
+
   // learnables after filtering
   visibleLearnables = computed(() => {
     const filter = this.filter()
-    const learnables = this._lStore
-      .learnables()
-      .filter((l) => this.selectedCollection().learnableIDs.includes(l.id))
+    const learnables = this._allCollectionLearnables()
 
     if (!filter) return learnables
 
@@ -219,12 +230,17 @@ export class OverviewComp {
         this._latestIDs(),
         []
       )
-    }
 
-    this._toastService.showToast({
-      message: `created ${uniqueLearnables.length} cards`,
-      type: 'info'
-    })
+      this._toastService.showToast({
+        message: `created ${uniqueLearnables.length} cards and added them to collection ${this.selectedCollection().name}`,
+        type: 'info'
+      })
+    } else {
+      this._toastService.showToast({
+        message: `created ${uniqueLearnables.length} cards`,
+        type: 'info'
+      })
+    }
 
     // show skipped reminder, when user tried creating one that already exists
     const filteredLearnablesCount = learnables.length - uniqueLearnables.length

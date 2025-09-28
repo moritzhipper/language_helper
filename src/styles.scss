@@ -101,13 +101,6 @@ button {
     box-shadow: var(--shadow-small);
   }
 
-  &.silent {
-    font-size: inherit;
-    text-align: inherit;
-    margin: 0;
-    padding: 0;
-  }
-
   &[disabled] {
     opacity: var(--opacity-1);
     cursor: not-allowed;
@@ -131,6 +124,17 @@ select {
   border: none;
   &::placeholder {
     color: rgb(from var(--col-text) r g b / var(--opacity-1));
+  }
+}
+
+button,
+select {
+  &.silent {
+    font-size: inherit;
+    text-align: inherit;
+    margin: 0;
+    padding: 0;
+    background-color: inherit;
   }
 }
 
