@@ -7,6 +7,7 @@
 
   h2 {
     top: 0;
+    left: 0;
     font-size: var(--font-size-4);
     position: absolute;
     opacity: var(--opacity-1);
@@ -43,7 +44,7 @@
     color: var(--col-text);
 
     &.delete {
-      background-color: var(--col-warning);
+      background-color: rgb(from var(--col-warning) r g b / var(--opacity-1));
     }
   }
 
