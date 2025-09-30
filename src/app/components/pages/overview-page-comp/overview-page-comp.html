@@ -48,25 +48,11 @@
 
 @if (userHasCards()) {
   <app-page-wrapper-comp title="Cards" desktopMode="full" icon="card">
-    @if (collections().length !== 0) {
-      <select class="collections silent" [(ngModel)]="selectedCollectionId">
-        @for (pseudo of pseudoCollections(); track pseudo.name) {
-          <option [value]="pseudo.id">
-            {{ pseudo.name }}
-          </option>
-        }
-
-        @for (collection of collections(); track collection.id) {
-          <option [value]="collection.id">
-            {{ collection.name }}
-          </option>
-        }
-      </select>
-    }
-
     <app-collection-info-comp
-      [collection]="selectedCollection()"
-      [confidencePercent]="collectionAvgConfidencePercent()"
+      [selectionOptions]="collectionSelectionOptions()"
+      [selectedCollection]="selectedCollection()"
+      [averageConfidence]="collectionAvgConfidencePercent()"
+      [(selectedCollectionId)]="selectedCollectionId"
     />
     @if (collectionIsEmpty()) {
       <p>collection is empty</p>

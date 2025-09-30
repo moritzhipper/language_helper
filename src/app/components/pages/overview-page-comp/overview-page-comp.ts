@@ -59,16 +59,23 @@ export class OverviewComp {
     () => this._allCollectionLearnables().length === 0
   )
 
+  private _allCollections = computed(() => [
+    ...this.pseudoCollections(),
+    ...this.collections()
+  ])
+
+  collectionSelectionOptions = computed(() =>
+    this._allCollections().map((c) => ({ id: c.id, name: c.name }))
+  )
+
   userHasCards = computed(() => this._lStore.learnables().length !== 0)
 
-  private filter = signal<LearnablesFilterConfig | null>(null)
+  private _filter = signal<LearnablesFilterConfig | null>(null)
 
   // select fallback collection, should userselected collection not exist anymore
   // this can happen, after a pseudocollection is dissolved because all its cards were removed
   selectedCollectionId = linkedSignal<string[], string>({
-    source: computed(() =>
-      [...this.pseudoCollections(), ...this.collections()].map((c) => c.id)
-    ),
+    source: computed(() => this.collectionSelectionOptions().map((c) => c.id)),
     computation: (isss, prev) => {
       const previousValue = prev?.value
       if (previousValue && isss.includes(previousValue)) return previousValue
@@ -83,6 +90,10 @@ export class OverviewComp {
       )!
   )
 
+  selectCollectionById(id: string) {
+    this.selectedCollectionId.set(id)
+  }
+
   private _allCollectionLearnables = computed(() =>
     this._lStore
       .learnables()
@@ -95,7 +106,7 @@ export class OverviewComp {
 
   // learnables after filtering
   visibleLearnables = computed(() => {
-    const filter = this.filter()
+    const filter = this._filter()
     const learnables = this._allCollectionLearnables()
 
     if (!filter) return learnables
@@ -269,6 +280,6 @@ export class OverviewComp {
   }
 
   updateFilter(filter: LearnablesFilterFormType) {
-    this.filter.set(filter)
+    this._filter.set(filter)
   }
 }

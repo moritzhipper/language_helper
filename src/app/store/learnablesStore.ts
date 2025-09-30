@@ -51,7 +51,7 @@ export const LearnablesStore = signalStore(
       )
 
       pseudoCollections.push({
-        name: 'All',
+        name: 'All Cards',
         learnableIDs: learnables().map((l) => l.id),
         id: 'all'
       })

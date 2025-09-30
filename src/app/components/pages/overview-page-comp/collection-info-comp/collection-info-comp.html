@@ -1,17 +1,18 @@
-@let coll = collection();
+@let coll = selectedCollection();
 
 <div class="info">
-  <h2>{{ coll.name }}</h2>
-  {{ confidencePercent() }}% confidence • {{ coll.learnableIDs.length }} cards
+  <h2 class="ellipsis">{{ coll.name }}</h2>
+  {{ averageConfidence() }}% confidence • {{ coll.learnableIDs.length }} cards
   @if ('created' in coll) {
-    • {{ coll.created | date: 'MMMM d, y' }}
+    • {{ coll.created | date: 'MMM d, y' }}
   }
 </div>
 <div class="interact">
-  <button class="silent">
-    <app-icon-comp type="learn" />
-  </button>
-
+  <select [(ngModel)]="selectedCollectionId" class="ellipsis">
+    @for (option of selectionOptions(); track option.id) {
+      <option [value]="option.id">{{ option.name }}</option>
+    }
+  </select>
   <button class="silent">
     <app-icon-comp type="edit" />
   </button>
