@@ -2,10 +2,12 @@
 
 <div class="info">
   <h2 class="ellipsis">{{ coll.name }}</h2>
-  {{ averageConfidence() }}% confidence • {{ coll.learnableIDs.length }} cards
-  @if ('created' in coll) {
-    • {{ coll.created | date: 'MMM d, y' }}
-  }
+  <div class="stats">
+    {{ averageConfidence() }}% confidence • {{ coll.learnableIDs.length }} cards
+    @if ('created' in coll) {
+      • {{ coll.created | date: 'MMM d, y' }}
+    }
+  </div>
 </div>
 <div class="interact">
   <select [(ngModel)]="selectedCollectionId" class="ellipsis">
@@ -22,7 +24,7 @@
   <button class="silent">
     <app-icon-comp type="share" />
   </button>
-  <button class="silent">
+  <button class="silent delete">
     <app-icon-comp type="trash" />
   </button>
 </div>

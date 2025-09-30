@@ -16,6 +16,8 @@
 
 ## Later
 
+- notes mode
+- stats page with collections, top and worst, most ppracticed, hardest words, progressgraph
 - enter leave directive
 - clean up cards view -> put colltion stuff there?
 - split create cards exactly like i split phrases

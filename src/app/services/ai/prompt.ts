@@ -28,7 +28,7 @@ const wordsPrompt = () => `
   - Lexeme must always be in the learning language.  
   - Translation must always be in the speaking language.  
   - If the input looks like notes or a vocabulary list, create one card per pair (word → translation).  
-  - if the word is a noun, the corresponding article in front of it 
+  - if the word is a noun and the language has the grammatical construct of articles, add the corresponding article in front of the lexeme and translation  
 `
 
 const phrasesPrompt = () => `
@@ -44,9 +44,9 @@ const phrasesPrompt = () => `
     - Do not output single words.  
     - Examples:  
       - Input: "Since World War II it has placed much emphasis on attracting light industry."  
-        → Lexeme: "nadruk leggen op [iets]" → German translation.  
+        -> lexeme: "...heeft veel nadruk gelegd op [iets]" -> translation.  
       - Input: "The village church is built on a dune top and portrays a variety of construction styles."  
-        → Lexeme: "…een verscheidenheid aan stijlen tonen" → German translation.  
+        -> lexeme: "...toont een verscheidenheid aan stijlen" -> translation.    
 `
 
 export const getWordsPrompt = (
