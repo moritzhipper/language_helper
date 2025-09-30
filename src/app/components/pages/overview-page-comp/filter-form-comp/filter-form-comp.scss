@@ -1,13 +1,20 @@
 @use '../../../../../style/mixins.scss' as *;
 
+form {
+  padding: var(--distance-5) var(--distance-2);
+}
+
 form .wrapper {
-  margin-bottom: var(--distance-6);
+  border-radius: var(--radius-2);
+  display: flex;
+  gap: var(--distance-4);
 }
 
 .toggle-wrapper {
   display: flex;
   gap: var(--distance-3);
   padding: 0 var(--distance-3);
+
   width: 100%;
   box-sizing: border-box;
 
@@ -49,37 +56,17 @@ form .wrapper {
 }
 
 @include isPhone() {
-  form {
-    .radios {
-      display: grid;
-      gap: var(--distance-2);
-      grid-template-columns: 1fr;
-      margin-top: var(--distance-6);
-    }
-
-    .search {
-      margin-bottom: var(--distance-4);
-    }
-
-    .toggle {
-      grid-area: 1 -1;
-      place-self: start;
-    }
+  .wrapper {
+    flex-direction: column;
   }
 }
 
 @include isDesktop {
-  form {
-    .search {
+  .wrapper {
+    input {
       width: 400px;
     }
-    .radios {
-      margin-top: var(--distance-4);
-
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--distance-2) var(--distance-4);
-      align-items: end;
-    }
+    align-items: end;
+    flex-wrap: wrap;
   }
 }

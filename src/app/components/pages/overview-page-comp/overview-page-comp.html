@@ -1,58 +1,22 @@
-<div class="edit-bubbles">
-  <button (click)="addNew()" class="create ai">
-    <app-icon-comp type="magic" />
-  </button>
-  <button (click)="bulkEdit()" class="create manual">
-    <app-icon-comp type="pen" />
-  </button>
-  @if (selectedLearnableIds().length > 0) {
-    <button
-      (click)="resetLearnableSelection()"
-      class="edit reset"
-      animate.enter="fly-in-x-0"
-      animate.leave="fly-out-x"
-    >
-      <span>
-        {{ selectedLearnableIds().length }}
-      </span>
-      <app-icon-comp type="reset" />
-    </button>
-    @if (nonPseudoCollectionIsSelected()) {
-      <button
-        (click)="removeSelectionFromCollection()"
-        class="edit remove-from-collection"
-        animate.enter="fly-in-x-1"
-        animate.leave="fly-out-x"
-      >
-        <app-icon-comp type="collection-remove" />
-      </button>
-    }
-    <button
-      (click)="addToCollection()"
-      class="edit add-to-collection"
-      animate.enter="fly-in-x-2"
-      animate.leave="fly-out-x"
-    >
-      <app-icon-comp type="collection-add" />
-    </button>
-    <button
-      class="edit trash"
-      animate.enter="fly-in-x-3"
-      animate.leave="fly-out-x"
-      (click)="removeSelection()"
-    >
-      <app-icon-comp type="trash" />
-    </button>
-  }
-</div>
-
 @if (userHasCards()) {
+  <app-edit-bubbles-comp
+    (create)="addNew()"
+    (bulkEdit)="bulkEdit()"
+    (reset)="resetLearnableSelection()"
+    (removeFromCollection)="removeSelectionFromCollection()"
+    (addToCollection)="addToCollection()"
+    (delete)="deleteSelection()"
+    [allowRemoveFromCollection]="nonPseudoCollectionIsSelected()"
+    [selectedCardsCount]="selectedLearnableIds().length"
+  />
+
   <app-page-wrapper-comp title="Cards" desktopMode="full" icon="card">
     <app-collection-info-comp
       [selectionOptions]="collectionSelectionOptions()"
       [selectedCollection]="selectedCollection()"
       [averageConfidence]="collectionAvgConfidencePercent()"
       [(selectedCollectionId)]="selectedCollectionId"
+      [hideSelect]="collections().length === 0"
     />
     @if (collectionIsEmpty()) {
       <p>collection is empty</p>

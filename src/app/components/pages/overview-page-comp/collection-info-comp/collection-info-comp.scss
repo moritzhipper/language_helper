@@ -49,9 +49,8 @@
   }
 
   select {
+    height: var(--distance-6);
     background-color: var(--col-primary);
-    // min-width: 150px;
-    // max-width: 300px;
     min-width: 150px;
     max-width: 300px;
     box-sizing: border-box;

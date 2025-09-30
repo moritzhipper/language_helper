@@ -1,30 +1,35 @@
 @let coll = selectedCollection();
+@let isUserCollection = 'created' in coll;
 
 <div class="info">
   <h2 class="ellipsis">{{ coll.name }}</h2>
   <div class="stats">
     {{ averageConfidence() }}% confidence • {{ coll.learnableIDs.length }} cards
-    @if ('created' in coll) {
+    @if (isUserCollection) {
       • {{ coll.created | date: 'MMM d, y' }}
     }
   </div>
 </div>
-<div class="interact">
-  <select [(ngModel)]="selectedCollectionId" class="ellipsis">
-    @for (option of selectionOptions(); track option.id) {
-      <option [value]="option.id">{{ option.name }}</option>
+@if (!hideSelect()) {
+  <div class="interact">
+    <select [(ngModel)]="selectedCollectionId" class="ellipsis">
+      @for (option of selectionOptions(); track option.id) {
+        <option [value]="option.id">{{ option.name }}</option>
+      }
+    </select>
+    @if (isUserCollection) {
+      <button class="silent">
+        <app-icon-comp type="edit" />
+      </button>
+      <button class="silent">
+        <app-icon-comp type="share-network" />
+      </button>
+      <button class="silent">
+        <app-icon-comp type="share" />
+      </button>
+      <button class="silent delete">
+        <app-icon-comp type="trash" />
+      </button>
     }
-  </select>
-  <button class="silent">
-    <app-icon-comp type="edit" />
-  </button>
-  <button class="silent">
-    <app-icon-comp type="share-network" />
-  </button>
-  <button class="silent">
-    <app-icon-comp type="share" />
-  </button>
-  <button class="silent delete">
-    <app-icon-comp type="trash" />
-  </button>
-</div>
+  </div>
+}

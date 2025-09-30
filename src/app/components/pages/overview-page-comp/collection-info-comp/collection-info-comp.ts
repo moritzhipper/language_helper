@@ -20,4 +20,5 @@ export class CollectionInfoComp {
   selectedCollectionId = model<string>()
   averageConfidence = input.required<number>()
   selectionOptions = input.required<{ id: string; name: string }[]>()
+  hideSelect = input<boolean>(false)
 }

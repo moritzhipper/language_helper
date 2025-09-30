@@ -24,6 +24,7 @@ import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { CollectionInfoComp } from './collection-info-comp/collection-info-comp'
+import { EditBubblesComp } from './edit-bubbles-comp/edit-bubbles-comp'
 import {
   FilterFormComp,
   LearnablesFilterFormType
@@ -41,7 +42,8 @@ import { LearnableComp } from './learnable-comp/learnable-comp'
     PageWrapperComp,
     IconComp,
     FilterFormComp,
-    FormsModule
+    FormsModule,
+    EditBubblesComp
   ]
 })
 export class OverviewComp {
@@ -51,8 +53,8 @@ export class OverviewComp {
 
   collections = this._lStore.collections
   pseudoCollections = this._lStore.pseudoCollections
-  nonPseudoCollectionIsSelected = computed(() =>
-    this._lStore.collections().some((c) => c.id === this.selectedCollectionId())
+  nonPseudoCollectionIsSelected = computed(
+    () => 'created' in this.selectedCollection()
   )
 
   collectionIsEmpty = computed(
@@ -201,7 +203,7 @@ export class OverviewComp {
     )
   }
 
-  async removeSelection() {
+  async deleteSelection() {
     const deleteCardsAmount = this.selectedLearnableIds().length
     const message =
       deleteCardsAmount === 1
