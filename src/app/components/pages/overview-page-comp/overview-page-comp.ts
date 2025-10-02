@@ -6,6 +6,7 @@ import {
   signal
 } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
@@ -17,10 +18,14 @@ import {
   calculateAverageConfidencePercent,
   removeDuplicates
 } from '../../../utils/genaral-utils'
-import { filterDoubleEntries } from '../../../utils/import-export-utils'
+import {
+  filterDoubleEntries,
+  mapToExport
+} from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
 import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
+import { ConfirmCollectionDeletionType } from '../../shared/forms/delete-collection-comp/delete-collection-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { CollectionInfoComp } from './collection-info-comp/collection-info-comp'
@@ -52,6 +57,7 @@ export class OverviewComp {
   private readonly _lStore = inject(LearnablesStore)
   private readonly _toastService = inject(ToastService)
   private readonly _modalService = inject(ModalService)
+  private readonly _makeBlobS = inject(BlobService)
 
   collections = this._lStore.collections
   pseudoCollections = this._lStore.pseudoCollections
@@ -289,4 +295,50 @@ export class OverviewComp {
   updateFilter(filter: LearnablesFilterFormType) {
     this._filter.set(filter)
   }
+
+  async renameCollection() {
+    console.log('hi')
+    if (!this.userCollectionIsSelected()) return
+
+    const coll = this.selectedCollection()
+
+    const result = await this._modalService.open<string>('collection-rename', {
+      name: coll.name
+    })
+    if (result.type !== 'confirm') return
+
+    this._lStore.editCollection(coll.id, result.value)
+  }
+
+  async deleteCollection() {
+    if (!this.userCollectionIsSelected()) return
+
+    const coll = this.selectedCollection()
+    const result =
+      await this._modalService.open<ConfirmCollectionDeletionType>(
+        'collection-delete'
+      )
+    if (result.type !== 'confirm') return
+
+    const removeCardsCompletely = result.value.deletionType === 'remove'
+    this._lStore.deleteCollection(coll.id, removeCardsCompletely)
+
+    this._toastService.showToast({
+      type: 'info',
+      message: `Collection ${coll.name} deleted`
+    })
+  }
+
+  shareCollection() {
+    alert('Not implemented yet')
+  }
+
+  collectionDownload = computed(() => {
+    const collection = this.selectedCollection()
+
+    return this._makeBlobS.createDownloadableFromLearnables(
+      mapToExport(this._lStore.learnables(), [collection], true),
+      collection.name
+    )
+  })
 }

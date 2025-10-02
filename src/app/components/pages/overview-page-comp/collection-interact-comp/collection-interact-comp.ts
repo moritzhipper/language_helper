@@ -1,5 +1,6 @@
-import { Component, input, model } from '@angular/core'
+import { Component, input, model, output } from '@angular/core'
 import { FormsModule } from '@angular/forms'
+import { Downloadable } from '../../../../services/blob-service'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 
 @Component({
@@ -11,6 +12,10 @@ import { IconComp } from '../../../shared/icon-comp/icon-comp'
 export class CollectionInteractComp {
   selectionOptions = input.required<{ id: string; name: string }[]>()
   selectedCollectionId = model<string>()
-
   selectorOnly = input<boolean>(false)
+
+  downloadable = input<Downloadable | undefined>()
+  edit = output<void>()
+  delete = output<void>()
+  share = output<void>()
 }

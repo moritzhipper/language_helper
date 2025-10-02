@@ -6,7 +6,7 @@ import {
   verifiyImportedFileValidity
 } from '../utils/import-export-utils'
 
-type Downloadable = {
+export type Downloadable = {
   blobUrl: string
   fileName: string
 }

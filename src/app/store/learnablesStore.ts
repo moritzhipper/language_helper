@@ -10,8 +10,8 @@ import {
 import { AiService } from '../services/ai.service'
 import {
   LearnableBase,
+  LearnableBaseCollection,
   LearnablePartialWithId,
-  LearnablePsuedoCollection,
   StoreExport
 } from '../types_and_schemas/types'
 import { getCollectionlessLearnableIds } from '../utils/genaral-utils'
@@ -43,7 +43,7 @@ export const LearnablesStore = signalStore(
       getCollectionlessLearnableIds(learnables(), collections())
     ),
     pseudoCollections: computed(() => {
-      const pseudoCollections: LearnablePsuedoCollection[] = []
+      const pseudoCollections: LearnableBaseCollection[] = []
 
       const collectionlessIds = getCollectionlessLearnableIds(
         learnables(),
