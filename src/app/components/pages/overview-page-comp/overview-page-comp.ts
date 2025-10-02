@@ -118,7 +118,10 @@ export class OverviewComp {
     return filterLearnables(learnables, filter)
   })
 
-  selectedLearnableIds = signal<string[]>([])
+  selectedLearnableIds = linkedSignal<string, string[]>({
+    source: this.selectedCollectionId,
+    computation: () => []
+  })
 
   addVisibleToSelection() {
     const visibleLearnableIDs = this.visibleLearnables().map((l) => l.id)
@@ -163,7 +166,6 @@ export class OverviewComp {
   }
 
   resetLearnableSelection() {
-    console.log('resetting selection')
     this.selectedLearnableIds.set([])
   }
 

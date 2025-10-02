@@ -3,7 +3,7 @@
     <option [value]="option.id">{{ option.name }}</option>
   }
 </select>
-@if (selectorOnly()) {
+@if (!selectorOnly()) {
   <button class="silent">
     <app-icon-comp type="edit" />
   </button>
