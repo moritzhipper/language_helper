@@ -1,0 +1,19 @@
+<select [(ngModel)]="selectedCollectionId" class="ellipsis">
+  @for (option of selectionOptions(); track option.id) {
+    <option [value]="option.id">{{ option.name }}</option>
+  }
+</select>
+@if (selectorOnly()) {
+  <button class="silent">
+    <app-icon-comp type="edit" />
+  </button>
+  <button class="silent">
+    <app-icon-comp type="share-network" />
+  </button>
+  <button class="silent">
+    <app-icon-comp type="share" />
+  </button>
+  <button class="silent delete">
+    <app-icon-comp type="trash" />
+  </button>
+}

@@ -24,6 +24,7 @@ import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { CollectionInfoComp } from './collection-info-comp/collection-info-comp'
+import { CollectionInteractComp } from './collection-interact-comp/collection-interact-comp'
 import { EditBubblesComp } from './edit-bubbles-comp/edit-bubbles-comp'
 import {
   FilterFormComp,
@@ -43,7 +44,8 @@ import { LearnableComp } from './learnable-comp/learnable-comp'
     IconComp,
     FilterFormComp,
     FormsModule,
-    EditBubblesComp
+    EditBubblesComp,
+    CollectionInteractComp
   ]
 })
 export class OverviewComp {
@@ -53,7 +55,7 @@ export class OverviewComp {
 
   collections = this._lStore.collections
   pseudoCollections = this._lStore.pseudoCollections
-  nonPseudoCollectionIsSelected = computed(
+  userCollectionIsSelected = computed(
     () => 'created' in this.selectedCollection()
   )
 
@@ -161,6 +163,7 @@ export class OverviewComp {
   }
 
   resetLearnableSelection() {
+    console.log('resetting selection')
     this.selectedLearnableIds.set([])
   }
 
@@ -237,7 +240,7 @@ export class OverviewComp {
     this.selectedLearnableIds.set(this._latestIDs())
 
     // add to collection, if user has one selected that is not a pseudo collection
-    if (this.nonPseudoCollectionIsSelected()) {
+    if (this.userCollectionIsSelected()) {
       this._lStore.editCollectionLearnables(
         this.selectedCollectionId(),
         this._latestIDs(),

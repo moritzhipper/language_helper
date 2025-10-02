@@ -1,8 +1,6 @@
 :host {
-  display: grid;
   position: relative;
-}
-.info {
+  display: block;
   padding-top: calc(var(--font-size-4) - var(--distance-3));
 
   h2 {
@@ -23,45 +21,4 @@
       0px -2px 13px var(--col-bg),
       0px -1px 8px var(--col-bg);
   }
-}
-.interact {
-  margin: 0 calc(var(--distance-4) * -1);
-  display: flex;
-  gap: var(--distance-3);
-  scrollbar-width: none;
-  overflow-x: auto;
-  padding: var(--distance-2) var(--distance-4);
-
-  button,
-  select {
-    color: var(--col-bg);
-    border-radius: var(--radius-2);
-  }
-
-  button {
-    padding: var(--distance-1) var(--distance-5);
-    background-color: var(--col-accent);
-    color: var(--col-text);
-
-    &.delete {
-      background-color: rgb(from var(--col-warning) r g b / var(--opacity-1));
-    }
-  }
-
-  select {
-    height: var(--distance-6);
-    background-color: var(--col-primary);
-    min-width: 150px;
-    max-width: 300px;
-    box-sizing: border-box;
-    text-align: center;
-    padding: var(--distance-1) var(--distance-4);
-  }
-}
-
-.ellipsis {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  word-break: break-all;
 }

@@ -6,18 +6,22 @@
     (removeFromCollection)="removeSelectionFromCollection()"
     (addToCollection)="addToCollection()"
     (delete)="deleteSelection()"
-    [allowRemoveFromCollection]="nonPseudoCollectionIsSelected()"
+    [allowRemoveFromCollection]="userCollectionIsSelected()"
     [selectedCardsCount]="selectedLearnableIds().length"
   />
 
   <app-page-wrapper-comp title="Cards" desktopMode="full" icon="card">
     <app-collection-info-comp
-      [selectionOptions]="collectionSelectionOptions()"
       [selectedCollection]="selectedCollection()"
       [averageConfidence]="collectionAvgConfidencePercent()"
-      [(selectedCollectionId)]="selectedCollectionId"
-      [hideSelect]="collections().length === 0"
     />
+    @if (collections().length !== 0) {
+      <app-collection-interact-comp
+        [selectionOptions]="collectionSelectionOptions()"
+        [(selectedCollectionId)]="selectedCollectionId"
+        [selectorOnly]="!userCollectionIsSelected()"
+      />
+    }
     @if (collectionIsEmpty()) {
       <p>collection is empty</p>
     } @else {
