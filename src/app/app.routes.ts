@@ -4,6 +4,7 @@ import { CollectionsPageComp } from './components/pages/collections-page-comp/co
 import { OverviewComp } from './components/pages/overview-page-comp/overview-page-comp'
 import { PracticeComp } from './components/pages/practice-page-comp/practice-page-comp'
 import { SettingsComp } from './components/pages/settings-page-comp/settings-page-comp'
+import { SharePageComp } from './components/pages/share-page-comp/share-page-comp'
 
 export const routes: Routes = [
   {
@@ -17,6 +18,10 @@ export const routes: Routes = [
   {
     component: CollectionsPageComp,
     path: 'collections'
+  },
+  {
+    component: SharePageComp,
+    path: 'share'
   },
   {
     component: AboutPageComp,

@@ -9,16 +9,12 @@ import { IconComp } from '../icon-comp/icon-comp'
   selector: 'app-navbar',
   imports: [ReactiveFormsModule, IconComp, RouterModule],
   templateUrl: './navbar-comp.html',
-  styleUrl: './navbar-comp.scss',
-  host: {
-    '[class.open]': 'linksAreOpen()',
-    'animate.leave': '"leave"'
-  }
+  styleUrl: './navbar-comp.scss'
 })
 export class NavbarComp {
   private readonly lStore = inject(LearnablesStore)
-  private _router = inject(Router)
-  private _navEvent = toSignal(this._router.events)
+  private readonly _router = inject(Router)
+  private readonly _navEvent = toSignal(this._router.events)
 
   linksAreOpen = signal(false)
   hasCurrentPractice = this.lStore.currentPractice
