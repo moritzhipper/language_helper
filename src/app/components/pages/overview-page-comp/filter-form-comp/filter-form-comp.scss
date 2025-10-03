@@ -1,16 +1,15 @@
 @use '../../../../../style/mixins.scss' as *;
 
 :host {
-  padding-top: var(--distance-5);
+  padding-top: var(--distance-6);
   display: block;
 }
 
 form {
-  padding: 0 var(--distance-2) var(--distance-5) var(--distance-2);
+  padding: 0 var(--distance-4) var(--distance-6) var(--distance-4);
 }
 
 form .wrapper {
-  border-radius: var(--radius-2);
   display: flex;
   gap: var(--distance-4);
 }
@@ -68,10 +67,13 @@ form .wrapper {
 
 @include isDesktop {
   .wrapper {
-    input {
-      width: 400px;
-    }
-    align-items: end;
     flex-wrap: wrap;
+    align-items: center;
+    border-left: 1px solid rgb(from var(--col-accent) r g b / var(--opacity-1));
+    padding: 0 0 var(--distance-2) var(--distance-5);
+
+    label {
+      width: 500px;
+    }
   }
 }
