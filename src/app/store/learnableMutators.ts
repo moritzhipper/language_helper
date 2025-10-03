@@ -1,9 +1,9 @@
 import {
   Learnable,
   LearnableBase,
-  LearnableCollection,
   LearnablePartialWithId,
   LearnablesStoreType,
+  LearnableUserCollection,
   StoreExport
 } from '../types_and_schemas/types'
 import { mapFileImportToAddableLearnables } from '../utils/import-export-utils'
@@ -293,7 +293,7 @@ export const renameCollection =
 const createNewCollection = (
   name: string,
   ids: string[]
-): LearnableCollection => ({
+): LearnableUserCollection => ({
   id: crypto.randomUUID(),
   created: new Date(),
   name,

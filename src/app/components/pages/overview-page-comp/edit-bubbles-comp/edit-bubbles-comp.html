@@ -1,0 +1,45 @@
+<button (click)="create.emit()" class="create ai">
+  <app-icon-comp type="magic" />
+</button>
+<button (click)="bulkEdit.emit()" class="create manual">
+  <app-icon-comp type="pen" />
+</button>
+@if (selectedCardsCount() > 0) {
+  <button
+    (click)="resetSelection.emit()"
+    class="edit reset"
+    animate.enter="fly-in-x-0"
+    animate.leave="fly-out-x"
+  >
+    <span>
+      {{ selectedCardsCount() }}
+    </span>
+    <app-icon-comp type="reset" />
+  </button>
+  @if (allowRemoveFromCollection()) {
+    <button
+      (click)="removeFromCollection.emit()"
+      class="edit remove-from-collection"
+      animate.enter="fly-in-x-1"
+      animate.leave="fly-out-x"
+    >
+      <app-icon-comp type="collection-remove" />
+    </button>
+  }
+  <button
+    (click)="addToCollection.emit()"
+    class="edit add-to-collection"
+    animate.enter="fly-in-x-2"
+    animate.leave="fly-out-x"
+  >
+    <app-icon-comp type="collection-add" />
+  </button>
+  <button
+    class="edit trash"
+    animate.enter="fly-in-x-3"
+    animate.leave="fly-out-x"
+    (click)="delete.emit()"
+  >
+    <app-icon-comp type="trash" />
+  </button>
+}

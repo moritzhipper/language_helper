@@ -1,0 +1,42 @@
+:host {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  padding: var(--distance-4);
+  gap: var(--distance-2);
+  flex-flow: row-reverse;
+  align-items: end;
+  flex-wrap: nowrap;
+
+  button,
+  a {
+    background-color: var(--col-primary);
+    box-shadow: var(--shadow-big);
+    border-radius: 100%;
+    color: var(--col-bg);
+    padding: var(--distance-2);
+  }
+
+  .ai {
+    padding: var(--distance-4);
+  }
+  .manual {
+    padding: var(--distance-3);
+  }
+
+  .edit {
+    display: grid;
+
+    place-items: center;
+    span {
+      font-size: 8px;
+    }
+
+    span,
+    app-icon-comp {
+      grid-area: 1 /1;
+    }
+  }
+}

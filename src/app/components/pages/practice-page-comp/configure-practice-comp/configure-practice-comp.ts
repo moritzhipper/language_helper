@@ -34,7 +34,7 @@ export class ConfigurePracticeComp {
 
   protected form = this._fb.group({
     type: null,
-    collectionIdentifier: 'All',
+    collectionIdentifier: 'All Cards',
     confidence: undefined,
     reverseDirection: false
   })

@@ -1,12 +1,12 @@
 import {
   Component,
   computed,
-  effect,
   inject,
-  signal,
-  untracked
+  linkedSignal,
+  signal
 } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
@@ -14,13 +14,23 @@ import {
   LearnableBase,
   LearnablesFilterConfig
 } from '../../../types_and_schemas/types'
-import { removeDuplicates } from '../../../utils/genaral-utils'
-import { filterDoubleEntries } from '../../../utils/import-export-utils'
+import {
+  calculateAverageConfidencePercent,
+  removeDuplicates
+} from '../../../utils/genaral-utils'
+import {
+  filterDoubleEntries,
+  mapToExport
+} from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
 import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
+import { ConfirmCollectionDeletionType } from '../../shared/forms/delete-collection-comp/delete-collection-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
+import { CollectionInfoComp } from './collection-info-comp/collection-info-comp'
+import { CollectionInteractComp } from './collection-interact-comp/collection-interact-comp'
+import { EditBubblesComp } from './edit-bubbles-comp/edit-bubbles-comp'
 import {
   FilterFormComp,
   LearnablesFilterFormType
@@ -32,82 +42,95 @@ import { LearnableComp } from './learnable-comp/learnable-comp'
   templateUrl: './overview-page-comp.html',
   styleUrl: './overview-page-comp.scss',
   imports: [
+    CollectionInfoComp,
     ReactiveFormsModule,
     LearnableComp,
     PageWrapperComp,
     IconComp,
-    FilterFormComp
+    FilterFormComp,
+    FormsModule,
+    EditBubblesComp,
+    CollectionInteractComp
   ]
 })
 export class OverviewComp {
   private readonly _lStore = inject(LearnablesStore)
   private readonly _toastService = inject(ToastService)
   private readonly _modalService = inject(ModalService)
+  private readonly _makeBlobS = inject(BlobService)
 
-  private _learnablesInSelectedCollection = computed(() => {
-    const learnables = this._lStore.learnables()
-    const { collections, pseudoCollections } = this._lStore
-
-    const selectedCol = collections().find(
-      (c) => c.id === this.selectedCollectionId()
-    )
-
-    if (selectedCol) {
-      return learnables.filter((l) => selectedCol.learnableIDs.includes(l.id))
-    }
-
-    const selectedPseudoCol = pseudoCollections().find(
-      (c) => c.name === this.selectedPseudoCollectionName()
-    )
-
-    if (selectedPseudoCol) {
-      return learnables.filter((l) =>
-        selectedPseudoCol.learnableIDs.includes(l.id)
-      )
-    }
-
-    return []
-  })
-
-  constructor() {
-    effect(() => {
-      const isEmpty = this.collectionIsEmpty()
-      const isPseudoCollection = !!this.selectedPseudoCollectionName()
-
-      untracked(() => {
-        if (isPseudoCollection && isEmpty) {
-          this.selectPseudoCollection('All')
-        }
-      })
-    })
-  }
-
+  collections = this._lStore.collections
   pseudoCollections = this._lStore.pseudoCollections
+  userCollectionIsSelected = computed(
+    () => 'created' in this.selectedCollection()
+  )
 
   collectionIsEmpty = computed(
-    () => this._learnablesInSelectedCollection().length === 0
+    () => this._allCollectionLearnables().length === 0
+  )
+
+  private _allCollections = computed(() => [
+    ...this.pseudoCollections(),
+    ...this.collections()
+  ])
+
+  collectionSelectionOptions = computed(() =>
+    this._allCollections().map((c) => ({ id: c.id, name: c.name }))
   )
 
   userHasCards = computed(() => this._lStore.learnables().length !== 0)
-  collections = this._lStore.collections
 
-  selectedPseudoCollectionName = signal<string | null>('All')
-  selectedCollectionId = signal<string | null>(null)
+  private _filter = signal<LearnablesFilterConfig | null>(null)
+
+  // select fallback collection, should userselected collection not exist anymore
+  // this can happen, after a pseudocollection is dissolved because all its cards were removed
+  selectedCollectionId = linkedSignal<string[], string>({
+    source: computed(() => this.collectionSelectionOptions().map((c) => c.id)),
+    computation: (isss, prev) => {
+      const previousValue = prev?.value
+      if (previousValue && isss.includes(previousValue)) return previousValue
+      return isss[0]
+    }
+  })
+
+  selectedCollection = computed(
+    () =>
+      [...this.collections(), ...this.pseudoCollections()].find(
+        (c) => c.id === this.selectedCollectionId()
+      )!
+  )
+
+  selectCollectionById(id: string) {
+    this.selectedCollectionId.set(id)
+  }
+
+  private _allCollectionLearnables = computed(() =>
+    this._lStore
+      .learnables()
+      .filter((l) => this.selectedCollection().learnableIDs.includes(l.id))
+  )
+
+  collectionAvgConfidencePercent = computed(() =>
+    calculateAverageConfidencePercent(this._allCollectionLearnables())
+  )
 
   // learnables after filtering
-  private filter = signal<LearnablesFilterConfig | null>(null)
-  selectedLearnableIds = signal<string[]>([])
+  visibleLearnables = computed(() => {
+    const filter = this._filter()
+    const learnables = this._allCollectionLearnables()
 
-  filteredLearnables = computed(() => {
-    const filter = this.filter()
-    const learnables = this._learnablesInSelectedCollection()
     if (!filter) return learnables
 
-    return filterLearnables(this._learnablesInSelectedCollection(), filter)
+    return filterLearnables(learnables, filter)
+  })
+
+  selectedLearnableIds = linkedSignal<string, string[]>({
+    source: this.selectedCollectionId,
+    computation: () => []
   })
 
   addVisibleToSelection() {
-    const visibleLearnableIDs = this.filteredLearnables().map((l) => l.id)
+    const visibleLearnableIDs = this.visibleLearnables().map((l) => l.id)
 
     const newSelectionIDs = removeDuplicates([
       ...visibleLearnableIDs,
@@ -132,9 +155,9 @@ export class OverviewComp {
   }
 
   async bulkEdit() {
-    const learnables = this._learnablesInSelectedCollection().filter((l) =>
-      this.selectedLearnableIds().includes(l.id)
-    )
+    const learnables = this._lStore
+      .learnables()
+      .filter((l) => this.selectedLearnableIds().includes(l.id))
 
     const result = await this._modalService.open<ConfirmationType>(
       'bulk-edit',
@@ -146,8 +169,6 @@ export class OverviewComp {
     this._lStore.updateLearnables(update)
     this._lStore.removeLearnables(deleteIDs)
     this._addAndMarkLearnables(add)
-
-    this.selectDefaultColIfPseudoEmpty()
   }
 
   resetLearnableSelection() {
@@ -176,26 +197,24 @@ export class OverviewComp {
     const collectionName =
       createName || this.collections().find((c) => c.id === addToId)?.name
 
-    this._toastService.showToast({
-      message: `Added ${selectedIDs.length} cards to ${collectionName}`,
-      type: 'info'
-    })
-
-    this.selectDefaultColIfPseudoEmpty()
-    this.selectedLearnableIds.set([])
-  }
-
-  async removeSelectionFromCollection() {
-    const collectionId = this.selectedCollectionId()
-    if (!collectionId) return
-    this._lStore.editCollectionLearnables(
-      collectionId,
-      [],
-      [...this.selectedLearnableIds()]
+    this._finishEditAndShowToast(
+      `Added ${selectedIDs.length} cards to ${collectionName}`
     )
   }
 
-  async removeSelection() {
+  async removeSelectionFromCollection() {
+    const selectedIDs = this.selectedLearnableIds()
+    this._lStore.editCollectionLearnables(
+      this.selectedCollectionId(),
+      [],
+      [...selectedIDs]
+    )
+    this._finishEditAndShowToast(
+      `Removed ${selectedIDs.length} cards from collection`
+    )
+  }
+
+  async deleteSelection() {
     const deleteCardsAmount = this.selectedLearnableIds().length
     const message =
       deleteCardsAmount === 1
@@ -208,13 +227,12 @@ export class OverviewComp {
 
     if (confirm.type !== 'confirm') return
     this._lStore.removeLearnables(this.selectedLearnableIds())
-    this.selectDefaultColIfPseudoEmpty()
-    this.selectedLearnableIds.set([])
+    this._finishEditAndShowToast(`Removed ${deleteCardsAmount} cards`)
+  }
 
-    this._toastService.showToast({
-      message: `Removed ${deleteCardsAmount} cards`,
-      type: 'info'
-    })
+  private _finishEditAndShowToast(message: string) {
+    this.selectedLearnableIds.set([])
+    this._toastService.showToast({ message, type: 'info' })
   }
 
   private _addAndMarkLearnables(learnables: LearnableBase[]) {
@@ -229,16 +247,24 @@ export class OverviewComp {
     this._lStore.addLearnables(uniqueLearnables)
     this.selectedLearnableIds.set(this._latestIDs())
 
-    // add to collection, if user has one selected
-    const collectionId = this.selectedCollectionId()
-    if (collectionId) {
-      this._lStore.editCollectionLearnables(collectionId, this._latestIDs(), [])
-    }
+    // add to collection, if user has one selected that is not a pseudo collection
+    if (this.userCollectionIsSelected()) {
+      this._lStore.editCollectionLearnables(
+        this.selectedCollectionId(),
+        this._latestIDs(),
+        []
+      )
 
-    this._toastService.showToast({
-      message: `created ${uniqueLearnables.length} cards`,
-      type: 'info'
-    })
+      this._toastService.showToast({
+        message: `created ${uniqueLearnables.length} cards and added them to collection ${this.selectedCollection().name}`,
+        type: 'info'
+      })
+    } else {
+      this._toastService.showToast({
+        message: `created ${uniqueLearnables.length} cards`,
+        type: 'info'
+      })
+    }
 
     // show skipped reminder, when user tried creating one that already exists
     const filteredLearnablesCount = learnables.length - uniqueLearnables.length
@@ -267,24 +293,52 @@ export class OverviewComp {
   }
 
   updateFilter(filter: LearnablesFilterFormType) {
-    this.filter.set(filter)
+    this._filter.set(filter)
   }
 
-  selectCollection(identifier: string | null) {
-    if (identifier !== this.selectedCollectionId()) {
-      this.selectedLearnableIds.set([])
-    }
-    this.selectedPseudoCollectionName.set(null)
-    this.selectedCollectionId.set(identifier)
+  async renameCollection() {
+    console.log('hi')
+    if (!this.userCollectionIsSelected()) return
+
+    const coll = this.selectedCollection()
+
+    const result = await this._modalService.open<string>('collection-rename', {
+      name: coll.name
+    })
+    if (result.type !== 'confirm') return
+
+    this._lStore.editCollection(coll.id, result.value)
   }
 
-  selectPseudoCollection(name: string | null) {
-    if (name !== this.selectedPseudoCollectionName()) {
-      this.selectedLearnableIds.set([])
-    }
-    this.selectedCollectionId.set(null)
-    this.selectedPseudoCollectionName.set(name)
+  async deleteCollection() {
+    if (!this.userCollectionIsSelected()) return
+
+    const coll = this.selectedCollection()
+    const result =
+      await this._modalService.open<ConfirmCollectionDeletionType>(
+        'collection-delete'
+      )
+    if (result.type !== 'confirm') return
+
+    const removeCardsCompletely = result.value.deletionType === 'remove'
+    this._lStore.deleteCollection(coll.id, removeCardsCompletely)
+
+    this._toastService.showToast({
+      type: 'info',
+      message: `Collection ${coll.name} deleted`
+    })
   }
 
-  selectDefaultColIfPseudoEmpty() {}
+  shareCollection() {
+    alert('Not implemented yet')
+  }
+
+  collectionDownload = computed(() => {
+    const collection = this.selectedCollection()
+
+    return this._makeBlobS.createDownloadableFromLearnables(
+      mapToExport(this._lStore.learnables(), [collection], true),
+      collection.name
+    )
+  })
 }

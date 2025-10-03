@@ -4,8 +4,9 @@ import {
   CollectionExport,
   Learnable,
   LearnableBase,
-  LearnableCollection,
+  LearnableBaseCollection,
   LearnableExport,
+  LearnableUserCollection,
   StoreExport
 } from '../types_and_schemas/types'
 
@@ -16,7 +17,7 @@ import {
  */
 export const mapToExport = (
   learnables: Learnable[],
-  collections: LearnableCollection[],
+  collections: LearnableBaseCollection[],
   removeCardsWithoutCollection: boolean = false
 ): StoreExport => {
   let relevantLearnables = learnables
@@ -75,7 +76,7 @@ export const verifiyImportedFileValidity = (file: File): void => {
  */
 export const mapFileImportToAddableLearnables = (
   fileImport: StoreExport
-): { learnables: Learnable[]; collections: LearnableCollection[] } => {
+): { learnables: Learnable[]; collections: LearnableUserCollection[] } => {
   // create a map to ensure unique IDs in the import
   // this is necessary to avoid conflicts with existing learnables on reimport
   const idMap = new Map<string, string>()

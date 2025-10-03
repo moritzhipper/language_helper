@@ -19,6 +19,7 @@ export type IconType =
   | 'collection-add'
   | 'collection-remove'
   | 'share'
+  | 'share-network'
   | 'share-fill'
   | 'import'
   | 'warn'

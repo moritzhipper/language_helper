@@ -1,0 +1,24 @@
+:host {
+  position: relative;
+  display: block;
+  padding-top: calc(var(--font-size-4) - var(--distance-3));
+
+  h2 {
+    top: 0;
+    left: 0;
+    font-size: var(--font-size-4);
+    position: absolute;
+    opacity: var(--opacity-1);
+    z-index: -1;
+    width: 100%;
+    display: block;
+  }
+
+  .stats {
+    text-shadow:
+      0px -10px 20px var(--col-bg),
+      0px -5px 18px var(--col-bg),
+      0px -2px 13px var(--col-bg),
+      0px -1px 8px var(--col-bg);
+  }
+}

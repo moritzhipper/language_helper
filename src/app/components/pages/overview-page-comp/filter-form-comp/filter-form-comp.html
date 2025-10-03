@@ -6,53 +6,51 @@
         <input type="text" formControlName="search" />
       </label>
 
-      <div class="radios">
-        <app-radio-comp
-          [config]="[
-            { value: null, label: 'all' },
-            { value: 'word' },
-            { value: 'phrase' }
-          ]"
-          formControlName="type"
-          label="type"
-        />
-        <app-radio-comp
-          class="confidence"
-          [config]="[
-            { value: null, label: 'all' },
-            { value: 'low' },
-            { value: 'medium' }
-          ]"
-          formControlName="confidence"
-          label="max confidence"
-        />
+      <app-radio-comp
+        [config]="[
+          { value: null, label: 'all' },
+          { value: 'word' },
+          { value: 'phrase' }
+        ]"
+        formControlName="type"
+        label="type"
+      />
+      <app-radio-comp
+        class="confidence"
+        [config]="[
+          { value: null, label: 'all' },
+          { value: 'low' },
+          { value: 'medium' }
+        ]"
+        formControlName="confidence"
+        label="max confidence"
+      />
 
-        <app-radio-comp
-          [config]="[
-            { value: null, label: 'all' },
-            { value: 'newest' },
-            { value: 3, label: '< 3 days' }
-          ]"
-          formControlName="age"
-          label="age"
-        />
+      <app-radio-comp
+        [config]="[
+          { value: null, label: 'all' },
+          { value: 'newest' },
+          { value: 3, label: '< 3 days' }
+        ]"
+        formControlName="age"
+        label="age"
+      />
 
-        <app-radio-comp
-          [config]="[
-            { value: 'created' },
-            { value: 'lexeme' },
-            { value: 'confidence' }
-          ]"
-          formControlName="orderBy"
-          label="order by"
-        />
+      <app-radio-comp
+        [config]="[
+          { value: 'created' },
+          { value: 'lexeme' },
+          { value: 'confidence' }
+        ]"
+        formControlName="orderBy"
+        label="order by"
+      />
 
-        <app-radio-comp
-          [config]="[{ value: 'asc' }, { value: 'desc' }]"
-          formControlName="order"
-          label="order"
-        />
-      </div>
+      <app-radio-comp
+        [config]="[{ value: 'asc' }, { value: 'desc' }]"
+        formControlName="order"
+        label="order"
+      />
     </div>
   </form>
 }

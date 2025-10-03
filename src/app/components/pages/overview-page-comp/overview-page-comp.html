@@ -1,77 +1,31 @@
-<div class="edit-bubbles">
-  <button (click)="addNew()" class="create ai">
-    <app-icon-comp type="magic" />
-  </button>
-  <button (click)="bulkEdit()" class="create manual">
-    <app-icon-comp type="pen" />
-  </button>
-  @if (selectedLearnableIds().length > 0) {
-    <button
-      (click)="resetLearnableSelection()"
-      class="edit reset"
-      animate.enter="fly-in-x-0"
-      animate.leave="fly-out-x"
-    >
-      <span>
-        {{ selectedLearnableIds().length }}
-      </span>
-      <app-icon-comp type="reset" />
-    </button>
-    @if (selectedCollectionId()) {
-      <button
-        (click)="removeSelectionFromCollection()"
-        class="edit remove-from-collection"
-        animate.enter="fly-in-x-1"
-        animate.leave="fly-out-x"
-      >
-        <app-icon-comp type="collection-remove" />
-      </button>
-    }
-    <button
-      (click)="addToCollection()"
-      class="edit add-to-collection"
-      animate.enter="fly-in-x-2"
-      animate.leave="fly-out-x"
-    >
-      <app-icon-comp type="collection-add" />
-    </button>
-    <button
-      class="edit trash"
-      animate.enter="fly-in-x-3"
-      animate.leave="fly-out-x"
-      (click)="removeSelection()"
-    >
-      <app-icon-comp type="trash" />
-    </button>
-  }
-</div>
-
 @if (userHasCards()) {
+  <app-edit-bubbles-comp
+    (create)="addNew()"
+    (bulkEdit)="bulkEdit()"
+    (resetSelection)="resetLearnableSelection()"
+    (removeFromCollection)="removeSelectionFromCollection()"
+    (addToCollection)="addToCollection()"
+    (delete)="deleteSelection()"
+    [allowRemoveFromCollection]="userCollectionIsSelected()"
+    [selectedCardsCount]="selectedLearnableIds().length"
+  />
+
   <app-page-wrapper-comp title="Cards" desktopMode="full" icon="card">
+    <app-collection-info-comp
+      [selectedCollection]="selectedCollection()"
+      [averageConfidence]="collectionAvgConfidencePercent()"
+    />
     @if (collections().length !== 0) {
-      <div class="collections">
-        @for (pseudo of pseudoCollections(); track pseudo.name) {
-          <button
-            class="silent collection"
-            (click)="selectPseudoCollection(pseudo.name)"
-            [class.selected]="selectedPseudoCollectionName() === pseudo.name"
-          >
-            {{ pseudo.name }}
-          </button>
-        }
-
-        @for (collection of collections(); track collection.id) {
-          <button
-            class="silent collection"
-            [class.selected]="selectedCollectionId() === collection.id"
-            (click)="selectCollection(collection.id)"
-          >
-            {{ collection.name }}
-          </button>
-        }
-      </div>
+      <app-collection-interact-comp
+        [selectionOptions]="collectionSelectionOptions()"
+        [(selectedCollectionId)]="selectedCollectionId"
+        [selectorOnly]="!userCollectionIsSelected()"
+        (edit)="renameCollection()"
+        (delete)="deleteCollection()"
+        (share)="shareCollection()"
+        [downloadable]="collectionDownload()"
+      />
     }
-
     @if (collectionIsEmpty()) {
       <p>collection is empty</p>
     } @else {
@@ -80,7 +34,7 @@
         (selectVisible)="addVisibleToSelection()"
       />
       <div class="learnables">
-        @for (learnable of filteredLearnables(); track learnable.id) {
+        @for (learnable of visibleLearnables(); track learnable.id) {
           <button
             class="silent learnable"
             (click)="toggleLearnableSelection(learnable.id)"

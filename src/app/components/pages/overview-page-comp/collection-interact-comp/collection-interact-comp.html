@@ -1,0 +1,21 @@
+<select [(ngModel)]="selectedCollectionId" class="ellipsis">
+  @for (option of selectionOptions(); track option.id) {
+    <option [value]="option.id">{{ option.name }}</option>
+  }
+</select>
+@if (!selectorOnly()) {
+  <button class="silent" (click)="edit.emit()">
+    <app-icon-comp type="edit" />
+  </button>
+  <button class="silent" (click)="share.emit()">
+    <app-icon-comp type="share-network" />
+  </button>
+  @if (downloadable(); as down) {
+    <a class="silent" [download]="down.fileName" [attr.href]="down.blobUrl">
+      <app-icon-comp type="share" />
+    </a>
+  }
+  <button class="silent delete" (click)="delete.emit()">
+    <app-icon-comp type="trash" />
+  </button>
+}

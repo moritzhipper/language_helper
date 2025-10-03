@@ -5,8 +5,7 @@ import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
-import { LearnableCollection } from '../../../types_and_schemas/types'
-import { calculateAverageConfidencePercent } from '../../../utils/genaral-utils'
+import { LearnableUserCollection } from '../../../types_and_schemas/types'
 import { mapToExport } from '../../../utils/import-export-utils'
 import { ConfirmCollectionDeletionType } from '../../shared/forms/delete-collection-comp/delete-collection-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
@@ -51,7 +50,7 @@ export class CollectionsPageComp {
     }
   }
 
-  async deleteCollection(coll: LearnableCollection) {
+  async deleteCollection(coll: LearnableUserCollection) {
     const result =
       await this._modalService.open<ConfirmCollectionDeletionType>(
         'collection-delete'
@@ -68,7 +67,7 @@ export class CollectionsPageComp {
     })
   }
 
-  async renameCollection(coll: LearnableCollection) {
+  async renameCollection(coll: LearnableUserCollection) {
     const result = await this._modalService.open<string>('collection-rename', {
       name: coll.name
     })
@@ -78,6 +77,7 @@ export class CollectionsPageComp {
     this.selectedCollectionId.set(null)
   }
 
+  // move to share page
   async importCollection(event: Event) {
     const input = event.target as HTMLInputElement
     if (!input.files || input.files.length === 0) return
@@ -102,16 +102,5 @@ export class CollectionsPageComp {
         message: (e as Error).message
       })
     }
-  }
-
-  calcAvgGuesses(id: string): number {
-    const collection = this.collections().find((c) => c.id === id)
-    if (!collection) return 0
-
-    const learnables = this._lState
-      .learnables()
-      .filter((l) => collection.learnableIDs.includes(l.id))
-
-    return calculateAverageConfidencePercent(learnables)
   }
 }

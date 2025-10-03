@@ -10,6 +10,7 @@ import {
 import { AiService } from '../services/ai.service'
 import {
   LearnableBase,
+  LearnableBaseCollection,
   LearnablePartialWithId,
   StoreExport
 } from '../types_and_schemas/types'
@@ -42,10 +43,7 @@ export const LearnablesStore = signalStore(
       getCollectionlessLearnableIds(learnables(), collections())
     ),
     pseudoCollections: computed(() => {
-      let pseudoCollections: {
-        name: string
-        learnableIDs: string[]
-      }[] = []
+      const pseudoCollections: LearnableBaseCollection[] = []
 
       const collectionlessIds = getCollectionlessLearnableIds(
         learnables(),
@@ -53,14 +51,16 @@ export const LearnablesStore = signalStore(
       )
 
       pseudoCollections.push({
-        name: 'All',
-        learnableIDs: learnables().map((l) => l.id)
+        name: 'All Cards',
+        learnableIDs: learnables().map((l) => l.id),
+        id: 'all'
       })
 
       if (collectionlessIds.length > 0) {
         pseudoCollections.push({
           name: 'Unsorted',
-          learnableIDs: collectionlessIds
+          learnableIDs: collectionlessIds,
+          id: 'unsorted'
         })
       }
 

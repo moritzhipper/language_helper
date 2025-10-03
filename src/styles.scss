@@ -101,13 +101,6 @@ button {
     box-shadow: var(--shadow-small);
   }
 
-  &.silent {
-    font-size: inherit;
-    text-align: inherit;
-    margin: 0;
-    padding: 0;
-  }
-
   &[disabled] {
     opacity: var(--opacity-1);
     cursor: not-allowed;
@@ -134,6 +127,17 @@ select {
   }
 }
 
+button,
+select {
+  &.silent {
+    font-size: inherit;
+    text-align: inherit;
+    margin: 0;
+    padding: 0;
+    background-color: inherit;
+  }
+}
+
 * {
   outline: 0px solid transparent;
   transition: outline var(--duration-0);
@@ -156,10 +160,6 @@ label {
 input,
 select {
   padding: var(--distance-3) var(--distance-4);
-}
-
-select {
-  appearance: none;
 }
 
 a {

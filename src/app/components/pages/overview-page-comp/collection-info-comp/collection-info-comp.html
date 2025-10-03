@@ -1,0 +1,10 @@
+@let coll = selectedCollection();
+@let isUserCollection = 'created' in coll;
+
+<h2 class="ellipsis">{{ coll.name }}</h2>
+<div class="stats">
+  {{ averageConfidence() }}% confidence • {{ coll.learnableIDs.length }} cards
+  @if (isUserCollection) {
+    • {{ coll.created | date: 'MMM d, y' }}
+  }
+</div>
