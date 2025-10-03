@@ -53,7 +53,7 @@
 
   h2 {
     margin: 0 0 0 var(--distance-6);
-    text-shadow: 0 10px 12px var(--col-bg);
+    text-shadow: 0 5px 13px var(--col-bg);
   }
 
   .link {
@@ -81,8 +81,8 @@
 @include isDesktop() {
   :host {
     box-sizing: border-box;
-    margin: var(--distance-4);
-    width: 300px;
+    margin: var(--distance-4) 0 var(--distance-4) var(--distance-4);
+    width: 250px;
     align-items: stretch;
 
     .fake-shadow {
@@ -119,9 +119,10 @@
   .links-wrapper {
     display: flex;
     flex-direction: column;
-    gap: var(--distance-3);
+    gap: var(--distance-4);
 
     .link {
+      width: 120%;
       border-radius: var(--radius-3);
       transition:
         scale var(--duration-1) var(--overshot),
