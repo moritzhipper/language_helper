@@ -11,10 +11,10 @@ import { BaseModalDirective } from '../base-modal-directive'
   styleUrl: './import-form-comp.scss'
 })
 export class ImportFormComp extends BaseModalDirective {
-  storeExport = input.required<BankExport>()
+  bankExport = input.required<BankExport>()
 
   protected unsortedLearnablesCount = computed(() => {
-    const { learnables, collections } = this.storeExport()
+    const { learnables, collections } = this.bankExport()
 
     return getCollectionlessLearnableIds(learnables, collections).length
   })

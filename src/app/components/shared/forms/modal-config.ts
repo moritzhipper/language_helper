@@ -16,7 +16,7 @@ export type ModalType =
   | 'collection-add'
   | 'collection-rename'
   | 'collection-delete'
-  | 'collection-import'
+  | 'bank-import'
 
 export type OpenModalConfig = {
   type: ModalType
@@ -33,7 +33,7 @@ export const modalConfig: Record<ModalType, Type<unknown>> = {
   'collection-add': CollectionAddComp,
   'collection-rename': EditCollectionComp,
   'collection-delete': DeleteCollectionComp,
-  'collection-import': ImportFormComp
+  'bank-import': ImportFormComp
 }
 
 export const getModalComponent = (type: ModalType): Type<unknown> => {

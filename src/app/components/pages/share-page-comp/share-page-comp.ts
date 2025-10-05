@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core'
+import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { BankExport, BankExportOnline } from '../../../types_and_schemas/types'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
@@ -21,7 +22,8 @@ const enhance = (bank: BankExport): BankExportOnline => {
   styleUrl: './share-page-comp.scss'
 })
 export class SharePageComp {
-  private _toastS = inject(ToastService)
+  private readonly _toastS = inject(ToastService)
+  private readonly _modalService = inject(ModalService)
 
   userBanks = mockUserBanks.map(enhance)
   onlineBanks = mockOnlineBanks.map(enhance)
@@ -40,6 +42,10 @@ export class SharePageComp {
         message: `Failed to copy link. Do you have the clipboard permissions enabled?`
       })
     }
+  }
+
+  protected importBank(bank: BankExportOnline) {
+    this._modalService.open('bank-import', { bankExport: bank })
   }
 
   private generateLink(id: string): string {

@@ -86,7 +86,7 @@ export class CollectionsPageComp {
 
     try {
       const storeExport = await this._makeBlobS.readFile(file)
-      const result = await this._modalService.open('collection-import', {
+      const result = await this._modalService.open('bank-import', {
         storeExport
       })
 

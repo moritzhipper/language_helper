@@ -1,8 +1,8 @@
 <form (ngSubmit)="confirm()" class="modal">
   <div class="summary full fly-in-y-0">
-    <h2 class="full">import {{ storeExport().learnables.length }} cards?</h2>
+    <h2 class="full">import {{ bankExport().learnables.length }} cards?</h2>
     <div class="collections">
-      @for (collection of storeExport().collections; track $index) {
+      @for (collection of bankExport().collections; track $index) {
         <span
           >{{ collection.name }} ({{
             collection.learnableIDs.length
