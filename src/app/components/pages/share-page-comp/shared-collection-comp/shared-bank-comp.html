@@ -14,5 +14,5 @@
 </div>
 
 <div class="shared">{{ bank().created | date: 'mediumDate' }}</div>
-<div class="ttl">expires in {{ bank().expires | date: 'short' }}</div>
+<div class="ttl">expires in {{ ttl() }}</div>
 <div class="counter">{{ _c.cards }}</div>

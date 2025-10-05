@@ -41,7 +41,7 @@ const enhance = (bank: BankExport): BankExportOnline => {
   return {
     ...bank,
     created: new Date(),
-    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+    expires: new Date(Date.now() + 1000 * 60),
     id: crypto.randomUUID()
   }
 }
