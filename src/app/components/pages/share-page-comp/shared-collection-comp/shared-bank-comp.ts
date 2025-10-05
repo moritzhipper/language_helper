@@ -66,7 +66,10 @@ export class SharedBankComp implements OnDestroy {
 
     // If already expired
     if (diffMs <= 0) {
-      return 'Expired'
+      return {
+        label: 'expired',
+        isExpired: true
+      }
     }
 
     const diffSeconds = Math.floor(diffMs / 1000)
@@ -74,25 +77,24 @@ export class SharedBankComp implements OnDestroy {
     const diffHours = Math.floor(diffMinutes / 60)
     const diffDays = Math.floor(diffHours / 24)
 
+    let ttlString = ''
     // More than a week: show the date
     if (diffDays > 7) {
-      return expires.toLocaleDateString()
+      ttlString = expires.toLocaleDateString()
+    } else if (diffDays > 0) {
+      ttlString = this.pluralize(diffDays, 'day')
+    } else if (diffHours > 0) {
+      ttlString = this.pluralize(diffHours, 'hour')
+    } else if (diffMinutes > 0) {
+      ttlString = this.pluralize(diffMinutes, 'minute')
+    } else {
+      ttlString = this.pluralize(diffSeconds, 'second')
     }
 
-    // Less than a week: show the biggest unit
-    if (diffDays > 0) {
-      return this.pluralize(diffDays, 'day')
+    return {
+      label: `expires in ${ttlString}`,
+      isExpired: false
     }
-
-    if (diffHours > 0) {
-      return this.pluralize(diffHours, 'hour')
-    }
-
-    if (diffMinutes > 0) {
-      return this.pluralize(diffMinutes, 'minute')
-    }
-
-    return this.pluralize(diffSeconds, 'second')
   })
 
   ngOnDestroy(): void {

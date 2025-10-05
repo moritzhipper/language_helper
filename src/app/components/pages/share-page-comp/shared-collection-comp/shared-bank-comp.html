@@ -1,6 +1,10 @@
 <div class="header">
   <div class="name">{{ header() }}</div>
-  <button class="silent copy" (click)="copyId.emit()">
+  <button
+    class="silent copy"
+    [disabled]="ttl().isExpired"
+    (click)="copyId.emit()"
+  >
     <app-icon-comp type="copy" />
   </button>
 </div>
@@ -14,5 +18,5 @@
 </div>
 
 <div class="shared">{{ bank().created | date: 'mediumDate' }}</div>
-<div class="ttl">expires in {{ ttl() }}</div>
+<div class="ttl">{{ ttl().label }}</div>
 <div class="counter">{{ _c.cards }}</div>
