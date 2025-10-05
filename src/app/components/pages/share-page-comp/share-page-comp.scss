@@ -1,3 +1,9 @@
+:host {
+  width: 900px;
+}
+
 .collections {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--distance-4);
 }

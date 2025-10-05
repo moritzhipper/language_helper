@@ -1,32 +1,55 @@
 :host {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr auto auto;
-
-  position: relative;
-  background-color: var(--col-accent);
-  width: 300px;
-  height: 150px;
+  grid-template-rows: min-content 1fr min-content;
+  gap: var(--distance-2);
   overflow: hidden;
-  border-radius: var(--radius-2);
-  padding: var(--distance-3) var(--distance-4);
-  box-sizing: border-box;
 
-  app-icon-comp {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: -30%;
-    left: -30%;
-  }
+  height: 150px;
+  position: relative;
+  background-color: rgb(from var(--col-accent) r g b / var(--opacity-0));
+  border-radius: var(--radius-2);
+  padding: var(--distance-4);
+  box-sizing: border-box;
 
   .header {
     grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr auto;
     font-size: var(--font-size-2);
     font-weight: var(--font-weight-bold);
+    line-height: var(--font-size-2);
   }
 
-  .created {
+  .info {
+    grid-column: span 2;
+  }
+
+  .counter {
+    --height: 140px;
+    --displace: calc(var(--distance-4) * -1);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--height);
+    line-height: calc(var(--height) - 20px);
+    position: absolute;
+    bottom: var(--displace);
+    right: var(--displace);
+    opacity: 0.07;
+    z-index: -1;
+    user-select: none;
+  }
+
+  .copy {
     opacity: var(--opacity-1);
+  }
+
+  .shared,
+  .ttl,
+  .info {
+    opacity: var(--opacity-1);
+    font-size: var(--font-size-0);
+  }
+  .ttl {
+    place-self: end;
   }
 }
