@@ -6,13 +6,21 @@
   <h2>your recent shares</h2>
   <div class="collections user">
     @for (bank of userBanks; track bank.name) {
-      <app-shared-bank-comp [bank]="bank" (copyId)="copyLink(bank)" />
+      <app-shared-bank-comp
+        [bank]="bank"
+        (copyId)="copyLink(bank)"
+        [allowImport]="false"
+      />
     }
   </div>
   <h2>community shares</h2>
   <div class="collections community">
     @for (bank of onlineBanks; track bank.name) {
-      <app-shared-bank-comp [bank]="bank" (copyId)="copyLink(bank)" />
+      <app-shared-bank-comp
+        [bank]="bank"
+        (copyId)="copyLink(bank)"
+        (importBank)="importBank(bank)"
+      />
     }
   </div>
 </app-page-wrapper-comp>

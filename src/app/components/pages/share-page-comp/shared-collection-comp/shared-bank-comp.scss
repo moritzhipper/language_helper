@@ -14,11 +14,16 @@
 
   .header {
     grid-column: span 2;
-    display: grid;
-    grid-template-columns: 1fr auto;
+    display: flex;
+
+    gap: var(--distance-4);
     font-size: var(--font-size-2);
     font-weight: var(--font-weight-bold);
     line-height: var(--font-size-2);
+
+    .name {
+      margin-right: auto;
+    }
   }
 
   .info {

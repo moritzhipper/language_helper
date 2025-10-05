@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
+import { LearnablesStore } from '../../../store/learnablesStore'
 import { BankExport, BankExportOnline } from '../../../types_and_schemas/types'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { mockOnlineBanks, mockUserBanks } from './mockBanks'
@@ -24,6 +25,7 @@ const enhance = (bank: BankExport): BankExportOnline => {
 export class SharePageComp {
   private readonly _toastS = inject(ToastService)
   private readonly _modalService = inject(ModalService)
+  private readonly _lStore = inject(LearnablesStore)
 
   userBanks = mockUserBanks.map(enhance)
   onlineBanks = mockOnlineBanks.map(enhance)
@@ -44,8 +46,19 @@ export class SharePageComp {
     }
   }
 
-  protected importBank(bank: BankExportOnline) {
-    this._modalService.open('bank-import', { bankExport: bank })
+  protected async importBank(bank: BankExportOnline) {
+    const result = await this._modalService.open<BankExportOnline>(
+      'bank-import',
+      {
+        bankExport: bank
+      }
+    )
+
+    if (result.type !== 'confirm') return
+
+    // todo: handle import of filetype BankExportOnline
+    // this._lStore.importBankExport(result.bankExport)
+    alert('implement')
   }
 
   private generateLink(id: string): string {

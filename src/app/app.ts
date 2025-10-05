@@ -10,6 +10,4 @@ import { ToastOutletComp } from './components/shared/toast-outlet-comp/toast-out
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
-  protected title = 'language-helper'
-}
+export class App {}

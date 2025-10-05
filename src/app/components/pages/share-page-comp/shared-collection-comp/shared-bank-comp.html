@@ -1,12 +1,17 @@
 <div class="header">
   <div class="name">{{ bank().name }}</div>
-  <button
-    class="silent copy"
-    [disabled]="ttl().isExpired"
-    (click)="copyId.emit()"
-  >
-    <app-icon-comp type="copy" />
-  </button>
+
+  @if (!ttl().isExpired) {
+    <button class="silent copy" (click)="copyId.emit()">
+      <app-icon-comp type="copy" />
+    </button>
+
+    @if (allowImport()) {
+      <button class="silent import" (click)="importBank.emit()">
+        <app-icon-comp type="add" />
+      </button>
+    }
+  }
 </div>
 <div class="info">
   @let _c = counter();
@@ -19,6 +24,5 @@
 </div>
 
 <div class="shared">{{ bank().created | date: 'mediumDate' }}</div>
-
 <div class="ttl">{{ ttl().label }}</div>
 <div class="counter">{{ _c.cards }}</div>

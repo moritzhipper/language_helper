@@ -96,7 +96,7 @@ export const LearnablesStore = signalStore(
           editCollectionLearnables(collectionID, addIDs, deleteIDs)
         )
       },
-      importExportedCollections(importStore: BankExport) {
+      importBankExport(importStore: BankExport) {
         patchState(state, saveImportedCollections(importStore))
       },
       editCollection(name: string, id: string) {

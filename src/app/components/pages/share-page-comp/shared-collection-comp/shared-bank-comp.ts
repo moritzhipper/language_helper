@@ -33,13 +33,15 @@ export class SharedBankComp implements OnDestroy {
    *
    */
   bank = input.required<BankExportOnline>()
-  currentTime = signal(Date.now())
+  allowImport = input<boolean>(true)
+  copyId = output<void>()
+  importBank = output<void>()
+
+  private readonly currentTime = signal(Date.now())
 
   private timeInterval = setInterval(() => {
     this.currentTime.set(Date.now())
   }, 1000)
-
-  copyId = output<void>()
 
   protected readonly counter = computed<Counter>(() => ({
     cards: this.bank().learnables.length,

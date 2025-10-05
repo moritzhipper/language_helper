@@ -92,7 +92,7 @@ export class CollectionsPageComp {
 
       if (result.type !== 'confirm') return
 
-      this._lState.importExportedCollections(storeExport)
+      this._lState.importBankExport(storeExport)
       this._toastS.showToast({
         type: 'info',
         message: `${storeExport.learnables.length} cards imported`
