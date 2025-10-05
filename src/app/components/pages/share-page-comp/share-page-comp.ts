@@ -58,10 +58,18 @@ export class SharePageComp {
   userBanks = mockUserBanks.map(enhance)
   onlineBanks = mockOnlineBanks.map(enhance)
 
-  copyLink(bank: BankExportOnline) {
-    this._toastS.showToast({
-      type: 'info',
-      message: `Link to ${bank.name} copied to clipboard`
-    })
+  async copyLink(bank: BankExportOnline) {
+    try {
+      await navigator.clipboard.writeText(bank.id)
+      this._toastS.showToast({
+        type: 'info',
+        message: `Link to ${bank.name} copied to clipboard`
+      })
+    } catch {
+      this._toastS.showToast({
+        type: 'error',
+        message: `Failed to copy link. Do you have the clipboard permissions enabled?`
+      })
+    }
   }
 }
