@@ -3,13 +3,13 @@
   icon="share-network-fill"
   desktopMode="center"
 >
-  <h2>you recently shared</h2>
+  <h2>your recent shares</h2>
   <div class="collections">
     @for (bank of userBanks; track bank.name) {
       <app-shared-bank-comp [bank]="bank" (copyId)="copyLink(bank)" />
     }
   </div>
-  <h2>community</h2>
+  <h2>community shares</h2>
   <div class="collections">
     @for (bank of onlineBanks; track bank.name) {
       <app-shared-bank-comp [bank]="bank" (copyId)="copyLink(bank)" />
