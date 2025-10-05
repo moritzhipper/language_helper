@@ -1,6 +1,6 @@
 <div class="header">
   <div class="name">{{ header() }}</div>
-  <button class="silent copy">
+  <button class="silent copy" (click)="copyId.emit()">
     <app-icon-comp type="copy" />
   </button>
 </div>

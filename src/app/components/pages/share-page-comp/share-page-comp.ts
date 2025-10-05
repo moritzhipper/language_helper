@@ -1,4 +1,5 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
+import { ToastService } from '../../../services/toast-service'
 import { BankExport, BankExportOnline } from '../../../types_and_schemas/types'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { SharedBankComp } from './shared-collection-comp/shared-bank-comp'
@@ -52,6 +53,15 @@ const enhance = (bank: BankExport): BankExportOnline => {
   styleUrl: './share-page-comp.scss'
 })
 export class SharePageComp {
+  private _toastS = inject(ToastService)
+
   userBanks = mockUserBanks.map(enhance)
   onlineBanks = mockOnlineBanks.map(enhance)
+
+  copyLink(bank: BankExportOnline) {
+    this._toastS.showToast({
+      type: 'info',
+      message: `Link to ${bank.name} copied to clipboard`
+    })
+  }
 }

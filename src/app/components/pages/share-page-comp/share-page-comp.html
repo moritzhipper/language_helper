@@ -6,13 +6,13 @@
   <h2>you recently shared</h2>
   <div class="collections">
     @for (bank of userBanks; track bank.name) {
-      <app-shared-bank-comp [bank]="bank" />
+      <app-shared-bank-comp [bank]="bank" (copyId)="copyLink(bank)" />
     }
   </div>
   <h2>community</h2>
   <div class="collections">
     @for (bank of onlineBanks; track bank.name) {
-      <app-shared-bank-comp [bank]="bank" />
+      <app-shared-bank-comp [bank]="bank" (copyId)="copyLink(bank)" />
     }
   </div>
 </app-page-wrapper-comp>

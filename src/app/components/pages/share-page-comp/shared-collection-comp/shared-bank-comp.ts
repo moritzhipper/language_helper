@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common'
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, output } from '@angular/core'
 import { BankExportOnline } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 
@@ -29,17 +29,19 @@ export class SharedBankComp {
    */
   bank = input.required<BankExportOnline>()
 
-  holdsMultipleCollections = computed(
+  copyId = output<void>()
+
+  protected readonly holdsMultipleCollections = computed(
     () => this.bank().collections.length === 1
   )
 
-  header = computed(() => {
+  protected readonly header = computed(() => {
     return this.holdsMultipleCollections()
       ? this.bank().collections[0].name
       : this.bank().name
   })
 
-  counter = computed<Counter>(() => ({
+  protected readonly counter = computed<Counter>(() => ({
     cards: this.bank().learnables.length,
     words: this.bank().learnables.filter((l) => l.type === 'word').length,
     phrases: this.bank().learnables.filter((l) => l.type === 'phrase').length,
