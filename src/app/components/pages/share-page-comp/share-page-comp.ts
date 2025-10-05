@@ -1,11 +1,12 @@
 import { Component } from '@angular/core'
-import { BankExport } from '../../../types_and_schemas/types'
+import { BankExport, BankExportOnline } from '../../../types_and_schemas/types'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { SharedBankComp } from './shared-collection-comp/shared-bank-comp'
 
 export const mockUserBanks: BankExport[] = [
   {
     name: 'Business Presentation',
+
     learnables: [],
     collections: []
   },
@@ -35,6 +36,15 @@ export const mockOnlineBanks: BankExport[] = [
   }
 ]
 
+const enhance = (bank: BankExport): BankExportOnline => {
+  return {
+    ...bank,
+    created: new Date(),
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+    id: crypto.randomUUID()
+  }
+}
+
 @Component({
   selector: 'app-share-page-comp',
   imports: [PageWrapperComp, SharedBankComp],
@@ -42,6 +52,6 @@ export const mockOnlineBanks: BankExport[] = [
   styleUrl: './share-page-comp.scss'
 })
 export class SharePageComp {
-  userBanks = mockUserBanks
-  onlineBanks = mockOnlineBanks
+  userBanks = mockUserBanks.map(enhance)
+  onlineBanks = mockOnlineBanks.map(enhance)
 }

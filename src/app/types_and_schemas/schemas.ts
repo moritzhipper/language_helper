@@ -34,3 +34,9 @@ export const BankExportSchema = z.object({
   learnables: z.array(LearnableWithIdSchema),
   collections: z.array(CollectionBaseSchema)
 })
+
+export const BankExportOnlineSchema = BankExportSchema.extend({
+  expires: z.date(),
+  created: z.date(),
+  id: z.uuid()
+})

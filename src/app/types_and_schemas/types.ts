@@ -1,5 +1,6 @@
 import z from 'zod'
 import {
+  BankExportOnlineSchema,
   BankExportSchema,
   CollectionBaseSchema,
   LearnableBaseSchema,
@@ -14,6 +15,7 @@ export type LearnableCollectionWithId = z.infer<
   typeof LearnableCollectionWithId
 >
 export type BankExport = z.infer<typeof BankExportSchema>
+export type BankExportOnline = z.infer<typeof BankExportOnlineSchema>
 export type LearnableWithId = z.infer<typeof LearnableWithIdSchema>
 
 export type Learnable = LearnableWithId & {

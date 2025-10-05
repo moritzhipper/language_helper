@@ -1,5 +1,6 @@
+import { DatePipe } from '@angular/common'
 import { Component, computed, input } from '@angular/core'
-import { BankExport } from '../../../../types_and_schemas/types'
+import { BankExportOnline } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 
 type Counter = {
@@ -11,7 +12,7 @@ type Counter = {
 
 @Component({
   selector: 'app-shared-bank-comp',
-  imports: [IconComp],
+  imports: [IconComp, DatePipe],
   templateUrl: './shared-bank-comp.html',
   styleUrl: './shared-bank-comp.scss'
 })
@@ -26,7 +27,7 @@ export class SharedBankComp {
    *
    *
    */
-  bank = input.required<BankExport>()
+  bank = input.required<BankExportOnline>()
 
   holdsMultipleCollections = computed(
     () => this.bank().collections.length === 1

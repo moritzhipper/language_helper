@@ -13,6 +13,6 @@
   <span> {{ _c.phrases }} phrases </span>
 </div>
 
-<div class="shared">August 10, 25</div>
-<div class="ttl">expires in {{ 1 }} units</div>
+<div class="shared">{{ bank().created | date: 'mediumDate' }}</div>
+<div class="ttl">expires in {{ bank().expires | date: 'short' }}</div>
 <div class="counter">{{ _c.cards }}</div>
