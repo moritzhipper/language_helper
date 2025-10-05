@@ -8,13 +8,12 @@ html {
 body,
 html {
   margin: 0;
-
   position: relative;
 }
 
 * {
-  scrollbar-color: rgb(from var(--col-accent) r g b / var(--opacity-1))
-    transparent;
+  scrollbar-color: var(--col-accent)
+    rgb(from var(--col-accent) r g b / var(--opacity-0));
   scrollbar-width: thin;
 }
 
