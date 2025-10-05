@@ -25,11 +25,9 @@ type Counter = {
 })
 export class SharedBankComp implements OnDestroy {
   /**
-   * Todo:
+   * Todo
    *
-   * mark already imported collections, but allow re-importing
-   * show time left to import: days, hours or minutes, depending on time left
-   *
+   * - when sharing multiple collections at once is enabled, always show collection count in view
    *
    *
    *

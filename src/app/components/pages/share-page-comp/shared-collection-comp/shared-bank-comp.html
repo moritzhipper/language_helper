@@ -10,7 +10,10 @@
 </div>
 <div class="info">
   @let _c = counter();
-  <span> {{ _c.collections }} </span>
+
+  @if (bank().collections.length > 1) {
+    <span> {{ _c.collections }} collections </span>
+  }
   <span> {{ _c.words }} </span>
   <span> {{ _c.phrases }} </span>
 </div>

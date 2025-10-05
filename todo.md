@@ -13,6 +13,7 @@
 
 ## Later
 
+- how to handle sharing multiple selection
 - import (from file)
 - notes mode
 - stats page with collections, top and worst, most ppracticed, hardest words, progressgraph

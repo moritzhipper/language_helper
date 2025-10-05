@@ -3,9 +3,18 @@
 ## Store
 
 - has array of learnables
-  - is never directly displayed to user, only through pseudo collections
+  - Is never directly displayed to user, only through pseudo collections
 - has collections
-  - user created collections having, name, created date, etc...
+  - User created collections having, name, created date, etc...
   - has automatic pseudocollections
     - All cards
-    - cards not sorted into any collections
+    - Cards not sorted into any collections
+
+## Share Functionality
+
+- A unique iq is assigned to the user on first load and then persisted in localStorage
+- Shared Cards can not be unshared
+- Recent shares of user are identified as follows
+  - via user id
+- Format / Type of shared cards is 'Bank'
+- A 'Bank' can contain 0 to n Collections and Cards
