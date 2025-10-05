@@ -5,8 +5,14 @@
 >
   <h2>you recently shared</h2>
   <div class="collections">
-    <app-shared-collection-comp />
-    <app-shared-collection-comp />
+    @for (bank of userBanks; track bank.name) {
+      <app-shared-bank-comp [bank]="bank" />
+    }
   </div>
-  <h2>popular</h2>
+  <h2>community</h2>
+  <div class="collections">
+    @for (bank of onlineBanks; track bank.name) {
+      <app-shared-bank-comp [bank]="bank" />
+    }
+  </div>
 </app-page-wrapper-comp>

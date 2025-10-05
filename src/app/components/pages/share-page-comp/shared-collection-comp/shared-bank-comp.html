@@ -1,0 +1,18 @@
+<div class="header">
+  <div class="name">{{ header() }}</div>
+  <button class="silent copy">
+    <app-icon-comp type="copy" />
+  </button>
+</div>
+<div class="info">
+  @let _c = counter();
+  @if (holdsMultipleCollections()) {
+    <span> {{ _c.collections }} </span>
+  }
+  <span> {{ _c.words }} words </span>
+  <span> {{ _c.phrases }} phrases </span>
+</div>
+
+<div class="shared">August 10, 25</div>
+<div class="ttl">expires in {{ 1 }} units</div>
+<div class="counter">{{ _c.cards }}</div>

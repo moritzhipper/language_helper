@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
-import { StoreExport } from '../../../../types_and_schemas/types'
+import { BankExport } from '../../../../types_and_schemas/types'
 import { getCollectionlessLearnableIds } from '../../../../utils/genaral-utils'
 import { BaseModalDirective } from '../base-modal-directive'
 
@@ -11,7 +11,7 @@ import { BaseModalDirective } from '../base-modal-directive'
   styleUrl: './import-form-comp.scss'
 })
 export class ImportFormComp extends BaseModalDirective {
-  storeExport = input.required<StoreExport>()
+  storeExport = input.required<BankExport>()
 
   protected unsortedLearnablesCount = computed(() => {
     const { learnables, collections } = this.storeExport()

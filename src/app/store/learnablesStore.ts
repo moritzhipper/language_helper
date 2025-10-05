@@ -9,10 +9,10 @@ import {
 } from '@ngrx/signals'
 import { AiService } from '../services/ai.service'
 import {
+  BankExport,
   LearnableBase,
-  LearnableBaseCollection,
-  LearnablePartialWithId,
-  StoreExport
+  LearnableCollectionWithId,
+  LearnablePartialWithId
 } from '../types_and_schemas/types'
 import { getCollectionlessLearnableIds } from '../utils/genaral-utils'
 import { initialLearnables } from './initialStates'
@@ -43,7 +43,7 @@ export const LearnablesStore = signalStore(
       getCollectionlessLearnableIds(learnables(), collections())
     ),
     pseudoCollections: computed(() => {
-      const pseudoCollections: LearnableBaseCollection[] = []
+      const pseudoCollections: LearnableCollectionWithId[] = []
 
       const collectionlessIds = getCollectionlessLearnableIds(
         learnables(),
@@ -96,7 +96,7 @@ export const LearnablesStore = signalStore(
           editCollectionLearnables(collectionID, addIDs, deleteIDs)
         )
       },
-      importExportedCollections(importStore: StoreExport) {
+      importExportedCollections(importStore: BankExport) {
         patchState(state, saveImportedCollections(importStore))
       },
       editCollection(name: string, id: string) {

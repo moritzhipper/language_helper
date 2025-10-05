@@ -6,7 +6,6 @@ import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { LearnableUserCollection } from '../../../types_and_schemas/types'
-import { mapToExport } from '../../../utils/import-export-utils'
 import { ConfirmCollectionDeletionType } from '../../shared/forms/delete-collection-comp/delete-collection-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
@@ -37,8 +36,10 @@ export class CollectionsPageComp {
     if (!collection) return null
 
     return this._makeBlobS.createDownloadableFromLearnables(
-      mapToExport(this._lState.learnables(), [collection], true),
-      collection.name
+      collection.name,
+      this._lState.learnables(),
+      [collection],
+      true
     )
   })
 

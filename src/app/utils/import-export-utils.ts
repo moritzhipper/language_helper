@@ -1,13 +1,13 @@
 import { config } from '../../config'
-import { StoreExportSchema } from '../types_and_schemas/schemas'
+import { BankExportSchema } from '../types_and_schemas/schemas'
 import {
+  BankExport,
   CollectionExport,
   Learnable,
   LearnableBase,
-  LearnableBaseCollection,
-  LearnableExport,
+  LearnableCollectionWithId,
   LearnableUserCollection,
-  StoreExport
+  LearnableWithId
 } from '../types_and_schemas/types'
 
 // #region Export Functions
@@ -15,11 +15,12 @@ import {
 /**
  * Maps the learnables and collections to a format suitable to put into a file for export.
  */
-export const mapToExport = (
+export const mapToBankExport = (
+  name: string,
   learnables: Learnable[],
-  collections: LearnableBaseCollection[],
+  collections: LearnableCollectionWithId[],
   removeCardsWithoutCollection: boolean = false
-): StoreExport => {
+): BankExport => {
   let relevantLearnables = learnables
 
   if (removeCardsWithoutCollection) {
@@ -29,7 +30,7 @@ export const mapToExport = (
     )
   }
 
-  const learnableExp: LearnableExport[] = relevantLearnables.map(
+  const learnableExp: LearnableWithId[] = relevantLearnables.map(
     (learnable) => ({
       lexeme: learnable.lexeme,
       translation: learnable.translation,
@@ -45,6 +46,7 @@ export const mapToExport = (
   }))
 
   return {
+    name,
     learnables: learnableExp,
     collections: collectionExp
   }
@@ -52,9 +54,9 @@ export const mapToExport = (
 
 // #region Import Functions
 
-export const parseFileImportString = (fileAsString: string): StoreExport => {
+export const parseFileImportString = (fileAsString: string): BankExport => {
   try {
-    return StoreExportSchema.parse(JSON.parse(fileAsString))
+    return BankExportSchema.parse(JSON.parse(fileAsString))
   } catch (e) {
     console.error('Failed to parse learnables from file:', e)
     throw new Error('Invalid file format')
@@ -75,7 +77,7 @@ export const verifiyImportedFileValidity = (file: File): void => {
  * Reassigns new IDs to ensure uniqueness and avoid conflicts with existing learnables when reimporting collections.
  */
 export const mapFileImportToAddableLearnables = (
-  fileImport: StoreExport
+  fileImport: BankExport
 ): { learnables: Learnable[]; collections: LearnableUserCollection[] } => {
   // create a map to ensure unique IDs in the import
   // this is necessary to avoid conflicts with existing learnables on reimport

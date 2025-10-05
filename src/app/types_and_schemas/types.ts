@@ -1,19 +1,22 @@
 import z from 'zod'
 import {
-  CollectionExportSchema,
+  BankExportSchema,
+  CollectionBaseSchema,
   LearnableBaseSchema,
-  LearnableExportSchema,
-  StoreExportSchema
+  LearnableCollectionWithId,
+  LearnableWithIdSchema
 } from './schemas'
 
 export type LearnableBase = z.infer<typeof LearnableBaseSchema>
 
-export type CollectionExport = z.infer<typeof CollectionExportSchema>
-export type StoreExport = z.infer<typeof StoreExportSchema>
-export type LearnableExport = z.infer<typeof LearnableExportSchema>
+export type CollectionExport = z.infer<typeof CollectionBaseSchema>
+export type LearnableCollectionWithId = z.infer<
+  typeof LearnableCollectionWithId
+>
+export type BankExport = z.infer<typeof BankExportSchema>
+export type LearnableWithId = z.infer<typeof LearnableWithIdSchema>
 
-export type Learnable = LearnableBase & {
-  id: string
+export type Learnable = LearnableWithId & {
   created: Date
   guesses: {
     lexeme: boolean[]
@@ -29,12 +32,6 @@ export type LearnableUserCollection = {
   created: Date
   learnableIDs: string[]
   practicedDates: Date[] // put Practices here?
-}
-
-export type LearnableBaseCollection = {
-  name: string
-  learnableIDs: string[]
-  id: string
 }
 
 // addedLatestIDs: string[]

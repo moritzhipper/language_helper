@@ -7,7 +7,7 @@ import z from 'zod'
 import {
   CollectionExport,
   Learnable,
-  LearnableExport
+  LearnableWithId
 } from '../types_and_schemas/types'
 
 /**
@@ -52,7 +52,7 @@ export const calculateAverageConfidencePercent = (
 }
 
 export const getCollectionlessLearnableIds = (
-  learnables: LearnableExport[],
+  learnables: LearnableWithId[],
   collections: CollectionExport[]
 ): string[] => {
   const collectionLearnableIds = collections.flatMap((c) => c.learnableIDs)

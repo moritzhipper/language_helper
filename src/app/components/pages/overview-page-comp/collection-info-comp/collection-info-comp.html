@@ -3,8 +3,12 @@
 
 <h2 class="ellipsis">{{ coll.name }}</h2>
 <div class="stats">
-  {{ averageConfidence() }}% confidence • {{ coll.learnableIDs.length }} cards
+  <span> {{ averageConfidence() }}% confidence </span>
+  <span> {{ coll.learnableIDs.length }} cards </span>
+
   @if (isUserCollection) {
-    • {{ coll.created | date: 'MMM d, y' }}
+    <span>
+      {{ coll.created | date: 'MMM d, y' }}
+    </span>
   }
 </div>

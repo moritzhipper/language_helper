@@ -16,16 +16,21 @@ export const LearnableBaseSchema = z.object({
   type: z.enum(['phrase', 'word'])
 })
 
-export const CollectionExportSchema = z.object({
+export const LearnableWithIdSchema = LearnableBaseSchema.extend({
+  id: z.uuid()
+})
+
+export const CollectionBaseSchema = z.object({
   name: z.string(),
   learnableIDs: z.array(z.uuid())
 })
 
-export const LearnableExportSchema = LearnableBaseSchema.extend({
-  id: z.uuid()
+export const LearnableCollectionWithId = CollectionBaseSchema.extend({
+  id: z.string()
 })
 
-export const StoreExportSchema = z.object({
-  learnables: z.array(LearnableExportSchema),
-  collections: z.array(CollectionExportSchema)
+export const BankExportSchema = z.object({
+  name: z.string(),
+  learnables: z.array(LearnableWithIdSchema),
+  collections: z.array(CollectionBaseSchema)
 })

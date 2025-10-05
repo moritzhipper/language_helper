@@ -18,10 +18,7 @@ import {
   calculateAverageConfidencePercent,
   removeDuplicates
 } from '../../../utils/genaral-utils'
-import {
-  filterDoubleEntries,
-  mapToExport
-} from '../../../utils/import-export-utils'
+import { filterDoubleEntries } from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
 import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
@@ -337,8 +334,10 @@ export class OverviewComp {
     const collection = this.selectedCollection()
 
     return this._makeBlobS.createDownloadableFromLearnables(
-      mapToExport(this._lStore.learnables(), [collection], true),
-      collection.name
+      collection.name,
+      this._lStore.learnables(),
+      [collection],
+      true
     )
   })
 }

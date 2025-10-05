@@ -4,6 +4,10 @@
   - shared by you
   - shared with you
   - when duplicate, add id to imported collection
+  - shared collection with storeexport as input
+  - when only one collection: show its name name inf
+  - when multiple: show collection count and export name
+  - allow selection of ttl: 5 min, 1 day, 1 month
 - allow multiple languages
 
 ## Later

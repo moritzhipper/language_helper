@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common'
 import { Component, input } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import {
-  LearnableBaseCollection,
+  LearnableCollectionWithId,
   LearnableUserCollection
 } from '../../../../types_and_schemas/types'
 
@@ -14,7 +14,7 @@ import {
 })
 export class CollectionInfoComp {
   selectedCollection = input.required<
-    LearnableUserCollection | LearnableBaseCollection
+    LearnableUserCollection | LearnableCollectionWithId
   >()
   averageConfidence = input.required<number>()
 }
