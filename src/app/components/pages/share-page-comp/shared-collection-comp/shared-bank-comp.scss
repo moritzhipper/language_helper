@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: min-content 1fr min-content;
-  gap: var(--distance-2);
+  gap: var(--distance-2) 0;
   overflow: hidden;
 
   height: 150px;
@@ -23,6 +23,7 @@
 
   .info {
     grid-column: span 2;
+
     span:not(:last-of-type):after {
       content: '•';
     }

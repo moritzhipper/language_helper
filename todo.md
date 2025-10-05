@@ -2,12 +2,13 @@
 
 - social tab
   - shared by you
-  - shared with you
+  - community
   - when duplicate, add id to imported collection
   - when only one collection: show its name name inf
   - when multiple: show collection count and export name
 
   - allow selection of ttl: 5 min, 1 day, 1 month
+  - deploy via cloudflare pages, worker and upstash redis
 
 - allow multiple languages
 
