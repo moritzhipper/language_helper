@@ -1,11 +1,12 @@
 :host {
   position: relative;
   display: block;
-  padding-top: calc(var(--font-size-4) - var(--distance-3));
+  padding-top: calc(var(--font-size-4) - var(--distance-4));
 
   h2 {
     top: 0;
     left: 0;
+    line-height: var(--font-size-4);
     font-size: var(--font-size-4);
     position: absolute;
     opacity: var(--opacity-1);

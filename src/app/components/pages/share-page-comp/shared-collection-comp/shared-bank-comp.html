@@ -1,5 +1,5 @@
 <div class="header">
-  <div class="name">{{ header() }}</div>
+  <div class="name">{{ bank().name }}</div>
   <button
     class="silent copy"
     [disabled]="ttl().isExpired"
@@ -10,13 +10,12 @@
 </div>
 <div class="info">
   @let _c = counter();
-  @if (holdsMultipleCollections()) {
-    <span> {{ _c.collections }} </span>
-  }
-  <span> {{ _c.words }} words </span>
-  <span> {{ _c.phrases }} phrases </span>
+  <span> {{ _c.collections }} </span>
+  <span> {{ _c.words }} </span>
+  <span> {{ _c.phrases }} </span>
 </div>
 
 <div class="shared">{{ bank().created | date: 'mediumDate' }}</div>
+
 <div class="ttl">{{ ttl().label }}</div>
 <div class="counter">{{ _c.cards }}</div>

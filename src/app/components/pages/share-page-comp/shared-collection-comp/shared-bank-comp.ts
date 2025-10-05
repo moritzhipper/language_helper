@@ -12,9 +12,9 @@ import { IconComp } from '../../../shared/icon-comp/icon-comp'
 
 type Counter = {
   cards: number
-  words: number
-  phrases: number
-  collections: number
+  words: string
+  phrases: string
+  collections: string
 }
 
 @Component({
@@ -43,21 +43,17 @@ export class SharedBankComp implements OnDestroy {
 
   copyId = output<void>()
 
-  protected readonly holdsMultipleCollections = computed(
-    () => this.bank().collections.length === 1
-  )
-
-  protected readonly header = computed(() => {
-    return this.holdsMultipleCollections()
-      ? this.bank().collections[0].name
-      : this.bank().name
-  })
-
   protected readonly counter = computed<Counter>(() => ({
     cards: this.bank().learnables.length,
-    words: this.bank().learnables.filter((l) => l.type === 'word').length,
-    phrases: this.bank().learnables.filter((l) => l.type === 'phrase').length,
-    collections: this.bank().collections.length
+    words: this.pluralize(
+      this.bank().learnables.filter((l) => l.type === 'word').length,
+      'word'
+    ),
+    phrases: this.pluralize(
+      this.bank().learnables.filter((l) => l.type === 'phrase').length,
+      'phrase'
+    ),
+    collections: this.pluralize(this.bank().collections.length, 'collection')
   }))
 
   protected readonly ttl = computed(() => {
