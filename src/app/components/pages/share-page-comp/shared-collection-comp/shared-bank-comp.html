@@ -16,7 +16,7 @@
 <div class="info">
   @let _c = counter();
 
-  @if (bank().collections.length > 1) {
+  @if (hasMultipleCollections()) {
     <span> {{ _c.collections }} </span>
   }
   <span> {{ _c.words }} </span>
@@ -25,4 +25,8 @@
 
 <div class="shared">{{ bank().created | date: 'mediumDate' }}</div>
 <div class="ttl">{{ ttl().label }}</div>
-<div class="counter">{{ _c.cards }}</div>
+<div class="counter">
+  <div class="wrapper">
+    {{ _c.cards }}
+  </div>
+</div>

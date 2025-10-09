@@ -11,6 +11,7 @@
   - deploy via cloudflare pages, worker and upstash redis
 
 - allow multiple languages
+  - pairing, welches cards und collections enthaelt
 
 ## Later
 

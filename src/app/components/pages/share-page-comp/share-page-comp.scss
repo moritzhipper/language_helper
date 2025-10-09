@@ -24,7 +24,7 @@
     overflow-x: auto;
     display: flex;
     margin: 0 calc(var(--distance-4) * -1);
-    padding: 0 var(--distance-4);
+    padding: 0 var(--distance-4) var(--distance-4) var(--distance-4);
     scrollbar-width: none;
     box-sizing: border-box;
     app-shared-bank-comp {

@@ -21,7 +21,10 @@ type Counter = {
   selector: 'app-shared-bank-comp',
   imports: [IconComp, DatePipe],
   templateUrl: './shared-bank-comp.html',
-  styleUrl: './shared-bank-comp.scss'
+  styleUrl: './shared-bank-comp.scss',
+  host: {
+    '[class.multiple]': 'hasMultipleCollections()'
+  }
 })
 export class SharedBankComp implements OnDestroy {
   /**
@@ -36,6 +39,8 @@ export class SharedBankComp implements OnDestroy {
   allowImport = input<boolean>(true)
   copyId = output<void>()
   importBank = output<void>()
+
+  hasMultipleCollections = computed(() => this.bank().collections.length > 1)
 
   private readonly currentTime = signal(Date.now())
 

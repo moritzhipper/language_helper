@@ -3,7 +3,6 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: min-content 1fr min-content;
   gap: var(--distance-2) 0;
-  overflow: hidden;
 
   height: 150px;
   position: relative;
@@ -11,6 +10,29 @@
   border-radius: var(--radius-2);
   padding: var(--distance-4);
   box-sizing: border-box;
+  border: 1px solid rgb(from var(--col-accent) r g b / var(--opacity-0));
+
+  &.multiple {
+    &:before,
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      border-radius: var(--radius-2);
+      border: 1px solid rgb(from var(--col-accent) r g b / var(--opacity-0));
+    }
+    &:before {
+      top: 4px;
+      left: 4px;
+    }
+    &:after {
+      top: 8px;
+      left: 8px;
+    }
+  }
 
   .header {
     grid-column: span 2;
@@ -35,17 +57,28 @@
   }
 
   .counter {
-    --height: 140px;
-    --displace: calc(var(--distance-4) * -1);
-    font-weight: var(--font-weight-bold);
-    font-size: var(--height);
-    line-height: calc(var(--height) - 20px);
     position: absolute;
-    bottom: var(--displace);
-    right: var(--displace);
+
     opacity: 0.07;
     z-index: -1;
     user-select: none;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-2);
+
+    top: 0;
+    left: 0;
+    .wrapper {
+      position: absolute;
+      --displace: calc(var(--distance-4) * -1);
+      --height: 140px;
+      font-weight: var(--font-weight-bold);
+      font-size: var(--height);
+      line-height: calc(var(--height) - 20px);
+      right: var(--displace);
+      bottom: var(--displace);
+    }
   }
 
   .copy {
