@@ -1,8 +1,7 @@
 # ToDo
 
 - social tab
-  - shared by you
-  - community
+  - make import overview view cool
   - when duplicate, add id to imported collection
   - when only one collection: show its name name inf
   - when multiple: show collection count and export name

@@ -12,8 +12,9 @@ html {
 }
 
 * {
-  scrollbar-color: var(--col-accent)
-    rgb(from var(--col-accent) r g b / var(--opacity-0));
+  scrollbar-color: rgb(from var(--col-accent) r g b / var(--opacity-1))
+    transparent;
+
   scrollbar-width: thin;
 }
 

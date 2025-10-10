@@ -6,7 +6,7 @@
 
   height: 150px;
   position: relative;
-  background-color: rgb(from var(--col-primary) r g b / var(--opacity-0));
+  background-color: rgb(from var(--col-accent) r g b / var(--opacity-1));
 
   border-radius: var(--radius-2);
   padding: var(--distance-4);
@@ -28,7 +28,7 @@
 
       border-width: 0 1px 1px 0;
       border-radius: var(--radius-2);
-      border-color: rgb(from var(--col-primary) r g b / var(--opacity-0));
+      border-color: rgb(from var(--col-accent) r g b / var(--opacity-0));
     }
     &:before {
       top: var(--stackdistance);
