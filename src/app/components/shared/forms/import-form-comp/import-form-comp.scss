@@ -8,19 +8,24 @@ form {
     align-items: center;
     gap: var(--distance-4);
 
-    .collections {
+    .preview {
+      max-width: 500px;
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
-      gap: var(--distance-2) 0;
+      justify-content: center;
+      padding: 0 var(--distance-4);
+      box-sizing: border-box;
+      align-items: center;
+      gap: var(--distance-2);
 
       span {
-        word-break: keep-all;
-        white-space: preserve nowrap;
+        background-color: rgb(from var(--col-accent) r g b / 0.6);
+        padding: var(--distance-1) var(--distance-3);
+        border-radius: var(--radius-0);
+      }
 
-        &:not(:last-of-type)::after {
-          content: ', ';
-        }
+      .cutoff-count {
+        opacity: var(--opacity-1);
       }
     }
   }

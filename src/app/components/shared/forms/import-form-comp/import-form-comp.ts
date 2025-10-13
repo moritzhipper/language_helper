@@ -11,6 +11,7 @@ import { BaseModalDirective } from '../base-modal-directive'
   styleUrl: './import-form-comp.scss'
 })
 export class ImportFormComp extends BaseModalDirective {
+  private readonly PREVIEW_COUNT = 20
   bankExport = input.required<BankExport>()
 
   protected unsortedLearnablesCount = computed(() => {
@@ -18,4 +19,14 @@ export class ImportFormComp extends BaseModalDirective {
 
     return getCollectionlessLearnableIds(learnables, collections).length
   })
+
+  protected cutoffCount = computed(
+    () => this.bankExport().learnables.length - this.PREVIEW_COUNT
+  )
+
+  protected previewCards = computed(() =>
+    this.bankExport()
+      .learnables.map((l) => l.translation)
+      .slice(0, this.PREVIEW_COUNT + 1)
+  )
 }

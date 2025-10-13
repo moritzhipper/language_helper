@@ -1,18 +1,13 @@
 <form (ngSubmit)="confirm()" class="modal">
   <div class="summary full fly-in-y-0">
     <h2 class="full">{{ bankExport().name }}</h2>
-    <div class="collections">
-      @for (collection of bankExport().collections; track $index) {
-        <span
-          >{{ collection.name }} ({{
-            collection.learnableIDs.length
-          }}
-          cards)</span
-        >
-      }
 
-      @if (unsortedLearnablesCount() > 0) {
-        <span>unsorted ({{ unsortedLearnablesCount() }} cards) </span>
+    <div class="preview">
+      @for (card of previewCards(); track card) {
+        <span>{{ card }}</span>
+      }
+      @if (cutoffCount() > 0) {
+        <span class="cutoff-count"> {{ cutoffCount() }} more</span>
       }
     </div>
   </div>

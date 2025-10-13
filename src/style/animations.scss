@@ -13,6 +13,11 @@
     animation-delay: calc(0.05s * #{$i});
   }
 
+  .fly-in-x-rev-#{$i} {
+    animation: fly-in-x-rev var(--duration-2) var(--overshot) backwards;
+    animation-delay: calc(0.05s * #{$i});
+  }
+
   .fly-in-xy-#{$i} {
     animation: fly-in-xy var(--duration-3) var(--overshot) backwards;
     animation-delay: calc(0.07s * #{$i});
@@ -41,6 +46,13 @@
   from {
     opacity: 0;
     translate: 20px 0px;
+  }
+}
+
+@keyframes fly-in-x-rev {
+  from {
+    opacity: 0;
+    translate: -20px 0px;
   }
 }
 
