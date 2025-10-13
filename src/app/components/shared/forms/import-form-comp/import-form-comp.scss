@@ -1,31 +1,55 @@
 form {
   grid-template-rows: 1fr auto;
 
-  .summary {
-    place-self: center;
+  .preview {
+    position: relative;
+    max-width: 500px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--distance-4);
+    box-sizing: border-box;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--distance-2);
 
-    .preview {
-      max-width: 500px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 0 var(--distance-4);
-      box-sizing: border-box;
-      align-items: center;
-      gap: var(--distance-2);
+    h3 {
+      width: 100%;
+      margin: 0;
+    }
+    span {
+      border-radius: var(--radius-0);
+    }
 
-      span {
-        background-color: rgb(from var(--col-accent) r g b / 0.6);
-        padding: var(--distance-1) var(--distance-3);
-        border-radius: var(--radius-0);
+    .cutoff-count {
+      opacity: var(--opacity-1);
+    }
+
+    app-icon-comp {
+      position: absolute;
+      z-index: -1;
+      top: -40px;
+      left: -40px;
+      height: 120px;
+      width: 120px;
+      opacity: var(--opacity-0);
+    }
+
+    &.collections {
+      padding-bottom: var(--distance-5);
+      app-icon-comp {
+        color: var(--col-primary);
       }
+      span {
+        background-color: rgb(from var(--col-primary) r g b / var(--opacity-0));
+        padding: var(--distance-1) var(--distance-3);
+      }
+    }
 
-      .cutoff-count {
-        opacity: var(--opacity-1);
+    &.words {
+      app-icon-comp {
+        color: var(--col-accent);
+      }
+      span {
+        background-color: rgb(from var(--col-accent) r g b / var(--opacity-1));
+        padding: var(--distance-1) var(--distance-3);
       }
     }
   }

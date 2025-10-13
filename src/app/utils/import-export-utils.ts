@@ -2,7 +2,7 @@ import { config } from '../../config'
 import { BankExportSchema } from '../types_and_schemas/schemas'
 import {
   BankExport,
-  CollectionExport,
+  CollectionBase,
   Learnable,
   LearnableBase,
   LearnableCollectionWithId,
@@ -40,7 +40,7 @@ export const mapToBankExport = (
     })
   )
 
-  const collectionExp: CollectionExport[] = collections.map((c) => ({
+  const collectionExp: CollectionBase[] = collections.map((c) => ({
     name: c.name,
     learnableIDs: c.learnableIDs
   }))

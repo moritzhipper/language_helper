@@ -10,7 +10,7 @@ import {
 
 export type LearnableBase = z.infer<typeof LearnableBaseSchema>
 
-export type CollectionExport = z.infer<typeof CollectionBaseSchema>
+export type CollectionBase = z.infer<typeof CollectionBaseSchema>
 export type LearnableCollectionWithId = z.infer<
   typeof LearnableCollectionWithId
 >

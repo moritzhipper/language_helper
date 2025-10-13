@@ -1,15 +1,27 @@
 <form (ngSubmit)="confirm()" class="modal">
-  <div class="summary full fly-in-y-0">
-    <h2 class="full">{{ bankExport().name }}</h2>
+  <h2 class="full fly-in-y-0">{{ bankExport().name }}</h2>
 
-    <div class="preview">
-      @for (card of previewCards(); track card) {
-        <span>{{ card }}</span>
-      }
-      @if (cutoffCount() > 0) {
-        <span class="cutoff-count"> {{ cutoffCount() }} more</span>
+  @if (collectionNames().length > 1) {
+    <div class="preview collections full fly-in-y-0">
+      <app-icon-comp type="collection" />
+      <h3>collections</h3>
+      @for (name of collectionNames(); track name) {
+        <span>
+          {{ name }}
+        </span>
       }
     </div>
+  }
+
+  <div class="preview words full fly-in-y-0">
+    <app-icon-comp type="card" />
+    <h3>cards</h3>
+    @for (card of previewCards(); track card) {
+      <span>{{ card }}</span>
+    }
+    @if (cutoffCount() > 0) {
+      <span class="cutoff-count"> {{ cutoffCount() }} more</span>
+    }
   </div>
   <button type="button" class="big fly-in-y-1" (click)="cancel()">
     cancel
