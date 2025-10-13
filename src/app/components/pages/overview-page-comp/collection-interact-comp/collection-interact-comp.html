@@ -1,9 +1,9 @@
+<select [(ngModel)]="selectedCollectionId" class="ellipsis">
+  @for (option of selectionOptions(); track option.id) {
+    <option [value]="option.id">{{ option.name }}</option>
+  }
+</select>
 @if (!selectorOnly()) {
-  <select [(ngModel)]="selectedCollectionId" class="ellipsis fly-in-x-rev-0">
-    @for (option of selectionOptions(); track option.id) {
-      <option [value]="option.id">{{ option.name }}</option>
-    }
-  </select>
   <button class="silent fly-in-x-rev-1" (click)="edit.emit()">
     <app-icon-comp type="edit" />
   </button>
@@ -23,11 +23,10 @@
     <app-icon-comp type="trash" />
   </button>
 } @else {
-  @for (option of selectionOptions(); track option.id; let i = $index) {
+  @for (option of selectButtonOptions(); track option.id; let i = $index) {
     <button
       (click)="selectedCollectionId.set(option.id)"
       [class.selected]="selectedCollectionId() === option.id"
-      [class]="'fly-in-x-rev-' + i"
       class="small fake-select"
     >
       {{ option.name }}

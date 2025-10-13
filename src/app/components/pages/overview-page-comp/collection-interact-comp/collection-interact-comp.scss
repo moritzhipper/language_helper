@@ -9,6 +9,7 @@
   button,
   select,
   a {
+    white-space: nowrap;
     color: var(--col-bg);
     border-radius: var(--radius-2);
   }

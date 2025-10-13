@@ -1,21 +1,17 @@
 <form (ngSubmit)="confirm()" class="modal">
-  <h2 class="full fly-in-y-0">{{ bankExport().name }}</h2>
+  <h2 class="full fly-in-y-0">import {{ bankExport().name }}?</h2>
 
   @if (collectionNames().length > 1) {
     <div class="preview collections full fly-in-y-0">
       <app-icon-comp type="collection" />
-      <h3>collections</h3>
       @for (name of collectionNames(); track name) {
-        <span>
-          {{ name }}
-        </span>
+        <span> {{ name }} </span>
       }
     </div>
   }
 
   <div class="preview words full fly-in-y-0">
     <app-icon-comp type="card" />
-    <h3>cards</h3>
     @for (card of previewCards(); track card) {
       <span>{{ card }}</span>
     }

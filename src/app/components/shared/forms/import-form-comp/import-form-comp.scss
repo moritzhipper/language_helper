@@ -1,5 +1,6 @@
 form {
   grid-template-rows: 1fr auto;
+  gap: var(--distance-7) var(--distance-4);
 
   .preview {
     position: relative;
@@ -8,14 +9,12 @@ form {
     box-sizing: border-box;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: var(--distance-2);
+    align-items: center;
+    justify-content: center;
 
-    h3 {
-      width: 100%;
-      margin: 0;
-    }
     span {
       border-radius: var(--radius-0);
+      padding: var(--distance-1) var(--distance-3);
     }
 
     .cutoff-count {
@@ -25,30 +24,26 @@ form {
     app-icon-comp {
       position: absolute;
       z-index: -1;
-      top: -40px;
-      left: -40px;
       height: 120px;
       width: 120px;
-      opacity: var(--opacity-0);
+      opacity: var(--opacity-1);
+      color: var(--col-accent);
     }
 
     &.collections {
-      padding-bottom: var(--distance-5);
-      app-icon-comp {
-        color: var(--col-primary);
-      }
+      gap: var(--distance-3);
+
+      font-weight: var(--font-weight-bold);
       span {
         background-color: rgb(from var(--col-primary) r g b / var(--opacity-0));
-        padding: var(--distance-1) var(--distance-3);
+        // font-size: var(--font-size-2);
       }
     }
 
     &.words {
-      app-icon-comp {
-        color: var(--col-accent);
-      }
+      gap: var(--distance-2);
       span {
-        background-color: rgb(from var(--col-accent) r g b / var(--opacity-1));
+        background-color: rgb(from var(--col-accent) r g b / var(--opacity-0));
         padding: var(--distance-1) var(--distance-3);
       }
     }
