@@ -2,7 +2,7 @@
   --overshot: cubic-bezier(0.399, 1.747, 0.471, 0.987);
 }
 
-@for $i from 0 through 8 {
+@for $i from 0 through 12 {
   .fly-in-y-#{$i} {
     animation: fly-in-y var(--duration-2) var(--overshot) backwards;
     animation-delay: calc(0.1s * #{$i});

@@ -24,8 +24,16 @@
     }
   }
 
-  select {
+  select,
+  button,
+  a {
+    box-sizing: border-box;
     height: var(--distance-6);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-0);
+  }
+
+  select {
     background-color: var(--col-primary);
     min-width: 150px;
     max-width: 300px;
@@ -36,5 +44,10 @@
 
   button.fake-select {
     background-color: rgb(from var(--col-accent) r g b / var(--opacity-0));
+
+    &.selected {
+      color: var(--col-bg);
+      background-color: var(--col-primary);
+    }
   }
 }

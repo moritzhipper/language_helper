@@ -1,32 +1,34 @@
-<select [(ngModel)]="selectedCollectionId" class="ellipsis">
-  @for (option of selectionOptions(); track option.id) {
-    <option [value]="option.id">{{ option.name }}</option>
-  }
-</select>
 @if (!selectorOnly()) {
-  <button class="silent fly-in-x-rev-0" (click)="edit.emit()">
+  <select [(ngModel)]="selectedCollectionId" class="ellipsis fly-in-x-rev-0">
+    @for (option of selectionOptions(); track option.id) {
+      <option [value]="option.id">{{ option.name }}</option>
+    }
+  </select>
+  <button class="silent fly-in-x-rev-1" (click)="edit.emit()">
     <app-icon-comp type="edit" />
   </button>
-  <button class="silent fly-in-x-rev-1" (click)="share.emit()">
+  <button class="silent fly-in-x-rev-2" (click)="share.emit()">
     <app-icon-comp type="share-network" />
   </button>
   @if (downloadable(); as down) {
     <a
-      class="silent fly-in-x-rev-2"
+      class="silent fly-in-x-rev-3"
       [download]="down.fileName"
       [attr.href]="down.blobUrl"
     >
       <app-icon-comp type="share" />
     </a>
   }
-  <button class="silent delete fly-in-x-rev-3" (click)="delete.emit()">
+  <button class="silent delete fly-in-x-rev-4" (click)="delete.emit()">
     <app-icon-comp type="trash" />
   </button>
 } @else {
-  @for (option of selectButtonOptions(); track option.id) {
+  @for (option of selectionOptions(); track option.id; let i = $index) {
     <button
       (click)="selectedCollectionId.set(option.id)"
-      class="small fake-select fly-in-x-rev"
+      [class.selected]="selectedCollectionId() === option.id"
+      [class]="'fly-in-x-rev-' + i"
+      class="small fake-select"
     >
       {{ option.name }}
     </button>

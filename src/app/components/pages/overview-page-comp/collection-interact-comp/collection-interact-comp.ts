@@ -1,4 +1,4 @@
-import { Component, computed, input, model, output } from '@angular/core'
+import { Component, input, model, output } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { Downloadable } from '../../../../services/blob-service'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
@@ -18,10 +18,4 @@ export class CollectionInteractComp {
   edit = output<void>()
   delete = output<void>()
   share = output<void>()
-
-  selectButtonOptions = computed(() => {
-    return this.selectionOptions().filter(
-      (o) => o.id !== this.selectedCollectionId()
-    )
-  })
 }
