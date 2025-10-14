@@ -1,26 +1,27 @@
 <form (ngSubmit)="confirm()" class="modal">
-  <h2 class="full fly-in-y-0">import {{ bankExport().name }}?</h2>
+  <h2 class="full fly-in-y-0">{{ bankExport().name }}</h2>
+  <div class="preview-wrapper full">
+    @if (collectionNames().length > 1) {
+      <div class="preview collections full fly-in-y-0">
+        <app-icon-comp type="collection" />
+        @for (name of collectionNames(); track name) {
+          <span> {{ name }} </span>
+        }
+      </div>
+    }
 
-  @if (collectionNames().length > 1) {
-    <div class="preview collections full fly-in-y-0">
-      <app-icon-comp type="collection" />
-      @for (name of collectionNames(); track name) {
-        <span> {{ name }} </span>
+    <div class="preview words full fly-in-y-0">
+      <app-icon-comp type="card" />
+      @for (card of previewCards(); track card) {
+        <span>{{ card }}</span>
+      }
+      @if (cutoffCount() > 0) {
+        <span class="cutoff-count"> {{ cutoffCount() }} more</span>
       }
     </div>
-  }
-
-  <div class="preview words full fly-in-y-0">
-    <app-icon-comp type="card" />
-    @for (card of previewCards(); track card) {
-      <span>{{ card }}</span>
-    }
-    @if (cutoffCount() > 0) {
-      <span class="cutoff-count"> {{ cutoffCount() }} more</span>
-    }
   </div>
   <button type="button" class="big fly-in-y-1" (click)="cancel()">
     cancel
   </button>
-  <button type="submit" class="fly-in-y-2">confirm</button>
+  <button type="submit" class="fly-in-y-2">import</button>
 </form>
