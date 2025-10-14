@@ -3,7 +3,7 @@
     <option [value]="option.id">{{ option.name }}</option>
   }
 </select>
-@if (!selectorOnly()) {
+@if (userCollectionSelected()) {
   <button class="silent fly-in-x-rev-1" (click)="edit.emit()">
     <app-icon-comp type="edit" />
   </button>
@@ -28,6 +28,7 @@
       (click)="selectedCollectionId.set(option.id)"
       [class.selected]="selectedCollectionId() === option.id"
       class="small fake-select"
+      [class]="'fly-in-x-rev-' + i"
     >
       {{ option.name }}
     </button>

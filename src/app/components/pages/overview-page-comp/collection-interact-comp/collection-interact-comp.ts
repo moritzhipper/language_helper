@@ -12,7 +12,7 @@ import { IconComp } from '../../../shared/icon-comp/icon-comp'
 export class CollectionInteractComp {
   selectionOptions = input.required<{ id: string; name: string }[]>()
   selectedCollectionId = model<string>()
-  selectorOnly = input<boolean>(false)
+  userCollectionSelected = input<boolean>(false)
 
   downloadable = input<Downloadable | undefined>()
   edit = output<void>()

@@ -19,7 +19,7 @@
       <app-collection-interact-comp
         [selectionOptions]="collectionSelectionOptions()"
         [(selectedCollectionId)]="selectedCollectionId"
-        [selectorOnly]="!userCollectionIsSelected()"
+        [userCollectionSelected]="userCollectionIsSelected()"
         (edit)="renameCollection()"
         (delete)="deleteCollection()"
         (share)="shareCollection()"
