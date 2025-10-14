@@ -149,7 +149,7 @@ export const saveImportedCollections =
   (storeImport: BankExport) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     const { learnables: newLearnables, collections: newCollections } =
-      mapFileImportToAddableLearnables(storeImport)
+      mapFileImportToAddableLearnables(storeImport, state.learnables)
 
     return {
       ...state,

@@ -3,8 +3,7 @@
 - social tab
   - make import overview view cool
   - when duplicate, add id to imported collection
-  - when only one collection: show its name name inf
-  - when multiple: show collection count and export name
+    - verifiy logic works -> especially filter logic, may be wron way around lol
 
   - allow selection of ttl: 5 min, 1 day, 1 month
   - deploy via cloudflare pages, worker and upstash redis

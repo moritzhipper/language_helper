@@ -74,37 +74,58 @@ export const verifiyImportedFileValidity = (file: File): void => {
 
 /**
  * Maps the file import to a format suitable for adding to the store.
- * Reassigns new IDs to ensure uniqueness and avoid conflicts with existing learnables when reimporting collections.
+ * Replaces new IDS with IDs from existing learnables if newly imported card is a duplicate.
+ * Reassigns new IDs to non duplicates ensure uniqueness and avoid conflicts with existing learnables when reimporting collections.
  */
 export const mapFileImportToAddableLearnables = (
-  fileImport: BankExport
+  fileImport: BankExport,
+  existingLearnables: Learnable[]
 ): { learnables: Learnable[]; collections: LearnableUserCollection[] } => {
-  // create a map to ensure unique IDs in the import
-  // this is necessary to avoid conflicts with existing learnables on reimport
-  const idMap = new Map<string, string>()
-  fileImport.learnables.forEach((l) => idMap.set(l.id, crypto.randomUUID()))
-
   const now = new Date()
 
-  // dont use spread here to avoid bleeding old or unused attributes into the store
-  const learnables = fileImport.learnables.map((l) => ({
-    id: idMap.get(l.id)!,
-    created: now,
-    type: l.type,
-    lexeme: l.lexeme,
-    translation: l.translation,
-    notes: l.notes,
-    guesses: {
-      lexeme: [false, false, false, false, false],
-      translation: [false, false, false, false, false]
+  // create a map to ensure unique IDs in the import
+  // this is necessary to avoid conflicts with existing learnables on reimport
+  const newIdMap = new Map<string, string>()
+  const existingIdMap = new Map<string, string>()
+
+  fileImport.learnables.filter((newL) => {
+    const existingCard = existingLearnables.find(
+      (exEl) =>
+        exEl.lexeme === newL.lexeme &&
+        exEl.translation === newL.translation &&
+        exEl.type === newL.type
+    )
+
+    if (existingCard) {
+      existingIdMap.set(newL.id, existingCard.id)
+    } else {
+      newIdMap.set(newL.id, crypto.randomUUID())
     }
-  }))
+  })
+
+  // dont use spread here to avoid bleeding old or unused attributes into the store
+  const learnables = fileImport.learnables
+    .filter((l) => newIdMap.has(l.id))
+    .map((l) => ({
+      id: newIdMap.get(l.id)!,
+      created: now,
+      type: l.type,
+      lexeme: l.lexeme,
+      translation: l.translation,
+      notes: l.notes,
+      guesses: {
+        lexeme: [false, false, false, false, false],
+        translation: [false, false, false, false, false]
+      }
+    }))
 
   const collections = fileImport.collections.map((c) => ({
     id: crypto.randomUUID(),
     created: now,
     name: c.name,
-    learnableIDs: c.learnableIDs.map((id) => idMap.get(id)!),
+    learnableIDs: c.learnableIDs.map(
+      (id) => existingIdMap.get(id) ?? newIdMap.get(id) ?? id
+    ),
     practicedDates: []
   }))
 
