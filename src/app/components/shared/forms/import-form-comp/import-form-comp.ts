@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { BankExport } from '../../../../types_and_schemas/types'
 import { getCollectionlessLearnableIds } from '../../../../utils/genaral-utils'
 import { IconComp } from '../../icon-comp/icon-comp'
@@ -14,6 +14,7 @@ import { BaseModalDirective } from '../base-modal-directive'
 export class ImportFormComp extends BaseModalDirective {
   private readonly PREVIEW_COUNT = 20
   bankExport = input.required<BankExport>()
+  form = new FormGroup({})
 
   protected unsortedLearnablesCount = computed(() => {
     const { learnables, collections } = this.bankExport()

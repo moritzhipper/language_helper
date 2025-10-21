@@ -57,8 +57,8 @@ export class SharePageComp {
     if (result.type !== 'confirm') return
 
     // todo: handle import of filetype BankExportOnline
-    // this._lStore.importBankExport(result.bankExport)
-    alert('implement')
+    debugger
+    this._lStore.importBankExport(result.value)
   }
 
   private generateLink(id: string): string {
