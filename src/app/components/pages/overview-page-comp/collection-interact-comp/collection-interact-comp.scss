@@ -7,10 +7,14 @@
   padding: var(--distance-2) var(--distance-4);
 
   button,
-  select,
   a {
     white-space: nowrap;
     color: var(--col-bg);
+    border-radius: var(--radius-2);
+  }
+
+  select {
+    height: var(--distance-6);
     border-radius: var(--radius-2);
   }
 
@@ -25,7 +29,6 @@
     }
   }
 
-  select,
   button,
   a {
     box-sizing: border-box;
@@ -34,21 +37,45 @@
     font-size: var(--font-size-0);
   }
 
-  select {
-    background-color: var(--col-primary);
-    min-width: 150px;
-    max-width: 300px;
-    box-sizing: border-box;
-    text-align: center;
-    padding: var(--distance-1) var(--distance-4);
-  }
-
   button.fake-select {
     background-color: rgb(from var(--col-accent) r g b / var(--opacity-0));
+  }
+}
 
-    &.selected {
-      color: var(--col-bg);
-      background-color: var(--col-primary);
+.select-wrapper {
+  display: block;
+  position: relative;
+  border-radius: var(--radius-2);
+  transition: background-color var(--duration-0);
+  background-color: rgb(from var(--col-accent) r g b / var(--opacity-1));
+
+  app-icon-comp {
+    border-radius: var(--radius-2);
+    position: absolute;
+
+    top: 1px;
+    left: 0;
+    rotate: -180deg;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: grid;
+    place-items: center;
+    transition: all var(--duration-3) var(--overshot);
+  }
+
+  &.user-selected {
+    background-color: rgb(from var(--col-accent) r g b / var(--opacity-0));
+
+    app-icon-comp {
+      top: 0px;
+      rotate: -90deg;
     }
+  }
+
+  select {
+    width: var(--distance-6);
+    color: transparent;
+    background-color: transparent;
   }
 }

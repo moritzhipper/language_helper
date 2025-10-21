@@ -1,8 +1,15 @@
-<select [(ngModel)]="selectedCollectionId" class="ellipsis">
-  @for (option of selectionOptions(); track option.id) {
-    <option [value]="option.id">{{ option.name }}</option>
-  }
-</select>
+<div
+  class="select-wrapper fly-in-x-rev-0"
+  [class.user-selected]="userCollectionSelected()"
+>
+  <select [(ngModel)]="selectedCollectionId">
+    @for (option of selectionOptions(); track option.id) {
+      <option [value]="option.id">{{ option.name }}</option>
+    }
+  </select>
+  <app-icon-comp type="chevron" />
+</div>
+
 @if (userCollectionSelected()) {
   <button class="silent fly-in-x-rev-1" (click)="edit.emit()">
     <app-icon-comp type="edit" />

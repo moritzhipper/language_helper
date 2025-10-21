@@ -8,6 +8,8 @@
   - allow selection of ttl: 5 min, 1 day, 1 month
   - deploy via cloudflare pages, worker and upstash redis
 
+- remove unsorted cards pseudocollection, just put unsoprted cards at the bottom after pagination (annoying: sort them boy)
+
 - allow multiple languages
   - pairing, welches cards und collections enthaelt
 

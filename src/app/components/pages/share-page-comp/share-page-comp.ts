@@ -55,9 +55,6 @@ export class SharePageComp {
     )
 
     if (result.type !== 'confirm') return
-
-    // todo: handle import of filetype BankExportOnline
-    debugger
     this._lStore.importBankExport(result.value)
   }
 
