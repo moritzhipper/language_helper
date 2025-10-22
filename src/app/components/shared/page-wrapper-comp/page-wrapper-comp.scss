@@ -4,6 +4,7 @@
   min-height: 100dvh;
   max-width: 100vw;
   display: grid;
+  overflow: hidden;
 
   h1 {
     margin: var(--distance-6) var(--distance-4);
@@ -68,8 +69,10 @@
     }
 
     &.center-on-desktop .content {
-      // text-align: center;
-      width: 600px;
+      align-self: start;
+      margin-top: 15vh;
+      max-width: 1000px;
+      width: 100%;
     }
   }
 }

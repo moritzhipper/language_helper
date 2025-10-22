@@ -1,23 +1,27 @@
-<form (ngSubmit)="confirm()" class="modal">
-  <div class="summary full fly-in-y-0">
-    <h2 class="full">import {{ storeExport().learnables.length }} cards?</h2>
-    <div class="collections">
-      @for (collection of storeExport().collections; track $index) {
-        <span
-          >{{ collection.name }} ({{
-            collection.learnableIDs.length
-          }}
-          cards)</span
-        >
-      }
+<form (ngSubmit)="confirm(this.bankExport())" class="modal" [formGroup]="form">
+  <h2 class="full fly-in-y-0">{{ bankExport().name }}</h2>
+  <div class="preview-wrapper full">
+    @if (collectionNames().length > 1) {
+      <div class="preview collections full fly-in-y-0">
+        <app-icon-comp type="collection" />
+        @for (name of collectionNames(); track name) {
+          <span> {{ name }} </span>
+        }
+      </div>
+    }
 
-      @if (unsortedLearnablesCount() > 0) {
-        <span>unsorted ({{ unsortedLearnablesCount() }} cards) </span>
+    <div class="preview words full fly-in-y-0">
+      <app-icon-comp type="card" />
+      @for (card of previewCards(); track card) {
+        <span>{{ card }}</span>
+      }
+      @if (cutoffCount() > 0) {
+        <span class="cutoff-count"> {{ cutoffCount() }} more</span>
       }
     </div>
   </div>
   <button type="button" class="big fly-in-y-1" (click)="cancel()">
     cancel
   </button>
-  <button type="submit" class="fly-in-y-2">confirm</button>
+  <button type="submit" class="fly-in-y-2">import</button>
 </form>

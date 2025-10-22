@@ -1,37 +1,32 @@
 # ToDo
 
-- remove collections, add dropdwon to cards, replace with shared
-- be allen karten text: hier findest du alle deine karten
-- bei unsorted: hier alle karten ohne collection
-- bei allen anderen
-  - confidence
-  - created
-  - buttons: share, edit, export (import dann in social tab)
 - social tab
-  - shared by you
-  - shared with you
+  - make import overview view cool
   - when duplicate, add id to imported collection
-  - import (from file)
+    - verifiy logic works -> especially filter logic, may be wron way around lol
+
+  - allow selection of ttl: 5 min, 1 day, 1 month
+  - deploy via cloudflare pages, worker and upstash redis
+
+- remove unsorted cards pseudocollection, just put unsoprted cards at the bottom after pagination (annoying: sort them boy)
+
 - allow multiple languages
+  - pairing, welches cards und collections enthaelt
 
 ## Later
 
+- how to handle sharing multiple selection
+- import (from file)
 - notes mode
 - stats page with collections, top and worst, most ppracticed, hardest words, progressgraph
 - enter leave directive
-- clean up cards view -> put colltion stuff there?
 - split create cards exactly like i split phrases
 - add cool practice finished reactions (stars? crown?)
-- add social tab
 - erst mal alles bauen, dann capital yo
-- cool in practice animations
 - collection ids on cards?
-- animations! -> angular 20.2 bring them back woop woop
 - fix openai + zod issue: remove helper function from utils
-- replace underscore with #
 - print view
 - implement protected and private corrrectly throughout
-- store dump in navbar?
 
 # sources
 

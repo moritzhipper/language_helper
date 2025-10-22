@@ -1,0 +1,32 @@
+<div class="header">
+  <div class="name">{{ bank().name }}</div>
+
+  @if (!ttl().isExpired) {
+    <button class="silent copy" (click)="copyId.emit()">
+      <app-icon-comp type="copy" />
+    </button>
+
+    @if (allowImport()) {
+      <button class="silent import" (click)="importBank.emit()">
+        <app-icon-comp type="add" />
+      </button>
+    }
+  }
+</div>
+<div class="info">
+  @let _c = counter();
+
+  @if (hasMultipleCollections()) {
+    <span> {{ _c.collections }} </span>
+  }
+  <span> {{ _c.words }} </span>
+  <span> {{ _c.phrases }} </span>
+</div>
+
+<div class="shared">{{ bank().created | date: 'mediumDate' }}</div>
+<div class="ttl">{{ ttl().label }}</div>
+<div class="counter">
+  <div class="wrapper">
+    {{ _c.cards }}
+  </div>
+</div>

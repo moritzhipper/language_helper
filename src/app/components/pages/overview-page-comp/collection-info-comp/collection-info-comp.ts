@@ -1,10 +1,13 @@
 import { DatePipe } from '@angular/common'
 import { Component, input } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import {
-  LearnableBaseCollection,
-  LearnableUserCollection
-} from '../../../../types_and_schemas/types'
+
+type Config = {
+  header: string
+  cardCount: number
+  averageConfidence: number
+  date?: Date
+}
 
 @Component({
   selector: 'app-collection-info-comp',
@@ -13,8 +16,5 @@ import {
   styleUrl: './collection-info-comp.scss'
 })
 export class CollectionInfoComp {
-  selectedCollection = input.required<
-    LearnableUserCollection | LearnableBaseCollection
-  >()
-  averageConfidence = input.required<number>()
+  config = input.required<Config>()
 }

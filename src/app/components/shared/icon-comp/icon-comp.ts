@@ -20,10 +20,12 @@ export type IconType =
   | 'collection-remove'
   | 'share'
   | 'share-network'
+  | 'share-network-fill'
   | 'share-fill'
   | 'import'
   | 'warn'
   | 'info'
+  | 'copy'
 
 @Component({
   selector: 'app-icon-comp',

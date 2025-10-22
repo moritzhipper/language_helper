@@ -8,13 +8,13 @@ html {
 body,
 html {
   margin: 0;
-
   position: relative;
 }
 
 * {
   scrollbar-color: rgb(from var(--col-accent) r g b / var(--opacity-1))
     transparent;
+
   scrollbar-width: thin;
 }
 
@@ -56,9 +56,9 @@ p {
 
 button,
 a {
-  background-color: transparent;
   border: none;
   cursor: pointer;
+  background-color: transparent;
 }
 
 textarea,
@@ -134,7 +134,6 @@ select {
     text-align: inherit;
     margin: 0;
     padding: 0;
-    background-color: inherit;
   }
 }
 

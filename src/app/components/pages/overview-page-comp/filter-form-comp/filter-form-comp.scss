@@ -6,7 +6,7 @@
 }
 
 form {
-  padding: 0 var(--distance-4) var(--distance-6) var(--distance-4);
+  padding: 0 var(--distance-4) var(--distance-6) var(--distance-3);
 }
 
 form .wrapper {
@@ -69,8 +69,20 @@ form .wrapper {
   .wrapper {
     flex-wrap: wrap;
     align-items: center;
-    border-left: 1px solid rgb(from var(--col-accent) r g b / var(--opacity-1));
-    padding: 0 0 var(--distance-2) var(--distance-5);
+    padding-left: var(--distance-6);
+    position: relative;
+
+    &:before {
+      display: block;
+      content: '';
+      width: var(--distance-2);
+      border-radius: var(--radius-1);
+      height: 100%;
+      background-color: rgb(from var(--col-accent) r g b / var(--opacity-0));
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
 
     label {
       width: 500px;

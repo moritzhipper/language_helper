@@ -9,10 +9,9 @@ import {
 } from '@ngrx/signals'
 import { AiService } from '../services/ai.service'
 import {
+  BankExport,
   LearnableBase,
-  LearnableBaseCollection,
-  LearnablePartialWithId,
-  StoreExport
+  LearnablePartialWithId
 } from '../types_and_schemas/types'
 import { getCollectionlessLearnableIds } from '../utils/genaral-utils'
 import { initialLearnables } from './initialStates'
@@ -41,31 +40,7 @@ export const LearnablesStore = signalStore(
   withComputed(({ learnables, collections }) => ({
     collectionLessLearnableIds: computed(() =>
       getCollectionlessLearnableIds(learnables(), collections())
-    ),
-    pseudoCollections: computed(() => {
-      const pseudoCollections: LearnableBaseCollection[] = []
-
-      const collectionlessIds = getCollectionlessLearnableIds(
-        learnables(),
-        collections()
-      )
-
-      pseudoCollections.push({
-        name: 'All Cards',
-        learnableIDs: learnables().map((l) => l.id),
-        id: 'all'
-      })
-
-      if (collectionlessIds.length > 0) {
-        pseudoCollections.push({
-          name: 'Unsorted',
-          learnableIDs: collectionlessIds,
-          id: 'unsorted'
-        })
-      }
-
-      return pseudoCollections
-    })
+    )
   })),
   withMethods((state) => {
     const aiS = inject(AiService)
@@ -96,7 +71,7 @@ export const LearnablesStore = signalStore(
           editCollectionLearnables(collectionID, addIDs, deleteIDs)
         )
       },
-      importExportedCollections(importStore: StoreExport) {
+      importBankExport(importStore: BankExport) {
         patchState(state, saveImportedCollections(importStore))
       },
       editCollection(name: string, id: string) {

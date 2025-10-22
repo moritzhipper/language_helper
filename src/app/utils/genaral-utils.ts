@@ -5,9 +5,9 @@ import {
 import { ResponseFormatTextJSONSchemaConfig } from 'openai/resources/responses/responses.mjs'
 import z from 'zod'
 import {
-  CollectionExport,
+  CollectionBase,
   Learnable,
-  LearnableExport
+  LearnableWithId
 } from '../types_and_schemas/types'
 
 /**
@@ -52,8 +52,8 @@ export const calculateAverageConfidencePercent = (
 }
 
 export const getCollectionlessLearnableIds = (
-  learnables: LearnableExport[],
-  collections: CollectionExport[]
+  learnables: LearnableWithId[],
+  collections: CollectionBase[]
 ): string[] => {
   const collectionLearnableIds = collections.flatMap((c) => c.learnableIDs)
   return learnables

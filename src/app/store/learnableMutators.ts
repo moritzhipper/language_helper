@@ -1,10 +1,10 @@
 import {
+  BankExport,
   Learnable,
   LearnableBase,
   LearnablePartialWithId,
   LearnablesStoreType,
-  LearnableUserCollection,
-  StoreExport
+  LearnableUserCollection
 } from '../types_and_schemas/types'
 import { mapFileImportToAddableLearnables } from '../utils/import-export-utils'
 
@@ -146,10 +146,10 @@ const mergeLearnables = (
 }
 
 export const saveImportedCollections =
-  (storeImport: StoreExport) =>
+  (storeImport: BankExport) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     const { learnables: newLearnables, collections: newCollections } =
-      mapFileImportToAddableLearnables(storeImport)
+      mapFileImportToAddableLearnables(storeImport, state.learnables)
 
     return {
       ...state,

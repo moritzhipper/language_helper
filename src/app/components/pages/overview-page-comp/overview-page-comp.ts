@@ -18,10 +18,7 @@ import {
   calculateAverageConfidencePercent,
   removeDuplicates
 } from '../../../utils/genaral-utils'
-import {
-  filterDoubleEntries,
-  mapToExport
-} from '../../../utils/import-export-utils'
+import { filterDoubleEntries } from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
 import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
@@ -60,71 +57,66 @@ export class OverviewComp {
   private readonly _makeBlobS = inject(BlobService)
 
   collections = this._lStore.collections
-  pseudoCollections = this._lStore.pseudoCollections
-  userCollectionIsSelected = computed(
-    () => 'created' in this.selectedCollection()
-  )
 
-  collectionIsEmpty = computed(
-    () => this._allCollectionLearnables().length === 0
-  )
-
-  private _allCollections = computed(() => [
-    ...this.pseudoCollections(),
-    ...this.collections()
-  ])
-
-  collectionSelectionOptions = computed(() =>
-    this._allCollections().map((c) => ({ id: c.id, name: c.name }))
-  )
+  collectionIsEmpty = computed(() => this._collectionLearnables().length === 0)
 
   userHasCards = computed(() => this._lStore.learnables().length !== 0)
 
   private _filter = signal<LearnablesFilterConfig | null>(null)
 
-  // select fallback collection, should userselected collection not exist anymore
-  // this can happen, after a pseudocollection is dissolved because all its cards were removed
-  selectedCollectionId = linkedSignal<string[], string>({
-    source: computed(() => this.collectionSelectionOptions().map((c) => c.id)),
-    computation: (isss, prev) => {
-      const previousValue = prev?.value
-      if (previousValue && isss.includes(previousValue)) return previousValue
-      return isss[0]
+  selectedCollection = computed(() =>
+    this.collections().find((c) => c.id === this.selectedCollectionId())
+  )
+
+  headerConfig = computed(() => {
+    const coll = this.selectedCollection()
+
+    if (coll) {
+      return {
+        header: coll.name,
+        cardCount: coll.learnableIDs.length,
+        averageConfidence: calculateAverageConfidencePercent(
+          this._collectionLearnables()
+        ),
+        date: 'created' in coll ? coll.created : undefined
+      }
+    }
+    return {
+      header: 'All Cards',
+      cardCount: this._lStore.learnables().length,
+      averageConfidence: calculateAverageConfidencePercent(
+        this._lStore.learnables()
+      )
     }
   })
 
-  selectedCollection = computed(
-    () =>
-      [...this.collections(), ...this.pseudoCollections()].find(
-        (c) => c.id === this.selectedCollectionId()
-      )!
-  )
+  // select fallback collection, should userselected collection not exist anymore
+  // this can happen, after a pseudocollection is dissolved because all its cards were removed
+  selectedCollectionId = signal<string | null>(null)
 
   selectCollectionById(id: string) {
     this.selectedCollectionId.set(id)
   }
 
-  private _allCollectionLearnables = computed(() =>
+  private _collectionLearnables = computed(() =>
     this._lStore
       .learnables()
-      .filter((l) => this.selectedCollection().learnableIDs.includes(l.id))
-  )
-
-  collectionAvgConfidencePercent = computed(() =>
-    calculateAverageConfidencePercent(this._allCollectionLearnables())
+      .filter(
+        (l) => this.selectedCollection()?.learnableIDs.includes(l.id) ?? true
+      )
   )
 
   // learnables after filtering
   visibleLearnables = computed(() => {
     const filter = this._filter()
-    const learnables = this._allCollectionLearnables()
+    const learnables = this._collectionLearnables()
 
     if (!filter) return learnables
 
     return filterLearnables(learnables, filter)
   })
 
-  selectedLearnableIds = linkedSignal<string, string[]>({
+  selectedLearnableIds = linkedSignal<string | null, string[]>({
     source: this.selectedCollectionId,
     computation: () => []
   })
@@ -204,11 +196,10 @@ export class OverviewComp {
 
   async removeSelectionFromCollection() {
     const selectedIDs = this.selectedLearnableIds()
-    this._lStore.editCollectionLearnables(
-      this.selectedCollectionId(),
-      [],
-      [...selectedIDs]
-    )
+    const collectionId = this.selectedCollectionId()
+    if (!collectionId) return
+
+    this._lStore.editCollectionLearnables(collectionId, [], [...selectedIDs])
     this._finishEditAndShowToast(
       `Removed ${selectedIDs.length} cards from collection`
     )
@@ -248,15 +239,16 @@ export class OverviewComp {
     this.selectedLearnableIds.set(this._latestIDs())
 
     // add to collection, if user has one selected that is not a pseudo collection
-    if (this.userCollectionIsSelected()) {
+    const collection = this.selectedCollection()
+    if (collection) {
       this._lStore.editCollectionLearnables(
-        this.selectedCollectionId(),
+        collection.id,
         this._latestIDs(),
         []
       )
 
       this._toastService.showToast({
-        message: `created ${uniqueLearnables.length} cards and added them to collection ${this.selectedCollection().name}`,
+        message: `created ${uniqueLearnables.length} cards and added them to collection ${collection.name}`,
         type: 'info'
       })
     } else {
@@ -297,23 +289,24 @@ export class OverviewComp {
   }
 
   async renameCollection() {
-    console.log('hi')
-    if (!this.userCollectionIsSelected()) return
+    const collection = this.selectedCollection()
+
+    if (!collection) return
 
     const coll = this.selectedCollection()
 
     const result = await this._modalService.open<string>('collection-rename', {
-      name: coll.name
+      name: collection.name
     })
     if (result.type !== 'confirm') return
 
-    this._lStore.editCollection(coll.id, result.value)
+    this._lStore.editCollection(collection.id, result.value)
   }
 
   async deleteCollection() {
-    if (!this.userCollectionIsSelected()) return
-
     const coll = this.selectedCollection()
+    if (!coll) return
+
     const result =
       await this._modalService.open<ConfirmCollectionDeletionType>(
         'collection-delete'
@@ -335,10 +328,13 @@ export class OverviewComp {
 
   collectionDownload = computed(() => {
     const collection = this.selectedCollection()
+    if (!collection) return null
 
     return this._makeBlobS.createDownloadableFromLearnables(
-      mapToExport(this._lStore.learnables(), [collection], true),
-      collection.name
+      collection.name,
+      this._lStore.learnables(),
+      [collection],
+      true
     )
   })
 }

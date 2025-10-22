@@ -1,6 +1,7 @@
-import { Component, input, model, output } from '@angular/core'
+import { Component, effect, input, model, output } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { Downloadable } from '../../../../services/blob-service'
+import { LearnableUserCollection } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 
 @Component({
@@ -10,11 +11,18 @@ import { IconComp } from '../../../shared/icon-comp/icon-comp'
   styleUrl: './collection-interact-comp.scss'
 })
 export class CollectionInteractComp {
-  selectionOptions = input.required<{ id: string; name: string }[]>()
-  selectedCollectionId = model<string>()
-  selectorOnly = input<boolean>(false)
+  selectableCollections = input.required<LearnableUserCollection[]>()
+  selectedCollectionId = model.required<string | null>()
 
-  downloadable = input<Downloadable | undefined>()
+  test = effect(() => {
+    console.log(
+      'selectedCollectionId changed:',
+      typeof this.selectedCollectionId(),
+      this.selectedCollectionId()
+    )
+  })
+
+  downloadable = input<Downloadable | null>(null)
   edit = output<void>()
   delete = output<void>()
   share = output<void>()

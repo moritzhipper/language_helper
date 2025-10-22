@@ -27,8 +27,4 @@ export class CollectionAddComp extends BaseModalDirective {
   resetCollectionSelection() {
     this.form.patchValue({ addToId: '' })
   }
-
-  onConfirm() {
-    const { createName, addToId } = this.form.value
-  }
 }

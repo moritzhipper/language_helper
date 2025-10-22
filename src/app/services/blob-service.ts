@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core'
 import { config } from '../../config'
-import { StoreExport } from '../types_and_schemas/types'
 import {
+  BankExport,
+  Learnable,
+  LearnableCollectionWithId
+} from '../types_and_schemas/types'
+import {
+  mapToBankExport,
   parseFileImportString,
   verifiyImportedFileValidity
 } from '../utils/import-export-utils'
@@ -19,9 +24,17 @@ export class BlobService {
 
   // use service for this to handle revoking last blob for better memory management
   createDownloadableFromLearnables(
-    storeExport: StoreExport,
-    fileName: string
+    name: string,
+    learnables: Learnable[],
+    collections: LearnableCollectionWithId[],
+    removeCardsWithoutCollection: boolean = false
   ): Downloadable {
+    const storeExport = mapToBankExport(
+      name,
+      learnables,
+      collections,
+      removeCardsWithoutCollection
+    )
     URL.revokeObjectURL(this._blobUrl)
 
     const jsonString = JSON.stringify(storeExport)
@@ -30,17 +43,17 @@ export class BlobService {
     const blob = new Blob([jsonString], { type: 'application/octet-stream' })
     const blobUrl = URL.createObjectURL(blob)
 
-    const name = `${config.fileExportName} - ${fileName} - ${new Date().toDateString()}.${config.fileExportSuffix}`
+    const fileName = `${config.fileExportName} - ${storeExport.name} - ${new Date().toDateString()}.${config.fileExportSuffix}`
 
     this._blobUrl = blobUrl
 
     return {
       blobUrl,
-      fileName: name
+      fileName
     }
   }
 
-  async readFile(file: File): Promise<StoreExport> {
+  async readFile(file: File): Promise<BankExport> {
     // Verify file validity first
     verifiyImportedFileValidity(file)
 

@@ -1,7 +1,7 @@
 <app-page-wrapper-comp title="Practice" desktopMode="shrink" icon="learn">
   <div class="selection-view">
     <app-counter-comp label="cards in set" size="l">
-      {{ selectedCardsIds().length }}
+      {{ selectedLearnableIds().length }}
     </app-counter-comp>
 
     <form [formGroup]="form" (ngSubmit)="start()">
@@ -34,13 +34,11 @@
       <label>
         <span> collection </span>
         <select formControlName="collectionIdentifier">
-          @for (pseudo of pseudoCollections(); track pseudo.name) {
-            <option [value]="pseudo.name">
-              {{ pseudo.name }}
-              ({{ calculateAverageConfidence(pseudo.learnableIDs) }}%)
-            </option>
-          }
-
+          <option [value]="null">
+            All cards ({{
+              calculateAverageConfidence(selectedLearnableIds())
+            }}%)
+          </option>
           @for (collection of collections(); track collection.id) {
             <option [value]="collection.id">
               {{ collection.name }}
@@ -52,7 +50,7 @@
       <button
         type="submit"
         class="icon"
-        [disabled]="selectedCardsIds().length === 0"
+        [disabled]="selectedLearnableIds().length === 0"
       >
         start
         <app-icon-comp type="learn" />
