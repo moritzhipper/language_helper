@@ -11,7 +11,6 @@ import { AiService } from '../services/ai.service'
 import {
   BankExport,
   LearnableBase,
-  LearnableCollectionWithId,
   LearnablePartialWithId
 } from '../types_and_schemas/types'
 import { getCollectionlessLearnableIds } from '../utils/genaral-utils'
@@ -41,31 +40,7 @@ export const LearnablesStore = signalStore(
   withComputed(({ learnables, collections }) => ({
     collectionLessLearnableIds: computed(() =>
       getCollectionlessLearnableIds(learnables(), collections())
-    ),
-    pseudoCollections: computed(() => {
-      const pseudoCollections: LearnableCollectionWithId[] = []
-
-      const collectionlessIds = getCollectionlessLearnableIds(
-        learnables(),
-        collections()
-      )
-
-      pseudoCollections.push({
-        name: 'All Cards',
-        learnableIDs: learnables().map((l) => l.id),
-        id: 'all'
-      })
-
-      if (collectionlessIds.length > 0) {
-        pseudoCollections.push({
-          name: 'Unsorted',
-          learnableIDs: collectionlessIds,
-          id: 'unsorted'
-        })
-      }
-
-      return pseudoCollections
-    })
+    )
   })),
   withMethods((state) => {
     const aiS = inject(AiService)

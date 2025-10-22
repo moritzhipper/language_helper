@@ -1,14 +1,12 @@
-@let coll = selectedCollection();
-@let isUserCollection = 'created' in coll;
+@let conf = config();
 
-<h2 class="ellipsis">{{ coll.name }}</h2>
+<h2 class="ellipsis">{{ conf.header }}</h2>
 <div class="stats">
-  <span> {{ averageConfidence() }}% confidence </span>
-  <span> {{ coll.learnableIDs.length }} cards </span>
-
-  @if (isUserCollection) {
+  <span> {{ conf.averageConfidence }}% confidence </span>
+  <span> {{ conf.cardCount }} cards </span>
+  @if (conf.date) {
     <span>
-      {{ coll.created | date: 'mediumDate' }}
+      {{ conf.date | date: 'mediumDate' }}
     </span>
   }
 </div>

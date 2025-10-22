@@ -1,16 +1,17 @@
 <div
   class="select-wrapper fly-in-x-rev-0"
-  [class.user-selected]="userCollectionSelected()"
+  [class.user-selected]="selectedCollectionId() !== null"
 >
   <select [(ngModel)]="selectedCollectionId">
-    @for (option of selectionOptions(); track option.id) {
-      <option [value]="option.id">{{ option.name }}</option>
+    <option [ngValue]="null">All cards</option>
+    @for (option of selectableCollections(); track option.id) {
+      <option [ngValue]="option.id">{{ option.name }}</option>
     }
   </select>
   <app-icon-comp type="chevron" />
 </div>
 
-@if (userCollectionSelected()) {
+@if (selectedCollectionId()) {
   <button class="silent fly-in-x-rev-1" (click)="edit.emit()">
     <app-icon-comp type="edit" />
   </button>
@@ -30,10 +31,9 @@
     <app-icon-comp type="trash" />
   </button>
 } @else {
-  @for (option of selectButtonOptions(); track option.id; let i = $index) {
+  @for (option of selectableCollections(); track option.id; let i = $index) {
     <button
       (click)="selectedCollectionId.set(option.id)"
-      [class.selected]="selectedCollectionId() === option.id"
       class="small fake-select"
       [class]="'fly-in-x-rev-' + i"
     >

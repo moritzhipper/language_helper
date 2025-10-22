@@ -1,25 +1,20 @@
+<app-edit-bubbles-comp
+  (create)="addNew()"
+  (bulkEdit)="bulkEdit()"
+  (resetSelection)="resetLearnableSelection()"
+  (removeFromCollection)="removeSelectionFromCollection()"
+  (addToCollection)="addToCollection()"
+  (delete)="deleteSelection()"
+  [allowRemoveFromCollection]="!!selectedCollectionId()"
+  [selectedCardsCount]="selectedLearnableIds().length"
+/>
 @if (userHasCards()) {
-  <app-edit-bubbles-comp
-    (create)="addNew()"
-    (bulkEdit)="bulkEdit()"
-    (resetSelection)="resetLearnableSelection()"
-    (removeFromCollection)="removeSelectionFromCollection()"
-    (addToCollection)="addToCollection()"
-    (delete)="deleteSelection()"
-    [allowRemoveFromCollection]="userCollectionIsSelected()"
-    [selectedCardsCount]="selectedLearnableIds().length"
-  />
-
   <app-page-wrapper-comp title="Cards" desktopMode="full" icon="card">
-    <app-collection-info-comp
-      [selectedCollection]="selectedCollection()"
-      [averageConfidence]="collectionAvgConfidencePercent()"
-    />
+    <app-collection-info-comp [config]="headerConfig()" />
     @if (collections().length !== 0) {
       <app-collection-interact-comp
-        [selectionOptions]="collectionSelectionOptions()"
+        [selectableCollections]="collections()"
         [(selectedCollectionId)]="selectedCollectionId"
-        [userCollectionSelected]="userCollectionIsSelected()"
         (edit)="renameCollection()"
         (delete)="deleteCollection()"
         (share)="shareCollection()"

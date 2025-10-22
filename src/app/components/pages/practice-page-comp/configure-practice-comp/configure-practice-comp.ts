@@ -30,7 +30,7 @@ export class ConfigurePracticeComp {
   protected learningLang = this.sStore.learningLang
   protected speakingLang = this.sStore.speakingLang
   protected collections = this._lStore.collections
-  protected pseudoCollections = this._lStore.pseudoCollections
+  protected learnables = this._lStore.learnables
 
   protected form = this._fb.group({
     type: null,
@@ -43,7 +43,7 @@ export class ConfigurePracticeComp {
     initialValue: this.form.value
   })
 
-  protected selectedCardsIds = computed(() => {
+  protected readonly selectedLearnableIds = computed(() => {
     const formValue = this._formSignal()
 
     const filter = {
@@ -52,16 +52,12 @@ export class ConfigurePracticeComp {
     } as LearnablesFilterConfig
 
     const allLearnableIDsFiltered = filterLearnables(
-      this._lStore.learnables(),
+      this.learnables(),
       filter
     ).map((l) => l.id)
 
     const selectedCollection = this.collections().find(
       (c) => c.id === formValue.collectionIdentifier
-    )
-
-    const selectedPseudoCollection = this.pseudoCollections().find(
-      (c) => c.name === formValue.collectionIdentifier
     )
 
     if (selectedCollection) {
@@ -70,18 +66,12 @@ export class ConfigurePracticeComp {
       )
     }
 
-    if (selectedPseudoCollection) {
-      return allLearnableIDsFiltered.filter((id) =>
-        selectedPseudoCollection.learnableIDs.includes(id)
-      )
-    }
-
     return allLearnableIDsFiltered
   })
 
   start() {
     const reverseDirection = !!this.form.value.reverseDirection
-    this._lStore.startPractice(this.selectedCardsIds(), reverseDirection)
+    this._lStore.startPractice(this.selectedLearnableIds(), reverseDirection)
   }
 
   calculateAverageConfidence(learnableIds: string[]): number {
