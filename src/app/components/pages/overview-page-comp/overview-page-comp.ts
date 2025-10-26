@@ -6,6 +6,7 @@ import {
   signal
 } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { ApiService } from '../../../services/api-service'
 import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
@@ -18,11 +19,15 @@ import {
   calculateAverageConfidencePercent,
   removeDuplicates
 } from '../../../utils/genaral-utils'
-import { filterDoubleEntries } from '../../../utils/import-export-utils'
+import {
+  filterDoubleEntries,
+  mapToBankExport
+} from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
 import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
 import { ConfirmCollectionDeletionType } from '../../shared/forms/delete-collection-comp/delete-collection-comp'
+import { ShareFormResponse } from '../../shared/forms/share-form-comp/share-form-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { CollectionInfoComp } from './collection-info-comp/collection-info-comp'
@@ -55,6 +60,7 @@ export class OverviewComp {
   private readonly _toastService = inject(ToastService)
   private readonly _modalService = inject(ModalService)
   private readonly _makeBlobS = inject(BlobService)
+  private readonly _apiService = inject(ApiService)
 
   collections = this._lStore.collections
 
@@ -322,8 +328,30 @@ export class OverviewComp {
     })
   }
 
-  shareCollection() {
-    alert('Not implemented yet')
+  async shareCollection() {
+    const collection = this.selectedCollection()
+    if (!collection) return
+
+    const userChoice = await this._modalService.open<ShareFormResponse>(
+      'share-collection',
+      {
+        collection
+      }
+    )
+
+    if (userChoice.type !== 'confirm') return
+
+    const bankExport = mapToBankExport(
+      collection.name,
+      this._lStore.learnables(),
+      [collection],
+      true
+    )
+
+    const shareUrl = await this._apiService.shareBank(
+      bankExport,
+      userChoice.value.ttlMinutes
+    )
   }
 
   collectionDownload = computed(() => {

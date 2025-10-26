@@ -1,9 +1,9 @@
 # ToDo
 
 - social tab
-  - make import overview view cool
   - when duplicate, add id to imported collection
     - verifiy logic works -> especially filter logic, may be wron way around lol
+  - add share form
 
   - allow selection of ttl: 5 min, 1 day, 1 month
   - deploy via cloudflare pages, worker and upstash redis
@@ -12,6 +12,8 @@
 
 - allow multiple languages
   - pairing, welches cards und collections enthaelt
+
+- create facade services for components
 
 ## Later
 
