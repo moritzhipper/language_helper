@@ -1,5 +1,5 @@
 form {
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: 1fr auto;
   gap: var(--distance-7) var(--distance-4);
 
   .preview-wrapper {
@@ -17,7 +17,6 @@ form {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
 
     span {
       border-radius: var(--radius-0);
@@ -30,6 +29,8 @@ form {
 
     app-icon-comp {
       position: absolute;
+      left: calc(var(--distance-6) * -1);
+      top: -40px;
       z-index: -1;
       height: 120px;
       width: 120px;
@@ -43,7 +44,6 @@ form {
       font-weight: var(--font-weight-bold);
       span {
         background-color: rgb(from var(--col-primary) r g b / var(--opacity-0));
-        // font-size: var(--font-size-2);
       }
     }
 

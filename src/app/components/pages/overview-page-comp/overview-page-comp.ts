@@ -96,8 +96,6 @@ export class OverviewComp {
     }
   })
 
-  // select fallback collection, should userselected collection not exist anymore
-  // this can happen, after a pseudocollection is dissolved because all its cards were removed
   selectedCollectionId = signal<string | null>(null)
 
   selectCollectionById(id: string) {
