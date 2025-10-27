@@ -5,6 +5,11 @@ import { getCollectionlessLearnableIds } from '../../../../utils/genaral-utils'
 import { IconComp } from '../../icon-comp/icon-comp'
 import { BaseModalDirective } from '../base-modal-directive'
 
+type CollectionPreview = {
+  name: string
+  lexemes: string[]
+}
+
 @Component({
   selector: 'app-import-form-comp',
   imports: [ReactiveFormsModule, IconComp],
@@ -18,7 +23,6 @@ export class ImportFormComp extends BaseModalDirective {
 
   protected unsortedLearnablesCount = computed(() => {
     const { learnables, collections } = this.bankExport()
-
     return getCollectionlessLearnableIds(learnables, collections).length
   })
 
@@ -26,11 +30,40 @@ export class ImportFormComp extends BaseModalDirective {
     () => this.bankExport().learnables.length - this.PREVIEW_COUNT
   )
 
-  protected previewCards = computed(() =>
-    this.bankExport()
-      .learnables.map((l) => l.translation)
-      .slice(0, this.PREVIEW_COUNT + 1)
-  )
+  collectionPreviews = computed<CollectionPreview[]>(() => {
+    const { learnables, collections } = this.bankExport()
+
+    const previews = collections.map((c) => {
+      const lexemes = learnables
+        .filter((l) => c.learnableIDs.includes(l.id))
+        .slice(0, this.PREVIEW_COUNT)
+        .map((l) => l.lexeme)
+
+      return {
+        name: c.name,
+        lexemes
+      }
+    })
+
+    const unsortedLexemes = getCollectionlessLearnableIds(
+      learnables,
+      collections
+    )
+
+    if (unsortedLexemes.length > 0) {
+      const unsortedPreviewLexemes = learnables
+        .filter((l) => unsortedLexemes.includes(l.id))
+        .slice(0, this.PREVIEW_COUNT)
+        .map((l) => l.lexeme)
+
+      previews.push({
+        name: 'Unsorted',
+        lexemes: unsortedPreviewLexemes
+      })
+    }
+
+    return previews
+  })
 
   protected collectionNames = computed(() => {
     const normalNames = this.bankExport().collections.map((c) => c.name)
