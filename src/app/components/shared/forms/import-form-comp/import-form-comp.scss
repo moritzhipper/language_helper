@@ -1,6 +1,5 @@
 form {
   grid-template-rows: 1fr auto;
-  // gap: var(--distance-4) var(--distance-4);
 
   .preview-wrapper {
     display: flex;
@@ -12,18 +11,30 @@ form {
   .preview {
     position: relative;
     max-width: 500px;
-    background-color: var(--col-accent);
-    border-radius: var(--radius-1);
-    padding: var(--distance-2);
-    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: var(--distance-1);
 
-    .cutoff-count {
-      opacity: var(--opacity-1);
+    .name {
+      border-radius: var(--radius-1) var(--radius-1) var(--radius-0)
+        var(--radius-0);
+      padding: var(--distance-1) var(--distance-2);
     }
 
-    app-icon-comp {
-      height: 20px;
-      width: 20px;
+    .lexemes {
+      width: 100%;
+      border-radius: var(--radius-0) var(--radius-0) var(--radius-1)
+        var(--radius-1);
+      padding: var(--distance-3) var(--distance-2);
+    }
+
+    .name,
+    .lexemes {
+      box-sizing: border-box;
+      background-color: var(--col-bg);
+      border: 1px solid rgb(from var(--col-primary) r g b / var(--opacity-0));
     }
   }
 }

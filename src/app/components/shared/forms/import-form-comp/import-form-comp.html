@@ -1,15 +1,17 @@
 <form (ngSubmit)="confirm(this.bankExport())" class="modal" [formGroup]="form">
   <h2 class="full fly-in-y-0">Import {{ bankExport().name }}?</h2>
-  <div class="preview-wrapper full">
+  <div class="preview-wrapper full fly-in-y-0">
     @if (collectionPreviews().length > 1) {
       @for (prev of collectionPreviews(); track prev) {
-        <div class="preview fly-in-y-0">
-          <app-icon-comp type="collection" />
-
-          {{ prev.name }}
-          @for (lexeme of prev.lexemes; track lexeme) {
-            <span>{{ lexeme }}</span>
-          }
+        <div class="preview">
+          <div class="name">
+            {{ prev.name }}
+          </div>
+          <div class="lexemes">
+            @for (lexeme of prev.lexemes; track lexeme) {
+              <span>{{ lexeme }}</span>
+            }
+          </div>
         </div>
       }
     }
