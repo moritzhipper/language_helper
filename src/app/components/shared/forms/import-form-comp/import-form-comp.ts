@@ -2,7 +2,6 @@ import { Component, computed, input } from '@angular/core'
 import { FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { BankExport } from '../../../../types_and_schemas/types'
 import { getCollectionlessLearnableIds } from '../../../../utils/genaral-utils'
-import { IconComp } from '../../icon-comp/icon-comp'
 import { BaseModalDirective } from '../base-modal-directive'
 
 type CollectionPreview = {
@@ -12,7 +11,7 @@ type CollectionPreview = {
 
 @Component({
   selector: 'app-import-form-comp',
-  imports: [ReactiveFormsModule, IconComp],
+  imports: [ReactiveFormsModule],
   templateUrl: './import-form-comp.html',
   styleUrl: './import-form-comp.scss'
 })
