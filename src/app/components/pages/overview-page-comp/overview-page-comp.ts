@@ -6,23 +6,14 @@ import {
   signal
 } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { BlobService } from '../../../services/blob-service'
-import { ModalService } from '../../../services/modal-service'
-import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
-import {
-  LearnableBase,
-  LearnablesFilterConfig
-} from '../../../types_and_schemas/types'
+import { LearnablesFilterConfig } from '../../../types_and_schemas/types'
 import {
   calculateAverageConfidencePercent,
+  getCollectionlessLearnables,
   removeDuplicates
 } from '../../../utils/genaral-utils'
-import { filterDoubleEntries } from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
-import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
-import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
-import { ConfirmCollectionDeletionType } from '../../shared/forms/delete-collection-comp/delete-collection-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { CollectionInfoComp } from './collection-info-comp/collection-info-comp'
@@ -33,7 +24,12 @@ import {
   LearnablesFilterFormType
 } from './filter-form-comp/filter-form-comp'
 import { LearnableComp } from './learnable-comp/learnable-comp'
+import { OverviewPageFacade } from './overview-page-facade'
 
+/**
+ * Overview page component.
+ * Manages all UI state and delegates business logic to the facade service.
+ */
 @Component({
   selector: 'app-overview',
   templateUrl: './overview-page-comp.html',
@@ -52,23 +48,45 @@ import { LearnableComp } from './learnable-comp/learnable-comp'
 })
 export class OverviewComp {
   private readonly _lStore = inject(LearnablesStore)
-  private readonly _toastService = inject(ToastService)
-  private readonly _modalService = inject(ModalService)
-  private readonly _makeBlobS = inject(BlobService)
+  private readonly _facade = inject(OverviewPageFacade)
 
-  collections = this._lStore.collections
+  // Component state management
+  private readonly _filter = signal<LearnablesFilterConfig | null>(null)
+  readonly selectedCollectionId = signal<string | null>(null)
+  readonly collections = this._lStore.collections
 
-  collectionIsEmpty = computed(() => this._collectionLearnables().length === 0)
-
-  userHasCards = computed(() => this._lStore.learnables().length !== 0)
-
-  private _filter = signal<LearnablesFilterConfig | null>(null)
-
-  selectedCollection = computed(() =>
+  // resets selectedLearnableSelection when selected collectionID changes
+  readonly selectedLearnableIds = linkedSignal<string | null, string[]>({
+    source: this.selectedCollectionId,
+    computation: () => []
+  })
+  readonly selectedCollection = computed(() =>
     this.collections().find((c) => c.id === this.selectedCollectionId())
   )
+  readonly unsortedCards = computed(() =>
+    getCollectionlessLearnables(this._lStore.learnables(), this.collections())
+  )
 
-  headerConfig = computed(() => {
+  private readonly _latestAddedIds = signal<string[]>([])
+
+  private readonly _collectionLearnables = computed(() =>
+    this._lStore
+      .learnables()
+      .filter(
+        (l) => this.selectedCollection()?.learnableIDs.includes(l.id) ?? true
+      )
+  )
+
+  readonly visibleLearnables = computed(() => {
+    const filter = this._filter()
+    const learnables = this._collectionLearnables()
+
+    if (!filter) return learnables
+
+    return filterLearnables(learnables, filter)
+  })
+
+  readonly headerConfig = computed(() => {
     const coll = this.selectedCollection()
 
     if (coll) {
@@ -90,36 +108,39 @@ export class OverviewComp {
     }
   })
 
-  // select fallback collection, should userselected collection not exist anymore
-  // this can happen, after a pseudocollection is dissolved because all its cards were removed
-  selectedCollectionId = signal<string | null>(null)
-
-  selectCollectionById(id: string) {
-    this.selectedCollectionId.set(id)
-  }
-
-  private _collectionLearnables = computed(() =>
-    this._lStore
-      .learnables()
-      .filter(
-        (l) => this.selectedCollection()?.learnableIDs.includes(l.id) ?? true
-      )
+  readonly collectionIsEmpty = computed(
+    () => this._collectionLearnables().length === 0
   )
 
-  // learnables after filtering
-  visibleLearnables = computed(() => {
-    const filter = this._filter()
-    const learnables = this._collectionLearnables()
+  readonly userHasCards = computed(() => this._lStore.learnables().length !== 0)
 
-    if (!filter) return learnables
+  readonly collectionDownload = computed(() => {
+    const collection = this.selectedCollection()
+    if (!collection) return null
 
-    return filterLearnables(learnables, filter)
+    return this._facade.createCollectionDownload(
+      collection,
+      this._lStore.learnables()
+    )
   })
 
-  selectedLearnableIds = linkedSignal<string | null, string[]>({
-    source: this.selectedCollectionId,
-    computation: () => []
-  })
+  // View event handlers - delegate to facade
+
+  async addNew() {
+    const newIds = await this._facade.addNew(this.selectedCollection())
+    this._latestAddedIds.set(newIds)
+    this.selectedLearnableIds.set(newIds)
+  }
+
+  async bulkEdit() {
+    const newIds = await this._facade.bulkEdit(this.selectedLearnableIds())
+    this._latestAddedIds.set(newIds)
+    this.selectedLearnableIds.set(newIds)
+  }
+
+  updateFilter(filter: LearnablesFilterFormType) {
+    this._filter.set(filter)
+  }
 
   addVisibleToSelection() {
     const visibleLearnableIDs = this.visibleLearnables().map((l) => l.id)
@@ -132,144 +153,8 @@ export class OverviewComp {
     this.selectedLearnableIds.set(newSelectionIDs)
   }
 
-  private _latestIDs = computed(() => {
-    const latestLearnableIDs = filterLearnables(this._lStore.learnables(), {
-      age: 'newest'
-    }).map((l) => l.id)
-    return latestLearnableIDs
-  })
-
-  async addNew() {
-    const result = await this._modalService.open<LearnableBase[]>('magic-add')
-
-    if (result.type !== 'confirm') return
-    this._addAndMarkLearnables(result.value)
-  }
-
-  async bulkEdit() {
-    const learnables = this._lStore
-      .learnables()
-      .filter((l) => this.selectedLearnableIds().includes(l.id))
-
-    const result = await this._modalService.open<ConfirmationType>(
-      'bulk-edit',
-      { learnables }
-    )
-
-    if (result.type !== 'confirm') return
-    const { update, deleteIDs, add } = result.value
-    this._lStore.updateLearnables(update)
-    this._lStore.removeLearnables(deleteIDs)
-    this._addAndMarkLearnables(add)
-  }
-
   resetLearnableSelection() {
     this.selectedLearnableIds.set([])
-  }
-
-  async addToCollection() {
-    const result = await this._modalService.open<ConfirmCollectionAddType>(
-      'collection-add',
-      { collections: this.collections() }
-    )
-
-    if (result.type !== 'confirm') return
-
-    const { createName, addToId } = result.value
-    const selectedIDs = this.selectedLearnableIds()
-
-    if (createName) {
-      this._lStore.createCollection(createName, selectedIDs)
-    }
-
-    if (addToId) {
-      this._lStore.editCollectionLearnables(addToId, selectedIDs, [])
-    }
-
-    const collectionName =
-      createName || this.collections().find((c) => c.id === addToId)?.name
-
-    this._finishEditAndShowToast(
-      `Added ${selectedIDs.length} cards to ${collectionName}`
-    )
-  }
-
-  async removeSelectionFromCollection() {
-    const selectedIDs = this.selectedLearnableIds()
-    const collectionId = this.selectedCollectionId()
-    if (!collectionId) return
-
-    this._lStore.editCollectionLearnables(collectionId, [], [...selectedIDs])
-    this._finishEditAndShowToast(
-      `Removed ${selectedIDs.length} cards from collection`
-    )
-  }
-
-  async deleteSelection() {
-    const deleteCardsAmount = this.selectedLearnableIds().length
-    const message =
-      deleteCardsAmount === 1
-        ? `Are you sure you want to delete this card?`
-        : `Are you sure you want to delete ${deleteCardsAmount} cards?`
-
-    const confirm = await this._modalService.open<ConfirmationType>('confirm', {
-      message
-    })
-
-    if (confirm.type !== 'confirm') return
-    this._lStore.removeLearnables(this.selectedLearnableIds())
-    this._finishEditAndShowToast(`Removed ${deleteCardsAmount} cards`)
-  }
-
-  private _finishEditAndShowToast(message: string) {
-    this.selectedLearnableIds.set([])
-    this._toastService.showToast({ message, type: 'info' })
-  }
-
-  private _addAndMarkLearnables(learnables: LearnableBase[]) {
-    if (learnables.length === 0) return
-    const existingLearnables = this._lStore.learnables()
-
-    const uniqueLearnables = filterDoubleEntries(
-      learnables,
-      this._lStore.learnables()
-    )
-
-    this._lStore.addLearnables(uniqueLearnables)
-    this.selectedLearnableIds.set(this._latestIDs())
-
-    // add to collection, if user has one selected that is not a pseudo collection
-    const collection = this.selectedCollection()
-    if (collection) {
-      this._lStore.editCollectionLearnables(
-        collection.id,
-        this._latestIDs(),
-        []
-      )
-
-      this._toastService.showToast({
-        message: `created ${uniqueLearnables.length} cards and added them to collection ${collection.name}`,
-        type: 'info'
-      })
-    } else {
-      this._toastService.showToast({
-        message: `created ${uniqueLearnables.length} cards`,
-        type: 'info'
-      })
-    }
-
-    // show skipped reminder, when user tried creating one that already exists
-    const filteredLearnablesCount = learnables.length - uniqueLearnables.length
-    if (filteredLearnablesCount !== 0) {
-      this._toastService.showToast({
-        message: `skipped adding ${filteredLearnablesCount} duplicates`,
-        type: 'info'
-      })
-    }
-  }
-
-  isLastAdded(lId: string): boolean {
-    return this._latestIDs().includes(lId)
   }
 
   toggleLearnableSelection(lId: string) {
@@ -284,57 +169,49 @@ export class OverviewComp {
     return this.selectedLearnableIds().includes(lId)
   }
 
-  updateFilter(filter: LearnablesFilterFormType) {
-    this._filter.set(filter)
+  isLastAdded(lId: string): boolean {
+    return this._latestAddedIds().includes(lId)
+  }
+
+  async addToCollection() {
+    await this._facade.addToCollection(this.selectedLearnableIds())
+    this.selectedLearnableIds.set([])
+  }
+
+  async removeSelectionFromCollection() {
+    const collectionId = this.selectedCollectionId()
+    if (!collectionId) return
+
+    this._facade.removeSelectionFromCollection(
+      collectionId,
+      this.selectedLearnableIds()
+    )
+    this.selectedLearnableIds.set([])
+  }
+
+  async deleteSelection() {
+    await this._facade.deleteSelection(this.selectedLearnableIds())
+    this.selectedLearnableIds.set([])
   }
 
   async renameCollection() {
     const collection = this.selectedCollection()
-
     if (!collection) return
 
-    const coll = this.selectedCollection()
-
-    const result = await this._modalService.open<string>('collection-rename', {
-      name: collection.name
-    })
-    if (result.type !== 'confirm') return
-
-    this._lStore.editCollection(collection.id, result.value)
+    await this._facade.renameCollection(collection)
   }
 
   async deleteCollection() {
-    const coll = this.selectedCollection()
-    if (!coll) return
-
-    const result =
-      await this._modalService.open<ConfirmCollectionDeletionType>(
-        'collection-delete'
-      )
-    if (result.type !== 'confirm') return
-
-    const removeCardsCompletely = result.value.deletionType === 'remove'
-    this._lStore.deleteCollection(coll.id, removeCardsCompletely)
-
-    this._toastService.showToast({
-      type: 'info',
-      message: `Collection ${coll.name} deleted`
-    })
-  }
-
-  shareCollection() {
-    alert('Not implemented yet')
-  }
-
-  collectionDownload = computed(() => {
     const collection = this.selectedCollection()
-    if (!collection) return null
+    if (!collection) return
 
-    return this._makeBlobS.createDownloadableFromLearnables(
-      collection.name,
-      this._lStore.learnables(),
-      [collection],
-      true
-    )
-  })
+    await this._facade.deleteCollection(collection)
+  }
+
+  async shareCollection() {
+    const collection = this.selectedCollection()
+    if (!collection) return
+
+    await this._facade.shareCollection(collection, this._lStore.learnables())
+  }
 }

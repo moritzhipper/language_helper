@@ -13,12 +13,12 @@
     <app-collection-info-comp [config]="headerConfig()" />
     @if (collections().length !== 0) {
       <app-collection-interact-comp
-        [selectableCollections]="collections()"
         [(selectedCollectionId)]="selectedCollectionId"
+        [selectableCollections]="collections()"
+        [downloadable]="collectionDownload()"
         (edit)="renameCollection()"
         (delete)="deleteCollection()"
         (share)="shareCollection()"
-        [downloadable]="collectionDownload()"
       />
     }
     @if (collectionIsEmpty()) {
@@ -40,20 +40,32 @@
               [showNewBadge]="isLastAdded(learnable.id)"
             />
           </button>
-        } @empty {
-          <p>no cards found</p>
         }
       </div>
+      @if (!selectedCollectionId() && unsortedCards().length > 0) {
+        <h2>unsorted cards</h2>
+        <div class="learnables">
+          @for (learnable of unsortedCards(); track learnable.id) {
+            <button
+              class="silent learnable"
+              (click)="toggleLearnableSelection(learnable.id)"
+              [class.selected]="isSelected(learnable.id)"
+            >
+              <app-learnable-comp
+                [learnable]="learnable"
+                [showNewBadge]="isLastAdded(learnable.id)"
+              />
+            </button>
+          }
+        </div>
+      }
     }
   </app-page-wrapper-comp>
 } @else {
   <app-page-wrapper-comp title="Cards" desktopMode="center" icon="card">
     <h2>Add cards to start learning</h2>
     <p>
-      Click
-
-      <app-icon-comp type="magic" [inline]="true" [size]="20" />
-
+      Click <app-icon-comp type="magic" [inline]="true" [size]="20" />
       to magically extract them from your notes, articles, single sentences or
       words you want to learn.
     </p>

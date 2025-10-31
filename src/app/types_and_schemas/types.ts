@@ -84,3 +84,7 @@ export type AppConfig = {
   happyExpressions: string[]
   sadExpressions: string[]
 }
+
+export type BankShareResponse = {
+  id: string
+}

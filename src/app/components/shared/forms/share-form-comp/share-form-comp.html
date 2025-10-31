@@ -1,0 +1,27 @@
+<form class="modal" (ngSubmit)="confirm(form.value)" [formGroup]="form">
+  <h2 class="full fly-in-y-0">Share {{ collection().name }}?</h2>
+
+  <app-radio-comp
+    class="full fly-in-y-0"
+    label="time online"
+    formControlName="ttlMinutes"
+    [config]="[
+      {
+        value: 5,
+        label: '5 minutes'
+      },
+      {
+        value: 1440,
+        label: '1 day'
+      },
+      {
+        value: 10080,
+        label: '1 week'
+      }
+    ]"
+  />
+  <button type="button" (click)="cancel()" class="big fly-in-y-1">
+    cancel
+  </button>
+  <button type="submit" class="fly-in-y-2">Share</button>
+</form>

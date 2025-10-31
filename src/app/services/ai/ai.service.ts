@@ -4,16 +4,15 @@ import OpenAI from 'openai'
 // until then use helper function zodTextFormat from utils/genaral-utils
 // import { zodTextFormat } from 'openai/helpers/zod'
 import { ChatModel } from 'openai/resources/shared.mjs'
-import { SettingsStore } from '../store/settingsStore'
-import { LearnablesFromAiSchema } from '../types_and_schemas/schemas'
+import { SettingsStore } from '../../store/settingsStore'
+import { LearnablesFromAiSchema } from '../../types_and_schemas/schemas'
 import {
   LearnableBase,
   LearnableCreationConfig
-} from '../types_and_schemas/types'
-import { zodTextFormat } from '../utils/genaral-utils'
-
-import { mapPhrasesFromInputToChunks } from './ai/ai-utils'
-import { getPhrasesPrompt, getWordsPrompt } from './ai/prompt'
+} from '../../types_and_schemas/types'
+import { zodTextFormat } from '../../utils/genaral-utils'
+import { mapPhrasesFromInputToChunks } from './ai-utils'
+import { getPhrasesPrompt, getWordsPrompt } from './prompt'
 
 @Injectable({
   providedIn: 'root'

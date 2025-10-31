@@ -7,7 +7,7 @@ import {
   withMethods,
   withState
 } from '@ngrx/signals'
-import { AiService } from '../services/ai.service'
+import { AiService } from '../services/ai/ai.service'
 import {
   BankExport,
   LearnableBase,

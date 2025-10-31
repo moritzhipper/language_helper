@@ -4,7 +4,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms'
-import { AiService } from '../../../../services/ai.service'
+import { AiService } from '../../../../services/ai/ai.service'
 import { ToastService } from '../../../../services/toast-service'
 import { LearnableCreationConfig } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../icon-comp/icon-comp'

@@ -1,4 +1,4 @@
-import { Component, effect, input, model, output } from '@angular/core'
+import { Component, input, model, output } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { Downloadable } from '../../../../services/blob-service'
 import { LearnableUserCollection } from '../../../../types_and_schemas/types'
@@ -13,14 +13,6 @@ import { IconComp } from '../../../shared/icon-comp/icon-comp'
 export class CollectionInteractComp {
   selectableCollections = input.required<LearnableUserCollection[]>()
   selectedCollectionId = model.required<string | null>()
-
-  test = effect(() => {
-    console.log(
-      'selectedCollectionId changed:',
-      typeof this.selectedCollectionId(),
-      this.selectedCollectionId()
-    )
-  })
 
   downloadable = input<Downloadable | null>(null)
   edit = output<void>()
