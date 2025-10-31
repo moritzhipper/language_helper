@@ -17,6 +17,7 @@ import {
 } from '../../../types_and_schemas/types'
 import {
   calculateAverageConfidencePercent,
+  getCollectionlessLearnables,
   removeDuplicates
 } from '../../../utils/genaral-utils'
 import {
@@ -64,6 +65,10 @@ export class OverviewComp {
 
   collections = this._lStore.collections
 
+  unsortedCards = computed(() =>
+    getCollectionlessLearnables(this._lStore.learnables(), this.collections())
+  )
+
   collectionIsEmpty = computed(() => this._collectionLearnables().length === 0)
 
   userHasCards = computed(() => this._lStore.learnables().length !== 0)
@@ -97,10 +102,6 @@ export class OverviewComp {
   })
 
   selectedCollectionId = signal<string | null>(null)
-
-  selectCollectionById(id: string) {
-    this.selectedCollectionId.set(id)
-  }
 
   private _collectionLearnables = computed(() =>
     this._lStore
@@ -296,8 +297,6 @@ export class OverviewComp {
     const collection = this.selectedCollection()
 
     if (!collection) return
-
-    const coll = this.selectedCollection()
 
     const result = await this._modalService.open<string>('collection-rename', {
       name: collection.name

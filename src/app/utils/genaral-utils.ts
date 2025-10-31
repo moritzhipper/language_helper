@@ -61,6 +61,14 @@ export const getCollectionlessLearnableIds = (
     .filter((id) => !collectionLearnableIds.includes(id))
 }
 
+export const getCollectionlessLearnables = (
+  learnables: Learnable[],
+  collections: CollectionBase[]
+): Learnable[] => {
+  const collectionLearnableIds = collections.flatMap((c) => c.learnableIDs)
+  return learnables.filter((l) => !collectionLearnableIds.includes(l.id))
+}
+
 export const removeDuplicates = (array: string[]): string[] => {
   return Array.from(new Set(array))
 }
