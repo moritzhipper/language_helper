@@ -4,9 +4,7 @@
 - add facade to overview
 - use filerCOllectionsL everywhere
 - remove max count on import
-- when duplicate, add id to imported collection
-  - verifiy logic works -> especially filter logic, may be wron way around lol
-- add share form
+- unify share and import form
 
 - allow selection of ttl: 5 min, 1 day, 1 month
 - deploy via cloudflare pages, worker and upstash redis

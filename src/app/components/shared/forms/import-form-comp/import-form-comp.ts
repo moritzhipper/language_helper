@@ -25,10 +25,6 @@ export class ImportFormComp extends BaseModalDirective {
     return getCollectionlessLearnableIds(learnables, collections).length
   })
 
-  protected cutoffCount = computed(
-    () => this.bankExport().learnables.length - this.PREVIEW_COUNT
-  )
-
   collectionPreviews = computed<CollectionPreview[]>(() => {
     const { learnables, collections } = this.bankExport()
 
@@ -62,15 +58,5 @@ export class ImportFormComp extends BaseModalDirective {
     }
 
     return previews
-  })
-
-  protected collectionNames = computed(() => {
-    const normalNames = this.bankExport().collections.map((c) => c.name)
-    const hasUnsorted = getCollectionlessLearnableIds(
-      this.bankExport().learnables,
-      this.bankExport().collections
-    ).length
-    if (!hasUnsorted) return normalNames
-    return normalNames.concat(['Unsorted'])
   })
 }
