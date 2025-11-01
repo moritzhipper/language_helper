@@ -21,10 +21,7 @@ type Counter = {
   selector: 'app-shared-bank-comp',
   imports: [IconComp, DatePipe],
   templateUrl: './shared-bank-comp.html',
-  styleUrl: './shared-bank-comp.scss',
-  host: {
-    '[class.multiple]': 'hasMultipleCollections()'
-  }
+  styleUrl: './shared-bank-comp.scss'
 })
 export class SharedBankComp implements OnDestroy {
   /**
