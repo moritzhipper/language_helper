@@ -1,17 +1,15 @@
 import { z } from 'zod'
 
-export const LearnablesFromAiSchema = z.object({
-  cards: z.array(
-    z.object({
-      lexeme: z.string(),
-      translation: z.string()
-    })
-  )
+export const LearnableMinimalSchema = z.object({
+  lexeme: z.string(),
+  translation: z.string()
 })
 
-export const LearnableBaseSchema = z.object({
-  lexeme: z.string(),
-  translation: z.string(),
+export const LearnablesFromAiSchema = z.object({
+  cards: z.array(LearnableMinimalSchema)
+})
+
+export const LearnableBaseSchema = LearnableMinimalSchema.extend({
   notes: z.string(),
   type: z.enum(['phrase', 'word'])
 })

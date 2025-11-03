@@ -1,11 +1,20 @@
 # ToDo
 
-- unify share and import form
+- unifiy type setup:
+  - store, export and import are wordbanks (types and stuff)
+  - wordbank holds language
+  - collection can have collections
+  - collections can be stacked
 
+- unify share and import form
+- greater: hello, this is how it works
+- you can do this and that
+- add your. language now
 - allow selection of ttl: 5 min, 1 day, 1 month
 - deploy via cloudflare pages, worker and upstash redis
 - allow multiple languages
   - pairing, welches cards und collections enthaelt
+- add load more cards on scroll / pagination?
 
 ## Later
 

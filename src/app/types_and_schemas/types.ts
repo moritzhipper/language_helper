@@ -36,8 +36,6 @@ export type LearnableUserCollection = {
   practicedDates: Date[] // put Practices here?
 }
 
-// addedLatestIDs: string[]
-
 export type LearnablesStoreType = {
   learnables: Learnable[]
   collections: LearnableUserCollection[]
