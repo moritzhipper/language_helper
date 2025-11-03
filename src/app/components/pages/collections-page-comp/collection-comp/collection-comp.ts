@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common'
 import { Component, input } from '@angular/core'
-import { LearnableUserCollection } from '../../../../types_and_schemas/types'
+import { UserCollection } from '../../../../types_and_schemas/types'
 
 @Component({
   selector: 'app-collection-comp',
@@ -9,6 +9,6 @@ import { LearnableUserCollection } from '../../../../types_and_schemas/types'
   styleUrl: './collection-comp.scss'
 })
 export class CollectionComp {
-  collection = input.required<LearnableUserCollection>()
+  collection = input.required<UserCollection>()
   avgGuessesPercent = input.required<number>()
 }

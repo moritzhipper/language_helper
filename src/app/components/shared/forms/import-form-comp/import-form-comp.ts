@@ -1,12 +1,11 @@
 import { Component, computed, input } from '@angular/core'
 import { FormGroup, ReactiveFormsModule } from '@angular/forms'
-import { BankExport } from '../../../../types_and_schemas/types'
-import { getCollectionlessLearnableIds } from '../../../../utils/genaral-utils'
+import { BankBase, BankExportOnline } from '../../../../types_and_schemas/types'
 import { BaseModalDirective } from '../base-modal-directive'
 
 type CollectionPreview = {
   name: string
-  lexemes: string[]
+  learnablesCount: number
 }
 
 @Component({
@@ -17,28 +16,22 @@ type CollectionPreview = {
 })
 export class ImportFormComp extends BaseModalDirective {
   private readonly PREVIEW_COUNT = 20
-  bankExport = input.required<BankExport>()
+  bankExport = input.required<BankExportOnline>()
   form = new FormGroup({})
 
   collectionPreviews = computed<CollectionPreview[]>(() => {
-    const { learnables, collections } = this.bankExport()
+    const { learnables, collections } = this.bankExport().bank
 
-    const previews = collections.map((c) =>
-      this.getPreviewLexemes(c.name, learnables, c.learnableIDs)
-    )
-
-    const unsortedIDs = getCollectionlessLearnableIds(learnables, collections)
-
-    if (unsortedIDs.length > 0) {
-      previews.push(this.getPreviewLexemes('Unsorted', learnables, unsortedIDs))
-    }
-
-    return previews
+    return collections.map((c) => ({
+      name: c.name,
+      learnablesCount: learnables.filter((l) => l.collectionIds.includes(c.id))
+        .length
+    }))
   })
 
   private getPreviewLexemes(
     name: string,
-    learnables: BankExport['learnables'],
+    learnables: BankBase['learnables'],
     learnableIds: string[]
   ): CollectionPreview {
     const lexemes = learnables

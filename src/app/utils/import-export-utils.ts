@@ -1,13 +1,13 @@
 import { config } from '../../config'
-import { BankExportSchema } from '../types_and_schemas/schemas'
+import { BankBaseSchema } from '../types_and_schemas/schemas'
 import {
-  BankExport,
-  CollectionBase,
-  Learnable,
+  BankBase,
+  Collection,
   LearnableBase,
   LearnableCollectionWithId,
-  LearnableUserCollection,
-  LearnableWithId
+  LearnableWithId,
+  UserCollection,
+  UserLearnable
 } from '../types_and_schemas/types'
 
 // #region Export Functions
@@ -17,10 +17,10 @@ import {
  */
 export const mapToBankExport = (
   name: string,
-  learnables: Learnable[],
+  learnables: UserLearnable[],
   collections: LearnableCollectionWithId[],
   removeCardsWithoutCollection: boolean = false
-): BankExport => {
+): BankBase => {
   let relevantLearnables = learnables
 
   if (removeCardsWithoutCollection) {
@@ -40,7 +40,7 @@ export const mapToBankExport = (
     })
   )
 
-  const collectionExp: CollectionBase[] = collections.map((c) => ({
+  const collectionExp: Collection[] = collections.map((c) => ({
     name: c.name,
     learnableIDs: c.learnableIDs
   }))
@@ -54,9 +54,9 @@ export const mapToBankExport = (
 
 // #region Import Functions
 
-export const parseFileImportString = (fileAsString: string): BankExport => {
+export const parseFileImportString = (fileAsString: string): BankBase => {
   try {
-    return BankExportSchema.parse(JSON.parse(fileAsString))
+    return BankBaseSchema.parse(JSON.parse(fileAsString))
   } catch (e) {
     console.error('Failed to parse learnables from file:', e)
     throw new Error('Invalid file format')
@@ -78,9 +78,9 @@ export const verifiyImportedFileValidity = (file: File): void => {
  * Reassigns new IDs to non duplicates ensure uniqueness and avoid conflicts with existing learnables when reimporting collections.
  */
 export const mapFileImportToAddableLearnables = (
-  fileImport: BankExport,
-  existingLearnables: Learnable[]
-): { learnables: Learnable[]; collections: LearnableUserCollection[] } => {
+  fileImport: BankBase,
+  existingLearnables: UserLearnable[]
+): { learnables: UserLearnable[]; collections: UserCollection[] } => {
   const now = new Date()
 
   // create a map to ensure unique IDs in the import
@@ -137,7 +137,7 @@ export const mapFileImportToAddableLearnables = (
 
 export const filterDoubleEntries = (
   newLearnables: LearnableBase[],
-  existingLearnables: Learnable[]
+  existingLearnables: UserLearnable[]
 ): LearnableBase[] => {
   const setOfLexemes = new Set<string>()
 

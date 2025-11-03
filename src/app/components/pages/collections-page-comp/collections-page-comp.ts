@@ -5,7 +5,7 @@ import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
-import { LearnableUserCollection } from '../../../types_and_schemas/types'
+import { UserCollection } from '../../../types_and_schemas/types'
 import { ConfirmCollectionDeletionType } from '../../shared/forms/delete-collection-comp/delete-collection-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
@@ -51,7 +51,7 @@ export class CollectionsPageComp {
     }
   }
 
-  async deleteCollection(coll: LearnableUserCollection) {
+  async deleteCollection(coll: UserCollection) {
     const result =
       await this._modalService.open<ConfirmCollectionDeletionType>(
         'collection-delete'
@@ -68,7 +68,7 @@ export class CollectionsPageComp {
     })
   }
 
-  async renameCollection(coll: LearnableUserCollection) {
+  async renameCollection(coll: UserCollection) {
     const result = await this._modalService.open<string>('collection-rename', {
       name: coll.name
     })

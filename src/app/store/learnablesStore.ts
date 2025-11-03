@@ -1,27 +1,18 @@
 import { withStorageSync } from '@angular-architects/ngrx-toolkit'
-import { computed, inject } from '@angular/core'
+import { patchState, signalStore, withMethods, withState } from '@ngrx/signals'
 import {
-  patchState,
-  signalStore,
-  withComputed,
-  withMethods,
-  withState
-} from '@ngrx/signals'
-import { AiService } from '../services/ai/ai.service'
-import {
-  BankExport,
+  BankBase,
   LearnableBase,
-  LearnablePartialWithId
+  UserLearnablePartial
 } from '../types_and_schemas/types'
-import { getCollectionlessLearnableIds } from '../utils/genaral-utils'
-import { initialLearnables } from './initialStates'
+import { initialState } from './initialStates'
 import {
   createCollection,
   deleteCollection,
   editCollection as editCollectionLearnables,
-  quitPractice,
   quitPracticeEarly,
   removeLearnables,
+  removePractice,
   renameCollection,
   saveImportedCollections,
   saveNewlyCreatedLearnables,
@@ -32,24 +23,18 @@ import {
 
 export const LearnablesStore = signalStore(
   { providedIn: 'root' },
-  withState(initialLearnables),
+  withState(initialState),
   withStorageSync({
     key: 'language_helper_learnables',
     storage: () => localStorage
   }),
-  withComputed(({ learnables, collections }) => ({
-    collectionLessLearnableIds: computed(() =>
-      getCollectionlessLearnableIds(learnables(), collections())
-    )
-  })),
-  withMethods((state) => {
-    const aiS = inject(AiService)
 
+  withMethods((state) => {
     return {
       addLearnables(learnablesBase: LearnableBase[]) {
         patchState(state, saveNewlyCreatedLearnables(learnablesBase))
       },
-      updateLearnables(learnables: LearnablePartialWithId[]) {
+      updateLearnables(learnables: UserLearnablePartial[]) {
         patchState(state, updateLearnables(learnables))
       },
       removeLearnables(ids: string[]) {
@@ -71,33 +56,26 @@ export const LearnablesStore = signalStore(
           editCollectionLearnables(collectionID, addIDs, deleteIDs)
         )
       },
-      importBankExport(importStore: BankExport) {
+      importBankExport(importStore: BankBase) {
         patchState(state, saveImportedCollections(importStore))
       },
       editCollection(name: string, id: string) {
         patchState(state, renameCollection(name, id))
       },
       deleteCollection(id: string, removeLearnables: boolean = false) {
-        const collection = state.collections().find((c) => c.id === id)
-        if (!collection) return
-        const learnableIDs = collection.learnableIDs
         patchState(state, deleteCollection(id))
-
-        if (removeLearnables) {
-          this.removeLearnables(learnableIDs)
-        }
       },
       quitPracticePrematurly() {
         patchState(state, quitPracticeEarly())
       },
       quitPractice() {
-        patchState(state, quitPractice())
+        patchState(state, removePractice())
       },
       setGuess(isCorrect: boolean) {
         patchState(state, setGuess(isCorrect))
       },
       reset() {
-        patchState(state, initialLearnables)
+        patchState(state, initialState)
       }
     }
   })

@@ -1,44 +1,36 @@
 import z from 'zod'
 import {
-  BankExportOnlineSchema,
-  BankExportSchema,
+  BankBaseSchema,
+  BankOfflineExportSchema,
+  BankOnlineExportSchema,
+  BankUserSchema,
   CollectionBaseSchema,
+  CollectionUserSchema,
   LearnableBaseSchema,
-  LearnableCollectionWithId,
+  LearnableUserSchema,
   LearnableWithIdSchema
 } from './schemas'
 
 export type LearnableBase = z.infer<typeof LearnableBaseSchema>
 
-export type CollectionBase = z.infer<typeof CollectionBaseSchema>
-export type LearnableCollectionWithId = z.infer<
-  typeof LearnableCollectionWithId
->
-export type BankExport = z.infer<typeof BankExportSchema>
-export type BankExportOnline = z.infer<typeof BankExportOnlineSchema>
+export type Collection = z.infer<typeof CollectionBaseSchema>
+export type CollectionUser = z.infer<typeof CollectionUserSchema>
+
+export type BankBase = z.infer<typeof BankBaseSchema>
+export type BankExportOnline = z.infer<typeof BankOnlineExportSchema>
+export type BankExportOffline = z.infer<typeof BankOfflineExportSchema>
+export type BankUser = z.infer<typeof BankUserSchema>
+
 export type LearnableWithId = z.infer<typeof LearnableWithIdSchema>
 
-export type Learnable = LearnableWithId & {
-  created: Date
-  guesses: {
-    lexeme: boolean[]
-    translation: boolean[]
-  }
-}
+export type UserLearnable = z.infer<typeof LearnableUserSchema>
 
-export type LearnablePartialWithId = Partial<Learnable> & Pick<Learnable, 'id'>
-
-export type LearnableUserCollection = {
-  id: string
-  name: string
-  created: Date
-  learnableIDs: string[]
-  practicedDates: Date[] // put Practices here?
-}
+export type UserLearnablePartial = Partial<UserLearnable> &
+  Pick<UserLearnable, 'id'>
 
 export type LearnablesStoreType = {
-  learnables: Learnable[]
-  collections: LearnableUserCollection[]
+  banks: BankUser[]
+  activeBankId: string
   currentPractice: {
     ids: string[]
     index: number
@@ -59,8 +51,8 @@ export type Guess = {
 
 export type SettingsStoreType = {
   apiKey: string
-  learningLang: string
-  speakingLang: string
+  // learningLang: string
+  // speakingLang: string
   tokensUsed: number
 }
 

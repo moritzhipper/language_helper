@@ -4,11 +4,7 @@ import {
 } from 'openai/lib/parser.mjs'
 import { ResponseFormatTextJSONSchemaConfig } from 'openai/resources/responses/responses.mjs'
 import z from 'zod'
-import {
-  CollectionBase,
-  Learnable,
-  LearnableWithId
-} from '../types_and_schemas/types'
+import { Collection, UserLearnable } from '../types_and_schemas/types'
 
 /**
  *
@@ -36,7 +32,7 @@ export function zodTextFormat<ZodInput extends z.ZodType>(
 }
 
 export const calculateAverageConfidencePercent = (
-  learnables: Learnable[]
+  learnables: UserLearnable[]
 ): number => {
   const allGuesses = learnables.flatMap((l) => [
     ...l.guesses.lexeme,
@@ -51,20 +47,10 @@ export const calculateAverageConfidencePercent = (
   return Math.round(confidencePercent * 100)
 }
 
-export const getCollectionlessLearnableIds = (
-  learnables: LearnableWithId[],
-  collections: CollectionBase[]
-): string[] => {
-  const collectionLearnableIds = collections.flatMap((c) => c.learnableIDs)
-  return learnables
-    .map((l) => l.id)
-    .filter((id) => !collectionLearnableIds.includes(id))
-}
-
 export const getCollectionlessLearnables = (
-  learnables: Learnable[],
-  collections: CollectionBase[]
-): Learnable[] => {
+  learnables: UserLearnable[],
+  collections: Collection[]
+): UserLearnable[] => {
   const collectionLearnableIds = collections.flatMap((c) => c.learnableIDs)
   return learnables.filter((l) => !collectionLearnableIds.includes(l.id))
 }

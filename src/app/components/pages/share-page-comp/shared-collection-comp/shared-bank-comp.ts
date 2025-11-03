@@ -7,7 +7,7 @@ import {
   output,
   signal
 } from '@angular/core'
-import { BankExportOnline } from '../../../../types_and_schemas/types'
+import { BankOnline } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 
 type Counter = {
@@ -32,7 +32,7 @@ export class SharedBankComp implements OnDestroy {
    *
    *
    */
-  bank = input.required<BankExportOnline>()
+  bank = input.required<BankOnline>()
   allowImport = input<boolean>(true)
   copyId = output<void>()
   importBank = output<void>()

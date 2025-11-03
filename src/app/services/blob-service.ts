@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'
 import { config } from '../../config'
 import {
-  BankExport,
-  Learnable,
-  LearnableCollectionWithId
+  BankBase,
+  LearnableCollectionWithId,
+  UserLearnable
 } from '../types_and_schemas/types'
 import {
   mapToBankExport,
@@ -25,7 +25,7 @@ export class BlobService {
   // use service for this to handle revoking last blob for better memory management
   createDownloadableFromLearnables(
     name: string,
-    learnables: Learnable[],
+    learnables: UserLearnable[],
     collections: LearnableCollectionWithId[],
     removeCardsWithoutCollection: boolean = false
   ): Downloadable {
@@ -53,7 +53,7 @@ export class BlobService {
     }
   }
 
-  async readFile(file: File): Promise<BankExport> {
+  async readFile(file: File): Promise<BankBase> {
     // Verify file validity first
     verifiyImportedFileValidity(file)
 

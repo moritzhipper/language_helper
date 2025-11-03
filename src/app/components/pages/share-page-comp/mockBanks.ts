@@ -1,4 +1,4 @@
-import { BankExport, LearnableWithId } from '../../../types_and_schemas/types'
+import { BankBase, LearnableWithId } from '../../../types_and_schemas/types'
 
 // Mock learnables for various scenarios
 const businessLearnables: LearnableWithId[] = [
@@ -205,7 +205,7 @@ const dogLearnables: LearnableWithId[] = [
   }
 ]
 
-export const mockUserBanks: BankExport[] = [
+export const mockUserBanks: BankBase[] = [
   {
     name: 'Business Presentation',
     learnables: businessLearnables,
@@ -265,7 +265,7 @@ export const mockUserBanks: BankExport[] = [
   }
 ]
 
-export const mockOnlineBanks: BankExport[] = [
+export const mockOnlineBanks: BankBase[] = [
   {
     name: 'Selling Stuff Online',
     learnables: onlineSellingLearnables,

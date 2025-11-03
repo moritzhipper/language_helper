@@ -5,6 +5,8 @@
   - wordbank holds language
   - collection can have collections
   - collections can be stacked
+  - remove learning speaking lnags from settings, move to bank
+  - dont save id at learnable level, create a record with id as attr
 
 - unify share and import form
 - greater: hello, this is how it works
@@ -15,6 +17,8 @@
 - allow multiple languages
   - pairing, welches cards und collections enthaelt
 - add load more cards on scroll / pagination?
+
+make settinggsstore simple service with update function and effect that writes to sessionstorage?
 
 ## Later
 

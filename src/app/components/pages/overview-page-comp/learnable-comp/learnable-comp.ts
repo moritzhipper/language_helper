@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common'
 import { Component, computed, input } from '@angular/core'
-import { Learnable } from '../../../../types_and_schemas/types'
+import { UserLearnable } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 
 @Component({
@@ -13,7 +13,7 @@ import { IconComp } from '../../../shared/icon-comp/icon-comp'
   }
 })
 export class LearnableComp {
-  learnable = input.required<Learnable>()
+  learnable = input.required<UserLearnable>()
   showNewBadge = input<boolean>(false)
   hasManyLetters = computed(() => {
     const lexemeLengt = this.learnable().lexeme.length

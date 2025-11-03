@@ -5,9 +5,9 @@ import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
-  Learnable,
   LearnableBase,
-  LearnableUserCollection
+  UserCollection,
+  UserLearnable
 } from '../../../types_and_schemas/types'
 import {
   filterDoubleEntries,
@@ -36,7 +36,7 @@ export class OverviewPageFacade {
   // Public methods for learnable management
 
   async addNew(
-    selectedCollection: LearnableUserCollection | undefined
+    selectedCollection: UserCollection | undefined
   ): Promise<string[]> {
     const result = await this._modalService.open<LearnableBase[]>('magic-add')
 
@@ -135,7 +135,7 @@ export class OverviewPageFacade {
     })
   }
 
-  async renameCollection(collection: LearnableUserCollection) {
+  async renameCollection(collection: UserCollection) {
     const result = await this._modalService.open<string>('collection-rename', {
       name: collection.name
     })
@@ -144,7 +144,7 @@ export class OverviewPageFacade {
     this._lStore.editCollection(collection.id, result.value)
   }
 
-  async deleteCollection(collection: LearnableUserCollection) {
+  async deleteCollection(collection: UserCollection) {
     const result =
       await this._modalService.open<ConfirmCollectionDeletionType>(
         'collection-delete'
@@ -161,8 +161,8 @@ export class OverviewPageFacade {
   }
 
   async shareCollection(
-    collection: LearnableUserCollection,
-    learnables: Learnable[]
+    collection: UserCollection,
+    learnables: UserLearnable[]
   ) {
     const userChoice = await this._modalService.open<ShareFormResponse>(
       'share-collection',
@@ -184,8 +184,8 @@ export class OverviewPageFacade {
   }
 
   createCollectionDownload(
-    collection: LearnableUserCollection,
-    learnables: Learnable[]
+    collection: UserCollection,
+    learnables: UserLearnable[]
   ) {
     return this._blobService.createDownloadableFromLearnables(
       collection.name,
@@ -199,7 +199,7 @@ export class OverviewPageFacade {
 
   private _addAndMarkLearnables(
     learnables: LearnableBase[],
-    selectedCollection: LearnableUserCollection | undefined
+    selectedCollection: UserCollection | undefined
   ): string[] {
     if (learnables.length === 0) return []
 

@@ -1,19 +1,24 @@
 <form (ngSubmit)="confirm(this.bankExport())" class="modal" [formGroup]="form">
   <h2 class="full fly-in-y-0">Import {{ bankExport().name }}?</h2>
-  @for (prev of collectionPreviews(); track prev) {
-    <div class="preview full fly-in-y-0">
-      @if (collectionPreviews().length > 1) {
-        <div class="name">
-          {{ prev.name }}
+  <div class="preview full fly-in-y-0">
+    @if (collectionPreviews().length > 0) {
+      <div class="header">Collections</div>
+
+      @for (prev of collectionPreviews(); track prev) {
+        <div class="collection">
+          <span class="name">{{ prev.name }}</span>
+          <span class="count">{{ prev.learnablesCount }} items</span>
         </div>
       }
-      <div class="lexemes">
-        @for (lexeme of prev.lexemes; track lexeme) {
-          <span>{{ lexeme }}</span>
-        }
+    }
+
+    <div class="header">Cards</div>
+    @for (learnable of bankExport().bank.learnables; track learnable) {
+      <div class="lexeme">
+        {{ learnable.translation }}
       </div>
-    </div>
-  }
+    }
+  </div>
   <button type="button" class="big fly-in-y-1" (click)="cancel()">
     cancel
   </button>
