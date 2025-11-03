@@ -1,25 +1,18 @@
 @use '../../../../style/mixins.scss' as *;
 
 .toggle {
-  padding: var(--distance-4);
-  background-color: var(--col-accent);
   padding: var(--distance-3);
+  background-color: var(--col-accent);
   border-radius: 100%;
   box-shadow: var(--shadow-big);
-
   transition:
     outline var(--duration-0),
     background-color var(--duration-0),
-    box-shdow var(--duration-1),
+    box-shadow var(--duration-1),
     opacity var(--duration-1);
 
   app-icon-comp {
     transition: rotate var(--duration-1) var(--overshot);
-  }
-
-  &.subdue {
-    box-shadow: none;
-    background-color: transparent;
   }
 
   &.open {
@@ -31,6 +24,7 @@
 
   &.subdue {
     box-shadow: none;
+    background-color: transparent;
     opacity: var(--opacity-0);
   }
 }
@@ -52,17 +46,7 @@
 
   .entry {
     rotate: 10deg;
-
     box-sizing: border-box;
-
-    &.big {
-      color: var(--col-bg);
-      background-color: var(--col-primary);
-    }
-    &.small {
-      color: var(--col-text);
-      background-color: var(--col-accent);
-    }
 
     &.big,
     &.small {
@@ -71,6 +55,16 @@
       align-items: center;
       gap: var(--distance-4);
       box-shadow: var(--shadow-big);
+    }
+
+    &.big {
+      color: var(--col-bg);
+      background-color: var(--col-primary);
+    }
+
+    &.small {
+      color: var(--col-text);
+      background-color: var(--col-accent);
     }
 
     &.text {
@@ -127,18 +121,17 @@
   .links-wrapper {
     display: grid;
     grid-template-columns: 1fr;
-    flex-direction: column;
     margin-top: var(--distance-6);
-
     min-width: 250px;
+
     .entry {
       --stretch-overflow: 20%;
       transform-origin: bottom right;
       border-radius: var(--radius-3);
+      width: calc(100% + var(--stretch-overflow));
       transition:
         scale var(--duration-1) var(--overshot),
         outline var(--duration-0);
-      width: calc(100% + var(--stretch-overflow));
 
       &.big,
       &.small {
@@ -168,6 +161,7 @@
       &.text.header {
         padding-bottom: var(--distance-3);
       }
+
       &.about {
         margin-top: var(--distance-4);
       }
@@ -177,13 +171,8 @@
 
 @include isPhone() {
   :host {
-    position: fixed;
-    top: 0;
-    right: 0;
-    display: flex;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
 
     .fake-shadow {
       position: fixed;
@@ -232,6 +221,7 @@
         &.big,
         &.small {
           font-size: var(--font-size-3);
+
           app-icon-comp {
             width: 50px;
             height: 50px;
@@ -241,11 +231,14 @@
         &.big {
           padding: var(--distance-2) 50vw;
         }
-        &.small {
+
+        &.small,
+        &.text {
           padding: var(--distance-0) 50vw;
         }
+
         &.text {
-          padding: var(--distance-0) 45vw;
+          padding-left: 45vw;
         }
       }
     }
