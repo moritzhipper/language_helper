@@ -90,7 +90,9 @@ export class ActivePracticeComp {
     const currentPractice = this.currentPractice()
     if (!currentPractice) return null
     const learnableId = currentPractice.ids[currentPractice.index]
-    return this._lStore.learnables().find((l) => l.id === learnableId)
+    return this._lStore
+      .activeBank()
+      .learnables.find((l) => l.id === learnableId)
   })
 
   reveal() {

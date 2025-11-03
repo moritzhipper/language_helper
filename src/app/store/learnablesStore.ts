@@ -1,5 +1,12 @@
 import { withStorageSync } from '@angular-architects/ngrx-toolkit'
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals'
+import { computed } from '@angular/core'
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState
+} from '@ngrx/signals'
 import {
   BankBase,
   LearnableBase,
@@ -28,7 +35,23 @@ export const LearnablesStore = signalStore(
     key: 'language_helper_learnables',
     storage: () => localStorage
   }),
-
+  withComputed((state) => ({
+    activeBank: computed(() => {
+      return state.banks().find((b) => b.id === state.activeBankId()) || null
+    }),
+    collections: computed(() => {
+      return (
+        state.banks().find((b) => b.id === state.activeBankId())?.collections ||
+        []
+      )
+    }),
+    learnables: computed(() => {
+      return (
+        state.banks().find((b) => b.id === state.activeBankId())?.learnables ||
+        []
+      )
+    })
+  })),
   withMethods((state) => {
     return {
       addLearnables(learnablesBase: LearnableBase[]) {

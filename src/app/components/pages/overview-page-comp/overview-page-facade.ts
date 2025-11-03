@@ -4,11 +4,7 @@ import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
-import {
-  LearnableBase,
-  UserCollection,
-  UserLearnable
-} from '../../../types_and_schemas/types'
+import { BankUser, LearnableBase } from '../../../types_and_schemas/types'
 import {
   filterDoubleEntries,
   mapToBankExport
@@ -144,7 +140,7 @@ export class OverviewPageFacade {
     this._lStore.editCollection(collection.id, result.value)
   }
 
-  async deleteCollection(collection: UserCollection) {
+  async deleteCollection(id: string) {
     const result =
       await this._modalService.open<ConfirmCollectionDeletionType>(
         'collection-delete'
@@ -152,47 +148,30 @@ export class OverviewPageFacade {
     if (result.type !== 'confirm') return
 
     const removeCardsCompletely = result.value.deletionType === 'remove'
-    this._lStore.deleteCollection(collection.id, removeCardsCompletely)
+    this._lStore.deleteCollection(id, removeCardsCompletely)
 
     this._toastService.showToast({
       type: 'info',
-      message: `Collection ${collection.name} deleted`
+      message: `Collection ${id} deleted`
     })
   }
 
-  async shareCollection(
-    collection: UserCollection,
-    learnables: UserLearnable[]
-  ) {
+  async shareCollection(id: string, bank: BankUser) {
     const userChoice = await this._modalService.open<ShareFormResponse>(
       'share-collection',
       {
-        collection
+        bank
       }
     )
 
     if (userChoice.type !== 'confirm') return
-
-    const bankExport = mapToBankExport(
-      collection.name,
-      learnables,
-      [collection],
-      true
-    )
-
+    const bankExport = mapToBankExport('hi', bank, [id])
     await this._apiService.shareBank(bankExport, userChoice.value.ttlMinutes)
   }
 
-  createCollectionDownload(
-    collection: UserCollection,
-    learnables: UserLearnable[]
-  ) {
-    return this._blobService.createDownloadableFromLearnables(
-      collection.name,
-      learnables,
-      [collection],
-      true
-    )
+  createCollectionDownload(id: string, bank: BankUser) {
+    const bankExport = mapToBankExport('hi', bank, [id])
+    return this._blobService.createDownloadableFromLearnables(bankExport)
   }
 
   // Private helper methods

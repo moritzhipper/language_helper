@@ -1,12 +1,17 @@
 # ToDo
 
 - unifiy type setup:
+  - add change language mutator:
+    -> checks if language combo exists, activates bank with that combo or creates new empty one
+  - clean up overview page and facade thoroughly
   - store, export and import are wordbanks (types and stuff)
   - wordbank holds language
   - collection can have collections
   - collections can be stacked
   - remove learning speaking lnags from settings, move to bank
   - dont save id at learnable level, create a record with id as attr
+
+- make export app config export complete store
 
 - unify share and import form
 - greater: hello, this is how it works

@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core'
 import { config } from '../../config'
+import { BankBase } from '../types_and_schemas/types'
 import {
-  BankBase,
-  LearnableCollectionWithId,
-  UserLearnable
-} from '../types_and_schemas/types'
-import {
-  mapToBankExport,
   parseFileImportString,
   verifiyImportedFileValidity
 } from '../utils/import-export-utils'
@@ -23,27 +18,16 @@ export class BlobService {
   private _blobUrl = ''
 
   // use service for this to handle revoking last blob for better memory management
-  createDownloadableFromLearnables(
-    name: string,
-    learnables: UserLearnable[],
-    collections: LearnableCollectionWithId[],
-    removeCardsWithoutCollection: boolean = false
-  ): Downloadable {
-    const storeExport = mapToBankExport(
-      name,
-      learnables,
-      collections,
-      removeCardsWithoutCollection
-    )
+  createDownloadableFromLearnables(name: string, bank: BankBase): Downloadable {
     URL.revokeObjectURL(this._blobUrl)
 
-    const jsonString = JSON.stringify(storeExport)
+    const jsonString = JSON.stringify(bank)
 
     // use application/octet-stream to force download as *.suffix and not as *.suffix.json in browsers
     const blob = new Blob([jsonString], { type: 'application/octet-stream' })
     const blobUrl = URL.createObjectURL(blob)
 
-    const fileName = `${config.fileExportName} - ${storeExport.name} - ${new Date().toDateString()}.${config.fileExportSuffix}`
+    const fileName = `${config.fileExportName} - ${name} - ${new Date().toDateString()}.${config.fileExportSuffix}`
 
     this._blobUrl = blobUrl
 

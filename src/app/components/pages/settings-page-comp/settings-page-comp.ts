@@ -5,8 +5,10 @@ import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
+import { mapToBankExport } from '../../../utils/import-export-utils'
 import { CounterComp } from '../../shared/counter-comp/counter-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
+
 @Component({
   selector: 'app-settings.comp',
   imports: [ReactiveFormsModule, PageWrapperComp, CounterComp],
@@ -20,15 +22,16 @@ export class SettingsComp {
   private readonly _modalService = inject(ModalService)
 
   tokensUsed = this._settingsS.tokensUsed
-  learnables = this._languageS.learnables
-  collections = this._languageS.collections
-  learnablesDownload = computed(() =>
-    this._makeBlobS.createDownloadableFromLearnables(
-      'All Cards',
-      this._languageS.learnables(),
-      this._languageS.collections()
-    )
-  )
+
+  learnablesDownload = computed(() => {
+    const bank = this._languageS.activeBank()
+    if (!bank) return null
+    const bankExport = mapToBankExport('hi', bank)
+    // todo make this export whole store
+    alert('Exporting whole store not yet implemented')
+    // return this._makeBlobS.createDownloadableFromLearnables(bankExport)
+    return null
+  })
 
   form = new FormGroup({
     apiKey: new FormControl('', { nonNullable: true }),
@@ -40,8 +43,8 @@ export class SettingsComp {
   constructor() {
     this.form.setValue({
       apiKey: this._settingsS.apiKey(),
-      learningLang: this._settingsS.learningLang(),
-      speakingLang: this._settingsS.speakingLang()
+      learningLang: this._languageS.activeBank()?.language.learning || '',
+      speakingLang: this._languageS.activeBank()?.language.speaking || ''
     })
     effect(() => {
       const formValue = this.formSignal()

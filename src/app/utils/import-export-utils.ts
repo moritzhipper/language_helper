@@ -2,11 +2,10 @@ import { config } from '../../config'
 import { BankBaseSchema } from '../types_and_schemas/schemas'
 import {
   BankBase,
+  BankUser,
   Collection,
   LearnableBase,
-  LearnableCollectionWithId,
   LearnableWithId,
-  UserCollection,
   UserLearnable
 } from '../types_and_schemas/types'
 
@@ -16,39 +15,39 @@ import {
  * Maps the learnables and collections to a format suitable to put into a file for export.
  */
 export const mapToBankExport = (
-  name: string,
-  learnables: UserLearnable[],
-  collections: LearnableCollectionWithId[],
-  removeCardsWithoutCollection: boolean = false
+  bank: BankUser,
+  onlyCollectionIDs?: string[]
 ): BankBase => {
-  let relevantLearnables = learnables
-
-  if (removeCardsWithoutCollection) {
-    const idsOfCollections = collections.flatMap((c) => c.learnableIDs)
-    relevantLearnables = relevantLearnables.filter((l) =>
-      idsOfCollections.includes(l.id)
+  const learnables: LearnableWithId[] = bank.learnables
+    .filter((l) =>
+      onlyCollectionIDs
+        ? onlyCollectionIDs.some((cid) => l.collectionIds.includes(cid))
+        : true
     )
-  }
+    .map((l) => ({
+      lexeme: l.lexeme,
+      translation: l.translation,
+      type: l.type,
+      id: l.id,
+      notes: l.notes,
+      collectionIds: onlyCollectionIDs
+        ? onlyCollectionIDs.filter((cid) => l.collectionIds.includes(cid))
+        : l.collectionIds
+    }))
 
-  const learnableExp: LearnableWithId[] = relevantLearnables.map(
-    (learnable) => ({
-      lexeme: learnable.lexeme,
-      translation: learnable.translation,
-      type: learnable.type,
-      notes: learnable.notes,
-      id: learnable.id
-    })
-  )
-
-  const collectionExp: Collection[] = collections.map((c) => ({
-    name: c.name,
-    learnableIDs: c.learnableIDs
-  }))
+  const collections: Collection[] = bank.collections
+    .filter((c) =>
+      onlyCollectionIDs ? onlyCollectionIDs.includes(c.id) : true
+    )
+    .map((c) => ({
+      name: c.name,
+      id: c.id
+    }))
 
   return {
-    name,
-    learnables: learnableExp,
-    collections: collectionExp
+    language: bank.language,
+    learnables,
+    collections
   }
 }
 
@@ -69,69 +68,6 @@ export const verifiyImportedFileValidity = (file: File): void => {
 
   if (!fileSuffixIsCorrect) {
     throw new Error('Wrong file extension.')
-  }
-}
-
-/**
- * Maps the file import to a format suitable for adding to the store.
- * Replaces new IDS with IDs from existing learnables if newly imported card is a duplicate.
- * Reassigns new IDs to non duplicates ensure uniqueness and avoid conflicts with existing learnables when reimporting collections.
- */
-export const mapFileImportToAddableLearnables = (
-  fileImport: BankBase,
-  existingLearnables: UserLearnable[]
-): { learnables: UserLearnable[]; collections: UserCollection[] } => {
-  const now = new Date()
-
-  // create a map to ensure unique IDs in the import
-  // this is necessary to avoid conflicts with existing learnables on reimport
-  const newIdMap = new Map<string, string>()
-  const existingIdMap = new Map<string, string>()
-
-  fileImport.learnables.filter((newL) => {
-    const existingCard = existingLearnables.find(
-      (exEl) =>
-        exEl.lexeme === newL.lexeme &&
-        exEl.translation === newL.translation &&
-        exEl.type === newL.type
-    )
-
-    if (existingCard) {
-      existingIdMap.set(newL.id, existingCard.id)
-    } else {
-      newIdMap.set(newL.id, crypto.randomUUID())
-    }
-  })
-
-  // dont use spread here to avoid bleeding old or unused attributes into the store
-  const learnables = fileImport.learnables
-    .filter((l) => newIdMap.has(l.id))
-    .map((l) => ({
-      id: newIdMap.get(l.id)!,
-      created: now,
-      type: l.type,
-      lexeme: l.lexeme,
-      translation: l.translation,
-      notes: l.notes,
-      guesses: {
-        lexeme: [false, false, false, false, false],
-        translation: [false, false, false, false, false]
-      }
-    }))
-
-  const collections = fileImport.collections.map((c) => ({
-    id: crypto.randomUUID(),
-    created: now,
-    name: c.name,
-    learnableIDs: c.learnableIDs.map(
-      (id) => existingIdMap.get(id) ?? newIdMap.get(id) ?? id
-    ),
-    practicedDates: []
-  }))
-
-  return {
-    learnables,
-    collections
   }
 }
 

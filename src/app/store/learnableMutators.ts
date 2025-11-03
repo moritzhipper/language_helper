@@ -1,12 +1,13 @@
 import {
   BankBase,
+  Collection,
   CollectionUser,
   LearnableBase,
   LearnablesStoreType,
+  LearnableWithId,
   UserLearnable,
   UserLearnablePartial
 } from '../types_and_schemas/types'
-import { mapFileImportToAddableLearnables } from '../utils/import-export-utils'
 
 export const startPractice =
   (ids: string[], reverseDirection: boolean) =>
@@ -112,22 +113,115 @@ export const updateLearnables =
     }
   }
 
+const remapCollectionIds = (collections: Collection[]) => {
+  const collectionIdMap = new Map<string, string>()
+  const remappedCollections = collections.map((c) => {
+    const newId = crypto.randomUUID()
+    collectionIdMap.set(c.id, newId)
+    return { ...c, id: newId }
+  })
+  return { collectionIdMap, remappedCollections }
+}
+
+const prepareImportedLearnables = (
+  learnables: LearnableWithId[],
+  collectionIdMap: Map<string, string>
+): UserLearnable[] => {
+  const now = new Date()
+  return learnables.map((l) => ({
+    ...l,
+    id: crypto.randomUUID(),
+    created: now,
+    collectionIds: l.collectionIds.map(
+      (cid: string) => collectionIdMap.get(cid) ?? cid
+    ),
+    guesses: {
+      lexeme: [false, false, false, false, false],
+      translation: [false, false, false, false, false]
+    }
+  }))
+}
+
+const filterNewCollections = (
+  imported: Collection[],
+  existing: CollectionUser[]
+): CollectionUser[] => {
+  const now = new Date()
+  return imported
+    .filter((c) => !existing.some((ec) => ec.name === c.name))
+    .map((c) => ({ ...c, created: now }))
+}
+
+const learnablesMatch = (l1: LearnableBase, l2: LearnableBase) =>
+  l1.lexeme === l2.lexeme && l1.translation === l2.translation
+
+const mergeLearnables = (
+  existing: UserLearnable[],
+  imported: UserLearnable[]
+) => {
+  const merged = existing.map((l) => {
+    const match = imported.find((il) => learnablesMatch(l, il))
+    if (match) {
+      return {
+        ...l,
+        collectionIds: [...l.collectionIds, ...match.collectionIds]
+      }
+    }
+    return l
+  })
+
+  const newItems = imported.filter(
+    (il) => !existing.some((l) => learnablesMatch(l, il))
+  )
+
+  return { merged, newItems }
+}
+
+const filterValidCollectionIds = (
+  learnables: UserLearnable[],
+  collections: CollectionUser[]
+): UserLearnable[] => {
+  const validIds = new Set(collections.map((c) => c.id))
+  return learnables.map((l) => ({
+    ...l,
+    collectionIds: l.collectionIds.filter((cid) => validIds.has(cid))
+  }))
+}
+
 export const saveImportedCollections =
-  (storeImport: BankBase) =>
+  ({ learnables, collections }: BankBase) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     return {
       ...state,
-
       banks: state.banks.map((b) => {
         if (b.id !== state.activeBankId) return b
 
-        const { learnables: newLearnables, collections: newCollections } =
-          mapFileImportToAddableLearnables(storeImport, b.learnables)
+        const { collectionIdMap, remappedCollections } =
+          remapCollectionIds(collections)
+        const importedLearnables = prepareImportedLearnables(
+          learnables,
+          collectionIdMap
+        )
+
+        const newCollections = filterNewCollections(
+          remappedCollections,
+          b.collections
+        )
+        const { merged, newItems } = mergeLearnables(
+          b.learnables,
+          importedLearnables
+        )
+
+        const allCollections = [...b.collections, ...newCollections]
+        const allLearnables = filterValidCollectionIds(
+          [...merged, ...newItems],
+          allCollections
+        )
 
         return {
           ...b,
-          learnables: [...b.learnables, ...newLearnables],
-          collections: [...b.collections, ...newCollections]
+          learnables: allLearnables,
+          collections: allCollections
         }
       })
     }
