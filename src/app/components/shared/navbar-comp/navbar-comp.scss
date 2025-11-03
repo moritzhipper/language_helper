@@ -45,23 +45,15 @@
   z-index: 15;
   transition: background-color var(--duration-0);
 
-  h2,
-  .link {
-    box-sizing: border-box;
-    rotate: 10deg;
-  }
-
+  p,
   h2 {
-    margin: 0 0 0 var(--distance-6);
-    text-shadow: 0 5px 13px var(--col-bg);
+    margin: 0;
   }
 
-  .link {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: var(--distance-4);
-    box-shadow: var(--shadow-big);
+  .entry {
+    rotate: 10deg;
+
+    box-sizing: border-box;
 
     &.big {
       color: var(--col-bg);
@@ -70,6 +62,27 @@
     &.small {
       color: var(--col-text);
       background-color: var(--col-accent);
+    }
+
+    &.big,
+    &.small {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      gap: var(--distance-4);
+      box-shadow: var(--shadow-big);
+    }
+
+    &.text {
+      text-shadow: 0 5px 13px var(--col-bg);
+      white-space: nowrap;
+
+      &.langs {
+        display: inline-flex;
+        justify-content: end;
+        align-items: center;
+        gap: var(--distance-2);
+      }
     }
 
     &.about {
@@ -82,7 +95,6 @@
   :host {
     box-sizing: border-box;
     margin: var(--distance-4) 0 var(--distance-4) var(--distance-4);
-    width: 250px;
     align-items: stretch;
 
     .fake-shadow {
@@ -112,38 +124,52 @@
     margin-right: var(--distance-4);
   }
 
-  h2,
-  .link {
-    font-size: var(--font-size-2);
-  }
-
   .links-wrapper {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
     flex-direction: column;
-    gap: var(--distance-4);
+    margin-top: var(--distance-6);
 
-    .link {
-      width: 120%;
+    min-width: 250px;
+    .entry {
+      --stretch-overflow: 20%;
+      transform-origin: bottom right;
       border-radius: var(--radius-3);
       transition:
         scale var(--duration-1) var(--overshot),
         outline var(--duration-0);
+      width: calc(100% + var(--stretch-overflow));
 
-      app-icon-comp {
-        width: 40px;
-        height: 40px;
+      &.big,
+      &.small {
+        font-size: var(--font-size-2);
+        margin-bottom: var(--distance-3);
+
+        app-icon-comp {
+          width: 40px;
+          height: 40px;
+        }
+
+        &:hover {
+          scale: 1.05;
+        }
       }
 
       &.big {
         padding: var(--distance-2) var(--distance-6);
       }
 
-      &.small {
-        padding: var(--distance-0) var(--distance-6);
+      &.small,
+      &.text {
+        padding: 0 calc(var(--distance-5) + var(--stretch-overflow)) 0
+          var(--distance-6);
       }
 
-      &:hover {
-        scale: 1.05;
+      &.text.header {
+        padding-bottom: var(--distance-3);
+      }
+      &.about {
+        margin-top: var(--distance-4);
       }
     }
   }
@@ -178,15 +204,6 @@
       }
     }
 
-    h2 {
-      width: 100%;
-    }
-
-    h2,
-    .link {
-      font-size: var(--font-size-3);
-    }
-
     .toggle {
       position: fixed;
       margin: var(--distance-4);
@@ -209,19 +226,26 @@
       width: 100vw;
       height: 100dvh;
 
-      .link {
+      .entry {
         width: 170vw;
 
-        app-icon-comp {
-          width: 50px;
-          height: 50px;
+        &.big,
+        &.small {
+          font-size: var(--font-size-3);
+          app-icon-comp {
+            width: 50px;
+            height: 50px;
+          }
         }
 
         &.big {
-          padding: var(--distance-2) 0 var(--distance-2) 50vw;
+          padding: var(--distance-2) 50vw;
         }
         &.small {
-          padding: var(--distance-0) 0 var(--distance-0) 50vw;
+          padding: var(--distance-0) 50vw;
+        }
+        &.text {
+          padding: var(--distance-0) 45vw;
         }
       }
     }

@@ -26,6 +26,7 @@ export type IconType =
   | 'warn'
   | 'info'
   | 'copy'
+  | 'left-right'
 
 @Component({
   selector: 'app-icon-comp',
