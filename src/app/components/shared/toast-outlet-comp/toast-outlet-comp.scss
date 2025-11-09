@@ -3,24 +3,25 @@
   pointer-events: none;
   display: grid;
   place-items: center;
-  gap: var(--distance-2);
   z-index: 20;
   width: 100vw;
   left: 0;
-  bottom: 150px;
+  bottom: 80px;
   box-sizing: border-box;
-  padding: var(--distance-4);
+  padding: 0 var(--distance-4);
 }
 
 .toast {
   max-width: 100%;
   word-break: break-all;
   overflow: hidden;
+  margin-bottom: var(--distance-4);
+
   &.guess {
     text-align: center;
     grid-area: 1/1;
-    animation: guess 1000ms ease-out both;
-    font-size: var(--font-size-3);
+    font-size: var(--font-size-4);
+    opacity: 0;
   }
 
   &.error,
@@ -28,7 +29,6 @@
     box-shadow: var(--shadow-big);
     padding: var(--distance-3) var(--distance-4);
     border-radius: var(--radius-2);
-    // animation: toast 4000ms ease-in-out both;
   }
 
   &.error {
@@ -42,37 +42,71 @@
   }
 }
 
-@keyframes toast {
-  from {
-    translate: 0 20px;
-  }
+.guess-in {
+  animation: guess-in var(--duration-3) ease-out;
+}
 
-  from,
-  to {
-    opacity: 0;
-  }
+.guess-out {
+  animation: guess-out var(--duration-0);
+}
 
-  20%,
-  80% {
-    opacity: 1;
+.toast-in {
+  animation: toast-in var(--duration-3);
+
+  display: grid;
+  align-self: flex-end;
+
+  .wrapper {
+    overflow: hidden;
   }
 }
 
-@keyframes guess {
-  0% {
-    scale: 0.7;
-    opacity: 0;
-    translate: 0 40px;
-  }
+.toast-out {
+  animation: toast-out var(--duration-2);
+}
 
-  50% {
+@keyframes guess-in {
+  from {
+    scale: 0.7;
+  }
+  60% {
     opacity: 1;
   }
-
-  100% {
-    scale: 1.2;
-
-    translate: 0 -20px;
+  to {
+    translate: 0 -80px;
     opacity: 0;
+  }
+}
+
+@keyframes guess-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes toast-out {
+  to {
+    opacity: 0;
+    translate: 0 -10px;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    grid-template-rows: 0fr;
+    translate: 0 80px;
+  }
+  50% {
+    translate: 0 80px;
+
+    opacity: 0;
+    grid-template-rows: 1fr;
+  }
+  to {
+    opacity: 1;
   }
 }

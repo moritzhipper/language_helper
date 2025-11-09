@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core'
-import { ToastService } from '../../../services/toast-service'
+import { ToastOptions, ToastService } from '../../../services/toast-service'
 
 @Component({
   selector: 'app-toast-outlet-comp',
@@ -8,6 +8,14 @@ import { ToastService } from '../../../services/toast-service'
   styleUrl: './toast-outlet-comp.scss'
 })
 export class ToastOutletComp {
-  private _toastService = inject(ToastService)
-  toasts = this._toastService.toasts
+  private readonly _toastService = inject(ToastService)
+  protected toasts = this._toastService.toasts
+
+  getEnterAnimName(toast: ToastOptions): string {
+    return toast.type === 'guess' ? 'guess-in' : 'toast-in'
+  }
+
+  getLeaveAnimName(toast: ToastOptions): string {
+    return toast.type === 'guess' ? 'guess-out' : 'toast-out'
+  }
 }

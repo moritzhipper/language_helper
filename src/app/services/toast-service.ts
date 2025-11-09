@@ -1,6 +1,6 @@
 import { computed, Injectable, signal } from '@angular/core'
 
-type ToastOptions = {
+export type ToastOptions = {
   message: string
   type: 'info' | 'error' | 'guess'
 }

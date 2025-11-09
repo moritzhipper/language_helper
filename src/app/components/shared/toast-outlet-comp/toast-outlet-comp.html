@@ -1,5 +1,12 @@
 @for (toast of toasts(); track toast) {
-  <div class="toast" [class]="toast.type">
-    {{ toast.message }}
+  <div
+    class="toast"
+    [class]="toast.type"
+    [animate.enter]="getEnterAnimName(toast)"
+    [animate.leave]="getLeaveAnimName(toast)"
+  >
+    <div class="wrapper">
+      {{ toast.message }}
+    </div>
   </div>
 }
