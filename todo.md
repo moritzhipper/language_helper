@@ -1,6 +1,5 @@
 # ToDo
 
-- import: remapping ids und records nun supereasy
 - add to collection after import doesnt work
 
 - unifiy type setup:

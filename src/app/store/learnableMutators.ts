@@ -340,10 +340,22 @@ export const createCollection =
       ...state,
       banks: state.banks.map((b) => {
         if (b.id !== state.activeBankId) return b
+        const newCollection = createNewCollection(name)
 
         return {
           ...b,
-          collections: [...b.collections, createNewCollection(name, ids)]
+          collections: [...b.collections, newCollection],
+          learnables: b.learnables.map((l) => {
+            if (ids.includes(l.id)) {
+              return {
+                ...l,
+                collectionIds: [
+                  ...new Set([...l.collectionIds, newCollection.id])
+                ]
+              }
+            }
+            return l
+          })
         }
       })
     }
@@ -419,7 +431,7 @@ export const renameCollection =
     }
   }
 
-const createNewCollection = (name: string, ids: string[]): CollectionUser => ({
+const createNewCollection = (name: string): CollectionUser => ({
   id: crypto.randomUUID(),
   created: new Date(),
   name
