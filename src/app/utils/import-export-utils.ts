@@ -2,6 +2,7 @@ import { config } from '../../config'
 import { BankBaseSchema } from '../types_and_schemas/schemas'
 import {
   BankBase,
+  BankExportOffline,
   BankUser,
   Collection,
   LearnableBase,
@@ -15,9 +16,10 @@ import {
  * Maps the learnables and collections to a format suitable to put into a file for export.
  */
 export const mapToBankExport = (
+  name: string,
   bank: BankUser,
   onlyCollectionIDs?: string[]
-): BankBase => {
+): BankExportOffline => {
   const learnables: LearnableWithId[] = bank.learnables
     .filter((l) =>
       onlyCollectionIDs
@@ -45,6 +47,7 @@ export const mapToBankExport = (
     }))
 
   return {
+    name,
     language: bank.language,
     learnables,
     collections

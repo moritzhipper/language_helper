@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { config } from '../../config'
-import { BankBase } from '../types_and_schemas/types'
+import { BankBase, BankExportOffline } from '../types_and_schemas/types'
 import {
   parseFileImportString,
   verifiyImportedFileValidity
@@ -18,7 +18,7 @@ export class BlobService {
   private _blobUrl = ''
 
   // use service for this to handle revoking last blob for better memory management
-  createDownloadableFromLearnables(name: string, bank: BankBase): Downloadable {
+  createDownloadableFromLearnables(bank: BankExportOffline): Downloadable {
     URL.revokeObjectURL(this._blobUrl)
 
     const jsonString = JSON.stringify(bank)
@@ -27,7 +27,7 @@ export class BlobService {
     const blob = new Blob([jsonString], { type: 'application/octet-stream' })
     const blobUrl = URL.createObjectURL(blob)
 
-    const fileName = `${config.fileExportName} - ${name} - ${new Date().toDateString()}.${config.fileExportSuffix}`
+    const fileName = `${config.fileExportName} - ${bank.name} - ${new Date().toDateString()}.${config.fileExportSuffix}`
 
     this._blobUrl = blobUrl
 

@@ -60,6 +60,8 @@ export class OverviewComp {
     source: this.selectedCollectionId,
     computation: () => []
   })
+
+
   readonly selectedCollection = computed(() =>
     this.collections().find((c) => c.id === this.selectedCollectionId())
   )
@@ -115,12 +117,13 @@ export class OverviewComp {
   readonly userHasCards = computed(() => this._lStore.learnables().length !== 0)
 
   readonly collectionDownload = computed(() => {
-    const collection = this.selectedCollection()
-    if (!collection) return null
+    const bank = this._lStore.activeBank()
+    if (!bank) return null
+    const collectionId = this.selectedCollectionId()
 
     return this._facade.createCollectionDownload(
-      collection,
-      this._lStore.learnables()
+      this._lStore.activeBank()
+      collectionId
     )
   })
 
@@ -202,16 +205,16 @@ export class OverviewComp {
   }
 
   async deleteCollection() {
-    const collection = this.selectedCollection()
-    if (!collection) return
+    const collectionId = this.selectedCollectionId()
+    if (!collectionId) return
 
-    await this._facade.deleteCollection(collection)
+    await this._facade.deleteCollection(collectionId)
   }
 
   async shareCollection() {
-    const collection = this.selectedCollection()
-    if (!collection) return
+    const activeBank = this._lStore.activeBank()
+    if (!activeBank) return
 
-    await this._facade.shareCollection(collection, this._lStore.learnables())
+    await this._facade.shareCollection(activeBank, this._lStore.learnables())
   }
 }
