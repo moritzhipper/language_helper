@@ -1,3 +1,5 @@
+import { LanguageConfig } from '../../types_and_schemas/types'
+
 const getSystemPrompt = (
   learningLanguage: string,
   speakingLanguage: string
@@ -49,18 +51,12 @@ const phrasesPrompt = () => `
         -> lexeme: "...toont een verscheidenheid aan stijlen" -> translation.    
 `
 
-export const getWordsPrompt = (
-  learningLanguage: string,
-  speakingLanguage: string
-) => `
-${getSystemPrompt(learningLanguage, speakingLanguage)}
+export const getWordsPrompt = (conf: LanguageConfig) => `
+${getSystemPrompt(conf.learning, conf.speaking)}
 ${wordsPrompt()}
 `
 
-export const getPhrasesPrompt = (
-  learningLanguage: string,
-  speakingLanguage: string
-) => `
-${getSystemPrompt(learningLanguage, speakingLanguage)}
+export const getPhrasesPrompt = (conf: LanguageConfig) => `
+${getSystemPrompt(conf.learning, conf.speaking)}
 ${phrasesPrompt()}
 `

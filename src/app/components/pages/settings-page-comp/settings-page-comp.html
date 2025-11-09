@@ -5,11 +5,14 @@
 >
   <div class="wrapper">
     <div class="stats">
+      <app-counter-comp label="banks" size="l">
+        {{ stats().banksCount }}
+      </app-counter-comp>
       <app-counter-comp label="learnables" size="l">
-        {{ learnables().length }}
+        {{ stats().learnablesCount }}
       </app-counter-comp>
       <app-counter-comp label="collections" size="l">
-        {{ collections().length }}
+        {{ stats().collectionsCount }}
       </app-counter-comp>
       <app-counter-comp label="tokens used" class="tokens">
         {{ tokensUsed() }}
@@ -21,13 +24,14 @@
         <span> OpenAI API-key </span>
         <input type="password" formControlName="apiKey" />
       </label>
+
       <label>
         <span> I am learning </span>
-        <input type="text" formControlName="learningLang" />
+        <input type="text" />
       </label>
       <label>
         <span> I am speaking </span>
-        <input type="text" formControlName="speakingLang" />
+        <input type="text" />
       </label>
     </form>
     <div class="data-interact">

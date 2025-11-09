@@ -1,16 +1,23 @@
 import {
+  BankUser,
   LearnablesStoreType,
   SettingsStoreType
 } from '../types_and_schemas/types'
 
-export const initialState = (): LearnablesStoreType => {
-  const initialBankId = crypto.randomUUID()
+const defaultBank: BankUser = {
+  id: crypto.randomUUID(),
+  language: {
+    speaking: 'german',
+    learning: 'dutch'
+  },
+  collections: [],
+  learnables: []
+}
 
-  return {
-    banks: [],
-    activeBankId: '',
-    currentPractice: null
-  }
+export const initialState: LearnablesStoreType = {
+  banks: [defaultBank],
+  activeBankId: defaultBank.id,
+  currentPractice: null
 }
 
 export const initialSettings: SettingsStoreType = {

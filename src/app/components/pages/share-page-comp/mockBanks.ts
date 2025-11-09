@@ -89,7 +89,7 @@ const createCollection = (name: string) => ({
 })
 
 // Helper to create language pair
-const enDe = { spaking: 'English', learning: 'German' }
+const enDe = { speaking: 'English', learning: 'German' }
 
 // Helper function to create a BankExportOnline
 const createBankExport = (

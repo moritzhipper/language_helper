@@ -4,7 +4,12 @@ import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
-import { BankUser, LearnableBase } from '../../../types_and_schemas/types'
+import {
+  BankUser,
+  CollectionUser,
+  LanguageConfig,
+  LearnableBase
+} from '../../../types_and_schemas/types'
 import {
   filterDoubleEntries,
   mapToBankExport
@@ -32,16 +37,22 @@ export class OverviewPageFacade {
   // Public methods for learnable management
 
   async addNew(
-    selectedCollection: UserCollection | undefined
+    selectedCollection: CollectionUser | null,
+    language: LanguageConfig
   ): Promise<string[]> {
-    const result = await this._modalService.open<LearnableBase[]>('magic-add')
+    const result = await this._modalService.open<LearnableBase[]>('magic-add', {
+      language
+    })
 
     if (result.type !== 'confirm') return []
 
     return this._addAndMarkLearnables(result.value, selectedCollection)
   }
 
-  async bulkEdit(selectedLearnableIds: string[]): Promise<string[]> {
+  async bulkEdit(
+    selectedLearnableIds: string[],
+    selectedCollection: CollectionUser | null
+  ): Promise<string[]> {
     const learnables = this._lStore
       .learnables()
       .filter((l) => selectedLearnableIds.includes(l.id))
@@ -56,12 +67,6 @@ export class OverviewPageFacade {
     const { update, deleteIDs, add } = result.value
     this._lStore.updateLearnables(update)
     this._lStore.removeLearnables(deleteIDs)
-
-    const selectedCollection = this._lStore
-      .collections()
-      .find((c) =>
-        c.learnableIDs.some((id) => selectedLearnableIds.includes(id))
-      )
 
     return this._addAndMarkLearnables(add, selectedCollection)
   }
@@ -131,7 +136,7 @@ export class OverviewPageFacade {
     })
   }
 
-  async renameCollection(collection: UserCollection) {
+  async renameCollection(collection: CollectionUser) {
     const result = await this._modalService.open<string>('collection-rename', {
       name: collection.name
     })
@@ -156,7 +161,7 @@ export class OverviewPageFacade {
     })
   }
 
-  async shareCollection(id: string, bank: BankUser) {
+  async shareCollection(bank: BankUser, id: string) {
     const userChoice = await this._modalService.open<ShareFormResponse>(
       'share-collection',
       {
@@ -169,7 +174,12 @@ export class OverviewPageFacade {
     await this._apiService.shareBank(bankExport, userChoice.value.ttlMinutes)
   }
 
-  createCollectionDownload(id: string, bank: BankUser) {
+  createCollectionDownload(bank: BankUser, id?: string) {
+    if (!id) {
+      const bankExport = mapToBankExport('hi', bank)
+      return this._blobService.createDownloadableFromLearnables(bankExport)
+    }
+
     const bankExport = mapToBankExport('hi', bank, [id])
     return this._blobService.createDownloadableFromLearnables(bankExport)
   }
@@ -178,7 +188,7 @@ export class OverviewPageFacade {
 
   private _addAndMarkLearnables(
     learnables: LearnableBase[],
-    selectedCollection: UserCollection | undefined
+    selectedCollection: CollectionUser | null
   ): string[] {
     if (learnables.length === 0) return []
 

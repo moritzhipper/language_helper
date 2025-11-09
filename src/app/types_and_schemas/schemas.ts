@@ -36,11 +36,13 @@ export const CollectionUserSchema = CollectionBaseSchema.extend({
   created: z.date()
 })
 
+export const LanguageConfigSchema = z.object({
+  speaking: z.string(),
+  learning: z.string()
+})
+
 export const BankBaseSchema = z.object({
-  language: z.object({
-    speaking: z.string(),
-    learning: z.string()
-  }),
+  language: LanguageConfigSchema,
   learnables: z.array(LearnableWithIdSchema),
   collections: z.array(CollectionBaseSchema)
 })

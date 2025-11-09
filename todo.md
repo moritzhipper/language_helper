@@ -11,7 +11,12 @@
   - remove learning speaking lnags from settings, move to bank
   - dont save id at learnable level, create a record with id as attr
 
+- settings: active bank
+  - show languaghes in select
+  - add create bank input, providing speaking learning inputs
 - make export app config export complete store
+- add language change option in settings and store
+- refactor bulkEdit mit add altest ids and mark them in overview facede and overview
 
 - unify share and import form
 - greater: hello, this is how it works

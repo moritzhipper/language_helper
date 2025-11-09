@@ -37,7 +37,7 @@ export const LearnablesStore = signalStore(
   }),
   withComputed((state) => ({
     activeBank: computed(() => {
-      return state.banks().find((b) => b.id === state.activeBankId()) || null
+      return state.banks().find((b) => b.id === state.activeBankId())!
     }),
     collections: computed(() => {
       return (

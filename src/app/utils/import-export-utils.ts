@@ -48,9 +48,12 @@ export const mapToBankExport = (
 
   return {
     name,
-    language: bank.language,
-    learnables,
-    collections
+    created: new Date(),
+    bank: {
+      language: bank.language,
+      learnables,
+      collections
+    }
   }
 }
 

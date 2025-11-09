@@ -18,33 +18,40 @@ import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-com
 export class SettingsComp {
   private readonly _settingsS = inject(SettingsStore)
   private readonly _languageS = inject(LearnablesStore)
-  private readonly _makeBlobS = inject(BlobService)
   private readonly _modalService = inject(ModalService)
-
+  private readonly _blobS = inject(BlobService)
   tokensUsed = this._settingsS.tokensUsed
+  protected bank = this._languageS.activeBank
+  protected stats = computed(() => {
+    const banksCount = this._languageS.banks().length
+    const learnablesCount = this._languageS
+      .banks()
+      .map((b) => b.learnables.length)
+      .reduce((a, b) => a + b, 0)
+    const collectionsCount = this._languageS
+      .banks()
+      .map((b) => b.collections.length)
+      .reduce((a, b) => a + b, 0)
+    return {
+      banksCount,
+      learnablesCount,
+      collectionsCount
+    }
+  })
 
   learnablesDownload = computed(() => {
-    const bank = this._languageS.activeBank()
-    if (!bank) return null
-    const bankExport = mapToBankExport('hi', bank)
-    // todo make this export whole store
-    alert('Exporting whole store not yet implemented')
-    // return this._makeBlobS.createDownloadableFromLearnables(bankExport)
-    return null
+    const bankExport = mapToBankExport('hi', this.bank())
+    return this._blobS.createDownloadableFromLearnables(bankExport)
   })
 
   form = new FormGroup({
-    apiKey: new FormControl('', { nonNullable: true }),
-    learningLang: new FormControl('', { nonNullable: true }),
-    speakingLang: new FormControl('', { nonNullable: true })
+    apiKey: new FormControl('', { nonNullable: true })
   })
   formSignal = toSignal(this.form.valueChanges)
 
   constructor() {
     this.form.setValue({
-      apiKey: this._settingsS.apiKey(),
-      learningLang: this._languageS.activeBank()?.language.learning || '',
-      speakingLang: this._languageS.activeBank()?.language.speaking || ''
+      apiKey: this._settingsS.apiKey()
     })
     effect(() => {
       const formValue = this.formSignal()
@@ -56,8 +63,9 @@ export class SettingsComp {
   }
 
   async reset() {
+    const { banksCount, collectionsCount, learnablesCount } = this.stats()
     const result = await this._modalService.open('confirm', {
-      message: `Delete ${this.learnables().length} cards and ${this.collections().length} collections?`,
+      message: `Delete ${banksCount} banks, ${learnablesCount} cards and ${collectionsCount} collections?`,
       label: 'delete all of them!'
     })
 

@@ -5,7 +5,7 @@
   (removeFromCollection)="removeSelectionFromCollection()"
   (addToCollection)="addToCollection()"
   (delete)="deleteSelection()"
-  [allowRemoveFromCollection]="!!selectedCollectionId()"
+  [allowRemoveFromCollection]="!selectedCollectionId()"
   [selectedCardsCount]="selectedLearnableIds().length"
 />
 @if (userHasCards()) {
@@ -42,7 +42,7 @@
           </button>
         }
       </div>
-      @if (!selectedCollectionId() && unsortedCards().length > 0) {
+      @if (!selectedCollection() && unsortedCards().length > 0) {
         <h2>unsorted cards</h2>
         <div class="learnables">
           @for (learnable of unsortedCards(); track learnable.id) {

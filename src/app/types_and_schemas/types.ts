@@ -6,6 +6,7 @@ import {
   BankUserSchema,
   CollectionBaseSchema,
   CollectionUserSchema,
+  LanguageConfigSchema,
   LearnableBaseSchema,
   LearnableUserSchema,
   LearnableWithIdSchema
@@ -17,6 +18,7 @@ export type Collection = z.infer<typeof CollectionBaseSchema>
 export type CollectionUser = z.infer<typeof CollectionUserSchema>
 
 export type BankBase = z.infer<typeof BankBaseSchema>
+export type LanguageConfig = z.infer<typeof LanguageConfigSchema>
 export type BankExportOnline = z.infer<typeof BankOnlineExportSchema>
 export type BankExportOffline = z.infer<typeof BankOfflineExportSchema>
 export type BankUser = z.infer<typeof BankUserSchema>
@@ -42,6 +44,7 @@ export type LearnablesStoreType = {
 export type LearnableCreationConfig = {
   input: string
   type: 'phrases' | 'words' | 'both'
+  language: LanguageConfig
 }
 
 export type Guess = {
@@ -51,8 +54,6 @@ export type Guess = {
 
 export type SettingsStoreType = {
   apiKey: string
-  // learningLang: string
-  // speakingLang: string
   tokensUsed: number
 }
 
