@@ -47,15 +47,23 @@ export const saveNewlyCreatedLearnables =
 export const setGuess =
   (isCorrect: boolean) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
+    // no practice running
     const currentP = state.currentPractice
     if (!currentP) return state
+
+    // practice already finished
     const currentLearnableId = currentP.ids[currentP.index]
+    if (!currentLearnableId) return state
 
     return {
       ...state,
+      currentPractice: {
+        ...currentP,
+        index: currentP.index + 1,
+        guesses: [...currentP.guesses, { id: currentLearnableId, isCorrect }]
+      },
       banks: state.banks.map((b) => {
         if (b.id !== state.activeBankId) return b
-
         return {
           ...b,
           learnables: b.learnables.map((l) => {
@@ -324,7 +332,6 @@ export const editCollection =
           ...b,
           learnables: b.learnables.map((l) => {
             if (addIDs.includes(l.id)) {
-              debugger
               return {
                 ...l,
                 collectionIds: [...new Set([...l.collectionIds, collectionID])]
