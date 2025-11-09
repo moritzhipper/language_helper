@@ -29,16 +29,29 @@ export const startPractice =
 export const saveNewlyCreatedLearnables =
   (learnablesBase: LearnableBase[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const learnables = mapBaseToFullToLearnables(learnablesBase)
-
     return {
       ...state,
       banks: state.banks.map((b) => {
         if (b.id !== state.activeBankId) return b
 
+        // Filter out duplicates in input and items that already exist in bank
+        const newLearnables = learnablesBase.filter(
+          (lb, index, self) =>
+            self.findIndex(
+              (other) =>
+                other.lexeme === lb.lexeme &&
+                other.translation === lb.translation
+            ) === index &&
+            !b.learnables.some(
+              (l) => lb.lexeme === l.lexeme && lb.translation === l.translation
+            )
+        )
+
+        const fullNew = mapBaseToFullToLearnables(newLearnables)
+
         return {
           ...b,
-          learnables: [...b.learnables, ...learnables]
+          learnables: [...b.learnables, ...fullNew]
         }
       })
     }

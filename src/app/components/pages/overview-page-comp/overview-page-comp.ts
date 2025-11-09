@@ -77,7 +77,9 @@ export class OverviewComp {
     this.learnables().filter((l) => l.collectionIds.length === 0)
   )
 
-  private readonly _latestAddedIds = signal<string[]>([])
+  private readonly _newestIds = computed(() =>
+    filterLearnables(this.learnables(), { age: 'newest' }).map((l) => l.id)
+  )
 
   private readonly _collectionLearnables = computed(() => {
     const colId = this.selectedCollection()?.id
@@ -137,8 +139,7 @@ export class OverviewComp {
       this.selectedCollection(),
       this.bank().language
     )
-    this._latestAddedIds.set(newIds)
-    this.selectedLearnableIds.set(newIds)
+    this.selectNewest()
   }
 
   async bulkEdit() {
@@ -146,8 +147,7 @@ export class OverviewComp {
       this.selectedLearnableIds(),
       this.selectedCollection()
     )
-    this._latestAddedIds.set(newIds)
-    this.selectedLearnableIds.set(newIds)
+    this.selectNewest()
   }
 
   updateFilter(filter: LearnablesFilterFormType) {
@@ -182,7 +182,11 @@ export class OverviewComp {
   }
 
   isLastAdded(lId: string): boolean {
-    return this._latestAddedIds().includes(lId)
+    return this._newestIds().includes(lId)
+  }
+
+  selectNewest() {
+    this.selectedLearnableIds.set(this._newestIds())
   }
 
   async addToCollection() {

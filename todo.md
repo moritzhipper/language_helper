@@ -1,5 +1,7 @@
 # ToDo
 
+- import: remapping ids und records nun supereasy
+- link similar cards (multiple translations)
 - unifiy type setup:
   - add change language mutator:
     -> checks if language combo exists, activates bank with that combo or creates new empty one

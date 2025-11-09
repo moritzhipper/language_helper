@@ -14,6 +14,7 @@ import {
   filterDoubleEntries,
   mapToBankExport
 } from '../../../utils/import-export-utils'
+import { filterLearnables } from '../../../utils/learnables-filter'
 import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
 import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
 import { ConfirmCollectionDeletionType } from '../../shared/forms/delete-collection-comp/delete-collection-comp'
@@ -39,20 +40,20 @@ export class OverviewPageFacade {
   async addNew(
     selectedCollection: CollectionUser | null,
     language: LanguageConfig
-  ): Promise<string[]> {
+  ): Promise<void> {
     const result = await this._modalService.open<LearnableBase[]>('magic-add', {
       language
     })
 
-    if (result.type !== 'confirm') return []
+    if (result.type !== 'confirm') return
 
-    return this._addLearnablesAndReturnNewIDs(result.value, selectedCollection)
+    return this._addLearnables(result.value, selectedCollection)
   }
 
   async bulkEdit(
     selectedLearnableIds: string[],
     selectedCollection: CollectionUser | null
-  ): Promise<string[]> {
+  ): Promise<void> {
     const learnables = this._lStore
       .learnables()
       .filter((l) => selectedLearnableIds.includes(l.id))
@@ -62,13 +63,13 @@ export class OverviewPageFacade {
       { learnables }
     )
 
-    if (result.type !== 'confirm') return []
+    if (result.type !== 'confirm') return
 
     const { update, deleteIDs, add } = result.value
     this._lStore.updateLearnables(update)
     this._lStore.removeLearnables(deleteIDs)
 
-    return this._addLearnablesAndReturnNewIDs(add, selectedCollection)
+    this._addLearnables(add, selectedCollection)
   }
 
   async addToCollection(selectedLearnableIds: string[]) {
@@ -186,13 +187,11 @@ export class OverviewPageFacade {
 
   // Private helper methods
 
-  private _addLearnablesAndReturnNewIDs(
+  private _addLearnables(
     learnables: LearnableBase[],
     selectedCollection: CollectionUser | null
-  ): string[] {
-    if (learnables.length === 0) return []
-
-    const oldIDs = this._lStore.learnables().map((l) => l.id)
+  ): void {
+    if (learnables.length === 0) return
 
     // filter duplicate entries
 
@@ -202,11 +201,10 @@ export class OverviewPageFacade {
     )
 
     this._lStore.addLearnables(uniqueLearnables)
-    const newIds = this._lStore
-      .learnables()
-      .map((l) => l.id)
-      .filter((id) => !oldIDs.includes(id))
 
+    const newIds = filterLearnables(this._lStore.learnables(), {
+      age: 'newest'
+    }).map((l) => l.id)
     // Get the IDs of the newly created learnables
 
     // Add to collection if user has one selected
@@ -232,7 +230,5 @@ export class OverviewPageFacade {
         type: 'info'
       })
     }
-
-    return newIds
   }
 }
