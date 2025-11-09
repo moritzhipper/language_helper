@@ -15,6 +15,7 @@
   - show languaghes in select
   - add create bank input, providing speaking learning inputs
 - make export app config export complete store
+- add merge learnables function to mutoators: when a lexeme exists, but the words dont match: update the translation to trans1 / trans2
 - add language change option in settings and store
 - refactor bulkEdit mit add altest ids and mark them in overview facede and overview
 

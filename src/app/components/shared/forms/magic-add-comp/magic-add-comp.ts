@@ -47,6 +47,7 @@ export class MagicAddComp extends BaseModalDirective {
       this.isConverting.set(true)
       const baseLearnables =
         await this._aiS.createLearnablesFromString(creationConf)
+      console.log(baseLearnables)
 
       this.confirm(baseLearnables)
     } catch (error) {

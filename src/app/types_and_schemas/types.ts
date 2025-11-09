@@ -8,6 +8,7 @@ import {
   CollectionUserSchema,
   LanguageConfigSchema,
   LearnableBaseSchema,
+  LearnableFromAiSchema,
   LearnableUserSchema,
   LearnableWithIdSchema
 } from './schemas'
@@ -24,7 +25,7 @@ export type BankExportOffline = z.infer<typeof BankOfflineExportSchema>
 export type BankUser = z.infer<typeof BankUserSchema>
 
 export type LearnableWithId = z.infer<typeof LearnableWithIdSchema>
-
+export type LearnableFromAI = z.infer<typeof LearnableFromAiSchema>
 export type UserLearnable = z.infer<typeof LearnableUserSchema>
 
 export type UserLearnablePartial = Partial<UserLearnable> &

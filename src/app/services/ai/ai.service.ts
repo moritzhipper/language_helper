@@ -7,9 +7,9 @@ import { ChatModel } from 'openai/resources/shared.mjs'
 import { SettingsStore } from '../../store/settingsStore'
 import { LearnablesFromAiSchema } from '../../types_and_schemas/schemas'
 import {
-  LanguageConfig,
   LearnableBase,
-  LearnableCreationConfig
+  LearnableCreationConfig,
+  LearnableFromAI
 } from '../../types_and_schemas/types'
 import { zodTextFormat } from '../../utils/genaral-utils'
 import { mapPhrasesFromInputToChunks } from './ai-utils'
@@ -58,12 +58,18 @@ export class AiService {
     // reducing it increases accuracy, but reduces speed and increases token usage
     const maxChunkSize = 1000
     const chunks = mapPhrasesFromInputToChunks(config.input, maxChunkSize)
+    const prompt = getPhrasesPrompt(config.language)
     const chunkPromises = chunks.map((chunk) =>
-      this._extractCards(chunk, 'phrases', config.language)
+      this._extractCards(chunk, prompt)
     )
 
     const cardsLists = await Promise.all(chunkPromises)
-    return cardsLists.flat(1)
+
+    return cardsLists.flat(1).map((c) => ({
+      ...c,
+      notes: '',
+      type: 'phrase'
+    }))
   }
 
   private async _createWords(
@@ -75,23 +81,24 @@ export class AiService {
     // reducing it increases accuracy, but reduces speed and increases token usage
     const chunkSize = 300
     const batches = mapPhrasesFromInputToChunks(config.input, chunkSize)
+    const prompt = getWordsPrompt(config.language)
     const cardPromises = batches.map((chunk) =>
-      this._extractCards(chunk, 'words', config.language)
+      this._extractCards(chunk, prompt)
     )
 
     const cardsLists = await Promise.all(cardPromises)
-    return cardsLists.flat(1)
+
+    return cardsLists.flat(1).map((c) => ({
+      ...c,
+      notes: '',
+      type: 'word'
+    }))
   }
 
   private async _extractCards(
     input: string,
-    type: 'phrases' | 'words',
-    language: LanguageConfig
-  ): Promise<LearnableBase[]> {
-    const prompt =
-      type === 'phrases' ? getWordsPrompt(language) : getPhrasesPrompt(language)
-    const cardType = type === 'phrases' ? 'phrase' : 'word'
-
+    prompt: string
+  ): Promise<LearnableFromAI[]> {
     const response = await this.oAi().responses.parse({
       model: this.model,
       text: {
@@ -101,19 +108,16 @@ export class AiService {
         { role: 'system', content: prompt },
         {
           role: 'user',
-          content: 'Transfer the following into cards: ' + input
+          content: input
         }
       ]
     })
 
     this.settingsStore.addTokensUsed(response.usage?.total_tokens ?? 0)
     const cards = response.output_parsed?.cards || []
-
     return cards.map((c) => ({
       lexeme: c.lexeme,
-      translation: c.translation,
-      notes: '',
-      type: cardType
+      translation: c.translation
     }))
   }
 }

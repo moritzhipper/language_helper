@@ -30,7 +30,6 @@ export const saveNewlyCreatedLearnables =
   (learnablesBase: LearnableBase[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     const learnables = mapBaseToFullToLearnables(learnablesBase)
-    // do the duplicate thing in here too
 
     return {
       ...state,
@@ -325,6 +324,7 @@ export const editCollection =
           ...b,
           learnables: b.learnables.map((l) => {
             if (addIDs.includes(l.id)) {
+              debugger
               return {
                 ...l,
                 collectionIds: [...new Set([...l.collectionIds, collectionID])]

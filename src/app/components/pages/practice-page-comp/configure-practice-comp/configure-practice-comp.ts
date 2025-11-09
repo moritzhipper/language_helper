@@ -38,7 +38,7 @@ export class ConfigurePracticeComp {
 
   protected form = this._fb.group({
     type: null,
-    collectionIdentifier: 'All Cards',
+    collectionIdentifier: null,
     confidence: undefined,
     reverseDirection: false
   })
@@ -59,7 +59,7 @@ export class ConfigurePracticeComp {
 
     // Form allows selecting 'All Cards'. When this is selected, set collection id to null and return all cards
     const cId = this.collections().find(
-      (c) => c.id === formValue.collectionIdentifier
+      (c) => c.id === (formValue.collectionIdentifier as string | null)
     )?.id
     if (!cId) return filteredLearnables.map((l) => l.id)
 

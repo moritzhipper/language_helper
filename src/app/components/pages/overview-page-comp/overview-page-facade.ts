@@ -46,7 +46,7 @@ export class OverviewPageFacade {
 
     if (result.type !== 'confirm') return []
 
-    return this._addAndMarkLearnables(result.value, selectedCollection)
+    return this._addLearnablesAndReturnNewIDs(result.value, selectedCollection)
   }
 
   async bulkEdit(
@@ -68,7 +68,7 @@ export class OverviewPageFacade {
     this._lStore.updateLearnables(update)
     this._lStore.removeLearnables(deleteIDs)
 
-    return this._addAndMarkLearnables(add, selectedCollection)
+    return this._addLearnablesAndReturnNewIDs(add, selectedCollection)
   }
 
   async addToCollection(selectedLearnableIds: string[]) {
@@ -186,11 +186,15 @@ export class OverviewPageFacade {
 
   // Private helper methods
 
-  private _addAndMarkLearnables(
+  private _addLearnablesAndReturnNewIDs(
     learnables: LearnableBase[],
     selectedCollection: CollectionUser | null
   ): string[] {
     if (learnables.length === 0) return []
+
+    const oldIDs = this._lStore.learnables().map((l) => l.id)
+
+    // filter duplicate entries
 
     const uniqueLearnables = filterDoubleEntries(
       learnables,
@@ -198,12 +202,12 @@ export class OverviewPageFacade {
     )
 
     this._lStore.addLearnables(uniqueLearnables)
-
-    // Get the IDs of the newly created learnables
     const newIds = this._lStore
       .learnables()
-      .slice(-uniqueLearnables.length)
       .map((l) => l.id)
+      .filter((id) => !oldIDs.includes(id))
+
+    // Get the IDs of the newly created learnables
 
     // Add to collection if user has one selected
     if (selectedCollection) {

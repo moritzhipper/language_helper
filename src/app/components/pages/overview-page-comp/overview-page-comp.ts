@@ -81,7 +81,6 @@ export class OverviewComp {
 
   private readonly _collectionLearnables = computed(() => {
     const colId = this.selectedCollection()?.id
-
     if (!colId) return this.learnables()
 
     return this.learnables().filter((l) => l.collectionIds.includes(colId))
