@@ -1,7 +1,6 @@
 # ToDo
 
 - import: remapping ids und records nun supereasy
-- link similar cards (multiple translations)
 - unifiy type setup:
   - add change language mutator:
     -> checks if language combo exists, activates bank with that combo or creates new empty one
@@ -12,6 +11,8 @@
   - collections can be stacked
   - remove learning speaking lnags from settings, move to bank
   - dont save id at learnable level, create a record with id as attr
+
+- refactor and simpify ai service?
 
 - settings: active bank
   - show languaghes in select
@@ -35,6 +36,7 @@ make settinggsstore simple service with update function and effect that writes t
 
 ## Later
 
+- link similar cards (multiple translations)
 - how to handle sharing multiple selection
 - notes mode
 - stats page with collections, top and worst, most ppracticed, hardest words, progressgraph

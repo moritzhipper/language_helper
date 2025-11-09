@@ -39,7 +39,9 @@
       <span>settings</span>
     </a>
     <p animate.enter="fly-in-xy-6" class="entry text langs">
-      dutch <app-icon-comp type="left-right" [size]="16" /> german
+      {{ language.learning }}
+      <app-icon-comp type="left-right" [size]="16" />
+      {{ language.speaking }}
     </p>
   </div>
   <div class="fake-shadow" animate.enter="enter" animate.leave="leave"></div>
