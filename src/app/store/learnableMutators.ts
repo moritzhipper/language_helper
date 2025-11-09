@@ -2,6 +2,7 @@ import {
   BankBase,
   Collection,
   CollectionUser,
+  LanguageConfig,
   LearnableBase,
   LearnablesStoreType,
   LearnableWithId,
@@ -52,6 +53,21 @@ export const saveNewlyCreatedLearnables =
         return {
           ...b,
           learnables: [...b.learnables, ...fullNew]
+        }
+      })
+    }
+  }
+
+export const updateBankLanguage =
+  (language: LanguageConfig) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    return {
+      ...state,
+      banks: state.banks.map((b) => {
+        if (b.id !== state.activeBankId) return b
+        return {
+          ...b,
+          language
         }
       })
     }

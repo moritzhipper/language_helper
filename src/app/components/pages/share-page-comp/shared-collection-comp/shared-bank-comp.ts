@@ -67,7 +67,6 @@ export class SharedBankComp implements OnDestroy {
   protected readonly ttl = computed(() => {
     const expires = this.bank().expires
     const diffMs = expires.getTime() - this.currentTime()
-
     // If already expired
     if (diffMs <= 0) {
       return {

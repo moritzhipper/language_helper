@@ -45,19 +45,30 @@ export class SettingsComp {
   })
 
   form = new FormGroup({
-    apiKey: new FormControl('', { nonNullable: true })
+    apiKey: new FormControl('', { nonNullable: true }),
+    learningLanguage: new FormControl('', { nonNullable: true }),
+    speakingLanguage: new FormControl('', { nonNullable: true })
   })
   formSignal = toSignal(this.form.valueChanges)
 
   constructor() {
     this.form.setValue({
-      apiKey: this._settingsS.apiKey()
+      apiKey: this._settingsS.apiKey(),
+      learningLanguage: this.bank().language.learning,
+      speakingLanguage: this.bank().language.speaking
     })
     effect(() => {
       const formValue = this.formSignal()
       untracked(() => {
         if (!formValue) return
-        this._settingsS.updateSettings(formValue)
+
+        const { apiKey, learningLanguage, speakingLanguage } = formValue
+
+        this._settingsS.updateSettings({ apiKey })
+        this._languageS.editBankLanguage({
+          learning: learningLanguage as string,
+          speaking: speakingLanguage as string
+        })
       })
     })
   }

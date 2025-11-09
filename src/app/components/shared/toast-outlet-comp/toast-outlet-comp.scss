@@ -28,7 +28,7 @@
     box-shadow: var(--shadow-big);
     padding: var(--distance-3) var(--distance-4);
     border-radius: var(--radius-2);
-    animation: toast 4000ms ease-in-out both;
+    // animation: toast 4000ms ease-in-out both;
   }
 
   &.error {

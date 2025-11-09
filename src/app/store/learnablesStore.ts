@@ -9,6 +9,7 @@ import {
 } from '@ngrx/signals'
 import {
   BankBase,
+  LanguageConfig,
   LearnableBase,
   UserLearnablePartial
 } from '../types_and_schemas/types'
@@ -16,7 +17,7 @@ import { initialState } from './initialStates'
 import {
   createCollection,
   deleteCollection,
-  editCollection as editCollectionLearnables,
+  editCollection,
   quitPracticeEarly,
   removeLearnables,
   removePractice,
@@ -25,6 +26,7 @@ import {
   saveNewlyCreatedLearnables,
   setGuess,
   startPractice,
+  updateBankLanguage,
   updateLearnables
 } from './learnableMutators'
 
@@ -74,10 +76,7 @@ export const LearnablesStore = signalStore(
         addIDs: string[],
         deleteIDs: string[]
       ) {
-        patchState(
-          state,
-          editCollectionLearnables(collectionID, addIDs, deleteIDs)
-        )
+        patchState(state, editCollection(collectionID, addIDs, deleteIDs))
       },
       importBankExport(importStore: BankBase) {
         patchState(state, saveImportedCollections(importStore))
@@ -87,6 +86,9 @@ export const LearnablesStore = signalStore(
       },
       deleteCollection(id: string, removeLearnables: boolean = false) {
         patchState(state, deleteCollection(id))
+      },
+      editBankLanguage(language: LanguageConfig) {
+        patchState(state, updateBankLanguage(language))
       },
       quitPracticePrematurly() {
         patchState(state, quitPracticeEarly())

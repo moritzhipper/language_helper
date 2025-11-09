@@ -18,7 +18,7 @@ export class NavbarComp {
 
   linksAreOpen = signal(false)
   hasCurrentPractice = this.lStore.currentPractice
-  language = this.lStore.activeBank().language
+  bank = this.lStore.activeBank
   isOnPracticePage = computed(() => {
     const e = this._navEvent()
     if (e instanceof NavigationEnd) return e.urlAfterRedirects === '/practice'
