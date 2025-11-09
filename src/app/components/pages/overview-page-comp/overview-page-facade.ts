@@ -10,10 +10,7 @@ import {
   LanguageConfig,
   LearnableBase
 } from '../../../types_and_schemas/types'
-import {
-  filterDoubleEntries,
-  mapToBankExport
-} from '../../../utils/import-export-utils'
+import { mapToBankExport } from '../../../utils/import-export-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
 import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
@@ -193,41 +190,34 @@ export class OverviewPageFacade {
   ): void {
     if (learnables.length === 0) return
 
-    // filter duplicate entries
-
-    const uniqueLearnables = filterDoubleEntries(
-      learnables,
-      this._lStore.learnables()
-    )
-
-    this._lStore.addLearnables(uniqueLearnables)
+    const learnablesBeforeAdd = this._lStore.learnables().length
+    this._lStore.addLearnables(learnables)
+    const learnablesAfterAdd = this._lStore.learnables().length
+    const addedLearnablesCount = learnablesAfterAdd - learnablesBeforeAdd
 
     const newIds = filterLearnables(this._lStore.learnables(), {
       age: 'newest'
     }).map((l) => l.id)
-    // Get the IDs of the newly created learnables
 
     // Add to collection if user has one selected
     if (selectedCollection) {
       this._lStore.editCollectionLearnables(selectedCollection.id, newIds, [])
 
       this._toastService.showToast({
-        message: `created ${uniqueLearnables.length} cards and added them to collection ${selectedCollection.name}`,
+        message: `created ${newIds.length} cards and added them to collection ${selectedCollection.name}`,
         type: 'info'
       })
     } else {
       this._toastService.showToast({
-        message: `created ${uniqueLearnables.length} cards`,
+        message: `created ${newIds.length} cards`,
         type: 'info'
       })
     }
 
-    // Show skipped reminder when user tried creating duplicate cards
-    const filteredLearnablesCount = learnables.length - uniqueLearnables.length
-    if (filteredLearnablesCount !== 0) {
+    if (addedLearnablesCount === 0) {
       this._toastService.showToast({
-        message: `skipped adding ${filteredLearnablesCount} duplicates`,
-        type: 'info'
+        message: `skipped adding cards, all where duplicates`,
+        type: 'error'
       })
     }
   }
