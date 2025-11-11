@@ -5,12 +5,23 @@
   dir ? currentLearnable()?.lexeme : currentLearnable()?.translation;
 
 <app-page-wrapper-comp icon="learn">
-  <div class="practice-view" [class.revealed]="isRevealed()">
-    <div class="word top">
-      {{ topWord }}
-    </div>
-    <div class="word bottom">
-      {{ bottomWord }}
+  <div class="practice-view">
+    <div
+      class="card"
+      [style.--swipe-prog]="swipeXDelta()"
+      [class.revealed]="isRevealed()"
+      [class.swiping]="isSwiping()"
+      (touchstart)="swipeStart($event)"
+      (touchmove)="swipeMove($event)"
+      (touchend)="swipeEnd($event)"
+      (click)="reveal()"
+    >
+      <div class="word top">
+        {{ topWord }}
+      </div>
+      <div class="word bottom">
+        {{ bottomWord }}
+      </div>
     </div>
 
     <div class="navigation" [class.expanded]="showStats()">

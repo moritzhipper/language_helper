@@ -53,6 +53,11 @@ export class ActivePracticeComp {
   private readonly _toastService = inject(ToastService)
   private readonly _modalS = inject(ModalService)
 
+  private swipeStartX: number = 0
+  protected swipeXDelta = signal(0)
+  protected isSwiping = signal(false)
+  private swipeVoteThreshold: number = 150
+
   isRevealed = signal(false)
   showStats = signal(false)
   currentPractice = this._lStore.currentPractice
@@ -93,6 +98,15 @@ export class ActivePracticeComp {
     return this._lStore
       .activeBank()
       .learnables.find((l) => l.id === learnableId)
+  })
+
+  learnablesInPractice = computed(() => {
+    const currentPractice = this.currentPractice()
+    if (!currentPractice) return []
+
+    return currentPractice.ids.map((id) =>
+      this._lStore.activeBank().learnables.find((l) => l.id === id)
+    )
   })
 
   reveal() {
@@ -141,5 +155,33 @@ export class ActivePracticeComp {
   private getRandomElementFromArray(arr: string[]): string {
     const randomIndex = Math.floor(Math.random() * arr.length)
     return arr[randomIndex]
+  }
+
+  swipeStart(e: TouchEvent) {
+    e.preventDefault()
+    if (!this.isRevealed()) return
+    this.isSwiping.set(true)
+    this.swipeXDelta.set(0)
+    this.swipeStartX = e.touches[0].clientX
+  }
+
+  swipeMove(e: TouchEvent) {
+    e.preventDefault()
+    if (!this.isRevealed()) return
+
+    this.swipeXDelta.set(e.touches[0].clientX - this.swipeStartX)
+  }
+
+  swipeEnd(e: TouchEvent) {
+    e.preventDefault()
+    if (!this.isRevealed()) return
+
+    if (this.swipeXDelta() > this.swipeVoteThreshold) {
+      this.setGuess(true)
+    } else if (this.swipeXDelta() < -this.swipeVoteThreshold) {
+      this.setGuess(false)
+    }
+    this.isSwiping.set(false)
+    this.swipeXDelta.set(0)
   }
 }

@@ -1,36 +1,50 @@
 .practice-view {
   height: 100%;
   display: grid;
-  grid-template-rows: 1fr 1fr auto;
+  grid-template-rows: 1fr auto;
   place-items: center;
-  text-align: center;
 
-  .word {
-    font-size: var(--font-size-3);
-    padding: var(--distance-4);
-    transition-duration: var(--duration-2);
+  .card {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    place-self: stretch;
+    background-color: var(--col-accent);
+    margin-top: var(--distance-4);
+    border-radius: var(--radius-2);
+    z-index: 2;
+    box-shadow: var(--shadow-big);
 
-    &.top {
-      font-weight: var(--font-weight-bold);
+    transition: translate var(--duration-2) var(--overshot);
+
+    &.swiping {
+      --moveX: calc(var(--swipe-prog) * 1px);
+      --rotX: calc(var(--swipe-prog) * 0.03deg);
+      transform: translateX(var(--moveX)) rotate(var(--rotX));
     }
 
-    &.bottom {
-      font-style: italic;
+    &:not(.swiping) {
+      transition: transform var(--duration-1) ease-in-out;
     }
-  }
-
-  // Animation states
-  &.revealed .word.bottom {
-    animation: fly-in var(--duration-0);
-  }
-
-  &:not(.revealed) {
-    .word.bottom {
-      opacity: 0;
+    &:not(.revealed) {
+      animation: card-enter 1s both;
     }
 
-    .word.top {
-      animation: fly-in var(--duration-0);
+    &.revealed {
+      translate: 0%;
+    }
+
+    .word {
+      font-size: var(--font-size-3);
+      padding: var(--distance-4);
+      transition-duration: var(--duration-2);
+
+      &.top {
+        font-weight: var(--font-weight-bold);
+      }
+
+      &.bottom {
+        font-style: italic;
+      }
     }
   }
 
@@ -109,10 +123,17 @@
   }
 }
 
-// Keyframe animations
-@keyframes fly-in {
-  from {
+@keyframes card-leave {
+  to {
     opacity: 0;
-    translate: 0 10px;
+  }
+}
+
+@keyframes card-enter {
+  from {
+    translate: 0 100%;
+  }
+  to {
+    translate: 0 50%;
   }
 }
