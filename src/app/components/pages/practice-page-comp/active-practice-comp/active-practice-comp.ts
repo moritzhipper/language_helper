@@ -3,6 +3,7 @@ import {
   computed,
   HostListener,
   inject,
+  input,
   Signal,
   signal
 } from '@angular/core'
@@ -10,7 +11,7 @@ import { config } from '../../../../../config'
 import { ModalService } from '../../../../services/modal-service'
 import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
-import { LearnableBase } from '../../../../types_and_schemas/types'
+import { Practice } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
 
@@ -60,7 +61,7 @@ export class ActivePracticeComp {
 
   isRevealed = signal(false)
   showStats = signal(false)
-  currentPractice = this._lStore.currentPractice
+  currentPractice = input.required<Practice>()
 
   summary: Signal<ActivePracticeSummary> = computed(() => {
     const currentPractice = this.currentPractice()
@@ -91,21 +92,12 @@ export class ActivePracticeComp {
     }
   })
 
-  currentLearnable = computed(() => {
-    const currentPractice = this.currentPractice()
-    if (!currentPractice) return null
-    const learnableId = currentPractice.ids[currentPractice.index]
-    return this._lStore
-      .activeBank()
-      .learnables.find((l) => l.id === learnableId)
-  })
-
   learnablesInPractice = computed(() => {
     const currentPractice = this.currentPractice()
     if (!currentPractice) return []
 
-    return currentPractice.ids.map((id) =>
-      this._lStore.activeBank().learnables.find((l) => l.id === id)
+    return currentPractice.ids.map(
+      (id) => this._lStore.activeBank().learnables.find((l) => l.id === id)!
     )
   })
 
@@ -130,22 +122,22 @@ export class ActivePracticeComp {
     this._lStore.quitPracticePrematurly()
   }
 
-  async editCard() {
-    const currentLearnable = this.currentLearnable()
-    if (!currentLearnable) return
-    const result = await this._modalS.open<LearnableBase>('single-edit', {
-      learnable: currentLearnable
-    })
+  // async editCard() {
+  //   const currentLearnable = this.currentLearnable()
+  //   if (!currentLearnable) return
+  //   const result = await this._modalS.open<LearnableBase>('single-edit', {
+  //     learnable: currentLearnable
+  //   })
 
-    if (result.type !== 'confirm') return
+  //   if (result.type !== 'confirm') return
 
-    const updatedCard = { ...currentLearnable, ...result.value }
-    this._lStore.updateLearnables([updatedCard])
-    this._toastService.showToast({
-      message: 'updated card',
-      type: 'info'
-    })
-  }
+  //   const updatedCard = { ...currentLearnable, ...result.value }
+  //   this._lStore.updateLearnables([updatedCard])
+  //   this._toastService.showToast({
+  //     message: 'updated card',
+  //     type: 'info'
+  //   })
+  // }
 
   private getRandomExp(isHappy: boolean): string {
     if (isHappy) return this.getRandomElementFromArray(config.happyExpressions)
@@ -183,5 +175,26 @@ export class ActivePracticeComp {
     }
     this.isSwiping.set(false)
     this.swipeXDelta.set(0)
+  }
+
+  protected isCardVisible(currentIndex: number, cardIndex: number): boolean {
+    const distance = this.cardDistance(currentIndex, cardIndex)
+    return distance <= 2 && distance >= -1
+  }
+
+  protected cardDistance(currentIndex: number, cardIndex: number): number {
+    return cardIndex - currentIndex
+  }
+
+  protected isCardCurrent(currentIndex: number, cardIndex: number): boolean {
+    return currentIndex === cardIndex
+  }
+
+  protected isCardNext(currentIndex: number, cardIndex: number): boolean {
+    return currentIndex + 1 === cardIndex
+  }
+
+  protected isCardOverNext(currentIndex: number, cardIndex: number): boolean {
+    return currentIndex + 2 === cardIndex
   }
 }

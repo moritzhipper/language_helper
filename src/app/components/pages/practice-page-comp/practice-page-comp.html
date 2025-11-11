@@ -1,7 +1,9 @@
-@if (hasUnfinishedPractice()) {
-  <app-active-practice-comp />
-} @else if (hasFinishedPractice()) {
-  <app-finished-practice-comp />
+@if (currentPractice(); as currP) {
+  @if (isFinished(currP)) {
+    <app-finished-practice-comp />
+  } @else if (isUnfinished(currP)) {
+    <app-active-practice-comp [currentPractice]="currP" />
+  }
 } @else {
   <app-configure-practice-comp />
 }

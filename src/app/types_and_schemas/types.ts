@@ -31,15 +31,17 @@ export type UserLearnable = z.infer<typeof LearnableUserSchema>
 export type UserLearnablePartial = Partial<UserLearnable> &
   Pick<UserLearnable, 'id'>
 
+export type Practice = {
+  ids: string[]
+  index: number
+  guesses: Guess[]
+  reverseDirection: boolean
+}
+
 export type LearnablesStoreType = {
   banks: BankUser[]
   activeBankId: string
-  currentPractice: {
-    ids: string[]
-    index: number
-    guesses: Guess[]
-    reverseDirection: boolean
-  } | null
+  currentPractice: Practice | null
 }
 
 export type LearnableCreationConfig = {
