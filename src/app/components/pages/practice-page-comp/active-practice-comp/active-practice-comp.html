@@ -14,7 +14,7 @@
           [class.next]="cardDistance(pracIndex, $index) === 1"
           [class.current]="cardDistance(pracIndex, $index) === 0"
           [class.last]="cardDistance(pracIndex, $index) === -1"
-          [class.revealed]="isRevealed() && isCardCurrent(pracIndex, $index)"
+          [class.revealed]="isRevealed()"
           [class.is-correct]="isLastGuessCorrect()"
         >
           <div class="word top">
