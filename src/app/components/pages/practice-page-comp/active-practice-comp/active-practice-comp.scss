@@ -3,6 +3,7 @@
   display: grid;
   grid-template-rows: 1fr auto;
   place-items: center;
+  touch-action: none;
 
   .card {
     display: grid;

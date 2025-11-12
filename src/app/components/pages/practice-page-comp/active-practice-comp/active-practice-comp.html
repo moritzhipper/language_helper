@@ -9,6 +9,7 @@
           (touchstart)="swipeStart($event)"
           (touchmove)="swipeMove($event)"
           (touchend)="swipeEnd($event)"
+          (click)="reveal()"
           [class.overnext]="cardDistance(pracIndex, $index) === 2"
           [class.next]="cardDistance(pracIndex, $index) === 1"
           [class.current]="cardDistance(pracIndex, $index) === 0"
@@ -17,7 +18,6 @@
           [class.is-correct]="isLastGuessCorrect()"
         >
           <div class="word top">
-            {{ cardDistance(pracIndex, $index) }}
             {{ learnable.lexeme }}
           </div>
           <div class="word bottom">

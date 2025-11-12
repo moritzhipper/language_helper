@@ -156,7 +156,7 @@ export class ActivePracticeComp {
   }
 
   swipeStart(e: TouchEvent) {
-    e.preventDefault()
+    // e.preventDefault()
     if (!this.isRevealed()) return
 
     this.isSwiping.set(true)
@@ -165,14 +165,14 @@ export class ActivePracticeComp {
   }
 
   swipeMove(e: TouchEvent) {
-    e.preventDefault()
+    // e.preventDefault()
     if (!this.isRevealed()) return
 
     this.swipeXDelta.set(e.touches[0].clientX - this.swipeStartX)
   }
 
   swipeEnd(e: TouchEvent) {
-    e.preventDefault()
+    // e.preventDefault()
     if (!this.isRevealed()) return
     if (this.swipeXDelta() > this.swipeVoteThreshold) {
       this.setGuess(true)
