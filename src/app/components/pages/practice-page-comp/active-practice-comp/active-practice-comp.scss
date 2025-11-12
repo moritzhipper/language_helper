@@ -1,7 +1,7 @@
 .practice-view {
   height: 100%;
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 1fr;
   place-items: center;
   touch-action: none;
 
@@ -11,6 +11,7 @@
     place-self: stretch;
     background-color: var(--col-accent);
     margin-top: var(--distance-4);
+    margin-bottom: var(--distance-7);
     border-radius: var(--radius-2);
     z-index: 2;
     box-shadow: var(--shadow-bigger);
@@ -22,7 +23,7 @@
 
     &.last {
       opacity: 0;
-
+      z-index: 8;
       &.is-correct {
         transform: translate(100%, 0) rotate(5deg);
       }
@@ -58,6 +59,7 @@
       }
     }
     &.overnext {
+      z-index: 11;
       background-color: var(--col-bg);
       color: var(--col-bg);
       transform: translate(0, 110%) rotateZ(-10deg);
