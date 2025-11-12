@@ -157,6 +157,8 @@ export class ActivePracticeComp {
 
   swipeStart(e: TouchEvent) {
     e.preventDefault()
+    if (!this.isRevealed()) return
+
     this.isSwiping.set(true)
     this.swipeXDelta.set(0)
     this.swipeStartX = e.touches[0].clientX
@@ -164,6 +166,8 @@ export class ActivePracticeComp {
 
   swipeMove(e: TouchEvent) {
     e.preventDefault()
+    if (!this.isRevealed()) return
+
     this.swipeXDelta.set(e.touches[0].clientX - this.swipeStartX)
   }
 

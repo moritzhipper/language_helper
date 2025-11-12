@@ -15,9 +15,9 @@
     box-shadow: var(--shadow-bigger);
     grid-area: 1 / 1;
 
-    transition-duration: 0.8s;
-    transition-property: translate, opacity, transform;
-    transition-timing-function: var(--overshot);
+    transition-duration: 0.6s;
+    transition-property: translate, opacity, transform, background-color, color;
+    transition-timing-function: cubic-bezier(0.322, 0.582, 0.006, 0.987);
 
     &.last {
       opacity: 0;
@@ -47,7 +47,10 @@
     }
     &.next {
       z-index: 10;
-      transform: translate(0, 90%);
+      background-color: var(--col-bg);
+      color: var(--col-bg);
+
+      transform: translate(0, 90%) rotateZ(-5deg);
     }
     &.overnext {
       transform: translate(0, 110%);

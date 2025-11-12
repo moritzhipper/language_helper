@@ -9,7 +9,6 @@
           (touchstart)="swipeStart($event)"
           (touchmove)="swipeMove($event)"
           (touchend)="swipeEnd($event)"
-          (touch)="reveal()"
           [class.overnext]="cardDistance(pracIndex, $index) === 2"
           [class.next]="cardDistance(pracIndex, $index) === 1"
           [class.current]="cardDistance(pracIndex, $index) === 0"
