@@ -19,42 +19,39 @@
     transition-property: translate, opacity, transform;
     transition-timing-function: var(--overshot);
 
-    &.current.swiping {
-      --moveX: calc(var(--swipe-prog) * 1px);
-      --rotX: calc(var(--swipe-prog) * 0.03deg);
-      transform: translateX(var(--moveX)) rotate(var(--rotX));
-      opacity: calc(1 - abs(var(--swipe-prog)) / 200);
-      transition-property: none;
-    }
-
     &.last {
       opacity: 0;
+
       &.is-correct {
-        translate: 50% -50%;
+        transform: translate(50%, -10%);
       }
       &:not(.is-correct) {
-        translate: -50% -50%;
+        transform: translate(-50%, -10%);
       }
     }
     &.current {
       z-index: 9;
-      translate: 0 50%;
-    }
-    &.next {
-      translate: 0 90%;
-      z-index: 10;
-    }
-    &.overnext {
-      translate: 0 110%;
+      transform: translate(0, 50%);
     }
     &.revealed {
       z-index: 9;
-      translate: 0%;
-    }
+      transform: translate(0%, 0%);
 
-    // &:not(.swiping) {
-    //   transition: transform var(--duration-1) ease-in-out;
-    // }
+      &.swiping {
+        --moveX: calc(var(--swipe-prog) * 1px);
+        --rotX: calc(var(--swipe-prog) * 0.03deg);
+        transform: translate(var(--moveX), 0%) rotate(var(--rotX));
+        opacity: calc(1 - abs(var(--swipe-prog)) / 300);
+        transition-property: none;
+      }
+    }
+    &.next {
+      z-index: 10;
+      transform: translate(0, 90%);
+    }
+    &.overnext {
+      transform: translate(0, 110%);
+    }
 
     .word {
       font-size: var(--font-size-3);

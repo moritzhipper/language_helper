@@ -169,7 +169,7 @@ export class ActivePracticeComp {
 
   swipeEnd(e: TouchEvent) {
     e.preventDefault()
-
+    if (!this.isRevealed()) return
     if (this.swipeXDelta() > this.swipeVoteThreshold) {
       this.setGuess(true)
     } else if (this.swipeXDelta() < -this.swipeVoteThreshold) {
