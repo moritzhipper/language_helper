@@ -5,17 +5,17 @@
         @let pracIndex = currentPractice().index;
         <div
           class="card"
-          [style.--swipe-prog]="swipeXDelta()"
           [class.swiping]="isSwiping()"
           (touchstart)="swipeStart($event)"
           (touchmove)="swipeMove($event)"
           (touchend)="swipeEnd($event)"
-          (click)="reveal()"
+          (touch)="reveal()"
           [class.overnext]="cardDistance(pracIndex, $index) === 2"
           [class.next]="cardDistance(pracIndex, $index) === 1"
           [class.current]="cardDistance(pracIndex, $index) === 0"
           [class.last]="cardDistance(pracIndex, $index) === -1"
           [class.revealed]="isRevealed() && isCardCurrent(pracIndex, $index)"
+          [class.is-correct]="isLastGuessCorrect()"
         >
           <div class="word top">
             {{ cardDistance(pracIndex, $index) }}

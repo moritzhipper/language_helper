@@ -12,7 +12,6 @@ import { ModalService } from '../../../../services/modal-service'
 import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
 import { Practice } from '../../../../types_and_schemas/types'
-import { IconComp } from '../../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
 
 type ActivePracticeSummary = {
@@ -24,9 +23,13 @@ type ActivePracticeSummary = {
 
 @Component({
   selector: 'app-active-practice-comp',
-  imports: [IconComp, PageWrapperComp],
+  imports: [PageWrapperComp],
   templateUrl: './active-practice-comp.html',
-  styleUrl: './active-practice-comp.scss'
+  styleUrl: './active-practice-comp.scss',
+  host: {
+    '[style.--swipe-prog]': 'swipeXDelta()',
+    '[style.--swipe-max]': 'swipeVoteThreshold'
+  }
 })
 export class ActivePracticeComp {
   @HostListener('window:keydown', ['$event']) handleKeyDown(
@@ -54,10 +57,12 @@ export class ActivePracticeComp {
   private readonly _toastService = inject(ToastService)
   private readonly _modalS = inject(ModalService)
 
+  protected readonly isLastGuessCorrect = signal<boolean>(false)
+
   private swipeStartX: number = 0
-  protected swipeXDelta = signal(0)
-  protected isSwiping = signal(false)
-  private swipeVoteThreshold: number = 150
+  protected readonly swipeXDelta = signal(0)
+  protected readonly isSwiping = signal(false)
+  protected readonly swipeVoteThreshold = 200
 
   isRevealed = signal(false)
   showStats = signal(false)
@@ -116,6 +121,7 @@ export class ActivePracticeComp {
     })
     this.isRevealed.set(false)
     this._lStore.setGuess(isCorrect)
+    this.isLastGuessCorrect.set(isCorrect)
   }
 
   endPracticeEarly() {
@@ -151,7 +157,6 @@ export class ActivePracticeComp {
 
   swipeStart(e: TouchEvent) {
     e.preventDefault()
-    if (!this.isRevealed()) return
     this.isSwiping.set(true)
     this.swipeXDelta.set(0)
     this.swipeStartX = e.touches[0].clientX
@@ -159,14 +164,11 @@ export class ActivePracticeComp {
 
   swipeMove(e: TouchEvent) {
     e.preventDefault()
-    if (!this.isRevealed()) return
-
     this.swipeXDelta.set(e.touches[0].clientX - this.swipeStartX)
   }
 
   swipeEnd(e: TouchEvent) {
     e.preventDefault()
-    if (!this.isRevealed()) return
 
     if (this.swipeXDelta() > this.swipeVoteThreshold) {
       this.setGuess(true)

@@ -12,19 +12,34 @@
     margin-top: var(--distance-4);
     border-radius: var(--radius-2);
     z-index: 2;
-    box-shadow: var(--shadow-big), var(--shadow-big);
+    box-shadow: var(--shadow-bigger);
     grid-area: 1 / 1;
 
-    transition:
-      translate 1s var(--overshot),
-      opacity 1s;
+    transition-duration: 0.8s;
+    transition-property: translate, opacity, transform;
+    transition-timing-function: var(--overshot);
 
     &.current.swiping {
       --moveX: calc(var(--swipe-prog) * 1px);
       --rotX: calc(var(--swipe-prog) * 0.03deg);
       transform: translateX(var(--moveX)) rotate(var(--rotX));
+      opacity: calc(1 - abs(var(--swipe-prog)) / 200);
+      transition-property: none;
     }
 
+    &.last {
+      opacity: 0;
+      &.is-correct {
+        translate: 50% -50%;
+      }
+      &:not(.is-correct) {
+        translate: -50% -50%;
+      }
+    }
+    &.current {
+      z-index: 9;
+      translate: 0 50%;
+    }
     &.next {
       translate: 0 90%;
       z-index: 10;
@@ -32,17 +47,9 @@
     &.overnext {
       translate: 0 110%;
     }
-    &.current {
-      z-index: 9;
-      translate: 0 50%;
-    }
-    &.last {
-      opacity: 0;
-      translate: 0 -50%;
-    }
     &.revealed {
       z-index: 9;
-      translate: 0 0%;
+      translate: 0%;
     }
 
     // &:not(.swiping) {
