@@ -1,5 +1,6 @@
 # ToDo
 
+- letzte verdeckende karte ist summarykarte
 - add to collection after import doesnt work
 
 - unifiy type setup:
