@@ -2,6 +2,9 @@
 
 - letzte verdeckende karte ist summarykarte
 - add to collection after import doesnt work
+- move cards animationstates to seperate file
+- only show buttons on desktop
+- sho 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
 
 - unifiy type setup:
   - add change language mutator:
