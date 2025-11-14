@@ -25,7 +25,7 @@ type ActivePracticeSummary = {
   selector: 'app-active-practice-comp',
   imports: [PageWrapperComp],
   templateUrl: './active-practice-comp.html',
-  styleUrl: './active-practice-comp.scss',
+  styleUrls: ['./active-practice-comp.scss', './card-animations.scss'],
   host: {
     '[style.--swipe-prog]': 'swipeXDelta()',
     '[style.--swipe-max]': 'swipeVoteThreshold'

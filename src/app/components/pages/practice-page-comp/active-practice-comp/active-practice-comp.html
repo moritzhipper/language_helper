@@ -4,18 +4,15 @@
       @if (isCardVisible(currentPractice().index, $index)) {
         @let pracIndex = currentPractice().index;
         <div
-          class="card"
-          [class.swiping]="isSwiping()"
           (touchstart)="swipeStart($event)"
           (touchmove)="swipeMove($event)"
           (touchend)="swipeEnd($event)"
           (click)="reveal()"
-          [class.overnext]="cardDistance(pracIndex, $index) === 2"
-          [class.next]="cardDistance(pracIndex, $index) === 1"
-          [class.current]="cardDistance(pracIndex, $index) === 0"
-          [class.last]="cardDistance(pracIndex, $index) === -1"
+          class="card"
+          [class.swiping]="isSwiping()"
           [class.revealed]="isRevealed()"
           [class.is-correct]="isLastGuessCorrect()"
+          [attr.distance]="cardDistance(pracIndex, $index)"
         >
           <div class="word top">
             {{ learnable.lexeme }}
@@ -80,3 +77,9 @@
     </div> -->
   </div>
 </app-page-wrapper-comp>
+<!-- <div>
+  [class.overnext]="cardDistance(pracIndex, $index) === 2"
+  [class.next]="cardDistance(pracIndex, $index) === 1"
+  [class.current]="cardDistance(pracIndex, $index) === 0"
+  [class.last]="cardDistance(pracIndex, $index) === -1"
+</div> -->

@@ -9,64 +9,10 @@
     display: grid;
     grid-template-rows: 1fr 1fr;
     place-self: stretch;
-    background-color: var(--col-accent);
     margin-top: var(--distance-4);
     border-radius: var(--radius-2);
-    z-index: 2;
     box-shadow: var(--shadow-bigger);
     grid-area: 1 / 1;
-
-    transition-duration: var(--duration-3);
-    transition-property: translate, opacity, transform, background-color, color;
-    transition-timing-function: cubic-bezier(0.322, 0.582, 0.006, 0.987);
-
-    &.swiping {
-      transition-property: none;
-    }
-    &.last {
-      opacity: 0;
-      z-index: 8;
-      &.is-correct {
-        transform: translate(100%, 0) rotate(5deg);
-      }
-      &:not(.is-correct) {
-        transform: translate(-100%, 0) rotate(-5deg);
-      }
-    }
-    &.current {
-      z-index: 9;
-      transform: translate(0, 30%);
-      &.revealed {
-        z-index: 9;
-        transform: translate(0%, 0%);
-
-        &.swiping {
-          --moveX: calc(var(--swipe-prog) * 1px);
-          --rotX: calc(var(--swipe-prog) * 0.03deg);
-          transform: translate(var(--moveX), 0%) rotate(var(--rotX));
-        }
-      }
-    }
-    &.next {
-      z-index: 10;
-      background-color: var(--col-bg);
-      color: var(--col-bg);
-
-      &:not(.revealed) {
-        transform: translate(0, 70%) rotateZ(-5deg);
-      }
-      &.revealed {
-        --moveY: calc(90% - abs(var(--swipe-prog)) * 0.05%);
-
-        transform: translate(0, var(--moveY)) rotateZ(-5deg);
-      }
-    }
-    &.overnext {
-      z-index: 11;
-      background-color: var(--col-bg);
-      color: var(--col-bg);
-      transform: translate(0, 110%) rotateZ(-10deg);
-    }
 
     .word {
       font-size: var(--font-size-3);
