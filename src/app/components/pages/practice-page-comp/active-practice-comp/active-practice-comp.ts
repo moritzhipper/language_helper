@@ -28,7 +28,7 @@ type ActivePracticeSummary = {
   styleUrls: ['./active-practice-comp.scss', './card-animations.scss'],
   host: {
     '[style.--swipe-prog]': 'swipeXDelta()',
-    '[style.--swipe-max]': 'swipeVoteThreshold'
+    '[style.--swipe-prog-norm]': 'swipeXNormalized()'
   }
 })
 export class ActivePracticeComp {
@@ -61,6 +61,7 @@ export class ActivePracticeComp {
 
   private swipeStartX: number = 0
   protected readonly swipeXDelta = signal(0)
+  protected readonly swipeXNormalized = signal(0)
   protected readonly isSwiping = signal(false)
   protected readonly swipeVoteThreshold = 200
 
@@ -185,7 +186,11 @@ export class ActivePracticeComp {
   swipeMove(e: TouchEvent) {
     if (!this.isRevealed()) return
 
-    this.swipeXDelta.set(e.touches[0].clientX - this.swipeStartX)
+    const delta = e.touches[0].clientX - this.swipeStartX
+    this.swipeXDelta.set(delta)
+    this.swipeXNormalized.set(
+      Math.min(1, Math.abs(delta) / this.swipeVoteThreshold)
+    )
   }
 
   swipeEnd(e: TouchEvent) {
