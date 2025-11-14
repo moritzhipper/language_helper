@@ -4,11 +4,6 @@
   transition-timing-function: cubic-bezier(0.322, 0.582, 0.006, 0.987);
   background-color: var(--col-accent);
 
-  @starting-style {
-    opacity: 0;
-    transform: translate(-200%, 0) rotate(-5deg);
-  }
-
   &.is-swiping {
     transition-property: none;
   }
