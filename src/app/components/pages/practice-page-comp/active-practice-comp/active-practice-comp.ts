@@ -118,23 +118,6 @@ export class ActivePracticeComp {
     this._lStore.quitPracticePrematurly()
   }
 
-  // async editCard() {
-  //   const currentLearnable = this.currentLearnable()
-  //   if (!currentLearnable) return
-  //   const result = await this._modalS.open<LearnableBase>('single-edit', {
-  //     learnable: currentLearnable
-  //   })
-
-  //   if (result.type !== 'confirm') return
-
-  //   const updatedCard = { ...currentLearnable, ...result.value }
-  //   this._lStore.updateLearnables([updatedCard])
-  //   this._toastService.showToast({
-  //     message: 'updated card',
-  //     type: 'info'
-  //   })
-  // }
-
   private getRandomExp(isHappy: boolean): string {
     if (isHappy) return this.getRandomElementFromArray(config.happyExpressions)
     return this.getRandomElementFromArray(config.sadExpressions)

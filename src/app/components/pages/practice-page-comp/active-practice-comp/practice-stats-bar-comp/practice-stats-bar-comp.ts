@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core'
+import { Component, model, output } from '@angular/core'
 import { IconComp } from '../../../../shared/icon-comp/icon-comp'
 
 export type ActivePracticeSummary = {
@@ -16,6 +16,8 @@ export type ActivePracticeSummary = {
 })
 export class PracticeStatsBarComp {
   isOpen = model<boolean>(true)
+  edit = output<void>()
+  quit = output<void>()
 
   toggle() {
     this.isOpen.update((o) => !o)

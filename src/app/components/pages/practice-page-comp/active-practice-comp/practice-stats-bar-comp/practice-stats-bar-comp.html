@@ -5,8 +5,8 @@
 @if (isOpen()) {
   <div class="stats" animate.enter="enter" animate.leave="leave">
     <div class="wrapper">
-      <button class="big quit">quit</button>
-      <button class="big edit">edit card</button>
+      <button class="big quit" (click)="quit.emit()">quit</button>
+      <button class="big edit" (click)="edit.emit()">edit card</button>
     </div>
   </div>
 }
