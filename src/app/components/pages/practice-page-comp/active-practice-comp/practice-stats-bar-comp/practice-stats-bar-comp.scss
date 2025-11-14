@@ -1,0 +1,36 @@
+:host {
+  text-align: center;
+}
+
+.stats {
+  .wrapper {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: var(--distance-4);
+  }
+}
+
+.stats,
+.toggle {
+  grid-column: span 2;
+}
+
+.toggle {
+  place-self: center;
+  margin-bottom: var(--distance-4);
+
+  app-icon-comp {
+    transition: rotate var(--duration-1);
+    &.open {
+      rotate: 180deg;
+    }
+  }
+}
+
+.quit {
+  background-color: rgba(from var(--col-warning) r g b / var(--opacity-1));
+}
+
+.edit {
+  background-color: rgba(from var(--col-accent) r g b / var(--opacity-0));
+}

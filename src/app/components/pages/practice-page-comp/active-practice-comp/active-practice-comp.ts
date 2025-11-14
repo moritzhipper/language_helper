@@ -4,7 +4,6 @@ import {
   HostListener,
   inject,
   input,
-  Signal,
   signal
 } from '@angular/core'
 import { config } from '../../../../../config'
@@ -13,6 +12,7 @@ import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
 import { Practice } from '../../../../types_and_schemas/types'
 import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
+import { PracticeStatsBarComp } from './practice-stats-bar-comp/practice-stats-bar-comp'
 
 type ActivePracticeSummary = {
   correctGuesses: number
@@ -23,7 +23,7 @@ type ActivePracticeSummary = {
 
 @Component({
   selector: 'app-active-practice-comp',
-  imports: [PageWrapperComp],
+  imports: [PageWrapperComp, PracticeStatsBarComp],
   templateUrl: './active-practice-comp.html',
   styleUrls: ['./active-practice-comp.scss', './card-animations.scss'],
   host: {
@@ -46,10 +46,8 @@ export class ActivePracticeComp {
       this.reveal()
     } else if (event.key === 'ArrowLeft' && this.isRevealed()) {
       this.setGuess(false)
-      this.showStats.set(false)
     } else if (event.key === 'ArrowRight' && this.isRevealed()) {
       this.setGuess(true)
-      this.showStats.set(false)
     }
   }
 
@@ -68,35 +66,6 @@ export class ActivePracticeComp {
   isRevealed = signal(false)
   showStats = signal(false)
   currentPractice = input.required<Practice>()
-
-  summary: Signal<ActivePracticeSummary> = computed(() => {
-    const currentPractice = this.currentPractice()
-    if (!currentPractice)
-      return {
-        correctGuesses: 0,
-        guessesDone: 0,
-        guessesLeft: 0,
-        progressPercent: 0
-      }
-
-    const guesses = currentPractice.guesses
-
-    const correctGuesses = guesses.filter((g) => g.isCorrect).length
-    const guessesDone = guesses.length
-
-    const cardsAmount = currentPractice.ids.length
-    const currentIndex = currentPractice.index
-    const guessesLeft = cardsAmount - currentIndex
-
-    const progressPercent = Math.round((currentIndex / cardsAmount) * 100)
-
-    return {
-      correctGuesses,
-      guessesDone,
-      guessesLeft,
-      progressPercent
-    }
-  })
 
   learnablesInPractice = computed(() => {
     const currentPractice = this.currentPractice()
@@ -140,6 +109,7 @@ export class ActivePracticeComp {
       type: 'guess'
     })
     this.isRevealed.set(false)
+    this.showStats.set(false)
     this._lStore.setGuess(isCorrect)
     this.isLastGuessCorrect.set(isCorrect)
   }

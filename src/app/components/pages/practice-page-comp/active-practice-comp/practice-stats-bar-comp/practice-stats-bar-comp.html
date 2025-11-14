@@ -1,0 +1,12 @@
+<button class="silent toggle" (click)="toggle()">
+  <app-icon-comp type="chevron" [size]="50" [class.open]="isOpen()" />
+</button>
+
+@if (isOpen()) {
+  <div class="stats" animate.enter="enter" animate.leave="leave">
+    <div class="wrapper">
+      <button class="big quit">quit</button>
+      <button class="big edit">edit card</button>
+    </div>
+  </div>
+}

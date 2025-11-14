@@ -16,11 +16,19 @@
             {{ card.translation }}
           </div>
           <div class="notes">
-            {{ card.notes }}
+            @if (card.notes; as notes) {
+              {{ notes }}
+            } @else {
+              <span class="placeholder"> no notes </span>
+            }
           </div>
         </div>
       </div>
     }
+    <app-practice-stats-bar-comp
+      [practice]="currentPractice()"
+      [(isOpen)]="showStats"
+    />
 
     <!-- <div class="navigation" [class.expanded]="showStats()">
       <button class="silent toggle-navigation" (click)="toggleStats()">
