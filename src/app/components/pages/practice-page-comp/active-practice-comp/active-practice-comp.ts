@@ -106,6 +106,24 @@ export class ActivePracticeComp {
     )
   })
 
+  cardViewModel = computed(() => {
+    const currentIndex = this.currentPractice().index
+    const start = currentIndex === 0 ? 0 : currentIndex - 1
+
+    const classes = {
+      'is-swiping': this.isSwiping(),
+      'is-revealed': this.isRevealed(),
+      'is-correct': this.isLastGuessCorrect()
+    }
+
+    return this.learnablesInPractice()
+      .map((c, index) => ({
+        card: c,
+        classes: { ...classes, [`distance-${index - currentIndex}`]: true }
+      }))
+      .slice(start, currentIndex + 3)
+  })
+
   reveal() {
     this.isRevealed.set(true)
   }
@@ -156,7 +174,6 @@ export class ActivePracticeComp {
   }
 
   swipeStart(e: TouchEvent) {
-    // e.preventDefault()
     if (!this.isRevealed()) return
 
     this.isSwiping.set(true)
@@ -165,14 +182,12 @@ export class ActivePracticeComp {
   }
 
   swipeMove(e: TouchEvent) {
-    // e.preventDefault()
     if (!this.isRevealed()) return
 
     this.swipeXDelta.set(e.touches[0].clientX - this.swipeStartX)
   }
 
   swipeEnd(e: TouchEvent) {
-    // e.preventDefault()
     if (!this.isRevealed()) return
     if (this.swipeXDelta() > this.swipeVoteThreshold) {
       this.setGuess(true)
@@ -181,20 +196,5 @@ export class ActivePracticeComp {
     }
     this.isSwiping.set(false)
     this.swipeXDelta.set(0)
-  }
-
-  protected isCardVisible(cardIndex: number): boolean {
-    const distance = cardIndex - this.currentPractice().index
-    return distance <= 2 && distance >= -1
-  }
-
-  protected getCardClasses(cardIndex: number): Record<string, boolean> {
-    const distance = cardIndex - this.currentPractice().index
-    return {
-      ['distance-' + distance]: true,
-      'is-swiping': this.isSwiping(),
-      'is-revealed': this.isRevealed(),
-      'is-correct': this.isLastGuessCorrect()
-    }
   }
 }

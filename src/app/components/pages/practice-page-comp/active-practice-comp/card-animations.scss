@@ -6,7 +6,7 @@
 
   @starting-style {
     opacity: 0;
-    transform: translate(120%);
+    transform: translate(120%, 120%) rotate(90deg);
   }
 
   &.is-swiping {

@@ -1,29 +1,26 @@
 <app-page-wrapper-comp icon="learn">
-  <div class="practice-view">
-    @for (learnable of learnablesInPractice(); track learnable.id) {
-      @if (isCardVisible(currentPractice().index)) {
-        <div
-          class="card"
-          (touchstart)="swipeStart($event)"
-          (touchmove)="swipeMove($event)"
-          (touchend)="swipeEnd($event)"
-          (click)="reveal()"
-          [class]="getCardClasses($index)"
-        >
-          <div class="top">
-            {{ learnable.lexeme }}
+  <div
+    class="practice-view"
+    (touchstart)="swipeStart($event)"
+    (touchmove)="swipeMove($event)"
+    (touchend)="swipeEnd($event)"
+  >
+    @for (entry of cardViewModel(); track entry.card.id) {
+      @let card = entry.card;
+      <div class="card" (click)="reveal()" [class]="entry.classes">
+        <div class="top">
+          {{ card.lexeme }}
+        </div>
+        <div class="bottom">
+          <div class="word">
+            {{ card.translation }}
           </div>
-          <div class="bottom">
-            <div class="word">
-              {{ learnable.translation }}
-            </div>
-            <div class="notes">
-              notes
-              {{ learnable.notes }}
-            </div>
+          <div class="notes">
+            notes
+            {{ card.notes }}
           </div>
         </div>
-      }
+      </div>
     }
 
     <!-- <div class="navigation" [class.expanded]="showStats()">
