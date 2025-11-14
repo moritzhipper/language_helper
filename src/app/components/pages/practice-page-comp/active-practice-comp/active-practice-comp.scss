@@ -14,18 +14,23 @@
     box-shadow: var(--shadow-bigger);
     grid-area: 1 / 1;
 
-    .word {
-      font-size: var(--font-size-3);
+    .top,
+    .bottom {
       padding: var(--distance-4);
-      transition-duration: var(--duration-2);
+    }
+    .top {
+      font-size: var(--font-size-3);
+      font-weight: var(--font-weight-bold);
+    }
 
-      &.top {
-        font-weight: var(--font-weight-bold);
+    .bottom {
+      font-style: italic;
+      border-top: 1px solid rgb(from var(--col-text) r g b / 0.3);
+      .word {
+        font-size: var(--font-size-3);
       }
-
-      &.bottom {
-        border-top: 1px solid rgb(from var(--col-text) r g b / 0.3);
-        font-style: italic;
+      .notes {
+        padding-top: var(--distance-2);
       }
     }
   }

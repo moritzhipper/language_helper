@@ -5,6 +5,7 @@
 - move cards animationstates to seperate file
 - only show buttons on desktop
 - sho 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
+- only render the current cards?
 
 - unifiy type setup:
   - add change language mutator:

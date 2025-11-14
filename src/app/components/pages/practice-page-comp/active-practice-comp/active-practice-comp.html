@@ -14,11 +14,17 @@
           [class.is-correct]="isLastGuessCorrect()"
           [attr.distance]="cardDistance(pracIndex, $index)"
         >
-          <div class="word top">
+          <div class="top">
             {{ learnable.lexeme }}
           </div>
-          <div class="word bottom">
-            {{ learnable.translation }}
+          <div class="bottom">
+            <div class="word">
+              {{ learnable.translation }}
+            </div>
+            <div class="notes">
+              notes
+              {{ learnable.notes }}
+            </div>
           </div>
         </div>
       }
