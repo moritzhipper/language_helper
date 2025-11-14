@@ -108,7 +108,8 @@ export class ActivePracticeComp {
 
   cardViewModel = computed(() => {
     const currentIndex = this.currentPractice().index
-    const start = currentIndex === 0 ? 0 : currentIndex - 1
+    const sliceStart = currentIndex === 0 ? 0 : currentIndex - 1
+    const sliceEnd = currentIndex + 3
 
     const classes = {
       'is-swiping': this.isSwiping(),
@@ -121,7 +122,7 @@ export class ActivePracticeComp {
         card: c,
         classes: { ...classes, [`distance-${index - currentIndex}`]: true }
       }))
-      .slice(start, currentIndex + 3)
+      .slice(sliceStart, sliceEnd)
   })
 
   reveal() {
