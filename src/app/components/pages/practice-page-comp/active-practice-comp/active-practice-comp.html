@@ -1,15 +1,14 @@
 <app-page-wrapper-comp icon="learn">
   <div class="practice-view">
     @for (learnable of learnablesInPractice(); track learnable.id) {
-      @if (isCardVisible(currentPractice().index, $index)) {
-        @let pracIndex = currentPractice().index;
+      @if (isCardVisible(currentPractice().index)) {
         <div
           class="card"
           (touchstart)="swipeStart($event)"
           (touchmove)="swipeMove($event)"
           (touchend)="swipeEnd($event)"
           (click)="reveal()"
-          [class]="getCardClasses(pracIndex, $index)"
+          [class]="getCardClasses($index)"
         >
           <div class="top">
             {{ learnable.lexeme }}

@@ -183,19 +183,15 @@ export class ActivePracticeComp {
     this.swipeXDelta.set(0)
   }
 
-  protected isCardVisible(currentIndex: number, cardIndex: number): boolean {
-    const distance = cardIndex - currentIndex
+  protected isCardVisible(cardIndex: number): boolean {
+    const distance = cardIndex - this.currentPractice().index
     return distance <= 2 && distance >= -1
   }
 
-  protected getCardClasses(
-    currentIndex: number,
-    cardIndex: number
-  ): Record<string, boolean> {
-    const distance = cardIndex - currentIndex
-
+  protected getCardClasses(cardIndex: number): Record<string, boolean> {
+    const distance = cardIndex - this.currentPractice().index
     return {
-      ['distance' + distance]: true,
+      ['distance-' + distance]: true,
       'is-swiping': this.isSwiping(),
       'is-revealed': this.isRevealed(),
       'is-correct': this.isLastGuessCorrect()
