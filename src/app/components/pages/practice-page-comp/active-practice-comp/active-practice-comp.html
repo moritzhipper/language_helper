@@ -4,15 +4,12 @@
       @if (isCardVisible(currentPractice().index, $index)) {
         @let pracIndex = currentPractice().index;
         <div
+          class="card"
           (touchstart)="swipeStart($event)"
           (touchmove)="swipeMove($event)"
           (touchend)="swipeEnd($event)"
           (click)="reveal()"
-          class="card"
-          [class.swiping]="isSwiping()"
-          [class.revealed]="isRevealed()"
-          [class.is-correct]="isLastGuessCorrect()"
-          [attr.distance]="cardDistance(pracIndex, $index)"
+          [class]="getCardClasses(pracIndex, $index)"
         >
           <div class="top">
             {{ learnable.lexeme }}

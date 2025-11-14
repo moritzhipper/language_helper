@@ -4,31 +4,30 @@
   transition-timing-function: cubic-bezier(0.322, 0.582, 0.006, 0.987);
   background-color: var(--col-accent);
 
-  &.swiping {
+  &.is-swiping {
     transition-property: none;
   }
 
   // last card
-  &[distance='-1'] {
+  &.distance-1 {
     opacity: 0;
     z-index: 8;
+    transform: translate(-100%, 0) rotate(-5deg);
+
     &.is-correct {
       transform: translate(100%, 0) rotate(5deg);
-    }
-    &:not(.is-correct) {
-      transform: translate(-100%, 0) rotate(-5deg);
     }
   }
 
   //current card
-  &[distance='0'] {
+  &.distance0 {
     z-index: 9;
     transform: translate(0, 30%);
-    &.revealed {
-      z-index: 9;
+
+    &.is-revealed {
       transform: translate(0%, 0%);
 
-      &.swiping {
+      &.is-swiping {
         --moveX: calc(var(--swipe-prog) * 1px);
         --rotX: calc(var(--swipe-prog) * 0.03deg);
         transform: translate(var(--moveX), 0%) rotate(var(--rotX));
@@ -37,23 +36,20 @@
   }
 
   //next card
-  &[distance='1'] {
+  &.distance1 {
     z-index: 10;
     background-color: var(--col-bg);
     color: var(--col-bg);
+    transform: translate(0, 70%) rotateZ(-5deg);
 
-    &:not(.revealed) {
-      transform: translate(0, 70%) rotateZ(-5deg);
-    }
-    &.revealed {
+    &.is-revealed {
       --moveY: calc(90% - abs(var(--swipe-prog)) * 0.02%);
-
       transform: translate(0, var(--moveY)) rotateZ(-5deg);
     }
   }
 
   //card after next
-  &[distance='2'] {
+  &.distance2 {
     z-index: 11;
     background-color: var(--col-bg);
     color: var(--col-bg);

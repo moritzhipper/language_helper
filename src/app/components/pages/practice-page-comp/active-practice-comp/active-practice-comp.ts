@@ -184,23 +184,21 @@ export class ActivePracticeComp {
   }
 
   protected isCardVisible(currentIndex: number, cardIndex: number): boolean {
-    const distance = this.cardDistance(currentIndex, cardIndex)
+    const distance = cardIndex - currentIndex
     return distance <= 2 && distance >= -1
   }
 
-  protected cardDistance(currentIndex: number, cardIndex: number): number {
-    return cardIndex - currentIndex
-  }
+  protected getCardClasses(
+    currentIndex: number,
+    cardIndex: number
+  ): Record<string, boolean> {
+    const distance = cardIndex - currentIndex
 
-  protected isCardCurrent(currentIndex: number, cardIndex: number): boolean {
-    return currentIndex === cardIndex
-  }
-
-  protected isCardNext(currentIndex: number, cardIndex: number): boolean {
-    return currentIndex + 1 === cardIndex
-  }
-
-  protected isCardOverNext(currentIndex: number, cardIndex: number): boolean {
-    return currentIndex + 2 === cardIndex
+    return {
+      ['distance' + distance]: true,
+      'is-swiping': this.isSwiping(),
+      'is-revealed': this.isRevealed(),
+      'is-correct': this.isLastGuessCorrect()
+    }
   }
 }
