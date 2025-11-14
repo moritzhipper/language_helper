@@ -52,7 +52,7 @@
     }
 
     &.is-revealed {
-      --moveY: calc(90% - abs(var(--swipe-prog)) * 0.02%);
+      --moveY: calc(85% - abs(var(--swipe-prog)) * 0.02%);
       transform: translate(0, var(--moveY)) rotateZ(-5deg);
     }
   }
