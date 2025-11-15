@@ -5,19 +5,24 @@
     (touchmove)="swipeMove($event)"
     (touchend)="swipeEnd($event)"
   >
-    @for (entry of cardViewModel(); track entry.card.id) {
-      <app-practice-card-comp
-        class="card"
-        (click)="reveal()"
-        [class]="entry.classes"
-        [learnable]="entry.card"
-        [reverseDirection]="currentPractice().reverseDirection"
-      />
+    @for (entry of cardViewModel(); track trackCard(entry)) {
+      @if ('id' in entry.content) {
+        <app-practice-card-comp
+          class="card"
+          (click)="reveal()"
+          [class]="entry.classes"
+          [learnable]="entry.content"
+          [reverseDirection]="currentPractice().reverseDirection"
+        />
+      } @else if (!('id' in entry.content)) {
+        <div class="card" [class]="entry.classes">summary</div>
+      }
     }
 
     <app-practice-stats-bar-comp
       [(isOpen)]="showStats"
       (quit)="endPracticeEarly()"
+      (edit)="removePractice()"
     />
   </div>
 </app-page-wrapper-comp>

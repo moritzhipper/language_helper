@@ -10,7 +10,7 @@ import { config } from '../../../../../config'
 import { ModalService } from '../../../../services/modal-service'
 import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
-import { Practice } from '../../../../types_and_schemas/types'
+import { Practice, UserLearnable } from '../../../../types_and_schemas/types'
 import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
 import { PracticeCardComp } from './practice-card-comp/practice-card-comp'
 import { PracticeStatsBarComp } from './practice-stats-bar-comp/practice-stats-bar-comp'
@@ -20,6 +20,11 @@ type ActivePracticeSummary = {
   guessesDone: number
   guessesLeft: number
   progressPercent: number
+}
+
+type CardViewModel = {
+  content: UserLearnable | ActivePracticeSummary
+  classes: { [key: string]: boolean }
 }
 
 @Component({
@@ -70,23 +75,38 @@ export class ActivePracticeComp {
     )
   })
 
-  cardViewModel = computed(() => {
+  cardViewModel = computed<CardViewModel[]>(() => {
     const currentIndex = this.currentPractice().index
-    const sliceStart = currentIndex === 0 ? 0 : currentIndex - 1
-    const sliceEnd = currentIndex + 3
 
-    const classes = {
+    const stateClasses = {
       'is-swiping': this.isSwiping(),
       'is-revealed': this.isRevealed(),
       'is-correct': this.isLastGuessCorrect()
     }
+    let cardViewModel: CardViewModel[] = []
 
-    return this.learnablesInPractice()
-      .map((c, index) => ({
-        card: c,
-        classes: { ...classes, [`distance-${index - currentIndex}`]: true }
-      }))
-      .slice(sliceStart, sliceEnd)
+    for (let i = -1; i <= 2; i++) {
+      const classes = { ...stateClasses, [`distance-${i}`]: true }
+      const cardIndex = i + currentIndex
+
+      if (cardIndex < this.learnablesInPractice().length && cardIndex !== -1) {
+        cardViewModel.push({
+          classes,
+          content: this.learnablesInPractice()[cardIndex]
+        })
+      } else if (cardIndex === this.learnablesInPractice().length) {
+        cardViewModel.push({
+          classes,
+          content: {
+            correctGuesses: 0,
+            guessesDone: 0,
+            guessesLeft: 0,
+            progressPercent: 0
+          }
+        })
+      }
+    }
+    return cardViewModel
   })
 
   reveal() {
@@ -111,6 +131,10 @@ export class ActivePracticeComp {
 
   endPracticeEarly() {
     this._lStore.quitPracticePrematurly()
+  }
+
+  removePractice() {
+    this._lStore.quitPractice()
   }
 
   private getRandomExp(isHappy: boolean): string {
@@ -150,5 +174,10 @@ export class ActivePracticeComp {
     }
     this.isSwiping.set(false)
     this.swipeXDelta.set(0)
+  }
+
+  trackCard(c: CardViewModel) {
+    if ('id' in c.content) return c.content.id
+    return 'summary-card'
   }
 }
