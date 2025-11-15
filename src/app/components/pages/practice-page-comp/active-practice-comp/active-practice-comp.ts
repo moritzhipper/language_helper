@@ -70,13 +70,18 @@ export class ActivePracticeComp {
     const currentPractice = this.currentPractice()
     if (!currentPractice) return []
 
-    return currentPractice.ids.map(
-      (id) => this._lStore.activeBank().learnables.find((l) => l.id === id)!
+    return currentPractice.guessables.map(
+      (g) => this._lStore.activeBank().learnables.find((l) => l.id === g.id)!
     )
   })
 
   cardViewModel = computed<CardViewModel[]>(() => {
     const currentIndex = this.currentPractice().index
+    const lastGuessIndex = this.currentPractice().guessables.findLastIndex(
+      (g) => g.guessed !== 'unanswered'
+    )
+
+    const quitEarly = currentIndex === lastGuessIndex + 1
 
     const stateClasses = {
       'is-swiping': this.isSwiping(),

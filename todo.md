@@ -1,11 +1,15 @@
 # ToDo
 
+- is preamturely if index is further than last guessed
+  -> when index further than last guessed, current is lastguessed + 1,
+
 - letzte verdeckende karte ist summarykarte
 - add to collection after import doesnt work
 - move cards animationstates to seperate file
 - only show buttons on desktop
 - sho 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
 - only render the current cards?
+- make the calss setting vars non signals
 
 - unifiy type setup:
   - add change language mutator:

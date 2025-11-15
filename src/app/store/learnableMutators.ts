@@ -2,6 +2,7 @@ import {
   BankBase,
   Collection,
   CollectionUser,
+  Guessable,
   LanguageConfig,
   LearnableBase,
   LearnablesStoreType,
@@ -14,14 +15,18 @@ export const startPractice =
   (ids: string[], reverseDirection: boolean) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     // randomize order of ids to prevent memorization of order
-    const randomizedIds = [...ids].sort(() => Math.random() - 0.5)
+    const randomizedGuessables: Guessable[] = [...ids]
+      .sort(() => Math.random() - 0.5)
+      .map((id) => ({
+        id,
+        guessed: 'unanswered'
+      }))
 
     return {
       ...state,
       currentPractice: {
-        ids: randomizedIds,
+        guessables: randomizedGuessables,
         index: 0,
-        guesses: [],
         reverseDirection
       }
     }
@@ -77,39 +82,51 @@ export const setGuess =
   (isCorrect: boolean) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     // no practice running
-    const currentP = state.currentPractice
-    if (!currentP) return state
+    const practice = state.currentPractice
+    if (!practice) return state
 
     // practice already finished
-    const currentLearnableId = currentP.ids[currentP.index]
-    if (!currentLearnableId) return state
+    const currentGuessable = practice.guessables[practice.index]
+    if (!currentGuessable) return state
 
     return {
       ...state,
       currentPractice: {
-        ...currentP,
-        index: currentP.index + 1,
-        guesses: [...currentP.guesses, { id: currentLearnableId, isCorrect }]
+        ...practice,
+        index: practice.index + 1,
+        guessables: updateGuessables(
+          practice.guessables,
+          currentGuessable.id,
+          isCorrect ? 'right' : 'wrong'
+        )
       },
       banks: state.banks.map((b) => {
         if (b.id !== state.activeBankId) return b
         return {
           ...b,
           learnables: b.learnables.map((l) => {
-            if (l.id !== currentLearnableId) return l
-            return addGuessToLearnable(l, isCorrect, currentP.reverseDirection)
+            if (l.id !== currentGuessable.id) return l
+            return addGuessToLearnable(l, isCorrect, practice.reverseDirection)
           })
         }
       })
     }
   }
 
+const updateGuessables = (
+  guessables: Guessable[],
+  id: string,
+  guessed: 'right' | 'wrong' | 'unanswered'
+): Guessable[] => {
+  return guessables.map((g) => (g.id === id ? { ...g, guessed } : g))
+}
+
 export const removeLearnables =
   (ids: string[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     // reset practice to prevent lost ids and loose indexes in practice
-    const currentPracticeHasDeletedIds = state.currentPractice?.ids.some((id) =>
-      ids.includes(id)
+    const currentPracticeHasDeletedIds = state.currentPractice?.guessables.some(
+      (g) => ids.includes(g.id)
     )
 
     return {
@@ -321,7 +338,7 @@ export const quitPracticeEarly =
       ...state,
       currentPractice: {
         ...currentPractice,
-        index: currentPractice.ids.length
+        index: currentPractice.guessables.length
       }
     }
   }

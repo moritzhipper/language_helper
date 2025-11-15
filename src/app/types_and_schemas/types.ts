@@ -32,9 +32,8 @@ export type UserLearnablePartial = Partial<UserLearnable> &
   Pick<UserLearnable, 'id'>
 
 export type Practice = {
-  ids: string[]
   index: number
-  guesses: Guess[]
+  guessables: Guessable[]
   reverseDirection: boolean
 }
 
@@ -50,9 +49,10 @@ export type LearnableCreationConfig = {
   language: LanguageConfig
 }
 
-export type Guess = {
+export type Guess = 'right' | 'wrong' | 'unanswered'
+export type Guessable = {
   id: string
-  isCorrect: boolean
+  guessed: Guess
 }
 
 export type SettingsStoreType = {

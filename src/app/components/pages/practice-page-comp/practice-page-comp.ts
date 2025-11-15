@@ -14,10 +14,10 @@ export class PracticeComp {
   protected readonly currentPractice = inject(LearnablesStore).currentPractice
 
   protected isFinished(prac: Practice): boolean {
-    return prac.index >= prac.ids.length
+    return prac.index >= prac.guessables.length
   }
 
   protected isUnfinished(prac: Practice): boolean {
-    return prac.index < prac.ids.length
+    return prac.index < prac.guessables.length
   }
 }
