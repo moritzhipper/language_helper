@@ -12,6 +12,7 @@ import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
 import { Practice } from '../../../../types_and_schemas/types'
 import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
+import { PracticeCardComp } from './practice-card-comp/practice-card-comp'
 import { PracticeStatsBarComp } from './practice-stats-bar-comp/practice-stats-bar-comp'
 
 type ActivePracticeSummary = {
@@ -23,7 +24,7 @@ type ActivePracticeSummary = {
 
 @Component({
   selector: 'app-active-practice-comp',
-  imports: [PageWrapperComp, PracticeStatsBarComp],
+  imports: [PageWrapperComp, PracticeStatsBarComp, PracticeCardComp],
   templateUrl: './active-practice-comp.html',
   styleUrls: ['./active-practice-comp.scss', './card-animations.scss'],
   host: {
@@ -35,13 +36,6 @@ export class ActivePracticeComp {
   @HostListener('window:keydown', ['$event']) handleKeyDown(
     event: KeyboardEvent
   ) {
-    if (
-      this.showStats() &&
-      ['ArrowUp', 'ArrowDown', 'ArrowLeft'].includes(event.key)
-    ) {
-      this.showStats.set(false)
-      return
-    }
     if (event.key === 'ArrowUp') {
       this.reveal()
     } else if (event.key === 'ArrowLeft' && this.isRevealed()) {

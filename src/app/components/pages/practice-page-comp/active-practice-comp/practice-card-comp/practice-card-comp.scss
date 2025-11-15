@@ -1,0 +1,29 @@
+:host {
+  grid-template-rows: 1fr 1fr;
+  border-radius: var(--radius-2);
+  box-shadow: var(--shadow-bigger);
+
+  .top,
+  .bottom {
+    padding: var(--distance-4);
+  }
+  .top {
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .bottom {
+    font-style: italic;
+    border-top: 1px solid rgb(from var(--col-text) r g b / 0.3);
+    .word {
+      font-size: var(--font-size-3);
+    }
+    .notes {
+      padding-top: var(--distance-2);
+
+      .placeholder {
+        opacity: var(--opacity-1);
+      }
+    }
+  }
+}
