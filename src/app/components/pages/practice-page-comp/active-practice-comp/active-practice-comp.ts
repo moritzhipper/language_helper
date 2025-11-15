@@ -97,6 +97,7 @@ export class ActivePracticeComp {
 
   reveal() {
     this.isRevealed.set(true)
+    this.showStats.set(false)
   }
 
   toggleStats() {
