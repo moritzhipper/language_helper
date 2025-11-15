@@ -81,7 +81,7 @@ export class ActivePracticeComp {
       (g) => g.guessed !== 'unanswered'
     )
 
-    const quitEarly = currentIndex === lastGuessIndex + 1
+    const quitEarly = currentIndex !== lastGuessIndex + 1
 
     const stateClasses = {
       'is-swiping': this.isSwiping(),
@@ -90,7 +90,9 @@ export class ActivePracticeComp {
     }
     let cardViewModel: CardViewModel[] = []
 
-    for (let i = -1; i <= 2; i++) {
+    const indexes = [-1, 0, 1, 2]
+
+    for (const i of indexes) {
       const classes = { ...stateClasses, [`distance-${i}`]: true }
       const cardIndex = i + currentIndex
 
