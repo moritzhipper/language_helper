@@ -18,9 +18,9 @@ export const getCardsViewModel = (
   const lastGuessIndex = practice.guessables.findLastIndex(
     (g) => g.guessed !== 'unanswered'
   )
-  const isFinishedEarly = currentIndex !== lastGuessIndex + 1
 
-  if (isFinishedEarly) {
+  // assumes finished early because current index is not last guess index + 1
+  if (currentIndex !== lastGuessIndex + 1) {
     return getVMforFinishedEarly(lastGuessIndex, cards, practice)
   } else {
     return getVM(currentIndex, cards, practice)
@@ -52,16 +52,32 @@ const getVM = (
     return vms
   }, [])
 }
+
+/**
+ * Animates all active cards to the guessed stack (viewIndex -1) when practice finishes early
+ * and adds summary card to focused position
+ *
+ * @returns viewmodel for finished early practice
+ */
 const getVMforFinishedEarly = (
   focusIndex: number,
   cards: UserLearnable[],
   practice: Practice
 ): CardViewModel[] => {
+  // when no guess was done, focusindex can be -1, so ensure at least 0
   const index = Math.max(0, focusIndex)
-  return [
-    { content: cards[index], viewIndex: -1 },
+  const currentCard = cards[index]
+  const nextCard = cards[index + 1]
+
+  const viewModel: CardViewModel[] = [
+    { content: currentCard, viewIndex: -1 },
     { content: createSummary(practice), viewIndex: 0 }
   ]
+
+  // when practice was started with only one card, there is no next card
+  if (!nextCard) return viewModel
+
+  return viewModel.concat([{ content: nextCard, viewIndex: -1 }])
 }
 
 const createSummary = (practice: Practice): ActivePracticeSummary => {
