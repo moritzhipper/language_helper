@@ -1,7 +1,8 @@
 # ToDo
 
-- is preamturely if index is further than last guessed
-  -> when index further than last guessed, current is lastguessed + 1,
+- make summary swipeable, not matter whtaa revealed state
+- move is prematurely finished to bool? then remove the set index to last thing
+- show 'finish' button when finished
 
 - letzte verdeckende karte ist summarykarte
 - add to collection after import doesnt work

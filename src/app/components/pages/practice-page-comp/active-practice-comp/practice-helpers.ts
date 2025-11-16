@@ -1,5 +1,5 @@
 import { Practice, UserLearnable } from '../../../../types_and_schemas/types'
-import { ActivePracticeSummary } from './practice-stats-bar-comp/practice-stats-bar-comp'
+import { ActivePracticeSummary } from './practice-summary-card/practice-summary-card'
 
 // do this
 // then add classes to parent
@@ -82,10 +82,26 @@ const getVMforFinishedEarly = (
 }
 
 const createSummary = (practice: Practice): ActivePracticeSummary => {
+  const correctGuesses = practice.guessables.filter(
+    (g) => g.guessed === 'right'
+  ).length
+  const wrongGuesses = practice.guessables.filter(
+    (g) => g.guessed === 'wrong'
+  ).length
+  const unansweredGuesses = practice.guessables.filter(
+    (g) => g.guessed === 'unanswered'
+  ).length
+
+  const guessesDone = correctGuesses + wrongGuesses
+  const guessedRightPercent =
+    guessesDone === 0
+      ? 0
+      : Math.round((correctGuesses / practice.guessables.length) * 100)
+
   return {
-    correctGuesses: 0,
-    guessesDone: 0,
-    guessesLeft: 0,
-    progressPercent: 0
+    correctGuesses,
+    wrongGuesses,
+    unansweredGuesses,
+    guessedRightPercent
   }
 }

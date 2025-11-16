@@ -1,4 +1,14 @@
-<h2>All done!</h2>
-<div>put nice grapphic depending on how well you did</div>
-<div>put colors depending on how well you did</div>
-{{ summary().guessables.length }} items
+@let sum = summary();
+<div class="wrapper">
+  <h2>All done!</h2>
+
+  get really artsy here
+
+  <div>put nice grapphic depending on how well you did</div>
+  <div>put colors depending on how well you did</div>
+
+  <div>{{ sum.correctGuesses }} correct guesses</div>
+  <div>{{ sum.wrongGuesses }} wrong guesses</div>
+  <div>{{ sum.unansweredGuesses }} unanswered guesses</div>
+  <div>{{ sum.guessedRightPercent }}% guessed right</div>
+</div>

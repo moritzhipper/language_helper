@@ -1,6 +1,7 @@
 :host {
   display: grid;
   grid-template-rows: 50% auto 1fr;
+  background-color: var(--col-accent);
 
   .top,
   .bottom {

@@ -3,7 +3,6 @@
   transition-duration: var(--duration-3);
   transition-property: translate, opacity, transform, background-color, color;
   transition-timing-function: var(--timing-fun);
-  background-color: var(--col-accent);
 
   &.is-swiping {
     transition-property: none;

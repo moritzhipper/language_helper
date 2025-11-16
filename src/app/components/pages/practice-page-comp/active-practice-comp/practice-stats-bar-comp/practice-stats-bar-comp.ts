@@ -1,13 +1,6 @@
 import { Component, model, output } from '@angular/core'
 import { IconComp } from '../../../../shared/icon-comp/icon-comp'
 
-export type ActivePracticeSummary = {
-  correctGuesses: number
-  guessesDone: number
-  guessesLeft: number
-  progressPercent: number
-}
-
 @Component({
   selector: 'app-practice-stats-bar-comp',
   imports: [IconComp],

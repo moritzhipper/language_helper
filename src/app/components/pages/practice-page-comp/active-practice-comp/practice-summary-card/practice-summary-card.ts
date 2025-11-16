@@ -1,11 +1,10 @@
 import { Component, input } from '@angular/core'
-import { Practice } from '../../../../../types_and_schemas/types'
 
 export type ActivePracticeSummary = {
   correctGuesses: number
-  guessesDone: number
-  guessesLeft: number
-  progressPercent: number
+  wrongGuesses: number
+  unansweredGuesses: number
+  guessedRightPercent: number
 }
 
 @Component({
@@ -15,5 +14,5 @@ export type ActivePracticeSummary = {
   styleUrl: './practice-summary-card.scss'
 })
 export class PracticeSummaryCard {
-  summary = input.required<Practice>()
+  summary = input.required<ActivePracticeSummary>()
 }

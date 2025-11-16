@@ -1,3 +1,12 @@
 :host {
-  padding: var(--distance-5);
+  display: grid;
+  padding: var(--distance-4);
+  box-sizing: border-box;
+  background-color: var(--col-primary);
+
+  .wrapper {
+    background-color: var(--col-accent);
+    border-radius: var(--radius-1);
+    padding: var(--distance-4);
+  }
 }
