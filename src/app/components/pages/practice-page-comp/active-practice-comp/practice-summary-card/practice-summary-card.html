@@ -1,39 +1,15 @@
 @let sum = summary();
 
-@switch (sum.rating) {
-  @case ('noteven') {
-    <h2>You tried!</h2>
-    <app-icon-comp class="single icon" type="heart" />
-  }
-  @case ('atleast') {
-    <div class="multi">
-      <app-icon-comp class="icon" type="star-fill" size="auto" />
-      <app-icon-comp class="icon" type="star" size="auto" />
-      <app-icon-comp class="icon" type="star" size="auto" />
-    </div>
-  }
-  @case ('okay') {
-    <div class="multi">
-      <app-icon-comp class="icon" type="star-fill" />
-      <app-icon-comp class="icon" type="star" />
-      <app-icon-comp class="icon" type="star-fill" />
-    </div>
-  }
-  @case ('good') {
-    <div class="multi">
-      <app-icon-comp class="icon" type="star-fill" />
-      <app-icon-comp class="icon" type="star-fill" />
-      <app-icon-comp class="icon" type="star-fill" />
-    </div>
-  }
-  @case ('excellent') {
-    <app-icon-comp type="meteor" class="icon single" />
-  }
-}
-
+<h2>{{ texts().title }}</h2>
+<app-practice-rating-comp [rating]="sum.rating" />
 <div class="stats">
   <div>{{ sum.correctGuesses }} correct guesses</div>
   <div>{{ sum.wrongGuesses }} wrong guesses</div>
   <div>{{ sum.unansweredGuesses }} unanswered guesses</div>
   <div>{{ sum.guessedRightPercent }}% guessed right</div>
+</div>
+<div class="subtitle">{{ texts().subtitle }}</div>
+
+<div class="line-wrapper">
+  <div class="line"></div>
 </div>

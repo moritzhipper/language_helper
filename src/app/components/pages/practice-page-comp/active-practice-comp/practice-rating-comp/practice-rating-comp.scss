@@ -1,33 +1,27 @@
 :host {
-  --dim-big: 100%;
-
-  display: grid;
-  place-items: center;
-
-  &.noteven {
-    .icon {
-      width: var(--dim-big);
-      height: var(--dim-big);
-    }
-    h2 {
-      margin: 0;
-
-      font-size: var(--font-size-4);
-      font-weight: var(--font-weight-bold);
-      align-self: end;
-      color: var(--color-);
-    }
-  }
-
-  &.atleast {
-  }
-
-  &.okay {
-  }
-
-  &.good {
-  }
-
+  &.noteven,
   &.excellent {
+    .icon {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &.atleast,
+  &.okay,
+  &.good {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+
+    .icon {
+      &:nth-child(1) {
+        width: 120%;
+        transform: rotate(-10deg) translate(15%, 20%);
+      }
+      &:nth-child(3) {
+        width: 120%;
+        transform: rotate(10deg) translate(-15%, 20%);
+      }
+    }
   }
 }

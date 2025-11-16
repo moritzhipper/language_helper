@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core'
+import { Component, computed, input } from '@angular/core'
 import { IconComp } from '../../../../shared/icon-comp/icon-comp'
 import { PracticeRatingComp } from '../practice-rating-comp/practice-rating-comp'
 
@@ -28,4 +28,32 @@ export type ActivePracticeSummary = {
 })
 export class PracticeSummaryCard {
   summary = input.required<ActivePracticeSummary>()
+
+  texts = computed(() => this.textConfig[this.summary().rating])
+
+  private readonly textConfig: Record<
+    PracticeRating,
+    { title: string; subtitle: string }
+  > = {
+    noteven: {
+      title: 'Keep Practicing',
+      subtitle: 'You can do better!'
+    },
+    atleast: {
+      title: 'You tried!',
+      subtitle: 'Keep going!'
+    },
+    okay: {
+      title: 'Not Bad',
+      subtitle: 'You are getting there!'
+    },
+    good: {
+      title: 'Well Done',
+      subtitle: 'Great job!'
+    },
+    excellent: {
+      title: 'Excellent!',
+      subtitle: 'You nailed it!'
+    }
+  }
 }
