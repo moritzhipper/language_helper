@@ -2,6 +2,8 @@
   display: grid;
   grid-template-rows: 50% auto 1fr;
   background-color: var(--col-accent);
+  box-shadow: var(--shadow-bigger);
+  border-radius: var(--radius-2);
 
   .top,
   .bottom {

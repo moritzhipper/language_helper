@@ -2,16 +2,13 @@
   height: 100%;
   display: grid;
   grid-template-rows: 1fr auto;
-  place-items: center;
+  place-items: stretch;
   touch-action: none;
 
   .card {
-    place-self: stretch;
     margin-top: var(--distance-4);
     grid-row: 1 / 3;
     grid-column: 1;
-    box-shadow: var(--shadow-bigger);
-    border-radius: var(--radius-2);
   }
 
   app-practice-stats-bar-comp {

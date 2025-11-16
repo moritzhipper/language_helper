@@ -1,12 +1,18 @@
 :host {
   display: grid;
-  padding: var(--distance-4);
+  padding: var(--distance-5);
   box-sizing: border-box;
   background-color: var(--col-primary);
+  box-shadow: var(--shadow-bigger);
+  border-radius: var(--radius-3);
 
+  h2,
   .wrapper {
-    background-color: var(--col-accent);
-    border-radius: var(--radius-1);
+    color: var(--col-bg);
+  }
+  .wrapper {
+    background-color: rgb(from var(--col-accent) r g b / var(--opacity-0));
+    border-radius: var(--radius-2);
     padding: var(--distance-4);
   }
 }
