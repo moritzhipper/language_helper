@@ -9,7 +9,7 @@
   }
 
   // last card
-  &.distance--1 {
+  &.index--1 {
     opacity: 0;
     z-index: 8;
 
@@ -23,14 +23,15 @@
   }
 
   //current card
-  &.distance-0 {
+  &.index-0 {
     z-index: 9;
 
-    &:not(.is-revealed) {
+    &:not(.is-revealed, .summary) {
       transform: translate(0, 30%);
     }
 
-    &.is-revealed {
+    &.is-revealed,
+    &.summary {
       transform: translate(0%, 0%);
 
       &.is-swiping {
@@ -42,23 +43,22 @@
   }
 
   //next card
-  &.distance-1 {
+  &.index-1 {
     z-index: 10;
     background-color: var(--col-bg);
     color: var(--col-bg);
+  }
+  &:not(.is-revealed) {
+    transform: translate(0, 70%) rotateZ(-5deg);
+  }
 
-    &:not(.is-revealed) {
-      transform: translate(0, 70%) rotateZ(-5deg);
-    }
-
-    &.is-revealed {
-      --moveY: calc(85% - abs(var(--swipe-prog)) * 0.02%);
-      transform: translate(0, var(--moveY)) rotateZ(-5deg);
-    }
+  &.is-revealed {
+    --moveY: calc(85% - abs(var(--swipe-prog)) * 0.02%);
+    transform: translate(0, var(--moveY)) rotateZ(-5deg);
   }
 
   //card after next
-  &.distance-2 {
+  &.index-2 {
     z-index: 11;
     background-color: var(--col-bg);
     color: var(--col-bg);

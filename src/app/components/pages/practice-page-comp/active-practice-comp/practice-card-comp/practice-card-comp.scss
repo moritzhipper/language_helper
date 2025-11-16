@@ -1,7 +1,4 @@
 :host {
-  --card-radius: var(--radius-2);
-  box-shadow: var(--shadow-bigger);
-  border-radius: var(--card-radius);
   display: grid;
   grid-template-rows: 50% auto 1fr;
 
@@ -14,12 +11,10 @@
   }
 
   .top {
-    border-radius: var(--card-radius) var(--card-radius) 0 0;
     font-weight: var(--font-weight-bold);
   }
 
   .bottom {
-    border-radius: 0;
     font-style: italic;
     border-top: 1px solid rgb(from var(--col-text) r g b / 0.3);
   }
@@ -27,8 +22,8 @@
     opacity: 0.3;
   }
   .notes {
-    border-radius: var(--radius-0) var(--radius-0) var(--card-radius)
-      var(--card-radius);
+    border-radius: var(--radius-0) var(--radius-0) var(--radius-2)
+      var(--radius-2);
     padding: var(--distance-2) var(--distance-5);
     font-style: italic;
     background-color: transparent;

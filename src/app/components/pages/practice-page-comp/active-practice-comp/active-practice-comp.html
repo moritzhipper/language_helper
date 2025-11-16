@@ -9,13 +9,17 @@
       @if ('id' in entry.content) {
         <app-practice-card-comp
           class="card"
+          [class]="getClassesForViewIndex(entry.viewIndex)"
           (click)="reveal()"
-          [class]="entry.classes"
           [learnable]="entry.content"
           [reverseDirection]="currentPractice().reverseDirection"
         />
       } @else if (!('id' in entry.content)) {
-        <div class="card" [class]="entry.classes">summary</div>
+        <app-practice-summary-card
+          class="card summary"
+          [class]="getClassesForViewIndex(entry.viewIndex)"
+          [summary]="currentPractice()"
+        />
       }
     }
 

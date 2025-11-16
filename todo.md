@@ -69,9 +69,11 @@ hetzner
 whats an ai key
 
 wenn quit early:
+summarycard: nicht aufdeckbar, sobald gezogen immer aufgedeckt
 
 - ersetze aktuellen array mit fake array. Das erlaubt das index weiterbewegen ohne dependency auf practice. dieser hat:
   - auf -1 letzte karte
   - auf 0 aktuelle karte
   - auf 1 summary
 - lege aktuelle 0 karte weg ohne vote, sodass summary nach rueckt
+- mit viwmodelIndex arbeiten?

@@ -10,26 +10,21 @@ import { config } from '../../../../../config'
 import { ModalService } from '../../../../services/modal-service'
 import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
-import { Practice, UserLearnable } from '../../../../types_and_schemas/types'
+import { Practice } from '../../../../types_and_schemas/types'
 import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
 import { PracticeCardComp } from './practice-card-comp/practice-card-comp'
+import { CardViewModel, getCardsViewModel } from './practice-helpers'
 import { PracticeStatsBarComp } from './practice-stats-bar-comp/practice-stats-bar-comp'
-
-type ActivePracticeSummary = {
-  correctGuesses: number
-  guessesDone: number
-  guessesLeft: number
-  progressPercent: number
-}
-
-type CardViewModel = {
-  content: UserLearnable | ActivePracticeSummary
-  classes: { [key: string]: boolean }
-}
+import { PracticeSummaryCard } from './practice-summary-card/practice-summary-card'
 
 @Component({
   selector: 'app-active-practice-comp',
-  imports: [PageWrapperComp, PracticeStatsBarComp, PracticeCardComp],
+  imports: [
+    PageWrapperComp,
+    PracticeStatsBarComp,
+    PracticeCardComp,
+    PracticeSummaryCard
+  ],
   templateUrl: './active-practice-comp.html',
   styleUrls: ['./active-practice-comp.scss', './card-animations.scss'],
   host: {
@@ -66,55 +61,26 @@ export class ActivePracticeComp {
   showStats = signal(false)
   currentPractice = input.required<Practice>()
 
-  learnablesInPractice = computed(() => {
-    const currentPractice = this.currentPractice()
-    if (!currentPractice) return []
-
-    return currentPractice.guessables.map(
-      (g) => this._lStore.activeBank().learnables.find((l) => l.id === g.id)!
+  cardViewModel = computed<CardViewModel[]>(() =>
+    getCardsViewModel(
+      this.currentPractice(),
+      this._lStore.activeBank().learnables
     )
-  })
+  )
 
-  cardViewModel = computed<CardViewModel[]>(() => {
-    const currentIndex = this.currentPractice().index
-    const lastGuessIndex = this.currentPractice().guessables.findLastIndex(
-      (g) => g.guessed !== 'unanswered'
-    )
+  getClassesForViewIndex(viewIndex: number) {
+    const indexClass = `index-${viewIndex}`
 
-    const quitEarly = currentIndex !== lastGuessIndex + 1
+    if (viewIndex === -1) {
+      return { [indexClass]: true, 'is-correct': this.isLastGuessCorrect() }
+    }
 
-    const stateClasses = {
+    return {
+      [indexClass]: true,
       'is-swiping': this.isSwiping(),
-      'is-revealed': this.isRevealed(),
-      'is-correct': this.isLastGuessCorrect()
+      'is-revealed': this.isRevealed()
     }
-    let cardViewModel: CardViewModel[] = []
-
-    const indexes = [-1, 0, 1, 2]
-
-    for (const i of indexes) {
-      const classes = { ...stateClasses, [`distance-${i}`]: true }
-      const cardIndex = i + currentIndex
-
-      if (cardIndex < this.learnablesInPractice().length && cardIndex !== -1) {
-        cardViewModel.push({
-          classes,
-          content: this.learnablesInPractice()[cardIndex]
-        })
-      } else if (cardIndex === this.learnablesInPractice().length) {
-        cardViewModel.push({
-          classes,
-          content: {
-            correctGuesses: 0,
-            guessesDone: 0,
-            guessesLeft: 0,
-            progressPercent: 0
-          }
-        })
-      }
-    }
-    return cardViewModel
-  })
+  }
 
   reveal() {
     this.isRevealed.set(true)
