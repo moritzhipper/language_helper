@@ -27,10 +27,12 @@ export const getCardsViewModel = (
   }
 }
 
-// add function that returns array of CardViewModel Items
-// cards view model view has four positions: previous, current, next, hidden
-// currrent is the one to guess or focus one
-
+/**
+ * Return array of maximum four CardViewModel items, because four cards are accountet for and animated in view.
+ * last guessed, current to guess, next guessable, and the one after that.
+ *
+ * When no next cards are available, summary card is added to the guess queue
+ */
 const getVM = (
   focusIndex: number,
   cards: UserLearnable[],
@@ -74,9 +76,8 @@ const getVMforFinishedEarly = (
     { content: createSummary(practice), viewIndex: 0 }
   ]
 
-  // when practice was started with only one card, there is no next card
+  // when practice was started with only one card, there is no next card to put away
   if (!nextCard) return viewModel
-
   return viewModel.concat([{ content: nextCard, viewIndex: -1 }])
 }
 
