@@ -1,8 +1,7 @@
 .card {
-  --timing-fun: cubic-bezier(0.322, 0.582, 0.006, 0.987);
   transition-duration: var(--duration-3);
   transition-property: translate, opacity, transform, background-color, color;
-  transition-timing-function: var(--timing-fun);
+  transition-timing-function: cubic-bezier(0.322, 0.582, 0.006, 0.987);
 
   &.is-swiping {
     transition-property: none;
