@@ -102,6 +102,7 @@ const createSummary = (practice: Practice): ActivePracticeSummary => {
     correctGuesses,
     wrongGuesses,
     unansweredGuesses,
-    guessedRightPercent
+    guessedRightPercent,
+    rating: 'atleast'
   }
 }

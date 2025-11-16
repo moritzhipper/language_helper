@@ -1,0 +1,33 @@
+:host {
+  --dim-big: 100%;
+
+  display: grid;
+  place-items: center;
+
+  &.noteven {
+    .icon {
+      width: var(--dim-big);
+      height: var(--dim-big);
+    }
+    h2 {
+      margin: 0;
+
+      font-size: var(--font-size-4);
+      font-weight: var(--font-weight-bold);
+      align-self: end;
+      color: var(--color-);
+    }
+  }
+
+  &.atleast {
+  }
+
+  &.okay {
+  }
+
+  &.good {
+  }
+
+  &.excellent {
+  }
+}

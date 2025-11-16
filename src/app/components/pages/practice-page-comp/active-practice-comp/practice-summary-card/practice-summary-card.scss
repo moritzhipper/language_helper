@@ -1,18 +1,45 @@
 :host {
+  --dim-big: 100%;
+
   display: grid;
+  grid-template-rows: auto 1fr;
   padding: var(--distance-5);
   box-sizing: border-box;
-  background-color: var(--col-primary);
-  box-shadow: var(--shadow-bigger);
-  border-radius: var(--radius-3);
 
-  h2,
-  .wrapper {
-    color: var(--col-bg);
+  color: var(--col-bg);
+  box-shadow: var(--shadow-bigger);
+  background-color: var(--col-primary);
+  border-radius: var(--radius-3);
+  text-align: center;
+
+  h2 {
+    margin: 0;
+
+    font-size: var(--font-size-4);
+    font-weight: var(--font-weight-bold);
+    align-self: end;
+    color: var(--color-);
   }
-  .wrapper {
-    background-color: rgb(from var(--col-accent) r g b / var(--opacity-0));
-    border-radius: var(--radius-2);
-    padding: var(--distance-4);
+
+  .single.icon {
+    width: var(--dim-big);
+    height: var(--dim-big);
+  }
+
+  .multi {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: end;
+
+    .icon {
+      &:nth-child(1) {
+        width: 110%;
+        transform: rotate(-10deg) translateX(10%);
+      }
+      &:nth-child(3) {
+        width: 110%;
+        transform: rotate(10deg) translateX(-10%);
+      }
+    }
   }
 }
