@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core'
-import { IconComp } from '../../../../shared/icon-comp/icon-comp'
+import { CounterComp } from '../../../../shared/counter-comp/counter-comp'
 import { PracticeRatingComp } from '../practice-rating-comp/practice-rating-comp'
 
 export type PracticeRating =
@@ -19,7 +19,7 @@ export type ActivePracticeSummary = {
 
 @Component({
   selector: 'app-practice-summary-card',
-  imports: [PracticeRatingComp, IconComp],
+  imports: [PracticeRatingComp, CounterComp],
   templateUrl: './practice-summary-card.html',
   styleUrl: './practice-summary-card.scss',
   host: {
@@ -36,24 +36,24 @@ export class PracticeSummaryCard {
     { title: string; subtitle: string }
   > = {
     noteven: {
-      title: 'Keep Practicing',
-      subtitle: 'You can do better!'
+      title: 'You showed up!',
+      subtitle: 'That counts'
     },
     atleast: {
       title: 'You tried!',
-      subtitle: 'Keep going!'
+      subtitle: 'Thats something'
     },
     okay: {
-      title: 'Not Bad',
-      subtitle: 'You are getting there!'
+      title: 'Not Bad!',
+      subtitle: 'You are getting there'
     },
     good: {
-      title: 'Well Done',
-      subtitle: 'Great job!'
+      title: 'Well Done!',
+      subtitle: 'Great job'
     },
     excellent: {
       title: 'Excellent!',
-      subtitle: 'You nailed it!'
+      subtitle: 'So great'
     }
   }
 }
