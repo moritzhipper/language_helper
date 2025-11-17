@@ -7,8 +7,7 @@
   background-color: var(--col-accent);
   border-radius: var(--radius-3);
   box-sizing: border-box;
-  padding: var(--distance-5) var(--distance-6) var(--distance-7)
-    var(--distance-5);
+  padding: var(--distance-7) var(--distance-6);
 
   place-self: center;
   width: 100%;
@@ -16,9 +15,7 @@
 
   h2 {
     align-self: end;
-    text-align: center;
     font-size: var(--font-size-4);
-    line-height: var(--font-size-4);
 
     rotate: -5deg;
     color: var(--col-text);
@@ -41,13 +38,11 @@
 
   .subtitle {
     font-size: var(--font-size-2);
+    translate: 0 -8px;
     rotate: -5deg;
     justify-self: end;
-    translate: 0 -16px;
-    padding-right: var(--distance-4);
-    line-height: calc(var(--distance-6));
     font-weight: var(--font-weight-bold);
-    text-shadow: 0 0px 12px var(--col-accent);
+    text-shadow: 0 0px 18px var(--col-accent);
   }
 
   .stats {
