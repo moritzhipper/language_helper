@@ -1,5 +1,4 @@
 import { Component, computed, input } from '@angular/core'
-import { CounterComp } from '../../../../shared/counter-comp/counter-comp'
 import { PracticeRatingComp } from '../practice-rating-comp/practice-rating-comp'
 
 export type PracticeRating =
@@ -19,7 +18,7 @@ export type ActivePracticeSummary = {
 
 @Component({
   selector: 'app-practice-summary-card',
-  imports: [PracticeRatingComp, CounterComp],
+  imports: [PracticeRatingComp],
   templateUrl: './practice-summary-card.html',
   styleUrl: './practice-summary-card.scss',
   host: {

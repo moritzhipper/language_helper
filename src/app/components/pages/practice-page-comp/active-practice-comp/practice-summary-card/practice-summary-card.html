@@ -1,14 +1,9 @@
 @let sum = summary();
 
-<div class="subtitle">{{ texts().subtitle }}</div>
-
 <app-practice-rating-comp [rating]="sum.rating" />
 <h2>{{ texts().title }}</h2>
-<app-counter-comp label="correct" size="l">
-  {{ sum.guessedRightPercent }}%
-</app-counter-comp>
 <div class="subtitle">{{ texts().subtitle }}</div>
-
-<div class="line-wrapper">
-  <div class="line"></div>
+<div class="stats">
+  <span class="count">{{ sum.guessedRightPercent }}%</span>
+  <span class="label">guessed correctly </span>
 </div>
