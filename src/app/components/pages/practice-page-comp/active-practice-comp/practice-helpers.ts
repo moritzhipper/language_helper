@@ -1,5 +1,8 @@
 import { Practice, UserLearnable } from '../../../../types_and_schemas/types'
-import { ActivePracticeSummary } from './practice-summary-card/practice-summary-card'
+import {
+  ActivePracticeSummary,
+  PracticeRating
+} from './practice-summary-card/practice-summary-card'
 
 // do this
 // then add classes to parent
@@ -103,6 +106,14 @@ const createSummary = (practice: Practice): ActivePracticeSummary => {
     wrongGuesses,
     unansweredGuesses,
     guessedRightPercent,
-    rating: 'excellent'
+    rating: getRating(guessedRightPercent)
   }
+}
+
+const getRating = (guessedRightPercent: number): PracticeRating => {
+  if (guessedRightPercent === 100) return 'excellent'
+  if (guessedRightPercent >= 80) return 'good'
+  if (guessedRightPercent >= 50) return 'okay'
+  if (guessedRightPercent >= 20) return 'atleast'
+  return 'noteven'
 }

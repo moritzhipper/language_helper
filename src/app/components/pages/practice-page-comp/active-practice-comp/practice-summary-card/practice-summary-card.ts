@@ -35,8 +35,8 @@ export class PracticeSummaryCard {
     { title: string; subtitle: string }
   > = {
     noteven: {
-      title: 'You showed up!',
-      subtitle: 'That counts'
+      title: 'Well...',
+      subtitle: 'you showed up!'
     },
     atleast: {
       title: 'You tried!',
