@@ -18,6 +18,8 @@
 
   .bottom {
     font-style: italic;
+    padding-bottom: var(--distance-1);
+
     border-top: 1px solid rgb(from var(--col-text) r g b / 0.3);
   }
   .placeholder {

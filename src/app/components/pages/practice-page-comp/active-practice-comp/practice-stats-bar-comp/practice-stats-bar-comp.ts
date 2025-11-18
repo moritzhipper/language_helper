@@ -1,4 +1,4 @@
-import { Component, model, output } from '@angular/core'
+import { Component, input, model, output } from '@angular/core'
 import { IconComp } from '../../../../shared/icon-comp/icon-comp'
 
 @Component({
@@ -9,6 +9,7 @@ import { IconComp } from '../../../../shared/icon-comp/icon-comp'
 })
 export class PracticeStatsBarComp {
   isOpen = model<boolean>(true)
+  cardsLeft = input.required<number>()
   edit = output<void>()
   quit = output<void>()
 

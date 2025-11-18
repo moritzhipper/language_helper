@@ -53,7 +53,7 @@
 
     &.is-revealed {
       --moveY: calc(85% - abs(var(--swipe-prog)) * 0.02%);
-      transform: translate(0, var(--moveY)) rotateZ(-5deg);
+      transform: translate(0, var(--moveY)) rotate(-5deg);
     }
   }
 

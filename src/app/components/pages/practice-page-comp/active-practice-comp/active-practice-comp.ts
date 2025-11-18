@@ -1,7 +1,6 @@
 import {
   Component,
   computed,
-  effect,
   HostListener,
   inject,
   input,
@@ -61,10 +60,6 @@ export class ActivePracticeComp {
   isRevealed = signal(false)
   showStats = signal(false)
   currentPractice = input.required<Practice>()
-
-  test = effect(() => {
-    console.log('Current Practice Index:', this.currentPractice())
-  })
 
   cardViewModel = computed<CardViewModel[]>(() =>
     getCardsViewModel(

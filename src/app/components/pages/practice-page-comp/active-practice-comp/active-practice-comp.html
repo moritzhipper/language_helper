@@ -24,6 +24,9 @@
     }
 
     <app-practice-stats-bar-comp
+      [cardsLeft]="
+        currentPractice().guessables.length - currentPractice().index
+      "
       [(isOpen)]="showStats"
       (quit)="endPracticeEarly()"
       (edit)="removePractice()"
