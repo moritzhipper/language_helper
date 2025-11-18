@@ -9,9 +9,7 @@
       @if ('id' in entry.content) {
         <app-practice-card-comp
           class="card"
-          [class.is-swiping]="isSwiping()"
-          [class.is-revealed]="isRevealed()"
-          [class]="'index-' + entry.viewIndex"
+          [class]="getCardClasses(entry.viewIndex)"
           (click)="reveal()"
           [learnable]="entry.content"
           [reverseDirection]="currentPractice().reverseDirection"
@@ -19,8 +17,7 @@
       } @else if (!('id' in entry.content)) {
         <app-practice-summary-card
           class="card summary"
-          [class]="'index-' + entry.viewIndex"
-          [class.is-revealed]="isRevealed()"
+          [class]="getCardClasses(entry.viewIndex)"
           [summary]="entry.content"
         />
       }

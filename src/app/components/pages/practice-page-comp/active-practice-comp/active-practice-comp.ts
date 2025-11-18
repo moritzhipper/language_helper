@@ -104,6 +104,15 @@ export class ActivePracticeComp {
     this._lStore.quitPracticePrematurly()
   }
 
+  getCardClasses(viewIndex: number) {
+    return {
+      'is-revealed': this.isRevealed(),
+      'is-correct': this.isLastGuessCorrect(),
+      'is-swiping': this.isSwiping(),
+      ['index-' + viewIndex]: true
+    }
+  }
+
   removePractice() {
     this._lStore.quitPractice()
   }
