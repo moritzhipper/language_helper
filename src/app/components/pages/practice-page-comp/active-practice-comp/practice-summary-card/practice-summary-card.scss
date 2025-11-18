@@ -18,7 +18,6 @@
     font-size: var(--font-size-4);
 
     rotate: -5deg;
-    color: var(--col-text);
     z-index: 1;
     text-shadow: 0 0px 40px var(--col-accent);
   }
@@ -34,6 +33,7 @@
 
     z-index: -1;
     color: var(--col-primary);
+    overflow: hidden;
   }
 
   .subtitle {
@@ -65,4 +65,10 @@
   h2 {
     margin: 0;
   }
+
+  // &.index-0 {
+  // }
+  // &:not(.index-0) {
+  //   border: 10px solid white;
+  // }
 }

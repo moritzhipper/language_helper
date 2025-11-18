@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   HostListener,
   inject,
   input,
@@ -61,6 +62,10 @@ export class ActivePracticeComp {
   showStats = signal(false)
   currentPractice = input.required<Practice>()
 
+  test = effect(() => {
+    console.log('Current Practice Index:', this.currentPractice())
+  })
+
   cardViewModel = computed<CardViewModel[]>(() =>
     getCardsViewModel(
       this.currentPractice(),
@@ -68,21 +73,13 @@ export class ActivePracticeComp {
     )
   )
 
-  getClassesForViewIndex(viewIndex: number) {
-    const indexClass = `index-${viewIndex}`
-
-    if (viewIndex === -1) {
-      return { [indexClass]: true, 'is-correct': this.isLastGuessCorrect() }
-    }
-
-    return {
-      [indexClass]: true,
-      'is-swiping': this.isSwiping(),
-      'is-revealed': this.isRevealed()
-    }
-  }
+  isSummaryFocused = computed<boolean>(() => {
+    const practice = this.currentPractice()
+    return practice.index > practice.guessables.length - 1
+  })
 
   reveal() {
+    if (this.isSummaryFocused()) return
     this.isRevealed.set(true)
     this.showStats.set(false)
   }
@@ -92,6 +89,7 @@ export class ActivePracticeComp {
   }
 
   setGuess(isCorrect: boolean) {
+    if (this.isSummaryFocused()) return
     this._toastService.showToast({
       message: this.getRandomExp(isCorrect),
       type: 'guess'
@@ -121,7 +119,7 @@ export class ActivePracticeComp {
   }
 
   swipeStart(e: TouchEvent) {
-    if (!this.isRevealed()) return
+    if (!this.isRevealed() || this.isSummaryFocused()) return
 
     this.isSwiping.set(true)
     this.swipeXDelta.set(0)
@@ -129,7 +127,7 @@ export class ActivePracticeComp {
   }
 
   swipeMove(e: TouchEvent) {
-    if (!this.isRevealed()) return
+    if (!this.isRevealed() || this.isSummaryFocused()) return
 
     const delta = e.touches[0].clientX - this.swipeStartX
     this.swipeXDelta.set(delta)
@@ -139,7 +137,7 @@ export class ActivePracticeComp {
   }
 
   swipeEnd(e: TouchEvent) {
-    if (!this.isRevealed()) return
+    if (!this.isRevealed() || this.isSummaryFocused()) return
     if (this.swipeXDelta() > this.swipeVoteThreshold) {
       this.setGuess(true)
     } else if (this.swipeXDelta() < -this.swipeVoteThreshold) {
@@ -150,7 +148,6 @@ export class ActivePracticeComp {
   }
 
   trackCard(c: CardViewModel) {
-    if ('id' in c.content) return c.content.id
-    return 'summary-card'
+    return 'id' in c.content ? c.content.id : 'summary-card'
   }
 }

@@ -3,13 +3,12 @@
   grid-template-rows: 50% auto 1fr;
   background-color: var(--col-accent);
   box-shadow: var(--shadow-bigger);
-  border-radius: var(--radius-2);
+  border-radius: var(--radius-3);
 
   .top,
   .bottom {
     line-height: calc(var(--font-size-3) + var(--distance-2));
-    padding: var(--distance-4) var(--distance-5) var(--distance-1)
-      var(--distance-5);
+    padding: var(--distance-5) var(--distance-6);
     font-size: var(--font-size-3);
   }
 
@@ -27,7 +26,7 @@
   .notes {
     border-radius: var(--radius-0) var(--radius-0) var(--radius-2)
       var(--radius-2);
-    padding: var(--distance-2) var(--distance-5);
+    padding: 0 var(--distance-6);
     font-style: italic;
     background-color: transparent;
     overflow: auto;

@@ -46,14 +46,15 @@
     z-index: 10;
     background-color: var(--col-bg);
     color: var(--col-bg);
-  }
-  &:not(.is-revealed) {
-    transform: translate(0, 70%) rotateZ(-5deg);
-  }
 
-  &.is-revealed {
-    --moveY: calc(85% - abs(var(--swipe-prog)) * 0.02%);
-    transform: translate(0, var(--moveY)) rotateZ(-5deg);
+    &:not(.is-revealed) {
+      transform: translate(0, 70%) rotateZ(-5deg);
+    }
+
+    &.is-revealed {
+      --moveY: calc(85% - abs(var(--swipe-prog)) * 0.02%);
+      transform: translate(0, var(--moveY)) rotateZ(-5deg);
+    }
   }
 
   //card after next
@@ -61,13 +62,17 @@
     z-index: 11;
     background-color: var(--col-bg);
     color: var(--col-bg);
-    transform: translate(0, 110%) rotateZ(-10deg);
+    transform: translate(0, 120%) rotateZ(-10deg);
   }
 
+  // responsible for realistic in animations
+
   &.index-0,
-  &.index-1 {
+  &.index-1,
+  &.index-2 {
     @starting-style {
-      transform: translate(0, 100%) rotate(-10deg) !important;
+      opacity: 0;
+      transform: translate(0, 130%) rotate(-10deg) !important;
     }
   }
 }
