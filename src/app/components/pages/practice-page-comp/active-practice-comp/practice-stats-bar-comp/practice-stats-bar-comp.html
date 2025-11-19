@@ -5,10 +5,11 @@
 @if (isOpen()) {
   <div class="stats" animate.enter="enter" animate.leave="leave">
     <div class="wrapper">
-      <button class="big quit" (click)="quit.emit()">quit</button>
-      <button class="big edit" (click)="edit.emit()">
-        {{ cardsLeft() }} cards left
-      </button>
+      <button class="big quit" (click)="quitEarly.emit()">quit</button>
+      <button class="big edit" (click)="edit.emit()">edit notes</button>
     </div>
   </div>
+}
+@if (isFinished()) {
+  <button class="big primary" (click)="finalize.emit()">finalize</button>
 }

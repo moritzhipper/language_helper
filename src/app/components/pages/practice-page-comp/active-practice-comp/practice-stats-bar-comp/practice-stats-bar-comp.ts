@@ -9,9 +9,10 @@ import { IconComp } from '../../../../shared/icon-comp/icon-comp'
 })
 export class PracticeStatsBarComp {
   isOpen = model<boolean>(true)
-  cardsLeft = input.required<number>()
+  isFinished = input<boolean>(false)
   edit = output<void>()
-  quit = output<void>()
+  quitEarly = output<void>()
+  finalize = output<void>()
 
   toggle() {
     this.isOpen.update((o) => !o)

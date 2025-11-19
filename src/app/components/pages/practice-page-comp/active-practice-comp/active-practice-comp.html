@@ -24,12 +24,11 @@
     }
 
     <app-practice-stats-bar-comp
-      [cardsLeft]="
-        currentPractice().guessables.length - currentPractice().index
-      "
       [(isOpen)]="showStats"
-      (quit)="endPracticeEarly()"
-      (edit)="removePractice()"
+      [isFinished]="isFinished()"
+      (quitEarly)="endPracticeEarly()"
+      (finalize)="removePractice()"
+      (edit)="editNote()"
     />
   </div>
 </app-page-wrapper-comp>

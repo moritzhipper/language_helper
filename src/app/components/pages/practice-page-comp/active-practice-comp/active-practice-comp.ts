@@ -58,6 +58,7 @@ export class ActivePracticeComp {
   protected readonly swipeVoteThreshold = 200
 
   isRevealed = signal(false)
+  isEditing = signal(false)
   showStats = signal(false)
   currentPractice = input.required<Practice>()
 
@@ -68,13 +69,13 @@ export class ActivePracticeComp {
     )
   )
 
-  isSummaryFocused = computed<boolean>(() => {
+  isFinished = computed<boolean>(() => {
     const practice = this.currentPractice()
     return practice.index > practice.guessables.length - 1
   })
 
   reveal() {
-    if (this.isSummaryFocused()) return
+    if (this.isFinished()) return
     this.isRevealed.set(true)
     this.showStats.set(false)
   }
@@ -84,7 +85,7 @@ export class ActivePracticeComp {
   }
 
   setGuess(isCorrect: boolean) {
-    if (this.isSummaryFocused()) return
+    if (this.isFinished()) return
     this._toastService.showToast({
       message: this.getRandomExp(isCorrect),
       type: 'guess'
@@ -108,6 +109,10 @@ export class ActivePracticeComp {
     }
   }
 
+  editNote() {
+    this.isEditing.set(true)
+  }
+
   removePractice() {
     this._lStore.quitPractice()
   }
@@ -123,7 +128,7 @@ export class ActivePracticeComp {
   }
 
   swipeStart(e: TouchEvent) {
-    if (!this.isRevealed() || this.isSummaryFocused()) return
+    if (!this.isRevealed() || this.isFinished()) return
 
     this.isSwiping.set(true)
     this.swipeXDelta.set(0)
@@ -131,7 +136,7 @@ export class ActivePracticeComp {
   }
 
   swipeMove(e: TouchEvent) {
-    if (!this.isRevealed() || this.isSummaryFocused()) return
+    if (!this.isRevealed() || this.isFinished()) return
 
     const delta = e.touches[0].clientX - this.swipeStartX
     this.swipeXDelta.set(delta)
@@ -141,7 +146,7 @@ export class ActivePracticeComp {
   }
 
   swipeEnd(e: TouchEvent) {
-    if (!this.isRevealed() || this.isSummaryFocused()) return
+    if (!this.isRevealed() || this.isFinished()) return
     if (this.swipeXDelta() > this.swipeVoteThreshold) {
       this.setGuess(true)
     } else if (this.swipeXDelta() < -this.swipeVoteThreshold) {
