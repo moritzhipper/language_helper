@@ -21,18 +21,24 @@
   margin-bottom: var(--distance-4);
   opacity: var(--opacity-1);
   transition: opacity var(--duration-3);
+  transition-delay: var(--duration-3);
+
+  @starting-style {
+    opacity: 0;
+  }
 
   .icon {
     transition: rotate var(--duration-1);
   }
   &.open {
-    opacity: var(--opacity-0);
     .icon {
       rotate: 180deg;
     }
   }
 
   &[disabled] {
+    transition-delay: 0s;
+
     opacity: 0;
   }
 }
