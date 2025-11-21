@@ -17,7 +17,7 @@ import { CardViewModel, getCardsViewModel } from './practice-helpers'
 import { PracticeStatsBarComp } from './practice-stats-bar-comp/practice-stats-bar-comp'
 import { PracticeSummaryCard } from './practice-summary-card/practice-summary-card'
 
-export type FocusCardState = 'editing' | 'revealed' | 'hidden'
+export type FocusCardState = 'editing' | 'revealed' | 'hidden' | 'swiping'
 
 @Component({
   selector: 'app-active-practice-comp',
@@ -60,7 +60,6 @@ export class ActivePracticeComp {
   private swipeStartX: number = 0
   protected readonly swipeXDelta = signal(0)
   protected readonly swipeXNormalized = signal(0)
-  protected readonly isSwiping = signal(false)
   protected readonly swipeVoteThreshold = 200
 
   currentPractice = input.required<Practice>()
@@ -71,6 +70,20 @@ export class ActivePracticeComp {
       this._lStore.activeBank().learnables
     )
   )
+
+  stateClasses = computed(() => {
+    const state = this.focusedCardState()
+
+    return {
+      'focus-revealed': state === 'revealed',
+      'focus-hidden': state === 'hidden',
+      'is-editing': state === 'editing',
+      'is-swiping': state === 'swiping',
+      'is-finished': this.isFinished(),
+      'is-last-correct': this.isLastGuessCorrect(),
+      'is-last-wrong': !this.isLastGuessCorrect()
+    }
+  })
 
   isFinished = computed<boolean>(() => {
     const practice = this.currentPractice()
@@ -109,16 +122,6 @@ export class ActivePracticeComp {
     }
   }
 
-  getCardClasses(viewIndex: number) {
-    return {
-      'is-revealed': this.focusedCardState() === 'revealed',
-      'is-correct': this.isLastGuessCorrect(),
-      'is-swiping': this.isSwiping(),
-      'is-editing': this.focusedCardState() === 'editing',
-      ['index-' + viewIndex]: true
-    }
-  }
-
   editNote() {
     const focusedState = this.focusedCardState()
     if (focusedState !== 'editing') {
@@ -140,14 +143,14 @@ export class ActivePracticeComp {
 
   swipeStart(e: TouchEvent) {
     if (this.focusedCardState() === 'revealed' && !this.isFinished()) {
-      this.isSwiping.set(true)
+      this.focusedCardState.set('swiping')
       this.swipeXDelta.set(0)
       this.swipeStartX = e.touches[0].clientX
     }
   }
 
   swipeMove(e: TouchEvent) {
-    if (this.focusedCardState() === 'revealed' && !this.isFinished()) {
+    if (this.focusedCardState() === 'swiping') {
       const delta = e.touches[0].clientX - this.swipeStartX
       this.swipeXDelta.set(delta)
       this.swipeXNormalized.set(
@@ -157,13 +160,14 @@ export class ActivePracticeComp {
   }
 
   swipeEnd(e: TouchEvent) {
-    if (this.focusedCardState() === 'revealed' && !this.isFinished()) {
+    if (this.focusedCardState() === 'swiping') {
       if (this.swipeXDelta() > this.swipeVoteThreshold) {
         this.setGuess('right')
       } else if (this.swipeXDelta() < -this.swipeVoteThreshold) {
         this.setGuess('wrong')
+      } else {
+        this.focusedCardState.set('revealed')
       }
-      this.isSwiping.set(false)
       this.swipeXDelta.set(0)
     }
   }

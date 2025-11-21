@@ -3,45 +3,15 @@
   transition-property: translate, opacity, transform, background-color, color;
   transition-timing-function: cubic-bezier(0.322, 0.582, 0.006, 0.987);
 
-  &.is-swiping {
-    transition-property: none;
-  }
-
   // last card
   &.index--1 {
     opacity: 0;
     z-index: 8;
-
-    &:not(.is-correct) {
-      transform: translate(-100%, 0) rotate(-5deg);
-    }
-
-    &.is-correct {
-      transform: translate(100%, 0) rotate(5deg);
-    }
   }
 
   //current card
   &.index-0 {
     z-index: 9;
-
-    &:not(.is-revealed, .summary) {
-      transform: translate(0, 30%);
-    }
-
-    &.is-revealed,
-    &.summary {
-      transform: translate(0%, 0%);
-
-      &.is-swiping {
-        --moveX: calc(var(--swipe-prog) * 1px);
-        --rotX: calc(var(--swipe-prog) * 0.03deg);
-        transform: translate(var(--moveX), 0%) rotate(var(--rotX));
-      }
-    }
-    &.is-editing {
-      transform: translate(0%, -30%);
-    }
   }
 
   //next card
@@ -49,33 +19,88 @@
     z-index: 10;
     background-color: var(--col-bg);
     color: var(--col-bg);
-
-    &:not(.is-revealed) {
-      transform: translate(0, 70%) rotateZ(-5deg);
-    }
-
-    &.is-revealed {
-      --moveY: calc(85% - abs(var(--swipe-prog)) * 0.02%);
-      transform: translate(0, var(--moveY)) rotate(-5deg);
-    }
   }
-
-  //card after next
   &.index-2 {
     z-index: 11;
     background-color: var(--col-bg);
     color: var(--col-bg);
-    transform: translate(0, 120%) rotateZ(-10deg);
+  }
+}
+
+.is-last-correct {
+  .index--1 {
+    transform: translate(110%, 0) rotateZ(8deg);
+  }
+}
+
+.is-last-wrong {
+  .index--1 {
+    transform: translate(-110%, 0) rotateZ(-8deg);
+  }
+}
+
+.is-swiping {
+  // responsible for realistic in animations
+  .card {
+    transition: none;
+  }
+  .index-0 {
+    --moveX: calc(var(--swipe-prog) * 1px);
+    --rotX: calc(var(--swipe-prog) * 0.03deg);
+    transform: translate(var(--moveX), 0%) rotate(var(--rotX));
   }
 
-  // responsible for realistic in animations
+  .index-1 {
+    --moveY: calc(85% - abs(var(--swipe-prog)) * 0.02%);
+    transform: translate(5%, var(--moveY)) rotate(-8deg);
+  }
+}
 
-  &.index-0,
-  &.index-1,
-  &.index-2 {
-    @starting-style {
-      opacity: 0;
-      transform: translate(0, 130%) rotate(-10deg) !important;
-    }
+.focus-hidden {
+  .index-0 {
+    transform: translate(0, 30%);
+  }
+  .index-1 {
+    transform: translate(0, 70%) rotateZ(-5deg);
+  }
+}
+
+.focus-revealed {
+  .index-0 {
+    transform: none;
+  }
+  .index-1 {
+    transform: translate(5%, 85%) rotateZ(-8deg);
+  }
+}
+
+.is-editing {
+  .index-0 {
+    transform: translate(0%, -30%);
+  }
+  .index-1 {
+    transform: translate(5%, 80%) rotateZ(-8deg);
+  }
+}
+
+.is-finished {
+  .index-0 {
+    transform: none;
+  }
+}
+
+.index-2 {
+  z-index: 11;
+  background-color: var(--col-bg);
+  color: var(--col-bg);
+  transform: translate(0, 120%) rotateZ(-10deg);
+}
+
+.index-0,
+.index-1,
+.index-2 {
+  @starting-style {
+    opacity: 0;
+    transform: translate(0, 130%) rotate(-10deg) !important;
   }
 }
