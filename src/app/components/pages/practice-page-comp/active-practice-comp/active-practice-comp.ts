@@ -93,6 +93,7 @@ export class ActivePracticeComp {
   reveal() {
     if (this.isFinished()) return
     this.focusedCardState.set('revealed')
+    this.statsOpen.set(false)
   }
 
   toggleStats() {

@@ -20,16 +20,27 @@
   place-self: center;
   margin-bottom: var(--distance-4);
 
-  app-icon-comp {
-    transition:
-      rotate var(--duration-1),
-      opacity var(--duration-3);
-
+  .icon {
+    transition-property: opacity, translate, rotate;
     opacity: var(--opacity-1);
+    transition-timing-function: ease-out;
+    transition-duration: var(--duration-1);
 
-    &.open {
-      opacity: 1;
+    @starting-style {
+      opacity: 0;
+      translate: 0 100%;
+    }
+  }
+
+  &.open {
+    .icon {
+      opacity: var(--opacity-1);
       rotate: 180deg;
+    }
+  }
+  &[disabled] {
+    .icon {
+      opacity: 0;
     }
   }
 }
