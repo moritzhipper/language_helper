@@ -19,7 +19,8 @@ export class PracticeCardComp {
   learnable = input.required<UserLearnable>()
   reverseDirection = input.required<boolean>()
   allowEdit = input<boolean>(false)
-  private textArea = viewChild<ElementRef<HTMLTextAreaElement>>('textArea')
+  private readonly textArea =
+    viewChild<ElementRef<HTMLTextAreaElement>>('textArea')
 
   updateNotes = output<{ id: string; newNotes: string }>()
 
@@ -32,7 +33,9 @@ export class PracticeCardComp {
       const allowEdit = this.allowEdit()
 
       if (allowEdit) {
-        this.textArea()?.nativeElement.focus()
+        setTimeout(() => {
+          this.textArea()?.nativeElement.focus()
+        }, 100)
       }
     })
   }

@@ -143,11 +143,10 @@ export class OverviewComp {
   }
 
   async bulkEdit() {
-    const newIds = await this._facade.bulkEdit(
+    await this._facade.bulkEdit(
       this.selectedLearnableIds(),
       this.selectedCollection()
     )
-    this.selectNewest()
   }
 
   updateFilter(filter: LearnablesFilterFormType) {

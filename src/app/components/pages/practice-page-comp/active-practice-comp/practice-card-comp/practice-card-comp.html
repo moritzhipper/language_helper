@@ -6,6 +6,7 @@
 <textarea
   class="notes"
   placeholder="no notes"
+  [value]="card.notes"
   (input)="setUpdatedNotes(textArea.value)"
   [disabled]="!allowEdit()"
   #textArea

@@ -176,7 +176,7 @@ export class ActivePracticeComp {
   }
 
   updateNotes({ id, newNotes }: { id: string; newNotes: string }) {
-    console.log('updating notes:', newNotes)
+    this._lStore.updateLearnables([{ id, notes: newNotes }])
   }
 
   trackCard(c: CardViewModel) {
