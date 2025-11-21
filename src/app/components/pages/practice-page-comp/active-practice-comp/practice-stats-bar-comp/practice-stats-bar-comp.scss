@@ -38,6 +38,7 @@
 
   &[disabled] {
     transition-delay: 0s;
+    transition-duration: var(--duration-1);
 
     opacity: 0;
   }

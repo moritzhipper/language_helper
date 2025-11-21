@@ -6,21 +6,20 @@
 >
   <app-icon-comp type="chevron" [size]="50" class="icon" />
 </button>
-@if (!isFinished()) {
-  @if (isOpen()) {
-    <div class="stats" animate.enter="enter" animate.leave="leave">
-      <div class="wrapper">
-        <button class="big quit" (click)="quit.emit()">quit</button>
-        <button class="big edit" (click)="edit.emit()">
-          @if (cardState() !== 'editing') {
-            edit notes
-          } @else {
-            save notes
-          }
-        </button>
-      </div>
+
+@if (!isFinished() && isOpen()) {
+  <div class="stats" animate.enter="enter" animate.leave="leave">
+    <div class="wrapper">
+      <button class="big quit" (click)="quit.emit()">quit</button>
+      <button class="big edit" (click)="edit.emit()">
+        @if (cardState() !== 'editing') {
+          edit notes
+        } @else {
+          save notes
+        }
+      </button>
     </div>
-  }
+  </div>
 }
 
 @if (isFinished()) {
