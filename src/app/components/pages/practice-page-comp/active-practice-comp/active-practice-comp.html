@@ -22,13 +22,12 @@
         />
       }
     }
-
     <app-practice-stats-bar-comp
-      [(isOpen)]="showStats"
+      (toggle)="toggleStats()"
+      [cardState]="focusedCardState()"
       [isFinished]="isFinished()"
-      (quitEarly)="endPracticeEarly()"
-      (finalize)="removePractice()"
       (edit)="editNote()"
+      (quit)="quit()"
     />
   </div>
 </app-page-wrapper-comp>

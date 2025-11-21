@@ -2,6 +2,7 @@ import {
   BankBase,
   Collection,
   CollectionUser,
+  Guess,
   Guessable,
   LanguageConfig,
   LearnableBase,
@@ -79,7 +80,7 @@ export const updateBankLanguage =
   }
 
 export const setGuess =
-  (isCorrect: boolean) =>
+  (guess: Guess) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     // no practice running
     const practice = state.currentPractice
@@ -97,7 +98,7 @@ export const setGuess =
         guessables: updateGuessables(
           practice.guessables,
           currentGuessable.id,
-          isCorrect ? 'right' : 'wrong'
+          guess
         )
       },
       banks: state.banks.map((b) => {
@@ -105,8 +106,14 @@ export const setGuess =
         return {
           ...b,
           learnables: b.learnables.map((l) => {
-            if (l.id !== currentGuessable.id) return l
-            return addGuessToLearnable(l, isCorrect, practice.reverseDirection)
+            if (l.id !== currentGuessable.id || guess === 'unanswered') return l
+            const guessedRight = guess === 'right'
+
+            return addGuessToLearnable(
+              l,
+              guessedRight,
+              practice.reverseDirection
+            )
           })
         }
       })
@@ -116,7 +123,7 @@ export const setGuess =
 const updateGuessables = (
   guessables: Guessable[],
   id: string,
-  guessed: 'right' | 'wrong' | 'unanswered'
+  guessed: Guess
 ): Guessable[] => {
   return guessables.map((g) => (g.id === id ? { ...g, guessed } : g))
 }

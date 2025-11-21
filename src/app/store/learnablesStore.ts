@@ -9,6 +9,7 @@ import {
 } from '@ngrx/signals'
 import {
   BankBase,
+  Guess,
   LanguageConfig,
   LearnableBase,
   UserLearnablePartial
@@ -96,8 +97,8 @@ export const LearnablesStore = signalStore(
       quitPractice() {
         patchState(state, removePractice())
       },
-      setGuess(isCorrect: boolean) {
-        patchState(state, setGuess(isCorrect))
+      setGuess(guess: Guess) {
+        patchState(state, setGuess(guess))
       },
       reset() {
         patchState(state, initialState)

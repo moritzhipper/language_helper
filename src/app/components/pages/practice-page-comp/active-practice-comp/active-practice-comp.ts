@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   HostListener,
   inject,
   input,
@@ -10,12 +11,14 @@ import { config } from '../../../../../config'
 import { ModalService } from '../../../../services/modal-service'
 import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
-import { Practice } from '../../../../types_and_schemas/types'
+import { Guess, Practice } from '../../../../types_and_schemas/types'
 import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
 import { PracticeCardComp } from './practice-card-comp/practice-card-comp'
 import { CardViewModel, getCardsViewModel } from './practice-helpers'
 import { PracticeStatsBarComp } from './practice-stats-bar-comp/practice-stats-bar-comp'
 import { PracticeSummaryCard } from './practice-summary-card/practice-summary-card'
+
+export type FocusCardState = 'editing' | 'revealed' | 'hidden'
 
 @Component({
   selector: 'app-active-practice-comp',
@@ -36,12 +39,14 @@ export class ActivePracticeComp {
   @HostListener('window:keydown', ['$event']) handleKeyDown(
     event: KeyboardEvent
   ) {
-    if (event.key === 'ArrowUp') {
+    if (this.focusedCardState() === 'hidden' && event.key === 'ArrowUp') {
       this.reveal()
-    } else if (event.key === 'ArrowLeft' && this.isRevealed()) {
-      this.setGuess(false)
-    } else if (event.key === 'ArrowRight' && this.isRevealed()) {
-      this.setGuess(true)
+    } else if (this.focusedCardState() === 'revealed') {
+      if (event.key === 'ArrowLeft') {
+        this.setGuess('wrong')
+      } else if (event.key === 'ArrowRight') {
+        this.setGuess('right')
+      }
     }
   }
 
@@ -49,6 +54,8 @@ export class ActivePracticeComp {
   private readonly _toastService = inject(ToastService)
   private readonly _modalS = inject(ModalService)
 
+  private readonly statsOpen = signal<boolean>(false)
+  protected focusedCardState = signal<FocusCardState>('hidden')
   protected readonly isLastGuessCorrect = signal<boolean>(false)
 
   private swipeStartX: number = 0
@@ -57,9 +64,6 @@ export class ActivePracticeComp {
   protected readonly isSwiping = signal(false)
   protected readonly swipeVoteThreshold = 200
 
-  isRevealed = signal(false)
-  isEditing = signal(false)
-  showStats = signal(false)
   currentPractice = input.required<Practice>()
 
   cardViewModel = computed<CardViewModel[]>(() =>
@@ -69,6 +73,16 @@ export class ActivePracticeComp {
     )
   )
 
+  constructor() {
+    effect(() => {
+      console.log({
+        focusedState: this.focusedCardState(),
+        practiceIndex: this.currentPractice().index,
+        isFinished: this.isFinished()
+      })
+    })
+  }
+
   isFinished = computed<boolean>(() => {
     const practice = this.currentPractice()
     return practice.index > practice.guessables.length - 1
@@ -76,45 +90,56 @@ export class ActivePracticeComp {
 
   reveal() {
     if (this.isFinished()) return
-    this.isRevealed.set(true)
-    this.showStats.set(false)
+    this.focusedCardState.set('revealed')
   }
 
   toggleStats() {
-    this.showStats.update((v) => !v)
+    this.statsOpen.update((v) => !v)
   }
 
-  setGuess(isCorrect: boolean) {
+  setGuess(guess: Guess) {
     if (this.isFinished()) return
+    const guessedRight = guess === 'right'
+
+    this._lStore.setGuess(guess)
+    this.isLastGuessCorrect.set(guessedRight)
+    this.focusedCardState.set('hidden')
+    this.statsOpen.set(false)
+
+    // dont send empoji for unanswered guesses
+    if (guess === 'unanswered') return
+
     this._toastService.showToast({
-      message: this.getRandomExp(isCorrect),
+      message: this.getRandomExp(guessedRight),
       type: 'guess'
     })
-    this.isRevealed.set(false)
-    this.showStats.set(false)
-    this._lStore.setGuess(isCorrect)
-    this.isLastGuessCorrect.set(isCorrect)
   }
 
-  endPracticeEarly() {
-    this._lStore.quitPracticePrematurly()
+  quit() {
+    if (!this.isFinished()) {
+      this._lStore.quitPracticePrematurly()
+    } else {
+      this._lStore.quitPractice()
+    }
   }
 
   getCardClasses(viewIndex: number) {
     return {
-      'is-revealed': this.isRevealed(),
+      'is-revealed': this.focusedCardState() === 'revealed',
       'is-correct': this.isLastGuessCorrect(),
       'is-swiping': this.isSwiping(),
+      'is-editing': this.focusedCardState() === 'editing',
       ['index-' + viewIndex]: true
     }
   }
 
   editNote() {
-    this.isEditing.set(true)
-  }
-
-  removePractice() {
-    this._lStore.quitPractice()
+    const focusedState = this.focusedCardState()
+    if (focusedState !== 'editing') {
+      this.focusedCardState.set('editing')
+    } else if (focusedState === 'editing') {
+      this.setGuess('unanswered')
+    }
   }
 
   private getRandomExp(isHappy: boolean): string {
@@ -128,7 +153,7 @@ export class ActivePracticeComp {
   }
 
   swipeStart(e: TouchEvent) {
-    if (!this.isRevealed() || this.isFinished()) return
+    if (this.focusedCardState() !== 'hidden' || this.isFinished()) return
 
     this.isSwiping.set(true)
     this.swipeXDelta.set(0)
@@ -136,7 +161,7 @@ export class ActivePracticeComp {
   }
 
   swipeMove(e: TouchEvent) {
-    if (!this.isRevealed() || this.isFinished()) return
+    if (this.focusedCardState() !== 'hidden' || this.isFinished()) return
 
     const delta = e.touches[0].clientX - this.swipeStartX
     this.swipeXDelta.set(delta)
@@ -146,11 +171,11 @@ export class ActivePracticeComp {
   }
 
   swipeEnd(e: TouchEvent) {
-    if (!this.isRevealed() || this.isFinished()) return
+    if (this.focusedCardState() !== 'hidden' || this.isFinished()) return
     if (this.swipeXDelta() > this.swipeVoteThreshold) {
-      this.setGuess(true)
+      this.setGuess('right')
     } else if (this.swipeXDelta() < -this.swipeVoteThreshold) {
-      this.setGuess(false)
+      this.setGuess('wrong')
     }
     this.isSwiping.set(false)
     this.swipeXDelta.set(0)

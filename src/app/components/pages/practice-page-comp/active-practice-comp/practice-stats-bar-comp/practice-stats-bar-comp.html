@@ -1,15 +1,25 @@
-<button class="silent toggle" (click)="toggle()">
-  <app-icon-comp type="chevron" [size]="50" [class.open]="isOpen()" />
-</button>
-
-@if (isOpen()) {
+@if (!isFinished()) {
+  <button class="silent toggle" (click)="toggle()">
+    <app-icon-comp type="chevron" [size]="50" [class.open]="isOpen()" />
+  </button>
+  @if (isOpen()) {
+    <div class="stats" animate.enter="enter" animate.leave="leave">
+      <div class="wrapper">
+        @if (cardState() !== 'revealed') {
+          <button class="big quit" (click)="quit.emit()">quit</button>
+          <button class="big edit" (click)="edit.emit()">edit notes</button>
+        } @else {
+          <button class="big wide" (click)="edit.emit()">save notes</button>
+        }
+      </div>
+    </div>
+  }
+} @else {
   <div class="stats" animate.enter="enter" animate.leave="leave">
     <div class="wrapper">
-      <button class="big quit" (click)="quitEarly.emit()">quit</button>
-      <button class="big edit" (click)="edit.emit()">edit notes</button>
+      <button class="big finalize wide" (click)="quit.emit()">
+        finalize practice
+      </button>
     </div>
   </div>
-}
-@if (isFinished()) {
-  <button class="big primary" (click)="finalize.emit()">finalize</button>
 }

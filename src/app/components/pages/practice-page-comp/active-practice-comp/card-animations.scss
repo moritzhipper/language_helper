@@ -39,6 +39,9 @@
         transform: translate(var(--moveX), 0%) rotate(var(--rotX));
       }
     }
+    &.is-editing {
+      transform: translate(0%, -30%);
+    }
   }
 
   //next card

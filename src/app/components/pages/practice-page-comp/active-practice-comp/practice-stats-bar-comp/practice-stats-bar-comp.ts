@@ -1,5 +1,6 @@
 import { Component, input, model, output } from '@angular/core'
 import { IconComp } from '../../../../shared/icon-comp/icon-comp'
+import { FocusCardState } from '../active-practice-comp'
 
 @Component({
   selector: 'app-practice-stats-bar-comp',
@@ -8,13 +9,13 @@ import { IconComp } from '../../../../shared/icon-comp/icon-comp'
   styleUrl: './practice-stats-bar-comp.scss'
 })
 export class PracticeStatsBarComp {
-  isOpen = model<boolean>(true)
-  isFinished = input<boolean>(false)
+  isOpen = model<boolean>()
+  isFinished = input.required<boolean>()
+  cardState = input.required<FocusCardState>()
   edit = output<void>()
-  quitEarly = output<void>()
-  finalize = output<void>()
+  quit = output<void>()
 
   toggle() {
-    this.isOpen.update((o) => !o)
+    this.isOpen.update((v) => !v)
   }
 }
