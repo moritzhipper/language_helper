@@ -23,7 +23,7 @@
       }
     }
     <app-practice-stats-bar-comp
-      (toggle)="toggleStats()"
+      [(isOpen)]="statsOpen"
       [cardState]="focusedCardState()"
       [isFinished]="isFinished()"
       (edit)="editNote()"

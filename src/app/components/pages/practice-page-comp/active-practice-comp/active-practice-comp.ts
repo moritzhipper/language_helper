@@ -1,7 +1,6 @@
 import {
   Component,
   computed,
-  effect,
   HostListener,
   inject,
   input,
@@ -54,7 +53,7 @@ export class ActivePracticeComp {
   private readonly _toastService = inject(ToastService)
   private readonly _modalS = inject(ModalService)
 
-  private readonly statsOpen = signal<boolean>(false)
+  protected readonly statsOpen = signal<boolean>(false)
   protected focusedCardState = signal<FocusCardState>('hidden')
   protected readonly isLastGuessCorrect = signal<boolean>(false)
 
@@ -72,16 +71,6 @@ export class ActivePracticeComp {
       this._lStore.activeBank().learnables
     )
   )
-
-  constructor() {
-    effect(() => {
-      console.log({
-        focusedState: this.focusedCardState(),
-        practiceIndex: this.currentPractice().index,
-        isFinished: this.isFinished()
-      })
-    })
-  }
 
   isFinished = computed<boolean>(() => {
     const practice = this.currentPractice()
@@ -105,9 +94,6 @@ export class ActivePracticeComp {
     this.isLastGuessCorrect.set(guessedRight)
     this.focusedCardState.set('hidden')
     this.statsOpen.set(false)
-
-    // dont send empoji for unanswered guesses
-    if (guess === 'unanswered') return
 
     this._toastService.showToast({
       message: this.getRandomExp(guessedRight),
@@ -138,7 +124,7 @@ export class ActivePracticeComp {
     if (focusedState !== 'editing') {
       this.focusedCardState.set('editing')
     } else if (focusedState === 'editing') {
-      this.setGuess('unanswered')
+      this.focusedCardState.set('revealed')
     }
   }
 
@@ -153,32 +139,33 @@ export class ActivePracticeComp {
   }
 
   swipeStart(e: TouchEvent) {
-    if (this.focusedCardState() !== 'hidden' || this.isFinished()) return
-
-    this.isSwiping.set(true)
-    this.swipeXDelta.set(0)
-    this.swipeStartX = e.touches[0].clientX
+    if (this.focusedCardState() === 'revealed' && !this.isFinished()) {
+      this.isSwiping.set(true)
+      this.swipeXDelta.set(0)
+      this.swipeStartX = e.touches[0].clientX
+    }
   }
 
   swipeMove(e: TouchEvent) {
-    if (this.focusedCardState() !== 'hidden' || this.isFinished()) return
-
-    const delta = e.touches[0].clientX - this.swipeStartX
-    this.swipeXDelta.set(delta)
-    this.swipeXNormalized.set(
-      Math.min(1, Math.abs(delta) / this.swipeVoteThreshold)
-    )
+    if (this.focusedCardState() === 'revealed' && !this.isFinished()) {
+      const delta = e.touches[0].clientX - this.swipeStartX
+      this.swipeXDelta.set(delta)
+      this.swipeXNormalized.set(
+        Math.min(1, Math.abs(delta) / this.swipeVoteThreshold)
+      )
+    }
   }
 
   swipeEnd(e: TouchEvent) {
-    if (this.focusedCardState() !== 'hidden' || this.isFinished()) return
-    if (this.swipeXDelta() > this.swipeVoteThreshold) {
-      this.setGuess('right')
-    } else if (this.swipeXDelta() < -this.swipeVoteThreshold) {
-      this.setGuess('wrong')
+    if (this.focusedCardState() === 'revealed' && !this.isFinished()) {
+      if (this.swipeXDelta() > this.swipeVoteThreshold) {
+        this.setGuess('right')
+      } else if (this.swipeXDelta() < -this.swipeVoteThreshold) {
+        this.setGuess('wrong')
+      }
+      this.isSwiping.set(false)
+      this.swipeXDelta.set(0)
     }
-    this.isSwiping.set(false)
-    this.swipeXDelta.set(0)
   }
 
   trackCard(c: CardViewModel) {
