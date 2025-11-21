@@ -38,9 +38,9 @@ export class ActivePracticeComp {
   @HostListener('window:keydown', ['$event']) handleKeyDown(
     event: KeyboardEvent
   ) {
-    if (this.focusedCardState() === 'hidden' && event.key === 'ArrowUp') {
+    if (this.cardState() === 'hidden' && event.key === 'ArrowUp') {
       this.reveal()
-    } else if (this.focusedCardState() === 'revealed') {
+    } else if (this.cardState() === 'revealed') {
       if (event.key === 'ArrowLeft') {
         this.setGuess('wrong')
       } else if (event.key === 'ArrowRight') {
@@ -54,7 +54,7 @@ export class ActivePracticeComp {
   private readonly _modalS = inject(ModalService)
 
   protected readonly statsOpen = signal<boolean>(false)
-  protected focusedCardState = signal<FocusCardState>('hidden')
+  protected cardState = signal<FocusCardState>('hidden')
   protected readonly isLastGuessCorrect = signal<boolean>(false)
 
   private swipeStartX: number = 0
@@ -72,7 +72,7 @@ export class ActivePracticeComp {
   )
 
   stateClasses = computed(() => {
-    const state = this.focusedCardState()
+    const state = this.cardState()
 
     return {
       'focus-revealed': state === 'revealed',
@@ -91,8 +91,8 @@ export class ActivePracticeComp {
   })
 
   reveal() {
-    if (this.isFinished() || this.focusedCardState() !== 'hidden') return
-    this.focusedCardState.set('revealed')
+    if (this.isFinished() || this.cardState() !== 'hidden') return
+    this.cardState.set('revealed')
     this.statsOpen.set(false)
   }
 
@@ -106,7 +106,7 @@ export class ActivePracticeComp {
 
     this._lStore.setGuess(guess)
     this.isLastGuessCorrect.set(guessedRight)
-    this.focusedCardState.set('hidden')
+    this.cardState.set('hidden')
     this.statsOpen.set(false)
 
     this._toastService.showToast({
@@ -124,11 +124,11 @@ export class ActivePracticeComp {
   }
 
   editNote() {
-    const focusedState = this.focusedCardState()
+    const focusedState = this.cardState()
     if (focusedState !== 'editing') {
-      this.focusedCardState.set('editing')
+      this.cardState.set('editing')
     } else if (focusedState === 'editing') {
-      this.focusedCardState.set('revealed')
+      this.cardState.set('revealed')
       this.statsOpen.set(false)
     }
   }
@@ -144,15 +144,15 @@ export class ActivePracticeComp {
   }
 
   swipeStart(e: TouchEvent) {
-    if (this.focusedCardState() === 'revealed' && !this.isFinished()) {
+    if (this.cardState() === 'revealed' && !this.isFinished()) {
       this.swipeXDelta.set(0)
-      this.focusedCardState.set('swiping')
+      this.cardState.set('swiping')
       this.swipeStartX = e.touches[0].clientX
     }
   }
 
   swipeMove(e: TouchEvent) {
-    if (this.focusedCardState() === 'swiping') {
+    if (this.cardState() === 'swiping') {
       const delta = e.touches[0].clientX - this.swipeStartX
       this.swipeXDelta.set(delta)
       this.swipeXNormalized.set(
@@ -162,14 +162,14 @@ export class ActivePracticeComp {
   }
 
   swipeEnd(e: TouchEvent) {
-    const state = this.focusedCardState()
+    const state = this.cardState()
     if (state === 'swiping') {
       if (this.swipeXDelta() > this.swipeVoteThreshold) {
         this.setGuess('right')
       } else if (this.swipeXDelta() < -this.swipeVoteThreshold) {
         this.setGuess('wrong')
       } else {
-        this.focusedCardState.set('revealed')
+        this.cardState.set('revealed')
       }
       this.swipeXDelta.set(0)
     }

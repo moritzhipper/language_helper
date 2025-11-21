@@ -13,9 +13,7 @@
           [class]="'index-' + entry.viewIndex"
           (click)="reveal()"
           [learnable]="entry.content"
-          [allowEdit]="
-            focusedCardState() === 'editing' && entry.viewIndex === 0
-          "
+          [allowEdit]="cardState() === 'editing' && entry.viewIndex === 0"
           [reverseDirection]="currentPractice().reverseDirection"
           (updateNotes)="updateNotes($event)"
         />
@@ -29,7 +27,7 @@
     }
     <app-practice-stats-bar-comp
       [(isOpen)]="statsOpen"
-      [cardState]="focusedCardState()"
+      [cardState]="cardState()"
       [isFinished]="isFinished()"
       (edit)="editNote()"
       (quit)="quit()"
