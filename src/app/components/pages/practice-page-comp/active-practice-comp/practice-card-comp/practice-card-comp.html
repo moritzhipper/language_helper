@@ -3,4 +3,10 @@
 
 <div class="top">{{ dir ? card.lexeme : card.translation }}</div>
 <div class="bottom">{{ dir ? card.translation : card.lexeme }}</div>
-<textarea class="notes" placeholder="no notes" [value]="card.notes"></textarea>
+<textarea
+  class="notes"
+  placeholder="no notes"
+  (input)="setUpdatedNotes(textArea.value)"
+  [disabled]="!allowEdit()"
+  #textArea
+></textarea>

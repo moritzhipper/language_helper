@@ -1,7 +1,7 @@
 <button
   class="silent toggle"
-  (click)="toggle()"
   [class.open]="isOpen()"
+  (click)="toggle()"
   [disabled]="isFinished() || cardState() === 'editing'"
 >
   <app-icon-comp type="chevron" [size]="50" class="icon" />

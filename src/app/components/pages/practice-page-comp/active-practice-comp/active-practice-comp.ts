@@ -91,7 +91,7 @@ export class ActivePracticeComp {
   })
 
   reveal() {
-    if (this.isFinished()) return
+    if (this.isFinished() || this.focusedCardState() !== 'hidden') return
     this.focusedCardState.set('revealed')
     this.statsOpen.set(false)
   }
@@ -129,6 +129,7 @@ export class ActivePracticeComp {
       this.focusedCardState.set('editing')
     } else if (focusedState === 'editing') {
       this.focusedCardState.set('revealed')
+      this.statsOpen.set(false)
     }
   }
 
@@ -144,8 +145,8 @@ export class ActivePracticeComp {
 
   swipeStart(e: TouchEvent) {
     if (this.focusedCardState() === 'revealed' && !this.isFinished()) {
-      this.focusedCardState.set('swiping')
       this.swipeXDelta.set(0)
+      this.focusedCardState.set('swiping')
       this.swipeStartX = e.touches[0].clientX
     }
   }
@@ -161,7 +162,8 @@ export class ActivePracticeComp {
   }
 
   swipeEnd(e: TouchEvent) {
-    if (this.focusedCardState() === 'swiping') {
+    const state = this.focusedCardState()
+    if (state === 'swiping') {
       if (this.swipeXDelta() > this.swipeVoteThreshold) {
         this.setGuess('right')
       } else if (this.swipeXDelta() < -this.swipeVoteThreshold) {
@@ -171,6 +173,10 @@ export class ActivePracticeComp {
       }
       this.swipeXDelta.set(0)
     }
+  }
+
+  updateNotes({ id, newNotes }: { id: string; newNotes: string }) {
+    console.log('updating notes:', newNotes)
   }
 
   trackCard(c: CardViewModel) {

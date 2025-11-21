@@ -13,7 +13,11 @@
           [class]="'index-' + entry.viewIndex"
           (click)="reveal()"
           [learnable]="entry.content"
+          [allowEdit]="
+            focusedCardState() === 'editing' && entry.viewIndex === 0
+          "
           [reverseDirection]="currentPractice().reverseDirection"
+          (updateNotes)="updateNotes($event)"
         />
       } @else if (!('id' in entry.content)) {
         <app-practice-summary-card
