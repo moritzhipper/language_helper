@@ -107,8 +107,7 @@
   }
 }
 
-// vote overlay, not linked to card position
-
+// ------ vote indicator --------
 .is-swiping {
   .vote-overlay {
     transition: none;
@@ -118,8 +117,7 @@
 // responsible for moveement up after vote
 .focus-hidden {
   .vote-overlay {
-    transform: translate(0, -150px) scale(1);
-
+    transform: translate(0, -200px);
     opacity: 0;
   }
 }

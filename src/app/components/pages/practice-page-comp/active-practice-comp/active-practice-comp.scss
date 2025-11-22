@@ -17,6 +17,12 @@
     display: grid;
     place-items: stretch center;
 
+    &.right {
+      color: var(--col-success);
+    }
+    &.wrong {
+      color: var(--col-warning);
+    }
     app-icon-comp {
       width: 70%;
       aspect-ratio: 1 / 1;
