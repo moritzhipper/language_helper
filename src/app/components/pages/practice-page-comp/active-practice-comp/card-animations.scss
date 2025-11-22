@@ -20,8 +20,9 @@
     background-color: var(--col-bg);
     color: var(--col-bg);
   }
+
   &.index-2 {
-    z-index: 11;
+    z-index: 12;
     background-color: var(--col-bg);
     color: var(--col-bg);
   }
@@ -44,6 +45,7 @@
   .card {
     transition: none;
   }
+
   .index-0 {
     --moveX: calc(var(--swipe-prog) * 1px);
     --rotX: calc(var(--swipe-prog) * 0.03deg);
@@ -102,5 +104,47 @@
   @starting-style {
     opacity: 0;
     transform: translate(0, 130%) rotate(-10deg) !important;
+  }
+}
+
+// vote overlay, not linked to card position
+:not(.is-swiping) .vote-overlay {
+  transition:
+    transform var(--duration-0) var(--duration-1),
+    opacity var(--duration-0);
+  transition-timing-function: ease-in-out;
+
+  opacity: 0;
+  z-index: 13;
+  pointer-events: none;
+
+  // &.right {
+  //   transform: translate(0%, 0%);
+  // }
+  // &.wrong {
+  // }
+}
+
+.is-swiping {
+  .vote-overlay {
+    transition: none;
+    &.right {
+      --prog: var(--swipe-x-norm-right);
+      --moveX: calc(80px - var(--prog) * 80px);
+    }
+    &.wrong {
+      --prog: var(--swipe-x-norm-left);
+      --moveX: calc(-80px + var(--prog) * 80px);
+    }
+
+    &.right,
+    &.wrong {
+      --moveY: calc(var(--prog) * -20px);
+      --scale: calc(1 + var(--prog) * 0.1);
+
+      opacity: var(--prog);
+
+      transform: translate(var(--moveX), var(--moveY)) scale(var(--scale));
+    }
   }
 }

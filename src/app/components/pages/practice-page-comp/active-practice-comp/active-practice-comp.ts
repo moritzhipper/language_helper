@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   HostListener,
   inject,
   input,
@@ -11,11 +12,13 @@ import { ModalService } from '../../../../services/modal-service'
 import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
 import { Guess, Practice } from '../../../../types_and_schemas/types'
+import { IconComp } from '../../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
 import { PracticeCardComp } from './practice-card-comp/practice-card-comp'
 import { CardViewModel, getCardsViewModel } from './practice-helpers'
 import { PracticeStatsBarComp } from './practice-stats-bar-comp/practice-stats-bar-comp'
 import { PracticeSummaryCard } from './practice-summary-card/practice-summary-card'
+import { getSwipeProgress, SwipeProgress } from './swipe-prog-helpers'
 
 export type FocusCardState = 'editing' | 'revealed' | 'hidden' | 'swiping'
 
@@ -25,13 +28,15 @@ export type FocusCardState = 'editing' | 'revealed' | 'hidden' | 'swiping'
     PageWrapperComp,
     PracticeStatsBarComp,
     PracticeCardComp,
-    PracticeSummaryCard
+    PracticeSummaryCard,
+    IconComp
   ],
   templateUrl: './active-practice-comp.html',
   styleUrls: ['./active-practice-comp.scss', './card-animations.scss'],
   host: {
-    '[style.--swipe-prog]': 'swipeXDelta()',
-    '[style.--swipe-prog-norm]': 'swipeXNormalized()'
+    '[style.--swipe-prog]': 'swipeProg().xDelta',
+    '[style.--swipe-x-norm-right]': 'swipeProg().xRNorm',
+    '[style.--swipe-x-norm-left]': 'swipeProg().xLNorm'
   }
 })
 export class ActivePracticeComp {
@@ -58,9 +63,13 @@ export class ActivePracticeComp {
   protected readonly isLastGuessCorrect = signal<boolean>(false)
 
   private swipeStartX: number = 0
-  protected readonly swipeXDelta = signal(0)
-  protected readonly swipeXNormalized = signal(0)
-  protected readonly swipeVoteThreshold = 200
+  protected readonly swipeProg = signal<SwipeProgress>({
+    xDelta: 0,
+    xRNorm: 0,
+    xLNorm: 0,
+    guessRight: false,
+    guessWrong: false
+  })
 
   currentPractice = input.required<Practice>()
 
@@ -70,6 +79,12 @@ export class ActivePracticeComp {
       this._lStore.activeBank().learnables
     )
   )
+
+  constructor() {
+    effect(() => {
+      console.log(this.swipeProg().xLNorm, this.swipeProg().xRNorm)
+    })
+  }
 
   stateClasses = computed(() => {
     const state = this.cardState()
@@ -145,33 +160,29 @@ export class ActivePracticeComp {
 
   swipeStart(e: TouchEvent) {
     if (this.cardState() === 'revealed' && !this.isFinished()) {
-      this.swipeXDelta.set(0)
-      this.cardState.set('swiping')
+      this.setSwipeProg(0)
       this.swipeStartX = e.touches[0].clientX
+      this.cardState.set('swiping')
     }
   }
 
   swipeMove(e: TouchEvent) {
     if (this.cardState() === 'swiping') {
-      const delta = e.touches[0].clientX - this.swipeStartX
-      this.swipeXDelta.set(delta)
-      this.swipeXNormalized.set(
-        Math.min(1, Math.abs(delta) / this.swipeVoteThreshold)
-      )
+      this.setSwipeProg(e.touches[0].clientX - this.swipeStartX)
     }
   }
 
   swipeEnd(e: TouchEvent) {
-    const state = this.cardState()
-    if (state === 'swiping') {
-      if (this.swipeXDelta() > this.swipeVoteThreshold) {
+    if (this.cardState() === 'swiping') {
+      const { guessRight, guessWrong } = this.swipeProg()
+      if (guessRight) {
         this.setGuess('right')
-      } else if (this.swipeXDelta() < -this.swipeVoteThreshold) {
+      } else if (guessWrong) {
         this.setGuess('wrong')
       } else {
         this.cardState.set('revealed')
       }
-      this.swipeXDelta.set(0)
+      this.setSwipeProg(0)
     }
   }
 
@@ -181,5 +192,9 @@ export class ActivePracticeComp {
 
   trackCard(c: CardViewModel) {
     return 'id' in c.content ? c.content.id : 'summary-card'
+  }
+
+  setSwipeProg(xDelta: number) {
+    this.swipeProg.set(getSwipeProgress(xDelta))
   }
 }

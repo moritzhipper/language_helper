@@ -5,10 +5,22 @@
   place-items: stretch;
   touch-action: none;
 
-  .card {
+  .card,
+  .vote-overlay {
     margin-top: var(--distance-4);
     grid-row: 1 / 3;
     grid-column: 1;
+    position: relative;
+  }
+
+  .vote-overlay {
+    display: grid;
+    place-content: stretch;
+
+    app-icon-comp {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   app-practice-stats-bar-comp {

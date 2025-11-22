@@ -31,6 +31,8 @@ export type IconType =
   | 'star'
   | 'star-fill'
   | 'meteor'
+  | 'wrong-guess'
+  | 'right-guess'
 
 @Component({
   selector: 'app-icon-comp',
