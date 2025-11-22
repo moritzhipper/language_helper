@@ -110,24 +110,19 @@
 // vote overlay, not linked to card position
 :not(.is-swiping) .vote-overlay {
   transition:
-    transform var(--duration-0) var(--duration-1),
+    transform var(--duration-0) var(--duration-0),
     opacity var(--duration-0);
   transition-timing-function: ease-in-out;
-
   opacity: 0;
+  transform: none;
   z-index: 13;
   pointer-events: none;
-
-  // &.right {
-  //   transform: translate(0%, 0%);
-  // }
-  // &.wrong {
-  // }
 }
 
 .is-swiping {
   .vote-overlay {
     transition: none;
+
     &.right {
       --prog: var(--swipe-x-norm-right);
       --moveX: calc(80px - var(--prog) * 80px);
@@ -140,10 +135,9 @@
     &.right,
     &.wrong {
       --moveY: calc(var(--prog) * -20px);
-      --scale: calc(1 + var(--prog) * 0.1);
+      --scale: calc(0.9 + var(--prog) * 0.1);
 
       opacity: var(--prog);
-
       transform: translate(var(--moveX), var(--moveY)) scale(var(--scale));
     }
   }
