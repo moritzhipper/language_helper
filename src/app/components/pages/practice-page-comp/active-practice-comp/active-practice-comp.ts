@@ -1,7 +1,6 @@
 import {
   Component,
   computed,
-  effect,
   HostListener,
   inject,
   input,
@@ -79,12 +78,6 @@ export class ActivePracticeComp {
       this._lStore.activeBank().learnables
     )
   )
-
-  constructor() {
-    effect(() => {
-      console.log(this.swipeProg().xLNorm, this.swipeProg().xRNorm)
-    })
-  }
 
   stateClasses = computed(() => {
     const state = this.cardState()
