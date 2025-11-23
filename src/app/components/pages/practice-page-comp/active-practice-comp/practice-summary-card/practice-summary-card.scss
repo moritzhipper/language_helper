@@ -31,7 +31,7 @@
 
     .subtitle {
       font-weight: bold;
-      padding: var(--distance-2) 0 var(--distance-6) 0;
+      padding: var(--distance-3) 0 var(--distance-6) 0;
       margin-bottom: auto;
     }
 
@@ -42,8 +42,8 @@
       &:not(:last-of-type) {
         border-bottom: 1px solid
           rgb(from var(--col-bg) r g b / var(--opacity-0));
-        padding-bottom: var(--distance-1);
-        margin-bottom: var(--distance-1);
+        padding-bottom: var(--distance-2);
+        margin-bottom: var(--distance-2);
       }
     }
   }

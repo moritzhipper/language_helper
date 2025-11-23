@@ -30,9 +30,7 @@ export class PracticeCardComp {
 
   constructor() {
     effect(() => {
-      const allowEdit = this.allowEdit()
-
-      if (allowEdit) {
+      if (this.allowEdit()) {
         setTimeout(() => {
           this.textArea()?.nativeElement.focus()
         }, 300)

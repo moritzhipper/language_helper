@@ -32,9 +32,9 @@ export class PracticeSummaryCard {
 
   private readonly textConfig: Record<PracticeRating, string> = {
     noteven: 'Well, you showed up',
-    atleast: 'You tried :)',
-    okay: 'Not Bad!',
+    atleast: 'That means you tried!',
+    okay: 'Not Bad.',
     good: 'Well Done!',
-    excellent: 'Shure you didnt cheat?'
+    excellent: "Are you sure you didn't cheat?"
   }
 }
