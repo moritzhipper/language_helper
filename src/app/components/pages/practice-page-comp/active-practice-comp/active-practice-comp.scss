@@ -12,6 +12,11 @@
   position: relative;
   gap: var(--distance-4);
 
+  .vote-overlay,
+  .card {
+    user-select: none;
+  }
+
   .vote-overlay {
     grid-area: 1 / 1;
   }
