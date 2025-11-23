@@ -28,31 +28,13 @@ export type ActivePracticeSummary = {
 export class PracticeSummaryCard {
   summary = input.required<ActivePracticeSummary>()
 
-  texts = computed(() => this.textConfig[this.summary().rating])
+  text = computed(() => this.textConfig[this.summary().rating])
 
-  private readonly textConfig: Record<
-    PracticeRating,
-    { title: string; subtitle: string }
-  > = {
-    noteven: {
-      title: 'Well...',
-      subtitle: 'you showed up!'
-    },
-    atleast: {
-      title: 'You tried!',
-      subtitle: 'Thats something'
-    },
-    okay: {
-      title: 'Not Bad!',
-      subtitle: 'You are getting there'
-    },
-    good: {
-      title: 'Well Done!',
-      subtitle: 'Great job'
-    },
-    excellent: {
-      title: 'Excellent!',
-      subtitle: 'So great'
-    }
+  private readonly textConfig: Record<PracticeRating, string> = {
+    noteven: 'Well, you showed up',
+    atleast: 'You tried :)',
+    okay: 'Not Bad!',
+    good: 'Well Done!',
+    excellent: 'Shure you didnt cheat?'
   }
 }

@@ -6,22 +6,45 @@
   background-color: var(--col-primary);
   border-radius: var(--radius-3);
   box-sizing: border-box;
-  padding: var(--distance-7) var(--distance-6);
   position: relative;
+  color: var(--col-bg);
 
   app-practice-rating-comp {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
     place-self: center;
   }
 
   .stats {
-    display: grid;
-    grid-template-columns: auto 1fr;
+    place-self: stretch;
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    padding: var(--distance-6);
 
     h2 {
-      margin: 0;
+      color: var(--col-bg);
       grid-column: span 2;
+      margin: 0;
+    }
+
+    .subtitle {
+      font-weight: bold;
+      padding: var(--distance-2) 0 var(--distance-6) 0;
+      margin-bottom: auto;
+    }
+
+    .stat {
+      display: grid;
+      grid-template-columns: 1fr auto;
+
+      &:not(:last-of-type) {
+        border-bottom: 1px solid
+          rgb(from var(--col-bg) r g b / var(--opacity-0));
+        padding-bottom: var(--distance-1);
+        margin-bottom: var(--distance-1);
+      }
     }
   }
 }
@@ -29,18 +52,22 @@
 @include isPhone() {
   :host {
     grid-template-rows: 1fr auto;
+
+    h2,
+    .subtitle {
+      text-align: center;
+    }
   }
 }
 
 @include isDesktop {
   :host {
     place-items: center;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
 
     .stats {
+      height: 100%;
       grid-area: 1 / 1;
-    }
-    app-practice-rating-comp {
     }
   }
 }

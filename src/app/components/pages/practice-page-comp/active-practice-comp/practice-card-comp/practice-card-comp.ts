@@ -35,7 +35,7 @@ export class PracticeCardComp {
       if (allowEdit) {
         setTimeout(() => {
           this.textArea()?.nativeElement.focus()
-        }, 100)
+        }, 300)
       }
     })
   }

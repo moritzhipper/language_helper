@@ -1,13 +1,14 @@
 :host {
+  background-color: var(--col-bg);
+  color: var(--col-primary);
+  box-shadow: var(--shadow-big);
+  border-radius: var(--radius-3);
   box-sizing: border-box;
-  position: relative;
-
-  border: 1px solid white;
 
   &.noteven,
   &.excellent {
     transform: rotate(4deg);
-    padding: var(--distance-2);
+    padding: var(--distance-4);
 
     .icon {
       width: 100%;
@@ -37,11 +38,4 @@
       }
     }
   }
-}
-.text {
-  position: absolute;
-  text-align: center;
-  bottom: 0;
-  left: 0;
-  width: 100%;
 }
