@@ -1,14 +1,8 @@
 # ToDo
 
-- make summary swipeable, not matter whtaa revealed state
-- move is prematurely finished to bool? then remove the set index to last thing
-- show 'finish' button when finished
-- add summaryy card wrapper, same dimensions as practice card
-- on desktop:
-  - card with craphics, no stats right, text left
-  - on mobile: card with graphics, no stats top, bottom stats
+- show yes or now on desktop swipe
+- allow desktop swipe
 
-- letzte verdeckende karte ist summarykarte
 - add to collection after import doesnt work
 - move cards animationstates to seperate file
 - only show buttons on desktop

@@ -61,6 +61,9 @@
   .index-1 {
     transform: translate(0, 70%) rotateZ(-5deg);
   }
+  .index-2 {
+    transform: translate(0%, 110%) rotateZ(-8deg);
+  }
 }
 
 .focus-revealed {
@@ -69,6 +72,9 @@
   }
   .index-1 {
     transform: translate(5%, 85%) rotateZ(-8deg);
+  }
+  .index-2 {
+    transform: translate(0%, 120%) rotateZ(-10deg);
   }
 }
 
@@ -81,6 +87,7 @@
   }
 }
 
+// only show summary card in center
 .is-finished {
   .index-0 {
     transform: none;
