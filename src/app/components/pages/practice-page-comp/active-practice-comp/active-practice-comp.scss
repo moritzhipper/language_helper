@@ -1,38 +1,72 @@
+@use '../../../../../style/mixins.scss' as *;
+
 .practice-view {
   height: 100%;
   display: grid;
-  grid-template-rows: 1fr auto;
-  place-items: stretch;
+  place-items: center;
   touch-action: none;
 
-  .card,
-  .vote-overlay {
-    margin-top: var(--distance-4);
-    grid-row: 1 / 3;
-    grid-column: 1;
-    position: relative;
-  }
-
-  .vote-overlay {
+  .cards-wrapper {
     display: grid;
-    place-items: stretch center;
 
-    &.right {
-      color: var(--col-success);
+    .card,
+    .vote-overlay {
+      grid-area: 1 / 1;
+      place-self: stretch;
     }
-    &.wrong {
-      color: var(--col-warning);
-    }
-    app-icon-comp {
-      width: 60%;
-      aspect-ratio: 1 / 1;
+
+    .vote-overlay {
+      display: grid;
+      place-items: stretch center;
+
+      &.right {
+        color: var(--col-success);
+      }
+      &.wrong {
+        color: var(--col-warning);
+      }
+      app-icon-comp {
+        width: 60%;
+        aspect-ratio: 1 / 1;
+      }
     }
   }
 
   app-practice-stats-bar-comp {
-    grid-row: 2;
-    grid-column: 1;
     z-index: 13;
-    place-self: stretch;
+  }
+}
+
+@include isDesktop() {
+  .practice-view {
+    grid-template-rows: 2fr 1fr;
+    .cards-wrapper {
+      place-self: center;
+      position: relative;
+      aspect-ratio: 3 / 2;
+      box-sizing: border-box;
+      width: 700px;
+    }
+    app-practice-stats-bar-comp {
+      width: 500px;
+      place-self: end center;
+    }
+  }
+}
+@include isPhone() {
+  .practice-view {
+    .cards-wrapper,
+    app-practice-stats-bar-comp {
+      grid-area: 1 / 1;
+    }
+
+    .cards-wrapper {
+      margin-top: var(--distance-4);
+
+      place-self: stretch;
+    }
+    app-practice-stats-bar-comp {
+      place-self: end stretch;
+    }
   }
 }
