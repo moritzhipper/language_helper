@@ -8,11 +8,19 @@
 
   .cards-wrapper {
     display: grid;
-    border: 1px solid white;
+    margin-top: var(--distance-4);
 
     .card,
     .vote-overlay {
       grid-area: 1 / 1;
+    }
+
+    app-practice-card-comp {
+      place-self: stretch;
+    }
+
+    app-practice-summary-card {
+      place-self: center;
     }
 
     .vote-overlay {
@@ -51,6 +59,10 @@
       width: 500px;
       place-self: end center;
     }
+
+    app-practice-summary-card {
+      height: 100%;
+    }
   }
 }
 @include isPhone() {
@@ -61,11 +73,13 @@
     }
 
     .cards-wrapper {
-      margin-top: var(--distance-4);
       place-self: stretch;
     }
     app-practice-stats-bar-comp {
       place-self: end stretch;
+    }
+    app-practice-summary-card {
+      width: 100%;
     }
   }
 }
