@@ -3,10 +3,12 @@
 .practice-view {
   height: 100%;
   width: 100%;
+  padding-top: var(--distance-4);
+  box-sizing: border-box;
   display: grid;
+  grid-template-rows: 4fr 1fr;
   touch-action: none;
-  place-items: center;
-  border: 1px solid white;
+  position: relative;
 
   .card,
   .vote-overlay {
@@ -14,19 +16,14 @@
   }
 
   .vote-overlay {
-    border: 1px solid white;
     display: grid;
-    place-items: stretch center;
+    place-self: center;
 
     &.right {
       color: var(--col-success);
     }
     &.wrong {
       color: var(--col-warning);
-    }
-    app-icon-comp {
-      width: 60%;
-      aspect-ratio: 1 / 1;
     }
   }
 }
@@ -37,32 +34,30 @@ app-practice-stats-bar-comp {
 
 @include isDesktop() {
   .practice-view {
+    grid-template-rows: 2fr 1fr;
     .card,
-    .vote-overlay,
-    app-practice-stats-bar-comp {
-      grid-area: 1 /1;
-    }
-
-    app-practice-card-comp,
     .vote-overlay {
-      width: 700px;
+      grid-area: 1 / 1;
+      place-self: center;
+    }
+    .card {
       aspect-ratio: 3 / 2;
+      width: 700px;
     }
 
     app-practice-stats-bar-comp {
-      width: 500px;
+      width: 400px;
       place-self: end center;
     }
   }
 }
 @include isPhone() {
   .practice-view {
-    app-practice-card-comp,
-    .vote-overlay {
+    .card {
       place-self: stretch;
     }
-    app-practice-stats-bar-comp {
-      grid-area: 1 / 1;
+    app-practice-card-comp {
+      place-self: stretch;
     }
 
     app-practice-stats-bar-comp {

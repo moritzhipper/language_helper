@@ -6,12 +6,9 @@
     (touchend)="swipeEnd($event)"
     [class]="stateClasses()"
   >
-    <div class="vote-overlay right">
-      <app-icon-comp type="right-guess" size="auto" />
-    </div>
-    <div class="vote-overlay wrong">
-      <app-icon-comp type="wrong-guess" size="auto" />
-    </div>
+    <app-icon-comp class="vote-overlay right" type="right-guess" [size]="200" />
+    <app-icon-comp class="vote-overlay wrong" type="wrong-guess" [size]="200" />
+
     @for (entry of cardViewModel(); track trackCard(entry)) {
       @if ('id' in entry.content) {
         <app-practice-card-comp
