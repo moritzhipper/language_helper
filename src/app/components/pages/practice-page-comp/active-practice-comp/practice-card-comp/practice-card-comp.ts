@@ -13,9 +13,13 @@ import { UserLearnable } from '../../../../../types_and_schemas/types'
   selector: 'app-practice-card-comp',
   imports: [FormsModule],
   templateUrl: './practice-card-comp.html',
-  styleUrl: './practice-card-comp.scss'
+  styleUrl: './practice-card-comp.scss',
+  host: {
+    '[class.concealed]': 'concealed()'
+  }
 })
 export class PracticeCardComp {
+  concealed = input<boolean>(true)
   learnable = input.required<UserLearnable>()
   reverseDirection = input.required<boolean>()
   allowEdit = input<boolean>(false)

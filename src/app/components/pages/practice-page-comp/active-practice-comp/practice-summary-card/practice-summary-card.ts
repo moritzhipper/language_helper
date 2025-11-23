@@ -22,10 +22,11 @@ export type ActivePracticeSummary = {
   templateUrl: './practice-summary-card.html',
   styleUrl: './practice-summary-card.scss',
   host: {
-    '[class]': 'summary().rating'
+    '[class.concealed]': 'concealed()'
   }
 })
 export class PracticeSummaryCard {
+  concealed = input<boolean>(true)
   summary = input.required<ActivePracticeSummary>()
 
   text = computed(() => this.textConfig[this.summary().rating])

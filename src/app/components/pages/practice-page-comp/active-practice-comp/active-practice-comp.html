@@ -15,6 +15,7 @@
           class="card"
           [class]="'index-' + entry.viewIndex"
           (click)="reveal()"
+          [concealed]="entry.viewIndex > 0"
           [learnable]="entry.content"
           [allowEdit]="cardState() === 'editing' && entry.viewIndex === 0"
           [reverseDirection]="currentPractice().reverseDirection"
@@ -23,6 +24,7 @@
       } @else if (!('id' in entry.content)) {
         <app-practice-summary-card
           class="card summary"
+          [concealed]="entry.viewIndex > 0"
           [class]="'index-' + entry.viewIndex"
           [summary]="entry.content"
         />

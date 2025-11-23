@@ -1,10 +1,11 @@
 @use '../../../../../../style/mixins.scss' as *;
 
-:host {
+.wrapper {
+  height: 100%;
+  width: 100%;
   display: grid;
-  box-shadow: var(--shadow-bigger);
-  background-color: var(--col-primary);
-  border-radius: var(--radius-3);
+  overflow: hidden;
+
   box-sizing: border-box;
   position: relative;
   color: var(--col-bg);
@@ -13,6 +14,7 @@
     width: 250px;
     height: 250px;
     place-self: center;
+    rotate: 4deg;
   }
 
   .stats {
@@ -50,7 +52,7 @@
 }
 
 @include isPhone() {
-  :host {
+  .wrapper {
     grid-template-rows: 1fr auto;
 
     h2,
@@ -61,13 +63,36 @@
 }
 
 @include isDesktop {
-  :host {
+  .wrapper {
     place-items: center;
     grid-template-columns: 1fr 1fr;
 
     .stats {
       height: 100%;
       grid-area: 1 / 1;
+    }
+  }
+}
+
+:host {
+  background-color: var(--col-primary);
+  box-shadow: var(--shadow-bigger);
+  border-radius: var(--radius-3);
+  border: 2px solid transparent;
+
+  .wrapper {
+    transition:
+      opacity var(--duration-3),
+      background-color var(--duration-3);
+    opacity: 1;
+  }
+
+  &.concealed {
+    background-color: var(--col-bg);
+    border: 2px solid rgb(from var(--col-primary) r g b / var(--opacity-0));
+
+    .wrapper {
+      opacity: 0;
     }
   }
 }
