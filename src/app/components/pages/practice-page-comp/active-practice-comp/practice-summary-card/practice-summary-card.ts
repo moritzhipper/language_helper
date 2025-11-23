@@ -31,7 +31,7 @@ export class PracticeSummaryCard {
   text = computed(() => this.textConfig[this.summary().rating])
 
   private readonly textConfig: Record<PracticeRating, string> = {
-    noteven: 'Well, you showed up',
+    noteven: 'Well, at least you showed up',
     atleast: 'That means you tried!',
     okay: 'Not Bad.',
     good: 'Well Done!',
