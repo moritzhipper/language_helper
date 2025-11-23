@@ -27,7 +27,7 @@
 @include isDesktop {
   :host {
     place-items: center;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 2fr;
 
     .stats {
       grid-area: 1 / 1;

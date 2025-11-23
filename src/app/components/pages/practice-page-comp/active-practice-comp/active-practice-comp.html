@@ -1,38 +1,36 @@
 <app-page-wrapper-comp icon="learn">
-  <div class="practice-view">
-    <div
-      class="cards-wrapper"
-      (touchstart)="swipeStart($event)"
-      (touchmove)="swipeMove($event)"
-      (touchend)="swipeEnd($event)"
-      [class]="stateClasses()"
-    >
-      <div class="vote-overlay right">
-        <app-icon-comp type="right-guess" size="auto" />
-      </div>
-      <div class="vote-overlay wrong">
-        <app-icon-comp type="wrong-guess" size="auto" />
-      </div>
-      @for (entry of cardViewModel(); track trackCard(entry)) {
-        @if ('id' in entry.content) {
-          <app-practice-card-comp
-            class="card"
-            [class]="'index-' + entry.viewIndex"
-            (click)="reveal()"
-            [learnable]="entry.content"
-            [allowEdit]="cardState() === 'editing' && entry.viewIndex === 0"
-            [reverseDirection]="currentPractice().reverseDirection"
-            (updateNotes)="updateNotes($event)"
-          />
-        } @else if (!('id' in entry.content)) {
-          <app-practice-summary-card
-            class="card summary"
-            [class]="'index-' + entry.viewIndex"
-            [summary]="entry.content"
-          />
-        }
-      }
+  <div
+    class="practice-view"
+    (touchstart)="swipeStart($event)"
+    (touchmove)="swipeMove($event)"
+    (touchend)="swipeEnd($event)"
+    [class]="stateClasses()"
+  >
+    <div class="vote-overlay right">
+      <app-icon-comp type="right-guess" size="auto" />
     </div>
+    <div class="vote-overlay wrong">
+      <app-icon-comp type="wrong-guess" size="auto" />
+    </div>
+    @for (entry of cardViewModel(); track trackCard(entry)) {
+      @if ('id' in entry.content) {
+        <app-practice-card-comp
+          class="card"
+          [class]="'index-' + entry.viewIndex"
+          (click)="reveal()"
+          [learnable]="entry.content"
+          [allowEdit]="cardState() === 'editing' && entry.viewIndex === 0"
+          [reverseDirection]="currentPractice().reverseDirection"
+          (updateNotes)="updateNotes($event)"
+        />
+      } @else if (!('id' in entry.content)) {
+        <app-practice-summary-card
+          class="card summary"
+          [class]="'index-' + entry.viewIndex"
+          [summary]="entry.content"
+        />
+      }
+    }
     <app-practice-stats-bar-comp
       [(isOpen)]="statsOpen"
       [cardState]="cardState()"

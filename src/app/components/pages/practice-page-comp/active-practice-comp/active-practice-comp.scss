@@ -2,52 +2,53 @@
 
 .practice-view {
   height: 100%;
+  width: 100%;
   display: grid;
-  place-items: center;
   touch-action: none;
+  place-items: center;
+  border: 1px solid white;
 
-  .cards-wrapper {
-    display: grid;
-    margin-top: var(--distance-4);
+  .card,
+  .vote-overlay {
+    grid-area: 1 / 1;
+  }
+
+  .vote-overlay {
     border: 1px solid white;
-    .card,
-    .vote-overlay {
-      grid-area: 1 / 1;
-      place-self: stretch;
+    display: grid;
+    place-items: stretch center;
+
+    &.right {
+      color: var(--col-success);
     }
-
-    .vote-overlay {
-      display: grid;
-      place-items: stretch center;
-      place-self: stretch;
-
-      &.right {
-        color: var(--col-success);
-      }
-      &.wrong {
-        color: var(--col-warning);
-      }
-      app-icon-comp {
-        width: 60%;
-        aspect-ratio: 1 / 1;
-      }
+    &.wrong {
+      color: var(--col-warning);
+    }
+    app-icon-comp {
+      width: 60%;
+      aspect-ratio: 1 / 1;
     }
   }
+}
 
-  app-practice-stats-bar-comp {
-    z-index: 13;
-  }
+app-practice-stats-bar-comp {
+  z-index: 13;
 }
 
 @include isDesktop() {
   .practice-view {
-    grid-template-rows: 2fr 1fr;
-
-    .cards-wrapper {
-      place-self: center;
-      aspect-ratio: 3 / 2;
-      width: 700px;
+    .card,
+    .vote-overlay,
+    app-practice-stats-bar-comp {
+      grid-area: 1 /1;
     }
+
+    app-practice-card-comp,
+    .vote-overlay {
+      width: 700px;
+      aspect-ratio: 3 / 2;
+    }
+
     app-practice-stats-bar-comp {
       width: 500px;
       place-self: end center;
@@ -56,14 +57,14 @@
 }
 @include isPhone() {
   .practice-view {
-    .cards-wrapper,
+    app-practice-card-comp,
+    .vote-overlay {
+      place-self: stretch;
+    }
     app-practice-stats-bar-comp {
       grid-area: 1 / 1;
     }
 
-    .cards-wrapper {
-      place-self: stretch;
-    }
     app-practice-stats-bar-comp {
       place-self: end stretch;
     }
