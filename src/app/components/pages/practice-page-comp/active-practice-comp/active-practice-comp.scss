@@ -9,18 +9,11 @@
   .cards-wrapper {
     display: grid;
     margin-top: var(--distance-4);
-
+    border: 1px solid white;
     .card,
     .vote-overlay {
       grid-area: 1 / 1;
-    }
-
-    app-practice-card-comp {
       place-self: stretch;
-    }
-
-    app-practice-summary-card {
-      place-self: center;
     }
 
     .vote-overlay {
@@ -59,10 +52,6 @@
       width: 500px;
       place-self: end center;
     }
-
-    app-practice-summary-card {
-      height: 100%;
-    }
   }
 }
 @include isPhone() {
@@ -77,9 +66,6 @@
     }
     app-practice-stats-bar-comp {
       place-self: end stretch;
-    }
-    app-practice-summary-card {
-      width: 100%;
     }
   }
 }

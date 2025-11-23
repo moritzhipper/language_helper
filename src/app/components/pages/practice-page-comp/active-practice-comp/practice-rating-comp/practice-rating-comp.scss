@@ -1,5 +1,9 @@
 :host {
   box-sizing: border-box;
+
+  border: 1px solid white;
+  aspect-ratio: 1 / 1;
+
   &.noteven,
   &.excellent {
     transform: rotate(4deg);

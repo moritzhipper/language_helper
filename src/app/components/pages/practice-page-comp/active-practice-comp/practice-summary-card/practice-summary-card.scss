@@ -1,66 +1,39 @@
+@use '../../../../../../style/mixins.scss' as *;
+
 :host {
-  overflow: hidden;
   display: grid;
-  grid-template-rows: 3fr auto 2fr;
-  position: relative;
   box-shadow: var(--shadow-bigger);
-  background-color: var(--col-accent);
+  background-color: var(--col-primary);
   border-radius: var(--radius-3);
   box-sizing: border-box;
   padding: var(--distance-7) var(--distance-6);
 
-  aspect-ratio: 2 / 3;
-
-  h2 {
-    align-self: end;
-    font-size: var(--font-size-4);
-
-    rotate: -5deg;
-    z-index: 1;
-    text-shadow: 0 0px 40px var(--col-accent);
-  }
-
-  app-practice-rating-comp {
-    box-sizing: border-box;
-    position: absolute;
-    padding: var(--distance-4) var(--distance-6);
-    top: 0;
-    left: 0;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-
-    z-index: -1;
-    color: var(--col-primary);
-    overflow: hidden;
-  }
-
-  .subtitle {
-    font-size: var(--font-size-2);
-    translate: 0 -8px;
-    rotate: -5deg;
-    justify-self: end;
-    font-weight: var(--font-weight-bold);
-    text-shadow: 0 0px 18px var(--col-accent);
-  }
-
   .stats {
-    font-weight: var(--font-weight-bold);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 
-    .count {
-      font-size: var(--font-size-4);
-      rotate: -4deg;
-    }
-    .label {
-      font-size: var(--font-size-2);
-      rotate: -4deg;
-      translate: 8px -5px;
+    h3 {
+      grid-column: span 2;
     }
   }
-  h2 {
-    margin: 0;
+}
+
+@include isPhone() {
+  :host {
+    grid-template-rows: 2fr 1fr;
+  }
+}
+
+@include isDesktop {
+  :host {
+    place-items: center;
+    grid-template-columns: 2fr 1fr;
+
+    .stats {
+      grid-area: 1 / 1;
+    }
+    app-practice-rating-comp {
+      grid-area: 1 / 2;
+    }
   }
 }
