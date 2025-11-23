@@ -8,16 +8,17 @@
 
   .cards-wrapper {
     display: grid;
+    border: 1px solid white;
 
     .card,
     .vote-overlay {
       grid-area: 1 / 1;
-      place-self: stretch;
     }
 
     .vote-overlay {
       display: grid;
       place-items: stretch center;
+      place-self: stretch;
 
       &.right {
         color: var(--col-success);
@@ -40,11 +41,10 @@
 @include isDesktop() {
   .practice-view {
     grid-template-rows: 2fr 1fr;
+
     .cards-wrapper {
       place-self: center;
-      position: relative;
       aspect-ratio: 3 / 2;
-      box-sizing: border-box;
       width: 700px;
     }
     app-practice-stats-bar-comp {
@@ -62,7 +62,6 @@
 
     .cards-wrapper {
       margin-top: var(--distance-4);
-
       place-self: stretch;
     }
     app-practice-stats-bar-comp {
