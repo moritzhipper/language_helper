@@ -1,9 +1,9 @@
 <app-page-wrapper-comp icon="learn">
   <div
     class="practice-view"
-    (touchstart)="swipeStart($event)"
-    (touchmove)="swipeMove($event)"
-    (touchend)="swipeEnd($event)"
+    (pointerdown)="swipeStart($event)"
+    (pointermove)="swipeMove($event)"
+    (pointerup)="swipeEnd($event)"
     [class]="stateClasses()"
   >
     <app-icon-comp class="vote-overlay right" type="right-guess" [size]="200" />

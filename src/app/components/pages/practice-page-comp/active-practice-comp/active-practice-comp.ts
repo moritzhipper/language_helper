@@ -124,10 +124,10 @@ export class ActivePracticeComp {
   }
 
   quit() {
-    if (!this.isFinished()) {
-      this._lStore.quitPracticePrematurly()
-    } else {
+    if (this.isFinished()) {
       this._lStore.quitPractice()
+    } else {
+      this._lStore.quitPracticePrematurly()
     }
   }
 
@@ -151,21 +151,21 @@ export class ActivePracticeComp {
     return arr[randomIndex]
   }
 
-  swipeStart(e: TouchEvent) {
+  swipeStart(e: PointerEvent) {
     if (this.cardState() === 'revealed' && !this.isFinished()) {
       this.setSwipeProg(0)
-      this.swipeStartX = e.touches[0].clientX
+      this.swipeStartX = e.clientX
       this.cardState.set('swiping')
     }
   }
 
-  swipeMove(e: TouchEvent) {
+  swipeMove(e: PointerEvent) {
     if (this.cardState() === 'swiping') {
-      this.setSwipeProg(e.touches[0].clientX - this.swipeStartX)
+      this.setSwipeProg(e.clientX - this.swipeStartX)
     }
   }
 
-  swipeEnd(e: TouchEvent) {
+  swipeEnd(e: PointerEvent) {
     if (this.cardState() === 'swiping') {
       const { guessRight, guessWrong } = this.swipeProg()
       if (guessRight) {
