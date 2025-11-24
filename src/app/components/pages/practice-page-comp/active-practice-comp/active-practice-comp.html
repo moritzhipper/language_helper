@@ -1,11 +1,5 @@
 <app-page-wrapper-comp icon="learn">
-  <div
-    class="practice-view"
-    (pointerdown)="pointerDown($event)"
-    (pointermove)="pointerMove($event)"
-    (pointerup)="pointerUp()"
-    [class]="stateClasses()"
-  >
+  <div class="practice-view" [class]="stateClasses()">
     <div class="vote-overlay">
       <app-icon-comp class="icon right" type="right-guess" [size]="200" />
       <app-icon-comp class="icon wrong" type="wrong-guess" [size]="200" />
@@ -14,6 +8,9 @@
     @for (entry of cardViewModel(); track trackCard(entry)) {
       @if ('id' in entry.content) {
         <app-practice-card-comp
+          (pointerdown)="pointerDown($event, entry.viewIndex)"
+          (pointermove)="pointerMove($event, entry.viewIndex)"
+          (pointerup)="pointerUp(entry.viewIndex)"
           class="card"
           [class]="'index-' + entry.viewIndex"
           [concealed]="entry.viewIndex > 0"
