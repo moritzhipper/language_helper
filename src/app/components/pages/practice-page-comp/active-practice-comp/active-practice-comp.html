@@ -1,9 +1,9 @@
 <app-page-wrapper-comp icon="learn">
   <div
     class="practice-view"
-    (pointerdown)="swipeStart($event)"
-    (pointermove)="swipeMove($event)"
-    (pointerup)="swipeEnd($event)"
+    (pointerdown)="pointerDown($event)"
+    (pointermove)="pointerMove($event)"
+    (pointerup)="pointerUp()"
     [class]="stateClasses()"
   >
     <app-icon-comp class="vote-overlay right" type="right-guess" [size]="200" />
@@ -14,7 +14,6 @@
         <app-practice-card-comp
           class="card"
           [class]="'index-' + entry.viewIndex"
-          (click)="reveal()"
           [concealed]="entry.viewIndex > 0"
           [learnable]="entry.content"
           [allowEdit]="cardState() === 'editing' && entry.viewIndex === 0"

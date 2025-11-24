@@ -7,7 +7,6 @@ import {
   signal
 } from '@angular/core'
 import { config } from '../../../../../config'
-import { ModalService } from '../../../../services/modal-service'
 import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
 import { Guess, Practice } from '../../../../types_and_schemas/types'
@@ -55,10 +54,9 @@ export class ActivePracticeComp {
 
   private readonly _lStore = inject(LearnablesStore)
   private readonly _toastService = inject(ToastService)
-  private readonly _modalS = inject(ModalService)
 
   protected readonly statsOpen = signal<boolean>(false)
-  protected cardState = signal<FocusCardState>('hidden')
+  protected readonly cardState = signal<FocusCardState>('hidden')
   protected readonly isLastGuessCorrect = signal<boolean>(false)
 
   private swipeStartX: number = 0
@@ -151,7 +149,7 @@ export class ActivePracticeComp {
     return arr[randomIndex]
   }
 
-  swipeStart(e: PointerEvent) {
+  pointerDown(e: PointerEvent) {
     if (this.cardState() === 'revealed' && !this.isFinished()) {
       this.setSwipeProg(0)
       this.swipeStartX = e.clientX
@@ -159,13 +157,13 @@ export class ActivePracticeComp {
     }
   }
 
-  swipeMove(e: PointerEvent) {
+  pointerMove(e: PointerEvent) {
     if (this.cardState() === 'swiping') {
       this.setSwipeProg(e.clientX - this.swipeStartX)
     }
   }
 
-  swipeEnd(e: PointerEvent) {
+  pointerUp() {
     if (this.cardState() === 'swiping') {
       const { guessRight, guessWrong } = this.swipeProg()
       if (guessRight) {
@@ -176,6 +174,8 @@ export class ActivePracticeComp {
         this.cardState.set('revealed')
       }
       this.setSwipeProg(0)
+    } else if (this.cardState() === 'hidden') {
+      this.cardState.set('revealed')
     }
   }
 

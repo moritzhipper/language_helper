@@ -26,13 +26,13 @@
 
 .is-last-correct {
   .index--1 {
-    transform: translate(110%, 0) rotateZ(8deg);
+    transform: translate(110%, 0) rotateZ(12deg);
   }
 }
 
 .is-last-wrong {
   .index--1 {
-    transform: translate(-110%, 0) rotateZ(-8deg);
+    transform: translate(-110%, 0) rotateZ(-12deg);
   }
 }
 

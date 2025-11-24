@@ -17,13 +17,18 @@
     user-select: none;
   }
 
-  .vote-overlay {
+  .swipe-area {
     grid-area: 1 / 1;
+    user-select: none;
+
+    z-index: 15;
+    place-self: stretch;
   }
 
   .vote-overlay {
     display: grid;
     place-self: center;
+    grid-area: 1 / 1;
 
     &.right {
       color: var(--col-success);
