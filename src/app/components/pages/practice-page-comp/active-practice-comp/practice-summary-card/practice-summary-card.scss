@@ -79,6 +79,7 @@
   box-shadow: var(--shadow-bigger);
   border-radius: var(--radius-3);
   border: 2px solid transparent;
+  box-sizing: border-box;
 
   .wrapper {
     transition:

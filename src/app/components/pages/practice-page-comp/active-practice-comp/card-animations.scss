@@ -36,6 +36,33 @@
   }
 }
 
+// first state
+.focus-hidden {
+  .index-0 {
+    transform: translate(0, 30%);
+  }
+  .index-1 {
+    transform: translate(0, 70%) rotateZ(-5deg);
+  }
+  .index-2 {
+    transform: translate(0%, 110%) rotateZ(-8deg);
+  }
+}
+
+// second state
+.focus-revealed {
+  .index-0 {
+    transform: none;
+  }
+  .index-1 {
+    transform: translate(5%, 85%) rotateZ(-8deg);
+  }
+  .index-2 {
+    transform: translate(0%, 120%) rotateZ(-10deg);
+  }
+}
+
+// third state
 .is-swiping {
   // responsible for realistic in animations
   .card {
@@ -52,32 +79,14 @@
     --moveY: calc(85% - abs(var(--swipe-prog)) * 0.02%);
     transform: translate(5%, var(--moveY)) rotate(-8deg);
   }
-}
 
-.focus-hidden {
-  .index-0 {
-    transform: translate(0, 30%);
-  }
-  .index-1 {
-    transform: translate(0, 70%) rotateZ(-5deg);
-  }
   .index-2 {
-    transform: translate(0%, 110%) rotateZ(-8deg);
+    --moveY: calc(120% - abs(var(--swipe-prog)) * 0.01%);
+    transform: translate(0%, var(--moveY)) rotate(-10deg);
   }
 }
 
-.focus-revealed {
-  .index-0 {
-    transform: none;
-  }
-  .index-1 {
-    transform: translate(5%, 85%) rotateZ(-8deg);
-  }
-  .index-2 {
-    transform: translate(0%, 120%) rotateZ(-10deg);
-  }
-}
-
+// can be invoked in second or third state, always has third state (swiping) as result
 .is-editing {
   .index-0 {
     transform: translate(0%, -30%);
@@ -109,38 +118,37 @@
 
 // ------ vote indicator --------
 .is-swiping {
-  .vote-overlay {
+  .vote-overlay .icon {
     transition: none;
   }
 }
 
 // responsible for moveement up after vote
 .focus-hidden {
-  .vote-overlay {
+  .vote-overlay .icon {
     transform: translate(0, -150px);
     opacity: 0;
   }
 }
 
-.vote-overlay {
+.vote-overlay .icon {
   transition:
     transform var(--duration-2),
     opacity var(--duration-2);
   transition-timing-function: ease-out;
-  z-index: 1;
 
   &.right {
     --prog: var(--swipe-x-norm-right);
-    --moveX: calc(80px - var(--prog) * 80px);
+    --moveX: calc(50px - var(--prog) * 50px);
   }
   &.wrong {
     --prog: var(--swipe-x-norm-left);
-    --moveX: calc(-80px + var(--prog) * 80px);
+    --moveX: calc(-50px + var(--prog) * 50px);
   }
 
   &.right,
   &.wrong {
-    --moveY: calc(var(--prog) * -100px);
+    --moveY: calc(var(--prog) * -70px);
     --scale: calc(0.9 + var(--prog) * 0.1);
 
     opacity: calc(var(--prog) * var(--opacity-1));

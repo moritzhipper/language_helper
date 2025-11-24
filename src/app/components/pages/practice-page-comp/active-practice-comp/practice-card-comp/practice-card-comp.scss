@@ -1,6 +1,7 @@
 :host {
   box-shadow: var(--shadow-bigger);
   border-radius: var(--radius-2);
+  box-sizing: border-box;
 
   .wrapper {
     height: 100%;
