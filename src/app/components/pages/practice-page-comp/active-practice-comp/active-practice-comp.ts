@@ -149,22 +149,20 @@ export class ActivePracticeComp {
     return arr[randomIndex]
   }
 
-  pointerDown(e: PointerEvent, cardIndex: number) {
-    if (this.cardState() !== 'revealed' || this.isFinished() || cardIndex !== 0)
-      return
+  pointerDown(e: PointerEvent) {
+    if (this.cardState() !== 'revealed' || this.isFinished()) return
 
     this.setSwipeProg(0)
     this.swipeStartX = e.clientX
     this.cardState.set('swiping')
   }
 
-  pointerMove(e: PointerEvent, cardIndex: number) {
-    if (this.cardState() !== 'swiping' || cardIndex !== 0) return
+  pointerMove(e: PointerEvent) {
+    if (this.cardState() !== 'swiping') return
     this.setSwipeProg(e.clientX - this.swipeStartX)
   }
 
-  pointerUp(cardIndex: number) {
-    if (cardIndex !== 0) return
+  pointerUp() {
     if (this.cardState() === 'swiping') {
       const { guessRight, guessWrong } = this.swipeProg()
       if (guessRight) {

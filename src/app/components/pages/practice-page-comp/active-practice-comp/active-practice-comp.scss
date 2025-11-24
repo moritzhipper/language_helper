@@ -32,6 +32,13 @@
     }
   }
 
+  .touch-area {
+    grid-area: 1 / 1;
+    place-self: stretch;
+    display: block;
+    z-index: 15;
+  }
+
   app-practice-stats-bar-comp {
     z-index: 13;
   }
