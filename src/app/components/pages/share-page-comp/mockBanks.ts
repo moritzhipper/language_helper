@@ -14,8 +14,7 @@ const createLearnable = (
   lexeme,
   translation,
   notes,
-  type,
-  collectionIds: []
+  type
 })
 
 // Mock learnables for various scenarios
@@ -83,9 +82,10 @@ const dogLearnables: LearnableWithId[] = [
 ]
 
 // Helper function to create a collection
-const createCollection = (name: string) => ({
+const createCollection = (name: string, cardIds: string[] = []) => ({
   id: crypto.randomUUID(),
-  name
+  name,
+  cardIds
 })
 
 // Helper to create language pair
@@ -98,17 +98,26 @@ const createBankExport = (
   collectionNames: string[],
   created: Date,
   expires: Date
-): BankExportOnline => ({
-  id: crypto.randomUUID(),
-  created,
-  expires,
-  name,
-  bank: {
-    language: enDe,
-    learnables,
-    collections: collectionNames.map(createCollection)
+): BankExportOnline => {
+  // Distribute learnables across collections
+  const learnableIds = learnables.map((l) => l.id)
+  const collectionsWithCards = collectionNames.map((colName, index) => {
+    // For simplicity, assign all learnables to each collection in mock data
+    return createCollection(colName, learnableIds)
+  })
+
+  return {
+    id: crypto.randomUUID(),
+    created,
+    expires,
+    name,
+    bank: {
+      language: enDe,
+      learnables,
+      collections: collectionsWithCards
+    }
   }
-})
+}
 
 export const mockUserBanks: BankExportOnline[] = [
   createBankExport(

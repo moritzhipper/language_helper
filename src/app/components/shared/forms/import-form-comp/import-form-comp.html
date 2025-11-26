@@ -1,4 +1,8 @@
-<form (ngSubmit)="confirm(this.bankExport())" class="modal" [formGroup]="form">
+<form
+  (ngSubmit)="confirm(this.bankExport().bank)"
+  class="modal"
+  [formGroup]="form"
+>
   <h2 class="full fly-in-y-0">Import {{ bankExport().name }}?</h2>
   <div class="preview full fly-in-y-0">
     @if (collectionPreviews().length > 0) {

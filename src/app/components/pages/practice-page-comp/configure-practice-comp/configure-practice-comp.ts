@@ -58,13 +58,13 @@ export class ConfigurePracticeComp {
     const filteredLearnables = filterLearnables(this.learnables(), filter)
 
     // Form allows selecting 'All Cards'. When this is selected, set collection id to null and return all cards
-    const cId = this.collections().find(
+    const collection = this.collections().find(
       (c) => c.id === (formValue.collectionIdentifier as string | null)
-    )?.id
-    if (!cId) return filteredLearnables.map((l) => l.id)
+    )
+    if (!collection) return filteredLearnables.map((l) => l.id)
 
     return filteredLearnables
-      .filter((l) => l.collectionIds.includes(cId))
+      .filter((l) => collection.cardIds.includes(l.id))
       .map((l) => l.id)
   })
 
@@ -83,7 +83,7 @@ export class ConfigurePracticeComp {
       id: null
     }
     const collectionOptions: SelectOption[] = collections.map((c) => {
-      const cards = learnables.filter((l) => l.collectionIds.includes(c.id))
+      const cards = learnables.filter((l) => c.cardIds.includes(l.id))
       const confidence = calculateAverageConfidencePercent(cards)
 
       return { label: c.name, id: c.id, confidence }

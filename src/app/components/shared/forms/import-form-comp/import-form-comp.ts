@@ -23,12 +23,12 @@ export class ImportFormComp extends BaseModalDirective {
 
     const previews = collections.map((c) => ({
       name: c.name,
-      learnablesCount: learnables.filter((l) => l.collectionIds.includes(c.id))
-        .length
+      learnablesCount: learnables.filter((l) => c.cardIds.includes(l.id)).length
     }))
 
+    const allCollectionCardIds = new Set(collections.flatMap((c) => c.cardIds))
     const collectionLessCount = learnables.filter(
-      (l) => l.collectionIds.length === 0
+      (l) => !allCollectionCardIds.has(l.id)
     ).length
 
     if (collectionLessCount === 0) return previews

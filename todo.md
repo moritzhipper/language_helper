@@ -33,7 +33,6 @@
 
 - stats page:
   - has practice history -> you can see cards here, most held card and stuff
-  - funny cards: at least you tried
 
 make settinggsstore simple service with update function and effect that writes to sessionstorage?
 

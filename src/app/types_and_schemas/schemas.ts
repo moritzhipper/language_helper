@@ -15,8 +15,7 @@ export const LearnableBaseSchema = LearnableFromAiSchema.extend({
 })
 
 export const LearnableWithIdSchema = LearnableBaseSchema.extend({
-  id: z.uuid(),
-  collectionIds: z.array(z.uuid())
+  id: z.uuid()
 })
 
 export const LearnableUserSchema = LearnableWithIdSchema.extend({
@@ -29,7 +28,8 @@ export const LearnableUserSchema = LearnableWithIdSchema.extend({
 
 export const CollectionBaseSchema = z.object({
   name: z.string(),
-  id: z.string()
+  id: z.string(),
+  cardIds: z.array(z.uuid())
 })
 
 export const CollectionUserSchema = CollectionBaseSchema.extend({

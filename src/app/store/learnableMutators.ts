@@ -1,13 +1,11 @@
 import {
   BankBase,
-  Collection,
   CollectionUser,
   Guess,
   Guessable,
   LanguageConfig,
   LearnableBase,
   LearnablesStoreType,
-  LearnableWithId,
   UserLearnable,
   UserLearnablePartial
 } from '../types_and_schemas/types'
@@ -145,7 +143,11 @@ export const removeLearnables =
         if (b.id !== state.activeBankId) return b
         return {
           ...b,
-          learnables: b.learnables.filter((l) => !ids.includes(l.id))
+          learnables: b.learnables.filter((l) => !ids.includes(l.id)),
+          collections: b.collections.map((c) => ({
+            ...c,
+            cardIds: c.cardIds.filter((cardId) => !ids.includes(cardId))
+          }))
         }
       })
     }
@@ -173,80 +175,8 @@ export const updateLearnables =
     }
   }
 
-const remapCollectionIds = (collections: Collection[]) => {
-  const collectionIdMap = new Map<string, string>()
-  const remappedCollections = collections.map((c) => {
-    const newId = crypto.randomUUID()
-    collectionIdMap.set(c.id, newId)
-    return { ...c, id: newId }
-  })
-  return { collectionIdMap, remappedCollections }
-}
-
-const prepareImportedLearnables = (
-  learnables: LearnableWithId[],
-  collectionIdMap: Map<string, string>
-): UserLearnable[] => {
-  const now = new Date()
-  return learnables.map((l) => ({
-    ...l,
-    id: crypto.randomUUID(),
-    created: now,
-    collectionIds: l.collectionIds.map(
-      (cid: string) => collectionIdMap.get(cid) ?? cid
-    ),
-    guesses: {
-      lexeme: [false, false, false, false, false],
-      translation: [false, false, false, false, false]
-    }
-  }))
-}
-
-const filterNewCollections = (
-  imported: Collection[],
-  existing: CollectionUser[]
-): CollectionUser[] => {
-  const now = new Date()
-  return imported
-    .filter((c) => !existing.some((ec) => ec.name === c.name))
-    .map((c) => ({ ...c, created: now }))
-}
-
 const learnablesMatch = (l1: LearnableBase, l2: LearnableBase) =>
   l1.lexeme === l2.lexeme && l1.translation === l2.translation
-
-const mergeLearnables = (
-  existing: UserLearnable[],
-  imported: UserLearnable[]
-) => {
-  const merged = existing.map((l) => {
-    const match = imported.find((il) => learnablesMatch(l, il))
-    if (match) {
-      return {
-        ...l,
-        collectionIds: [...l.collectionIds, ...match.collectionIds]
-      }
-    }
-    return l
-  })
-
-  const newItems = imported.filter(
-    (il) => !existing.some((l) => learnablesMatch(l, il))
-  )
-
-  return { merged, newItems }
-}
-
-const filterValidCollectionIds = (
-  learnables: UserLearnable[],
-  collections: CollectionUser[]
-): UserLearnable[] => {
-  const validIds = new Set(collections.map((c) => c.id))
-  return learnables.map((l) => ({
-    ...l,
-    collectionIds: l.collectionIds.filter((cid) => validIds.has(cid))
-  }))
-}
 
 export const saveImportedCollections =
   ({ learnables, collections }: BankBase) =>
@@ -256,32 +186,71 @@ export const saveImportedCollections =
       banks: state.banks.map((b) => {
         if (b.id !== state.activeBankId) return b
 
-        const { collectionIdMap, remappedCollections } =
-          remapCollectionIds(collections)
-        const importedLearnables = prepareImportedLearnables(
-          learnables,
-          collectionIdMap
-        )
+        const now = new Date()
 
-        const newCollections = filterNewCollections(
-          remappedCollections,
-          b.collections
-        )
-        const { merged, newItems } = mergeLearnables(
-          b.learnables,
-          importedLearnables
-        )
+        // Build a map from imported card id -> existing card id (for duplicates)
+        // and identify which cards are truly new
+        const importedIdToExistingId = new Map<string, string>()
+        const newLearnables: UserLearnable[] = []
 
-        const allCollections = [...b.collections, ...newCollections]
-        const allLearnables = filterValidCollectionIds(
-          [...merged, ...newItems],
-          allCollections
-        )
+        for (const imported of learnables) {
+          const existingMatch = b.learnables.find((existing) =>
+            learnablesMatch(existing, imported)
+          )
+          if (existingMatch) {
+            // Duplicate: map imported id to existing id
+            importedIdToExistingId.set(imported.id, existingMatch.id)
+          } else {
+            // New card: create full UserLearnable
+            const newId = crypto.randomUUID()
+            importedIdToExistingId.set(imported.id, newId)
+            newLearnables.push({
+              id: newId,
+              created: now,
+              type: imported.type,
+              lexeme: imported.lexeme,
+              translation: imported.translation,
+              notes: imported.notes,
+              guesses: {
+                lexeme: [false, false, false, false, false],
+                translation: [false, false, false, false, false]
+              }
+            })
+          }
+        }
+
+        // Process collections: merge into existing or create new
+        const updatedCollections = [...b.collections]
+        for (const importedCol of collections) {
+          // Remap cardIds from imported ids to actual ids (existing or new)
+          // Filter out any cardIds that don't have a corresponding learnable
+          const remappedCardIds = importedCol.cardIds
+            .map((id) => importedIdToExistingId.get(id))
+            .filter((id) => id !== undefined)
+
+          const existingCol = updatedCollections.find(
+            (c) => c.name === importedCol.name
+          )
+          if (existingCol) {
+            // Merge cardIds into existing collection
+            existingCol.cardIds = [
+              ...new Set([...existingCol.cardIds, ...remappedCardIds])
+            ]
+          } else {
+            // Create new collection with remapped cardIds
+            updatedCollections.push({
+              id: crypto.randomUUID(),
+              name: importedCol.name,
+              cardIds: remappedCardIds,
+              created: now
+            })
+          }
+        }
 
         return {
           ...b,
-          learnables: allLearnables,
-          collections: allCollections
+          learnables: [...b.learnables, ...newLearnables],
+          collections: updatedCollections
         }
       })
     }
@@ -298,7 +267,6 @@ const mapBaseToFullToLearnables = (
     lexeme: l.lexeme,
     translation: l.translation,
     notes: l.notes,
-    collectionIds: [],
     guesses: {
       lexeme: [false, false, false, false, false],
       translation: [false, false, false, false, false]
@@ -358,28 +326,17 @@ export const removePractice =
   })
 
 export const createCollection =
-  (name: string, ids: string[]) =>
+  (name: string, cardIds: string[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     return {
       ...state,
       banks: state.banks.map((b) => {
         if (b.id !== state.activeBankId) return b
-        const newCollection = createNewCollection(name)
+        const newCollection = createNewCollection(name, cardIds)
 
         return {
           ...b,
-          collections: [...b.collections, newCollection],
-          learnables: b.learnables.map((l) => {
-            if (ids.includes(l.id)) {
-              return {
-                ...l,
-                collectionIds: [
-                  ...new Set([...l.collectionIds, newCollection.id])
-                ]
-              }
-            }
-            return l
-          })
+          collections: [...b.collections, newCollection]
         }
       })
     }
@@ -395,21 +352,17 @@ export const editCollection =
 
         return {
           ...b,
-          learnables: b.learnables.map((l) => {
-            if (addIDs.includes(l.id)) {
-              return {
-                ...l,
-                collectionIds: [...new Set([...l.collectionIds, collectionID])]
-              }
-            } else if (deleteIDs.includes(l.id)) {
-              return {
-                ...l,
-                collectionIds: l.collectionIds.filter(
-                  (cid) => cid !== collectionID
-                )
-              }
+          collections: b.collections.map((c) => {
+            if (c.id !== collectionID) return c
+
+            const updatedCardIds = [
+              ...new Set([...c.cardIds, ...addIDs])
+            ].filter((cardId) => !deleteIDs.includes(cardId))
+
+            return {
+              ...c,
+              cardIds: updatedCardIds
             }
-            return l
           })
         }
       })
@@ -417,16 +370,23 @@ export const editCollection =
   }
 
 export const deleteCollection =
-  (id: string) =>
+  (id: string, removeCards: boolean) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     return {
       ...state,
       banks: state.banks.map((b) => {
         if (b.id !== state.activeBankId) return b
 
+        const collectionToDelete = b.collections.find((c) => c.id === id)
+        const cardIdsToRemove =
+          removeCards && collectionToDelete ? collectionToDelete.cardIds : []
+
         return {
           ...b,
-          collections: b.collections.filter((c) => c.id !== id)
+          collections: b.collections.filter((c) => c.id !== id),
+          learnables: removeCards
+            ? b.learnables.filter((l) => !cardIdsToRemove.includes(l.id))
+            : b.learnables
         }
       })
     }
@@ -455,8 +415,12 @@ export const renameCollection =
     }
   }
 
-const createNewCollection = (name: string): CollectionUser => ({
+const createNewCollection = (
+  name: string,
+  cardIds: string[]
+): CollectionUser => ({
   id: crypto.randomUUID(),
   created: new Date(),
-  name
+  name,
+  cardIds
 })

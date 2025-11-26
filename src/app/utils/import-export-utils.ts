@@ -20,31 +20,36 @@ export const mapToBankExport = (
   bank: BankUser,
   onlyCollectionIDs?: string[]
 ): BankExportOffline => {
+  // Get collections to export
+  const collectionsToExport = bank.collections.filter((c) =>
+    onlyCollectionIDs ? onlyCollectionIDs.includes(c.id) : true
+  )
+
+  // Get all card IDs that belong to the collections being exported
+  const cardIdsInExportedCollections = new Set(
+    collectionsToExport.flatMap((c) => c.cardIds)
+  )
+
+  // Filter learnables: if exporting specific collections, only include cards in those collections
   const learnables: LearnableWithId[] = bank.learnables
     .filter((l) =>
-      onlyCollectionIDs
-        ? onlyCollectionIDs.some((cid) => l.collectionIds.includes(cid))
-        : true
+      onlyCollectionIDs ? cardIdsInExportedCollections.has(l.id) : true
     )
     .map((l) => ({
       lexeme: l.lexeme,
       translation: l.translation,
       type: l.type,
       id: l.id,
-      notes: l.notes,
-      collectionIds: onlyCollectionIDs
-        ? onlyCollectionIDs.filter((cid) => l.collectionIds.includes(cid))
-        : l.collectionIds
+      notes: l.notes
     }))
 
-  const collections: Collection[] = bank.collections
-    .filter((c) =>
-      onlyCollectionIDs ? onlyCollectionIDs.includes(c.id) : true
-    )
-    .map((c) => ({
-      name: c.name,
-      id: c.id
-    }))
+  // Map collections with only the cardIds that are being exported
+  const exportedLearnableIds = new Set(learnables.map((l) => l.id))
+  const collections: Collection[] = collectionsToExport.map((c) => ({
+    name: c.name,
+    id: c.id,
+    cardIds: c.cardIds.filter((cardId) => exportedLearnableIds.has(cardId))
+  }))
 
   return {
     name,

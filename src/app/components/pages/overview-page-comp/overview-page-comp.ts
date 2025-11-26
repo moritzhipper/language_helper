@@ -73,19 +73,22 @@ export class OverviewComp {
     }
   )
 
-  readonly unsortedCards = computed(() =>
-    this.learnables().filter((l) => l.collectionIds.length === 0)
-  )
+  readonly unsortedCards = computed(() => {
+    const allCollectionCardIds = new Set(
+      this.collections().flatMap((c) => c.cardIds)
+    )
+    return this.learnables().filter((l) => !allCollectionCardIds.has(l.id))
+  })
 
   private readonly _newestIds = computed(() =>
     filterLearnables(this.learnables(), { age: 'newest' }).map((l) => l.id)
   )
 
   private readonly _collectionLearnables = computed(() => {
-    const colId = this.selectedCollection()?.id
-    if (!colId) return this.learnables()
+    const collection = this.selectedCollection()
+    if (!collection) return this.learnables()
 
-    return this.learnables().filter((l) => l.collectionIds.includes(colId))
+    return this.learnables().filter((l) => collection.cardIds.includes(l.id))
   })
 
   readonly visibleLearnables = computed(() => {

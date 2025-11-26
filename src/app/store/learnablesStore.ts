@@ -86,7 +86,7 @@ export const LearnablesStore = signalStore(
         patchState(state, renameCollection(name, id))
       },
       deleteCollection(id: string, removeLearnables: boolean = false) {
-        patchState(state, deleteCollection(id))
+        patchState(state, deleteCollection(id, removeLearnables))
       },
       editBankLanguage(language: LanguageConfig) {
         patchState(state, updateBankLanguage(language))
