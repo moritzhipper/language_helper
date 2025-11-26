@@ -1,14 +1,7 @@
 # ToDo
 
-- show yes or now on desktop swipe
-- allow desktop swipe
-
 - add to collection after import doesnt work
-- move cards animationstates to seperate file
-- only show buttons on desktop
 - sho 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
-- only render the current cards?
-- make the calss setting vars non signals
 
 - unifiy type setup:
   - add change language mutator:
