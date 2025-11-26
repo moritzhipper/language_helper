@@ -114,10 +114,10 @@ export class ActivePracticeComp {
     this.cardState.set('hidden')
     this.statsOpen.set(false)
 
-    this._toastService.showToast({
-      message: this.getRandomExp(guessedRight),
-      type: 'guess'
-    })
+    // this._toastService.showToast({
+    //   message: this.getRandomExp(guessedRight),
+    //   type: 'guess'
+    // })
   }
 
   quit() {
