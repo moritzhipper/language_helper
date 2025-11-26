@@ -78,7 +78,7 @@
   background-color: var(--col-primary);
   box-shadow: var(--shadow-bigger);
   border-radius: var(--radius-3);
-  border: 2px solid transparent;
+  border: 2px solid var(--col-primary);
   box-sizing: border-box;
 
   .wrapper {

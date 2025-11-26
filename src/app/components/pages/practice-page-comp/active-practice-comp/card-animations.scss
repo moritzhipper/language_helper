@@ -1,6 +1,7 @@
 .card {
   transition-duration: var(--duration-3);
-  transition-property: translate, opacity, transform, background-color, color;
+  transition-property:
+    translate, opacity, transform, background-color, color, border-color;
   transition-timing-function: cubic-bezier(0.322, 0.582, 0.006, 0.987);
 
   // last card
@@ -146,7 +147,7 @@
 
     &.right,
     &.wrong {
-      --moveY: calc(50px - var(--prog) * 50px);
+      --moveY: calc(50px - var(--prog) * 25px);
       --scale: calc(0.9 + var(--prog) * 0.1);
 
       // use negated here to move opacity of not selected direction to negative values

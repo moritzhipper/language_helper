@@ -42,7 +42,7 @@
 
 :host {
   background-color: var(--col-accent);
-  border: 2px solid transparent;
+  border: 2px solid var(--col-accent);
 
   .wrapper {
     transition: opacity var(--duration-2);
