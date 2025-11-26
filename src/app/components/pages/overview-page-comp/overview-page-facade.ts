@@ -143,7 +143,7 @@ export class OverviewPageFacade {
     this._lStore.editCollection(collection.id, result.value)
   }
 
-  async deleteCollection(id: string) {
+  async deleteCollection(collection: CollectionUser) {
     const result =
       await this._modalService.open<ConfirmCollectionDeletionType>(
         'collection-delete'
@@ -151,11 +151,11 @@ export class OverviewPageFacade {
     if (result.type !== 'confirm') return
 
     const removeCardsCompletely = result.value.deletionType === 'remove'
-    this._lStore.deleteCollection(id, removeCardsCompletely)
+    this._lStore.deleteCollection(collection.id, removeCardsCompletely)
 
     this._toastService.showToast({
       type: 'info',
-      message: `Collection ${id} deleted`
+      message: `Collection ${collection.name} deleted`
     })
   }
 

@@ -220,7 +220,7 @@ export class OverviewComp {
   }
 
   async deleteCollection() {
-    const collectionId = this.selectedCollection()?.id
+    const collectionId = this.selectedCollection()
     if (!collectionId) return
 
     await this._facade.deleteCollection(collectionId)
