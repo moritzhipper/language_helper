@@ -26,13 +26,13 @@
 
 .is-last-correct {
   .index--1 {
-    transform: translate(110%, 0) rotateZ(12deg);
+    transform: translate(110%, 0) rotateZ(20deg);
   }
 }
 
 .is-last-wrong {
   .index--1 {
-    transform: translate(-110%, 0) rotateZ(-12deg);
+    transform: translate(-110%, 0) rotateZ(-20deg);
   }
 }
 
@@ -73,6 +73,7 @@
     --moveX: calc(var(--swipe-prog) * 1px);
     --rotX: calc(var(--swipe-prog) * 0.03deg);
     transform: translate(var(--moveX), 0%) rotate(var(--rotX));
+    // opacity: calc();
   }
 
   .index-1 {
@@ -136,21 +137,22 @@
     transform var(--duration-2),
     opacity var(--duration-2);
   transition-timing-function: ease-out;
+  // z-index: 20;
 
   &.right {
-    --prog: var(--swipe-x-norm-right);
-    --moveX: calc(50px - var(--prog) * 50px);
+    --prog: var(--swipe-x-norm);
   }
   &.wrong {
-    --prog: var(--swipe-x-norm-left);
-    --moveX: calc(-50px + var(--prog) * 50px);
+    --prog: calc(var(--swipe-x-norm) * -1);
   }
 
   &.right,
   &.wrong {
-    --moveY: calc(var(--prog) * -70px);
+    --moveY: calc(var(--prog) * -40px);
     --scale: calc(0.9 + var(--prog) * 0.1);
+    --moveX: calc(var(--swipe-x-norm) * 50px);
 
+    // use negated here to move opacity of not selected direction to negative values
     opacity: calc(var(--prog) * var(--opacity-1));
     transform: translate(var(--moveX), var(--moveY)) scale(var(--scale));
   }

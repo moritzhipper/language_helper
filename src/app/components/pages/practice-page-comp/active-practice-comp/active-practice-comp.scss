@@ -24,10 +24,17 @@
     display: grid;
     place-items: center;
 
+    .icon {
+      grid-area: 1 / 1;
+    }
+
     .right {
+      place-self: center start;
       color: var(--col-success);
     }
     .wrong {
+      place-self: center end;
+
       color: var(--col-warning);
     }
   }
@@ -54,10 +61,6 @@
       place-self: center;
       aspect-ratio: 3 / 2;
       width: 700px;
-    }
-
-    .vote-overlay {
-      grid-template-columns: 1fr 1fr;
     }
 
     app-practice-stats-bar-comp {
@@ -87,10 +90,6 @@
 
     .vote-overlay {
       place-self: stretch;
-
-      .icon {
-        grid-area: 1 / 1;
-      }
     }
   }
 }

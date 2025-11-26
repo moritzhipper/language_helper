@@ -33,8 +33,8 @@ export type FocusCardState = 'editing' | 'revealed' | 'hidden' | 'swiping'
   styleUrls: ['./active-practice-comp.scss', './card-animations.scss'],
   host: {
     '[style.--swipe-prog]': 'swipeProg().xDelta',
-    '[style.--swipe-x-norm-right]': 'swipeProg().xRNorm',
-    '[style.--swipe-x-norm-left]': 'swipeProg().xLNorm'
+    '[style.--swipe-x-norm]': 'swipeProg().xNorm',
+    '[style.--swipe-x-norm-left]': 'swipeProg().xNorm'
   }
 })
 export class ActivePracticeComp {
@@ -62,8 +62,7 @@ export class ActivePracticeComp {
   private swipeStartX: number = 0
   protected readonly swipeProg = signal<SwipeProgress>({
     xDelta: 0,
-    xRNorm: 0,
-    xLNorm: 0,
+    xNorm: 0,
     guessRight: false,
     guessWrong: false
   })
