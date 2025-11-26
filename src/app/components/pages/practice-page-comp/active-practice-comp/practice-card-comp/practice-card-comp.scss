@@ -36,10 +36,6 @@
       font-style: italic;
       background-color: transparent;
       overflow: auto;
-
-      &[disabled] {
-        touch-action: none;
-      }
     }
   }
 }

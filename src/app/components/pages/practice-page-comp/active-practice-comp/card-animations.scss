@@ -95,6 +95,9 @@
   .index-1 {
     transform: translate(5%, 80%) rotateZ(-8deg);
   }
+  .index-2 {
+    transform: translate(0%, 120%) rotate(-10deg);
+  }
 }
 
 // only show summary card in center
@@ -118,42 +121,50 @@
 }
 
 // ------ vote indicator --------
-.is-swiping {
-  .vote-overlay .icon {
-    transition: none;
-  }
-}
-
-// responsible for moveement up after vote
-.focus-hidden {
-  .vote-overlay .icon {
-    transform: translate(0, -150px);
-    opacity: 0;
-  }
-}
 
 .vote-overlay .icon {
   transition:
     transform var(--duration-2),
     opacity var(--duration-2);
   transition-timing-function: ease-out;
-  // z-index: 20;
 
-  &.right {
-    --prog: var(--swipe-x-norm);
+  opacity: 0;
+}
+
+.is-swiping {
+  .vote-overlay .icon {
+    transition: none;
+
+    &.right {
+      --prog: var(--swipe-x-norm);
+      --moveX: calc(var(--swipe-x-norm) * 25px);
+    }
+    &.wrong {
+      --prog: calc(var(--swipe-x-norm) * -1);
+      --moveX: calc(var(--swipe-x-norm) * 25px);
+    }
+
+    &.right,
+    &.wrong {
+      --moveY: calc(50px - var(--prog) * 50px);
+      --scale: calc(0.9 + var(--prog) * 0.1);
+
+      // use negated here to move opacity of not selected direction to negative values
+      opacity: calc(var(--prog) * var(--opacity-1));
+      transform: translate(var(--moveX), 0) scale(var(--scale));
+    }
   }
-  &.wrong {
-    --prog: calc(var(--swipe-x-norm) * -1);
-  }
+}
 
-  &.right,
-  &.wrong {
-    --moveY: calc(var(--prog) * -40px);
-    --scale: calc(0.9 + var(--prog) * 0.1);
-    --moveX: calc(var(--swipe-x-norm) * 50px);
+// responsible for moveement up after vote
+.focus-hidden {
+  .vote-overlay .icon {
+    &.right {
+      transform: translate(25px, -50px) scale(1.05);
+    }
 
-    // use negated here to move opacity of not selected direction to negative values
-    opacity: calc(var(--prog) * var(--opacity-1));
-    transform: translate(var(--moveX), var(--moveY)) scale(var(--scale));
+    &.wrong {
+      transform: translate(-25px, -50px) scale(1.05);
+    }
   }
 }

@@ -18,10 +18,12 @@
   }
 
   .vote-overlay {
+    box-sizing: border-box;
     place-self: center;
     grid-area: 1 / 1;
 
     display: grid;
+    grid-template-rows: 2fr 1fr;
     place-items: center;
 
     .icon {
@@ -29,13 +31,12 @@
     }
 
     .right {
-      place-self: center start;
       color: var(--col-success);
+      place-self: center start;
     }
     .wrong {
-      place-self: center end;
-
       color: var(--col-warning);
+      place-self: center end;
     }
   }
 
