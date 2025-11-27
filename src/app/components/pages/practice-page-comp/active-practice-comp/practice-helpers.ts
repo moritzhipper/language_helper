@@ -44,12 +44,12 @@ const getVM = (
   const indexes = [-1, 0, 1, 2]
   return indexes.reduce<CardViewModel[]>((vms, relIndex) => {
     const cardIndex = focusIndex + relIndex
-    if (cardIndex >= 0 && cardIndex < cards.length) {
+    if (cardIndex >= 0 && cardIndex < practice.guessables.length) {
       vms.push({
         content: cards[cardIndex],
         viewIndex: relIndex
       })
-    } else if (cardIndex === cards.length) {
+    } else if (cardIndex === practice.guessables.length) {
       // finished card
       vms.push({ content: createSummary(practice), viewIndex: relIndex })
     }
