@@ -1,5 +1,7 @@
 # ToDo
 
+- refactor learnable mutators, split in files, reuse double code
+- practice wiht only one card is broken
 - add to collection after import doesnt work
 - sho 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
 

@@ -126,32 +126,40 @@ const updateGuessables = (
   return guessables.map((g) => (g.id === id ? { ...g, guessed } : g))
 }
 
+// Helper to check if practice should be reset when cards are deleted
+const shouldResetPractice = (
+  state: LearnablesStoreType,
+  idsToDelete: string[]
+): boolean =>
+  state.currentPractice?.guessables.some((g) => idsToDelete.includes(g.id)) ??
+  false
+
+// Helper to remove learnables from the active bank
+const removeLearnablesFromBank = (
+  state: LearnablesStoreType,
+  idsToDelete: string[]
+): LearnablesStoreType => ({
+  ...state,
+  currentPractice: shouldResetPractice(state, idsToDelete)
+    ? null
+    : state.currentPractice,
+  banks: state.banks.map((b) => {
+    if (b.id !== state.activeBankId) return b
+    return {
+      ...b,
+      learnables: b.learnables.filter((l) => !idsToDelete.includes(l.id)),
+      collections: b.collections.map((c) => ({
+        ...c,
+        cardIds: c.cardIds.filter((cardId) => !idsToDelete.includes(cardId))
+      }))
+    }
+  })
+})
+
 export const removeLearnables =
   (ids: string[]) =>
-  (state: LearnablesStoreType): LearnablesStoreType => {
-    // reset practice to prevent lost ids and loose indexes in practice
-    const currentPracticeHasDeletedIds = state.currentPractice?.guessables.some(
-      (g) => ids.includes(g.id)
-    )
-
-    return {
-      ...state,
-      currentPractice: currentPracticeHasDeletedIds
-        ? null
-        : state.currentPractice,
-      banks: state.banks.map((b) => {
-        if (b.id !== state.activeBankId) return b
-        return {
-          ...b,
-          learnables: b.learnables.filter((l) => !ids.includes(l.id)),
-          collections: b.collections.map((c) => ({
-            ...c,
-            cardIds: c.cardIds.filter((cardId) => !ids.includes(cardId))
-          }))
-        }
-      })
-    }
-  }
+  (state: LearnablesStoreType): LearnablesStoreType =>
+    removeLearnablesFromBank(state, ids)
 
 export const updateLearnables =
   (updatedL: UserLearnablePartial[]) =>
@@ -372,24 +380,28 @@ export const editCollection =
 export const deleteCollection =
   (id: string, removeCards: boolean) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    return {
+    const activeBank = state.banks.find((b) => b.id === state.activeBankId)
+    const cardIds =
+      activeBank?.collections.find((c) => c.id === id)?.cardIds ?? []
+
+    // Remove the collection
+    const stateWithoutCollection: LearnablesStoreType = {
       ...state,
       banks: state.banks.map((b) => {
         if (b.id !== state.activeBankId) return b
-
-        const collectionToDelete = b.collections.find((c) => c.id === id)
-        const cardIdsToRemove =
-          removeCards && collectionToDelete ? collectionToDelete.cardIds : []
-
         return {
           ...b,
-          collections: b.collections.filter((c) => c.id !== id),
-          learnables: removeCards
-            ? b.learnables.filter((l) => !cardIdsToRemove.includes(l.id))
-            : b.learnables
+          collections: b.collections.filter((c) => c.id !== id)
         }
       })
     }
+
+    // Optionally remove the cards using shared helper
+    if (removeCards && cardIds.length > 0) {
+      return removeLearnablesFromBank(stateWithoutCollection, cardIds)
+    }
+
+    return stateWithoutCollection
   }
 
 export const renameCollection =
