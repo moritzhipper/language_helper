@@ -58,7 +58,18 @@ export class OverviewComp {
   readonly learnables = computed(() => this.bank().learnables)
   private readonly _filter = signal<LearnablesFilterConfig | null>(null)
 
-  readonly selectedCollectionId = signal<string | null>(null)
+  readonly selectedCollectionId = linkedSignal<CollectionUser[], string | null>(
+    {
+      source: this.collections,
+      computation: (collections, previous) => {
+        const previousId = previous?.value
+        if (!previousId) return null
+        const stillExists = collections.some((c) => c.id === previousId)
+        return stillExists ? previousId : null
+      }
+    }
+  )
+
   readonly selectedCollection = computed<CollectionUser | null>(
     () =>
       this.collections().find((c) => c.id === this.selectedCollectionId()) ??
