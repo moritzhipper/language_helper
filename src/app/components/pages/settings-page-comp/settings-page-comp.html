@@ -1,22 +1,9 @@
-<app-page-wrapper-comp
-  title="Settings"
-  [desktopMode]="'shrink'"
-  icon="settings"
->
+<app-page-wrapper-comp title="Settings" desktopMode="center" icon="settings">
   <div class="wrapper">
     <div class="stats">
-      <app-counter-comp label="banks" size="l">
-        {{ stats().banksCount }}
-      </app-counter-comp>
-      <app-counter-comp label="learnables" size="l">
-        {{ stats().learnablesCount }}
-      </app-counter-comp>
-      <app-counter-comp label="collections" size="l">
-        {{ stats().collectionsCount }}
-      </app-counter-comp>
-      <app-counter-comp label="tokens used" class="tokens">
-        {{ tokensUsed() }}
-      </app-counter-comp>
+      You have created <strong>{{ stats().banksCount }} bank </strong>, holding
+      <strong>{{ stats().collectionsCount }} collections</strong>. having a
+      total of <strong>{{ stats().learnablesCount }} learnables</strong>.
     </div>
 
     <form [formGroup]="form">
@@ -26,15 +13,6 @@
       </label>
     </form>
     <div class="data-interact">
-      <button class="primary big full" (click)="createNewBank()">
-        create new bank
-      </button>
-      <a
-        class="big export"
-        [download]="learnablesDownload().fileName"
-        [attr.href]="learnablesDownload().blobUrl"
-        >export bank
-      </a>
       <button class="primary big delete" (click)="reset()">
         delete everything
       </button>

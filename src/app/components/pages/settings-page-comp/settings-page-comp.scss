@@ -1,35 +1,5 @@
-.wrapper {
-  display: grid;
-  grid-template-rows: 1fr auto;
-  height: 100%;
-  gap: var(--distance-4);
-}
-
 .stats {
-  display: grid;
-  gap: var(--distance-6) var(--distance-4);
-  place-self: center;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-
-  .tokens {
-    width: 100%;
-  }
-}
-
-form {
-  display: grid;
-  gap: var(--distance-4);
-  label {
-    display: flex;
-    flex-direction: column;
-    font-size: var(--font-size-0);
-    span {
-      opacity: var(--opacity-1);
-      padding: 0 0 var(--distance-1) var(--distance-2);
-    }
-  }
+  font-size: var(--font-size-3);
 }
 
 .data-interact {
