@@ -1,19 +1,46 @@
-.stats {
-  font-size: var(--font-size-3);
+.wrapper {
+  display: grid;
+  grid-template: 1fr auto / 1fr;
+  min-height: 100%;
 }
-
+.stats {
+  place-self: center;
+  text-align: center;
+  font-size: var(--font-size-3);
+  line-height: calc(var(--font-size-3) + var(--distance-3));
+}
+.banks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-rows: auto;
+  gap: var(--distance-4);
+}
 .data-interact {
   margin-top: var(--distance-4);
   display: grid;
   gap: var(--distance-4);
 
-  .delete {
-    border-radius: var(--radius-1);
-    color: var(--col-bg);
-    background-color: var(--col-warning);
-  }
   .export {
     background-color: var(--col-accent);
     border-radius: var(--radius-1);
   }
+}
+
+.add-bank,
+app-bank-settings-card {
+  border: 1px solid rgb(from var(--col-text) r g b / var(--opacity-0));
+  border-radius: var(--radius-1);
+}
+
+.add-bank {
+  display: grid;
+  place-items: center;
+  padding: var(--distance-4);
+  app-icon-comp {
+    opacity: var(--opacity-1);
+  }
+}
+
+.delete {
+  background-color: rgb(from var(--col-warning) r g b / var(--opacity-1));
 }

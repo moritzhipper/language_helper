@@ -1,0 +1,23 @@
+@let b = bank();
+
+<div class="name">
+  {{ b.name }}
+</div>
+<button class="silent share">
+  <app-icon-comp type="share-network" />
+</button>
+
+<div class="counts">
+  <span> {{ b.collections.length }} collections </span>
+  <span> {{ b.learnables.length }} learnables </span>
+</div>
+
+<div class="created">{{ b.created | date: 'mediumDate' }}</div>
+<div class="details">
+  {{ b.language.learning }}
+  <app-icon-comp type="left-right" [size]="12" />
+  {{ b.language.speaking }}
+</div>
+<button class="small delete">delete</button>
+<button class="small download">download</button>
+<button class="small edit">edit</button>

@@ -6,12 +6,13 @@ import { ModalService } from '../../../services/modal-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
 import { mapToBankExport } from '../../../utils/import-export-utils'
-import { CounterComp } from '../../shared/counter-comp/counter-comp'
+import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
+import { BankSettingsComp } from './bank-settings-comp/bank-settings-comp'
 
 @Component({
   selector: 'app-settings.comp',
-  imports: [ReactiveFormsModule, PageWrapperComp, CounterComp],
+  imports: [ReactiveFormsModule, PageWrapperComp, BankSettingsComp, IconComp],
   templateUrl: './settings-page-comp.html',
   styleUrl: './settings-page-comp.scss'
 })
@@ -22,6 +23,7 @@ export class SettingsComp {
   private readonly _blobS = inject(BlobService)
   tokensUsed = this._settingsS.tokensUsed
   protected bank = this._languageS.activeBank
+  protected banks = this._languageS.banks
   protected stats = computed(() => {
     const banksCount = this._languageS.banks().length
     const learnablesCount = this._languageS
