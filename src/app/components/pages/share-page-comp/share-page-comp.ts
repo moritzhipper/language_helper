@@ -2,11 +2,7 @@ import { Component, inject } from '@angular/core'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
-import {
-  BankBase,
-  BankExportOffline,
-  BankExportOnline
-} from '../../../types_and_schemas/types'
+import { BankShare } from '../../../types_and_schemas/types'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { mockOnlineBanks, mockUserBanks } from './mockBanks'
 import { SharedBankComp } from './shared-collection-comp/shared-bank-comp'
@@ -25,7 +21,7 @@ export class SharePageComp {
   userBanks = mockUserBanks
   onlineBanks = mockOnlineBanks
 
-  protected async copyLink(bank: BankExportOnline) {
+  protected async copyLink(bank: BankShare) {
     try {
       await navigator.clipboard.writeText(this.generateLink(bank.id))
 
@@ -41,8 +37,8 @@ export class SharePageComp {
     }
   }
 
-  protected async importBank(bank: BankExportOffline) {
-    const result = await this._modalService.open<BankBase>('bank-import', {
+  protected async importBank(bank: BankShare) {
+    const result = await this._modalService.open<BankShare>('bank-import', {
       bankExport: bank
     })
 

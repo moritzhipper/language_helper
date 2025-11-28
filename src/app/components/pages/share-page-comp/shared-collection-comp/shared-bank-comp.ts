@@ -7,7 +7,7 @@ import {
   output,
   signal
 } from '@angular/core'
-import { BankExportOnline } from '../../../../types_and_schemas/types'
+import { BankShare } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 
 type Counter = {
@@ -32,14 +32,12 @@ export class SharedBankComp implements OnDestroy {
    *
    *
    */
-  bank = input.required<BankExportOnline>()
+  bank = input.required<BankShare>()
   allowImport = input<boolean>(true)
   copyId = output<void>()
   importBank = output<void>()
 
-  hasMultipleCollections = computed(
-    () => this.bank().bank.collections.length > 1
-  )
+  hasMultipleCollections = computed(() => this.bank().collections.length > 1)
 
   private readonly currentTime = signal(Date.now())
 
@@ -48,7 +46,7 @@ export class SharedBankComp implements OnDestroy {
   }, 1000)
 
   protected readonly counter = computed<Counter>(() => {
-    const { collections, learnables } = this.bank().bank
+    const { collections, learnables } = this.bank()
 
     return {
       cards: collections.length,

@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core'
 import { FormGroup, ReactiveFormsModule } from '@angular/forms'
-import { BankExportOffline } from '../../../../types_and_schemas/types'
+import { BankShare } from '../../../../types_and_schemas/types'
 import { BaseModalDirective } from '../base-modal-directive'
 
 type CollectionPreview = {
@@ -15,11 +15,11 @@ type CollectionPreview = {
   styleUrl: './import-form-comp.scss'
 })
 export class ImportFormComp extends BaseModalDirective {
-  bankExport = input.required<BankExportOffline>()
+  bankExport = input.required<BankShare>()
   form = new FormGroup({})
 
   collectionPreviews = computed<CollectionPreview[]>(() => {
-    const { learnables, collections } = this.bankExport().bank
+    const { learnables, collections } = this.bankExport()
 
     const previews = collections.map((c) => ({
       name: c.name,

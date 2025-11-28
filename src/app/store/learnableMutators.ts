@@ -1,5 +1,5 @@
 import {
-  BankBase,
+  BankShare,
   CollectionUser,
   Guess,
   Guessable,
@@ -187,7 +187,7 @@ const learnablesMatch = (l1: LearnableBase, l2: LearnableBase) =>
   l1.lexeme === l2.lexeme && l1.translation === l2.translation
 
 export const saveImportedCollections =
-  ({ learnables, collections }: BankBase) =>
+  ({ learnables, collections }: BankShare) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     return {
       ...state,

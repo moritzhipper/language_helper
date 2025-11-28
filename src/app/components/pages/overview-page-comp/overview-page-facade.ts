@@ -168,17 +168,17 @@ export class OverviewPageFacade {
     )
 
     if (userChoice.type !== 'confirm') return
-    const bankExport = mapToBankExport('hi', bank, [id])
+    const bankExport = mapToBankExport(bank, [id])
     await this._apiService.shareBank(bankExport, userChoice.value.ttlMinutes)
   }
 
   createCollectionDownload(bank: BankUser, id?: string) {
     if (!id) {
-      const bankExport = mapToBankExport('hi', bank)
+      const bankExport = mapToBankExport(bank)
       return this._blobService.createDownloadableFromLearnables(bankExport)
     }
 
-    const bankExport = mapToBankExport('hi', bank, [id])
+    const bankExport = mapToBankExport(bank, [id])
     return this._blobService.createDownloadableFromLearnables(bankExport)
   }
 

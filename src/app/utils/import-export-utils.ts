@@ -1,8 +1,7 @@
 import { config } from '../../config'
-import { BankBaseSchema } from '../types_and_schemas/schemas'
+import { BankShareSchema } from '../types_and_schemas/schemas'
 import {
-  BankBase,
-  BankExportOffline,
+  BankShare,
   BankUser,
   Collection,
   LearnableBase,
@@ -16,10 +15,9 @@ import {
  * Maps the learnables and collections to a format suitable to put into a file for export.
  */
 export const mapToBankExport = (
-  name: string,
   bank: BankUser,
   onlyCollectionIDs?: string[]
-): BankExportOffline => {
+): BankShare => {
   // Get collections to export
   const collectionsToExport = bank.collections.filter((c) =>
     onlyCollectionIDs ? onlyCollectionIDs.includes(c.id) : true
@@ -51,22 +49,26 @@ export const mapToBankExport = (
     cardIds: c.cardIds.filter((cardId) => exportedLearnableIds.has(cardId))
   }))
 
+  // Default expiration: 30 days from now
+  const expires = new Date()
+  expires.setDate(expires.getDate() + 30)
+
   return {
-    name,
+    id: bank.id,
+    name: bank.name,
     created: new Date(),
-    bank: {
-      language: bank.language,
-      learnables,
-      collections
-    }
+    expires,
+    language: bank.language,
+    learnables,
+    collections
   }
 }
 
 // #region Import Functions
 
-export const parseFileImportString = (fileAsString: string): BankBase => {
+export const parseFileImportString = (fileAsString: string): BankShare => {
   try {
-    return BankBaseSchema.parse(JSON.parse(fileAsString))
+    return BankShareSchema.parse(JSON.parse(fileAsString))
   } catch (e) {
     console.error('Failed to parse learnables from file:', e)
     throw new Error('Invalid file format')

@@ -1,7 +1,4 @@
-import {
-  BankExportOnline,
-  LearnableWithId
-} from '../../../types_and_schemas/types'
+import { BankShare, LearnableWithId } from '../../../types_and_schemas/types'
 
 // Helper function to create a learnable
 const createLearnable = (
@@ -91,14 +88,14 @@ const createCollection = (name: string, cardIds: string[] = []) => ({
 // Helper to create language pair
 const enDe = { speaking: 'English', learning: 'German' }
 
-// Helper function to create a BankExportOnline
-const createBankExport = (
+// Helper function to create a BankShare
+const createBankShare = (
   name: string,
   learnables: LearnableWithId[],
   collectionNames: string[],
   created: Date,
   expires: Date
-): BankExportOnline => {
+): BankShare => {
   // Distribute learnables across collections
   const learnableIds = learnables.map((l) => l.id)
   const collectionsWithCards = collectionNames.map((colName, index) => {
@@ -111,30 +108,22 @@ const createBankExport = (
     created,
     expires,
     name,
-    bank: {
-      language: enDe,
-      learnables,
-      collections: collectionsWithCards
-    }
+    language: enDe,
+    learnables,
+    collections: collectionsWithCards
   }
 }
 
-export const mockUserBanks: BankExportOnline[] = [
-  createBankExport(
+export const mockUserBanks: BankShare[] = [
+  createBankShare(
     'Business Presentation',
     businessLearnables,
     ['Meeting Vocabulary', 'Financial Terms', 'All Business'],
     new Date('2024-01-15'),
     new Date('2026-01-15')
   ),
-  createBankExport(
-    'Cafe',
-    cafeLearnables,
-    ['Ordering Food'],
-    new Date('2024-02-10'),
-    new Date('2026-02-10')
-  ),
-  createBankExport(
+
+  createBankShare(
     'Light Conversation',
     conversationLearnables,
     ['Greetings', 'Small Talk', 'Getting to Know Someone'],
@@ -143,19 +132,26 @@ export const mockUserBanks: BankExportOnline[] = [
   )
 ]
 
-export const mockOnlineBanks: BankExportOnline[] = [
-  createBankExport(
+export const mockOnlineBanks: BankShare[] = [
+  createBankShare(
     'Selling Stuff Online',
     onlineSellingLearnables,
     ['Transaction Terms', 'Product Inquiries', 'Complete E-commerce'],
     new Date('2024-04-15'),
     new Date('2026-04-15')
   ),
-  createBankExport(
+  createBankShare(
     'Talking to a Cute Dog',
     dogLearnables,
     ['Dog Compliments', 'Dog Questions'],
     new Date('2024-05-01'),
     new Date('2026-05-01')
+  ),
+  createBankShare(
+    'Cafe',
+    cafeLearnables,
+    ['Ordering Food'],
+    new Date('2024-02-10'),
+    new Date('2026-02-10')
   )
 ]

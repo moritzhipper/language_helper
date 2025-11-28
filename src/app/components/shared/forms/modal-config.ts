@@ -1,4 +1,5 @@
 import { Type } from '@angular/core'
+import { AddBankComp } from './add-bank-comp/add-bank-comp'
 import { BulkEditComp } from './bulk-add-comp/bulk-edit-comp'
 import { CollectionAddComp } from './collection-add-comp/collection-add-comp'
 import { ConfirmFormComp } from './confirm-form-comp/confirm-form-comp'
@@ -19,6 +20,7 @@ export type ModalType =
   | 'collection-delete'
   | 'bank-import'
   | 'share-collection'
+  | 'add-bank'
 
 export type OpenModalConfig = {
   type: ModalType
@@ -36,7 +38,8 @@ export const modalConfig: Record<ModalType, Type<unknown>> = {
   'collection-rename': EditCollectionComp,
   'collection-delete': DeleteCollectionComp,
   'bank-import': ImportFormComp,
-  'share-collection': ShareFormComp
+  'share-collection': ShareFormComp,
+  'add-bank': AddBankComp
 }
 
 export const getModalComponent = (type: ModalType): Type<unknown> => {

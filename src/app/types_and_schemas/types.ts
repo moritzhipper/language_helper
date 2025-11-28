@@ -1,8 +1,6 @@
 import z from 'zod'
 import {
-  BankBaseSchema,
-  BankOfflineExportSchema,
-  BankOnlineExportSchema,
+  BankShareSchema,
   BankUserSchema,
   CollectionBaseSchema,
   CollectionUserSchema,
@@ -18,11 +16,9 @@ export type LearnableBase = z.infer<typeof LearnableBaseSchema>
 export type Collection = z.infer<typeof CollectionBaseSchema>
 export type CollectionUser = z.infer<typeof CollectionUserSchema>
 
-export type BankBase = z.infer<typeof BankBaseSchema>
 export type LanguageConfig = z.infer<typeof LanguageConfigSchema>
-export type BankExportOnline = z.infer<typeof BankOnlineExportSchema>
-export type BankExportOffline = z.infer<typeof BankOfflineExportSchema>
 export type BankUser = z.infer<typeof BankUserSchema>
+export type BankShare = z.infer<typeof BankShareSchema>
 
 export type LearnableWithId = z.infer<typeof LearnableWithIdSchema>
 export type LearnableFromAI = z.infer<typeof LearnableFromAiSchema>

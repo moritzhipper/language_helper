@@ -43,23 +43,18 @@ export const LanguageConfigSchema = z.object({
 
 export const BankBaseSchema = z.object({
   language: LanguageConfigSchema,
-  learnables: z.array(LearnableWithIdSchema),
-  collections: z.array(CollectionBaseSchema)
+  id: z.string(),
+  created: z.date(),
+  name: z.string()
 })
 
 export const BankUserSchema = BankBaseSchema.extend({
-  id: z.string(),
   learnables: z.array(LearnableUserSchema),
   collections: z.array(CollectionUserSchema)
 })
 
-export const BankOfflineExportSchema = z.object({
-  created: z.date(),
-  name: z.string(),
-  bank: BankBaseSchema
-})
-
-export const BankOnlineExportSchema = BankOfflineExportSchema.extend({
-  expires: z.date(),
-  id: z.uuid()
+export const BankShareSchema = BankBaseSchema.extend({
+  learnables: z.array(LearnableWithIdSchema),
+  collections: z.array(CollectionBaseSchema),
+  expires: z.date()
 })

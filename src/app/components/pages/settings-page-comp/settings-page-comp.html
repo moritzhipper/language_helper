@@ -24,23 +24,20 @@
         <span> OpenAI API-key </span>
         <input type="password" formControlName="apiKey" />
       </label>
-      <label>
-        <span> I am learning </span>
-        <input type="text" formControlName="learningLanguage" />
-      </label>
-      <label>
-        <span> I am speaking </span>
-        <input type="text" formControlName="speakingLanguage" />
-      </label>
     </form>
     <div class="data-interact">
-      <button class="delete" (click)="reset()">delete all cards</button>
+      <button class="primary big full" (click)="createNewBank()">
+        create new bank
+      </button>
       <a
         class="big export"
         [download]="learnablesDownload().fileName"
         [attr.href]="learnablesDownload().blobUrl"
-        >export all cards
+        >export bank
       </a>
+      <button class="primary big delete" (click)="reset()">
+        delete everything
+      </button>
     </div>
   </div>
 </app-page-wrapper-comp>

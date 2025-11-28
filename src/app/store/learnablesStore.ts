@@ -8,7 +8,7 @@ import {
   withState
 } from '@ngrx/signals'
 import {
-  BankBase,
+  BankShare,
   Guess,
   LanguageConfig,
   LearnableBase,
@@ -79,7 +79,7 @@ export const LearnablesStore = signalStore(
       ) {
         patchState(state, editCollection(collectionID, addIDs, deleteIDs))
       },
-      importBankExport(importStore: BankBase) {
+      importBankExport(importStore: BankShare) {
         patchState(state, saveImportedCollections(importStore))
       },
       editCollection(name: string, id: string) {

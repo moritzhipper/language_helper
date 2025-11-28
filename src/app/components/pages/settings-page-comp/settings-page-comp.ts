@@ -40,7 +40,7 @@ export class SettingsComp {
   })
 
   learnablesDownload = computed(() => {
-    const bankExport = mapToBankExport('hi', this.bank())
+    const bankExport = mapToBankExport(this.bank())
     return this._blobS.createDownloadableFromLearnables(bankExport)
   })
 
@@ -82,5 +82,12 @@ export class SettingsComp {
 
     if (result.type !== 'confirm') return
     this._languageS.reset()
+  }
+
+  async createNewBank() {
+    const result = await this._modalService.open('add-bank')
+    if (result.type !== 'confirm') return
+
+    // this._languageS.addBank(result.value)
   }
 }

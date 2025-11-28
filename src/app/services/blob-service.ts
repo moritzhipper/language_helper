@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { config } from '../../config'
-import { BankBase, BankExportOffline } from '../types_and_schemas/types'
+import { BankShare } from '../types_and_schemas/types'
 import {
   parseFileImportString,
   verifiyImportedFileValidity
@@ -18,7 +18,7 @@ export class BlobService {
   private _blobUrl = ''
 
   // use service for this to handle revoking last blob for better memory management
-  createDownloadableFromLearnables(bank: BankExportOffline): Downloadable {
+  createDownloadableFromLearnables(bank: BankShare): Downloadable {
     URL.revokeObjectURL(this._blobUrl)
 
     const jsonString = JSON.stringify(bank)
@@ -37,7 +37,7 @@ export class BlobService {
     }
   }
 
-  async readFile(file: File): Promise<BankBase> {
+  async readFile(file: File): Promise<BankShare> {
     // Verify file validity first
     verifiyImportedFileValidity(file)
 
