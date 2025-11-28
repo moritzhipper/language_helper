@@ -50,3 +50,8 @@ export const calculateAverageConfidencePercent = (
 export const removeDuplicates = (array: string[]): string[] => {
   return Array.from(new Set(array))
 }
+
+export const pluralize = (count: number, unit: string): string => {
+  const pluralS = count !== 1 ? 's' : ''
+  return `${count} ${unit}${pluralS}`
+}

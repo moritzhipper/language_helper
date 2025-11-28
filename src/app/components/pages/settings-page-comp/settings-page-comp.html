@@ -1,10 +1,16 @@
 <app-page-wrapper-comp title="Settings" desktopMode="center" icon="settings">
   <div class="wrapper">
     <div class="stats">
-      You have created <strong>{{ stats().banksCount }} bank</strong> holding
-      <strong>{{ stats().collectionsCount }} collections</strong> having a total
-      of <strong>{{ stats().learnablesCount }} learnables</strong>. You also
-      spent <strong>{{ tokensUsed() }} tokens</strong> to generate cards.
+      <div class="big">
+        You created <strong>{{ stats().banks }} </strong> holding
+        <strong>{{ stats().collections }} </strong> having a total of
+        <strong>{{ stats().learnables }}</strong
+        >.
+      </div>
+      <div class="smaller">
+        You also spent <strong>{{ tokensUsed() }} tokens </strong> generating
+        cards.
+      </div>
     </div>
     <div class="banks">
       @for (bank of banks(); track bank.id) {
@@ -17,13 +23,11 @@
       </div>
     </div>
 
-    <form [formGroup]="form">
+    <div class="data-interact">
       <label>
         <span> OpenAI API-key </span>
-        <input type="password" formControlName="apiKey" />
+        <input type="password" />
       </label>
-    </form>
-    <div class="data-interact">
       <button class="primary big delete" (click)="reset()">
         delete everything
       </button>

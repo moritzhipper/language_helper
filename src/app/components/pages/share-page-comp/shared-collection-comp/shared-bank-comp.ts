@@ -8,6 +8,7 @@ import {
   signal
 } from '@angular/core'
 import { BankShare } from '../../../../types_and_schemas/types'
+import { pluralize } from '../../../../utils/genaral-utils'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 
 type Counter = {
@@ -50,15 +51,15 @@ export class SharedBankComp implements OnDestroy {
 
     return {
       cards: collections.length,
-      words: this.pluralize(
+      words: pluralize(
         learnables.filter((l) => l.type === 'word').length,
         'word'
       ),
-      phrases: this.pluralize(
+      phrases: pluralize(
         learnables.filter((l) => l.type === 'phrase').length,
         'phrase'
       ),
-      collections: this.pluralize(collections.length, 'collection')
+      collections: pluralize(collections.length, 'collection')
     }
   })
 
@@ -83,13 +84,13 @@ export class SharedBankComp implements OnDestroy {
     if (diffDays > 7) {
       ttlString = expires.toLocaleDateString()
     } else if (diffDays > 0) {
-      ttlString = this.pluralize(diffDays, 'day')
+      ttlString = pluralize(diffDays, 'day')
     } else if (diffHours > 0) {
-      ttlString = this.pluralize(diffHours, 'hour')
+      ttlString = pluralize(diffHours, 'hour')
     } else if (diffMinutes > 0) {
-      ttlString = this.pluralize(diffMinutes, 'minute')
+      ttlString = pluralize(diffMinutes, 'minute')
     } else {
-      ttlString = this.pluralize(diffSeconds, 'second')
+      ttlString = pluralize(diffSeconds, 'second')
     }
 
     return {
@@ -100,10 +101,5 @@ export class SharedBankComp implements OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.timeInterval)
-  }
-
-  private pluralize(count: number, unit: string): string {
-    const pluralS = count !== 1 ? 's' : ''
-    return `${count} ${unit}${pluralS}`
   }
 }

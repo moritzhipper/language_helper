@@ -1,10 +1,10 @@
-import { Component, computed, effect, inject, untracked } from '@angular/core'
-import { toSignal } from '@angular/core/rxjs-interop'
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { Component, computed, inject } from '@angular/core'
+import { ReactiveFormsModule } from '@angular/forms'
 import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
+import { pluralize } from '../../../utils/genaral-utils'
 import { mapToBankExport } from '../../../utils/import-export-utils'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
@@ -26,18 +26,16 @@ export class SettingsComp {
   protected banks = this._languageS.banks
   protected stats = computed(() => {
     const banksCount = this._languageS.banks().length
-    const learnablesCount = this._languageS
-      .banks()
-      .map((b) => b.learnables.length)
-      .reduce((a, b) => a + b, 0)
     const collectionsCount = this._languageS
       .banks()
-      .map((b) => b.collections.length)
-      .reduce((a, b) => a + b, 0)
+      .reduce((acc, bank) => acc + bank.collections.length, 0)
+    const learnablesCount = this._languageS
+      .banks()
+      .reduce((acc, bank) => acc + bank.learnables.length, 0)
     return {
-      banksCount,
-      learnablesCount,
-      collectionsCount
+      banks: pluralize(banksCount, 'bank'),
+      collections: pluralize(collectionsCount, 'collection'),
+      learnables: pluralize(learnablesCount, 'learnable')
     }
   })
 
@@ -46,39 +44,10 @@ export class SettingsComp {
     return this._blobS.createDownloadableFromLearnables(bankExport)
   })
 
-  form = new FormGroup({
-    apiKey: new FormControl('', { nonNullable: true }),
-    learningLanguage: new FormControl('', { nonNullable: true }),
-    speakingLanguage: new FormControl('', { nonNullable: true })
-  })
-  formSignal = toSignal(this.form.valueChanges)
-
-  constructor() {
-    this.form.setValue({
-      apiKey: this._settingsS.apiKey(),
-      learningLanguage: this.bank().language.learning,
-      speakingLanguage: this.bank().language.speaking
-    })
-    effect(() => {
-      const formValue = this.formSignal()
-      untracked(() => {
-        if (!formValue) return
-
-        const { apiKey, learningLanguage, speakingLanguage } = formValue
-
-        this._settingsS.updateSettings({ apiKey })
-        this._languageS.editBankLanguage({
-          learning: learningLanguage as string,
-          speaking: speakingLanguage as string
-        })
-      })
-    })
-  }
-
   async reset() {
-    const { banksCount, collectionsCount, learnablesCount } = this.stats()
+    const { banks, collections, learnables } = this.stats()
     const result = await this._modalService.open('confirm', {
-      message: `Delete ${banksCount} banks, ${learnablesCount} cards and ${collectionsCount} collections?`,
+      message: `Delete ${banks} banks, ${learnables} cards and ${collections} collections?`,
       label: 'delete all of them!'
     })
 

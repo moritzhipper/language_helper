@@ -37,6 +37,12 @@
   }
 }
 
+.delete,
+.download,
+.edit {
+  padding: var(--distance-1) 0;
+}
+
 .share {
   justify-self: end;
   opacity: var(--opacity-1);
