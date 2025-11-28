@@ -1,9 +1,12 @@
 # ToDo
 
 - refactor learnable mutators, split in files, reuse double code
+- clean up facade service
+- dont mark newest when exiting bulk edit withou adding new ones
 - practice wiht only one card is broken
 - add to collection after import doesnt work
 - sho 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
+- move navitimes to left to align with cool big header
 
 - unifiy type setup:
   - add change language mutator:
