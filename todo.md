@@ -1,5 +1,6 @@
 # ToDo
 
+- allow set as active in settings
 - refactor learnable mutators, split in files, reuse double code
 - clean up facade service
 - dont mark newest when exiting bulk edit withou adding new ones

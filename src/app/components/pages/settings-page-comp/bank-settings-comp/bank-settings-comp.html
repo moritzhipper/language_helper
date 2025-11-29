@@ -21,3 +21,10 @@
 <button class="small delete">delete</button>
 <button class="small download">download</button>
 <button class="small edit">edit</button>
+<button class="small activate" [class.active]="isActive()">
+  @if (isActive()) {
+    this bank is active
+  } @else {
+    set as active
+  }
+</button>

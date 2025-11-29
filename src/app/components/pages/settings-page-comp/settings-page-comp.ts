@@ -5,7 +5,6 @@ import { ModalService } from '../../../services/modal-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
 import { pluralize } from '../../../utils/genaral-utils'
-import { mapToBankExport } from '../../../utils/import-export-utils'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { BankSettingsComp } from './bank-settings-comp/bank-settings-comp'
@@ -21,9 +20,11 @@ export class SettingsComp {
   private readonly _languageS = inject(LearnablesStore)
   private readonly _modalService = inject(ModalService)
   private readonly _blobS = inject(BlobService)
+
+  protected apiKey = this._settingsS.apiKey
   tokensUsed = this._settingsS.tokensUsed
-  protected bank = this._languageS.activeBank
   protected banks = this._languageS.banks
+  protected activeBankId = computed(() => this._languageS.activeBank().id)
   protected stats = computed(() => {
     const banksCount = this._languageS.banks().length
     const collectionsCount = this._languageS
@@ -39,16 +40,11 @@ export class SettingsComp {
     }
   })
 
-  learnablesDownload = computed(() => {
-    const bankExport = mapToBankExport(this.bank())
-    return this._blobS.createDownloadableFromLearnables(bankExport)
-  })
-
   async reset() {
     const { banks, collections, learnables } = this.stats()
     const result = await this._modalService.open('confirm', {
-      message: `Delete ${banks} banks, ${learnables} cards and ${collections} collections?`,
-      label: 'delete all of them!'
+      message: `Delete alle banks, collections, cards and reset this app to default?`,
+      label: 'yup, do it!'
     })
 
     if (result.type !== 'confirm') return
@@ -60,5 +56,10 @@ export class SettingsComp {
     if (result.type !== 'confirm') return
 
     // this._languageS.addBank(result.value)
+  }
+
+  protected updateKey(event: Event) {
+    const input = event.target as HTMLInputElement
+    this._settingsS.updateSettings({ apiKey: input.value })
   }
 }

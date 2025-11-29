@@ -3,7 +3,7 @@
   grid-template: auto auto auto / 1fr 1fr 1fr;
 
   padding: var(--distance-3);
-  gap: var(--distance-2) var(--distance-3);
+  gap: var(--distance-2);
 }
 .counts,
 .details {
@@ -21,10 +21,9 @@
   font-size: var(--font-size-0);
   opacity: var(--opacity-1);
 }
+
 .details {
   justify-self: end;
-}
-.details {
   grid-column: span 2;
 
   display: flex;
@@ -55,4 +54,18 @@
 
 .delete {
   background-color: rgb(from var(--col-warning) r g b / var(--opacity-1));
+}
+
+.activate {
+  grid-column: span 3;
+}
+
+button.activate {
+  &.active {
+    background-color: rgb(from var(--col-text) r g b / var(--opacity-1));
+    color: var(--col-bg);
+  }
+  &:not(.active) {
+    background-color: rgb(from var(--col-text) r g b / var(--opacity-0));
+  }
 }

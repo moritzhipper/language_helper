@@ -14,7 +14,10 @@
     </div>
     <div class="banks">
       @for (bank of banks(); track bank.id) {
-        <app-bank-settings-card [bank]="bank" />
+        <app-bank-settings-card
+          [bank]="bank"
+          [isActive]="activeBankId() === bank.id"
+        />
       }
       <div class="add-bank">
         <button (click)="createNewBank()">
@@ -26,10 +29,10 @@
     <div class="data-interact">
       <label>
         <span> OpenAI API-key </span>
-        <input type="password" />
+        <input type="password" [value]="apiKey()" (input)="updateKey($event)" />
       </label>
       <button class="primary big delete" (click)="reset()">
-        delete everything
+        reset all data
       </button>
     </div>
   </div>

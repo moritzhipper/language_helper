@@ -20,6 +20,8 @@
   // use for emphasis
   --shadow-small: 0px 5px 7px -5px var(--col-base-0);
 
+  --grid-auto-columns: repeat(auto-fill, minmax(320px, 1fr));
+
   --font-weight-normal: 500;
   --font-weight-bold: 600;
 
