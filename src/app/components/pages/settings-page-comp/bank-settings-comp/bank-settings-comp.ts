@@ -12,6 +12,7 @@ import { IconComp } from '../../../shared/icon-comp/icon-comp'
 export class BankSettingsComp {
   bank = input.required<BankUser>()
   isActive = input.required<boolean>()
+  share = output<void>()
 
   edit = output<void>()
   setActive = output<void>()

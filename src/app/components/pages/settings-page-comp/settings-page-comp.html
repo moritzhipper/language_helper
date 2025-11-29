@@ -19,8 +19,9 @@
           [isActive]="activeBankId() === bank.id"
           (setActive)="setActiveBank(bank.id)"
           (delete)="deleteBank(bank.id)"
-          (download)="downloadBank(bank.id)"
-          (edit)="editBank(bank.id)"
+          (download)="downloadBank(bank)"
+          (edit)="editBank(bank)"
+          (share)="shareBank(bank)"
         />
       }
       <div class="add-bank">

@@ -8,12 +8,12 @@ import { BankBase } from '../../../../types_and_schemas/types'
 import { BaseModalDirective } from '../base-modal-directive'
 
 @Component({
-  selector: 'app-add-bank-comp',
+  selector: 'app-edit-bank-comp',
   imports: [ReactiveFormsModule],
-  templateUrl: './add-bank-comp.html',
-  styleUrl: './add-bank-comp.scss'
+  templateUrl: './edit-bank-comp.html',
+  styleUrl: './edit-bank-comp.scss'
 })
-export class AddBankComp extends BaseModalDirective {
+export class EditBankComp extends BaseModalDirective {
   private readonly _fb = inject(NonNullableFormBuilder)
 
   preset = input<BankBase>()

@@ -161,7 +161,7 @@ export class OverviewPageFacade {
 
   async shareCollection(bank: BankUser, id: string) {
     const userChoice = await this._modalService.open<ShareFormResponse>(
-      'share-collection',
+      'bank-share',
       {
         bank
       }

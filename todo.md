@@ -9,6 +9,7 @@
 - sho 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
 - move navitimes to left to align with cool big header
 - swipes count in stats
+- add html lang call to ai service, save it as option in language config.
 - move navigation to left
   - add nav service, that can hide nav (for practice) -> smooth animation
   - provide headernames, icon via route setup

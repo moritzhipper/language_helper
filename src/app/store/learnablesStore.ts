@@ -18,6 +18,7 @@ import { initialState } from './initialStates'
 import {
   createBank,
   createCollection,
+  deleteBank,
   deleteCollection,
   editCollection,
   quitPracticeEarly,
@@ -93,13 +94,16 @@ export const LearnablesStore = signalStore(
         patchState(state, createBank(base))
       },
       updateBank(base: BankBase, bankID: string) {
-        patchState(state, updateBank(base))
+        patchState(state, updateBank(base, bankID))
       },
       setActiveBank(id: string) {
         patchState(state, (s) => ({
           ...s,
           activeBankId: id
         }))
+      },
+      deleteBank(id: string) {
+        patchState(state, deleteBank(id))
       },
       quitPracticePrematurly() {
         patchState(state, quitPracticeEarly())

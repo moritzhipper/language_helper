@@ -2,9 +2,10 @@ import { Component, computed, inject } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
+import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
-import { BankBase } from '../../../types_and_schemas/types'
+import { BankBase, BankUser } from '../../../types_and_schemas/types'
 import { pluralize } from '../../../utils/genaral-utils'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
@@ -20,6 +21,7 @@ export class SettingsComp {
   private readonly _settingsS = inject(SettingsStore)
   private readonly _languageS = inject(LearnablesStore)
   private readonly _modalService = inject(ModalService)
+  private readonly _toastS = inject(ToastService)
   private readonly _blobS = inject(BlobService)
 
   protected tokensUsed = this._settingsS.tokensUsed
@@ -55,7 +57,7 @@ export class SettingsComp {
   }
 
   async createNewBank() {
-    const result = await this._modalService.open<BankBase>('add-bank')
+    const result = await this._modalService.open<BankBase>('edit-bank')
     if (result.type !== 'confirm') return
 
     this._languageS.addBank(result.value)
@@ -65,23 +67,40 @@ export class SettingsComp {
     this._languageS.setActiveBank(id)
   }
 
-  async editBank(id: string) {
-    const bank = this._languageS.banks().find((b) => b.id === id)
-    if (!bank) return
-
-    const result = await this._modalService.open<BankBase>('add-bank', {
+  async editBank(bank: BankUser) {
+    const result = await this._modalService.open<BankBase>('edit-bank', {
       preset: bank
     })
     if (result.type !== 'confirm') return
 
-    this._languageS.updateBank(result.value, id)
+    this._languageS.updateBank(result.value, bank.id)
   }
 
-  deleteBank(id: string) {
-    // this._languageS.deleteBank(id)
+  async shareBank(bank: BankUser) {
+    const result = await this._modalService.open('bank-share', { bank })
+    // put shared bank into shared banks storage
+    // got to share page to copy the link
   }
 
-  downloadBank(id: string) {}
+  async deleteBank(id: string) {
+    if (this._languageS.banks().length === 1) {
+      this._toastS.showToast({
+        type: 'error',
+        message: `You can not delete the only bank.`
+      })
+      return
+    }
+
+    const result = await this._modalService.open('confirm', {
+      message: `Are you sure you want to delete this bank?`
+    })
+
+    if (result.type !== 'confirm') return
+
+    this._languageS.deleteBank(id)
+  }
+
+  downloadBank(bank: BankUser) {}
 
   protected updateKey(event: Event) {
     const input = event.target as HTMLInputElement

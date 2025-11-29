@@ -11,18 +11,20 @@
   font-weight: var(--font-weight-bold);
 }
 
-.counts,
-.details,
-.created {
-  grid-column: span 3;
-  font-size: var(--font-size-0);
-  opacity: var(--opacity-1);
-}
-
 .details {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: var(--distance-1);
+
+  font-size: var(--font-size-0);
+  grid-column: span 3;
+  opacity: var(--opacity-1);
+
+  .language {
+    display: flex;
+    align-items: center;
+    gap: var(--distance-1);
+  }
 }
 .counts {
   span:not(:last-of-type):after {
