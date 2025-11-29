@@ -11,17 +11,21 @@
   <span> {{ b.collections.length }} collections </span>
   <span> {{ b.learnables.length }} learnables </span>
 </div>
-
-<div class="created">{{ b.created | date: 'mediumDate' }}</div>
 <div class="details">
   {{ b.language.learning }}
   <app-icon-comp type="left-right" [size]="12" />
   {{ b.language.speaking }}
 </div>
-<button class="small delete">delete</button>
-<button class="small download">download</button>
-<button class="small edit">edit</button>
-<button class="small activate" [class.active]="isActive()">
+<div class="created">{{ b.created | date: 'mediumDate' }}</div>
+
+<button class="small delete" (click)="delete.emit()">delete</button>
+<button class="small download" (click)="download.emit()">download</button>
+<button class="small edit" (click)="edit.emit()">edit</button>
+<button
+  class="small activate"
+  [class.active]="isActive()"
+  (click)="setActive.emit()"
+>
   @if (isActive()) {
     this bank is active
   } @else {

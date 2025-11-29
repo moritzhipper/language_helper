@@ -1,9 +1,10 @@
 import {
+  BankBase,
   BankShare,
+  BankUser,
   CollectionUser,
   Guess,
   Guessable,
-  LanguageConfig,
   LearnableBase,
   LearnablesStoreType,
   UserLearnable,
@@ -62,8 +63,8 @@ export const saveNewlyCreatedLearnables =
     }
   }
 
-export const updateBankLanguage =
-  (language: LanguageConfig) =>
+export const updateBank =
+  (base: BankBase) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     return {
       ...state,
@@ -71,7 +72,7 @@ export const updateBankLanguage =
         if (b.id !== state.activeBankId) return b
         return {
           ...b,
-          language
+          ...base
         }
       })
     }
@@ -436,3 +437,22 @@ const createNewCollection = (
   name,
   cardIds
 })
+
+export const createBank =
+  (base: BankBase) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const newBank: BankUser = {
+      id: crypto.randomUUID(),
+      name: base.name,
+      created: new Date(),
+      language: base.language,
+      collections: [],
+      learnables: []
+    }
+
+    return {
+      ...state,
+      activeBankId: newBank.id,
+      banks: [...state.banks, newBank]
+    }
+  }

@@ -18,6 +18,9 @@ export const SettingsStore = signalStore(
       patchState(store, {
         tokensUsed: store.tokensUsed() + tokens
       })
+    },
+    reset() {
+      patchState(store, initialSettings)
     }
   }))
 )

@@ -1,14 +1,10 @@
 :host {
   display: grid;
   grid-template: auto auto auto / 1fr 1fr 1fr;
-
   padding: var(--distance-3);
   gap: var(--distance-2);
 }
-.counts,
-.details {
-  grid-column: span 3;
-}
+
 .name {
   grid-column: span 2;
   font-size: var(--font-size-2);
@@ -18,14 +14,12 @@
 .counts,
 .details,
 .created {
+  grid-column: span 3;
   font-size: var(--font-size-0);
   opacity: var(--opacity-1);
 }
 
 .details {
-  justify-self: end;
-  grid-column: span 2;
-
   display: flex;
   align-items: center;
   gap: var(--distance-1);

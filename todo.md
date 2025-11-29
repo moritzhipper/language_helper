@@ -9,7 +9,7 @@
 - sho 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
 - move navitimes to left to align with cool big header
 - swipes count in stats
--
+- change blobcreation and download to happen on click, not in a reactive manner -> faster
 
 - unifiy type setup:
   - add change language mutator:

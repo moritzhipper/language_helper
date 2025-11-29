@@ -16,8 +16,18 @@ export class AddBankComp extends BaseModalDirective {
   private readonly _fb = inject(NonNullableFormBuilder)
 
   protected form = this._fb.group({
-    name: [''],
+    name: ['', Validators.required],
     speaking: ['', Validators.required],
     learning: ['', Validators.required]
   })
+
+  submit() {
+    if (this.form.invalid) return
+    const { name, speaking, learning } = this.form.value
+
+    this.confirm({
+      name,
+      language: { speaking, learning }
+    })
+  }
 }

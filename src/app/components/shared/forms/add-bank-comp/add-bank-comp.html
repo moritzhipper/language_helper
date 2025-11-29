@@ -1,4 +1,4 @@
-<form class="modal" (ngSubmit)="confirm()" [formGroup]="form">
+<form class="modal" (ngSubmit)="submit()" [formGroup]="form">
   <h2 class="full fly-in-y-0">Create new Bank</h2>
   <div class="inputs full fly-in-y-0">
     <label>
@@ -18,5 +18,7 @@
   <button type="button" (click)="cancel()" class="big fly-in-y-1">
     cancel
   </button>
-  <button type="submit" class="fly-in-y-2">Create</button>
+  <button type="submit" class="fly-in-y-2" [disabled]="form.invalid">
+    Create
+  </button>
 </form>

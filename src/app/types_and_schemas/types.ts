@@ -19,6 +19,7 @@ export type CollectionUser = z.infer<typeof CollectionUserSchema>
 export type LanguageConfig = z.infer<typeof LanguageConfigSchema>
 export type BankUser = z.infer<typeof BankUserSchema>
 export type BankShare = z.infer<typeof BankShareSchema>
+export type BankBase = Pick<BankShare, 'name' | 'language'>
 
 export type LearnableWithId = z.infer<typeof LearnableWithIdSchema>
 export type LearnableFromAI = z.infer<typeof LearnableFromAiSchema>

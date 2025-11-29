@@ -4,6 +4,7 @@ import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
+import { BankBase } from '../../../types_and_schemas/types'
 import { pluralize } from '../../../utils/genaral-utils'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
@@ -21,8 +22,9 @@ export class SettingsComp {
   private readonly _modalService = inject(ModalService)
   private readonly _blobS = inject(BlobService)
 
+  protected tokensUsed = this._settingsS.tokensUsed
   protected apiKey = this._settingsS.apiKey
-  tokensUsed = this._settingsS.tokensUsed
+
   protected banks = this._languageS.banks
   protected activeBankId = computed(() => this._languageS.activeBank().id)
   protected stats = computed(() => {
@@ -49,14 +51,30 @@ export class SettingsComp {
 
     if (result.type !== 'confirm') return
     this._languageS.reset()
+    this._settingsS.reset()
   }
 
   async createNewBank() {
-    const result = await this._modalService.open('add-bank')
+    const result = await this._modalService.open<BankBase>('add-bank')
     if (result.type !== 'confirm') return
 
-    // this._languageS.addBank(result.value)
+    this._languageS.addBank(result.value)
   }
+
+  setActiveBank(id: string) {
+    this._languageS.setActiveBank(id)
+  }
+
+  editBank(id: string) {
+    const bank = this._languageS.banks().find((b) => b.id === id)
+    if (!bank) return
+  }
+
+  deleteBank(id: string) {
+    // this._languageS.deleteBank(id)
+  }
+
+  downloadBank(id: string) {}
 
   protected updateKey(event: Event) {
     const input = event.target as HTMLInputElement

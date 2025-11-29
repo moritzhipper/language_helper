@@ -17,6 +17,10 @@
         <app-bank-settings-card
           [bank]="bank"
           [isActive]="activeBankId() === bank.id"
+          (setActive)="setActiveBank(bank.id)"
+          (delete)="deleteBank(bank.id)"
+          (download)="downloadBank(bank.id)"
+          (edit)="editBank(bank.id)"
         />
       }
       <div class="add-bank">
