@@ -65,9 +65,16 @@ export class SettingsComp {
     this._languageS.setActiveBank(id)
   }
 
-  editBank(id: string) {
+  async editBank(id: string) {
     const bank = this._languageS.banks().find((b) => b.id === id)
     if (!bank) return
+
+    const result = await this._modalService.open<BankBase>('add-bank', {
+      preset: bank
+    })
+    if (result.type !== 'confirm') return
+
+    this._languageS.updateBank(result.value, id)
   }
 
   deleteBank(id: string) {

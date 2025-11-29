@@ -9,8 +9,15 @@
 - sho 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
 - move navitimes to left to align with cool big header
 - swipes count in stats
+- move navigation to left
+  - add nav service, that can hide nav (for practice) -> smooth animation
+  - provide headernames, icon via route setup
+  - only do centered and full view, dont do the center layout thingy (ugly)
+  - remove page wrapper
 - change blobcreation and download to happen on click, not in a reactive manner -> faster
 
+- only allow deleting
+- handle deletion of last bank somehow
 - unifiy type setup:
   - add change language mutator:
     -> checks if language combo exists, activates bank with that combo or creates new empty one

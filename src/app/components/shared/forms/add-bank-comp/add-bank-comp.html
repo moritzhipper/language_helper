@@ -19,6 +19,10 @@
     cancel
   </button>
   <button type="submit" class="fly-in-y-2" [disabled]="form.invalid">
-    Create
+    @if (preset()) {
+      save
+    } @else {
+      create
+    }
   </button>
 </form>
