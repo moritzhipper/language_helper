@@ -7,7 +7,6 @@
 - refactor learnable mutators, split in files, reuse double code
 - clean up facade service
 - dont mark newest when exiting bulk edit withou adding new ones
-- practice wiht only one card is broken
 - add to collection after import doesnt work
 - sho 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
 - move navitimes to left to align with cool big header
@@ -19,7 +18,7 @@
   - only do centered and full view, dont do the center layout thingy (ugly)
   - remove page wrapper
 - change blobcreation and download to happen on click, not in a reactive manner -> faster
-
+  - implement in overview, share and settings
 - only allow deleting
 - handle deletion of last bank somehow
 - unifiy type setup:
