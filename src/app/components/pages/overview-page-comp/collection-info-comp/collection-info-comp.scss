@@ -21,9 +21,5 @@
       0px -5px 25px var(--col-bg),
       0px -2px 18px var(--col-bg),
       0px -1px 8px var(--col-bg);
-
-    span:not(:last-of-type):after {
-      content: '•';
-    }
   }
 }

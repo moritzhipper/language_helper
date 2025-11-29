@@ -38,10 +38,6 @@
 
   .info {
     grid-column: span 2;
-
-    span:not(:last-of-type):after {
-      content: '•';
-    }
   }
 
   .counter {

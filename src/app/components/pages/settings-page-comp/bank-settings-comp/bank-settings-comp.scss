@@ -26,11 +26,6 @@
     gap: var(--distance-1);
   }
 }
-.counts {
-  span:not(:last-of-type):after {
-    content: '•';
-  }
-}
 
 .delete,
 .download,

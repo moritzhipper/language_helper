@@ -1,22 +1,20 @@
-<form (ngSubmit)="confirm(this.bankExport())" class="modal" [formGroup]="form">
-  <h2 class="full fly-in-y-0">Import {{ bankExport().name }}?</h2>
-  <div class="preview full fly-in-y-0">
-    @if (collectionPreviews().length > 0) {
-      <div class="header">Collections</div>
+<form (ngSubmit)="confirm(this.bank())" class="modal" [formGroup]="form">
+  <h2 class="full fly-in-y-0">Import {{ bank().name }}?</h2>
+  @if (bank().collections.length > 0) {
+    <div class="preview full fly-in-y-0">
+      <h3>Collections</h3>
 
-      @for (prev of collectionPreviews(); track prev) {
-        <div class="collection">
-          <span class="name">{{ prev.name }}</span>
-          <span class="count">{{ prev.learnablesCount }} items</span>
-        </div>
+      @for (coll of bank().collections; track coll.id) {
+        <span class="word-list-item">
+          {{ coll.name }}
+        </span>
       }
-    }
-
-    <div class="header">Cards</div>
-    @for (learnable of bankExport().learnables; track learnable) {
-      <div class="lexeme">
-        {{ learnable.translation }}
-      </div>
+    </div>
+  }
+  <div class="preview full fly-in-y-0">
+    <h3>Cards</h3>
+    @for (learnable of bank().learnables; track learnable) {
+      <span class="word-list-item">{{ learnable.translation }}</span>
     }
   </div>
   <button type="button" class="big fly-in-y-1" (click)="cancel()">

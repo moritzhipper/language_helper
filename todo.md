@@ -1,5 +1,8 @@
 # ToDo
 
+- community shares
+  - section trending: all languages
+  - section for you: shares having your language
 - allow set as active in settings
 - refactor learnable mutators, split in files, reuse double code
 - clean up facade service

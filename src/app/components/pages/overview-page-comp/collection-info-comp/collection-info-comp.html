@@ -2,10 +2,10 @@
 
 <h2 class="ellipsis">{{ conf.header }}</h2>
 <div class="stats">
-  <span> {{ conf.averageConfidence }}% confidence </span>
-  <span> {{ conf.cardCount }} cards </span>
+  <span class="word-list-item"> {{ conf.averageConfidence }}% confidence </span>
+  <span class="word-list-item"> {{ conf.cardCount }} cards </span>
   @if (conf.date) {
-    <span>
+    <span class="word-list-item">
       {{ conf.date | date: 'mediumDate' }}
     </span>
   }

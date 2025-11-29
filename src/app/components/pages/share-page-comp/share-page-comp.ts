@@ -39,7 +39,7 @@ export class SharePageComp {
 
   protected async importBank(bank: BankShare) {
     const result = await this._modalService.open<BankShare>('bank-import', {
-      bankExport: bank
+      bank
     })
 
     if (result.type !== 'confirm') return

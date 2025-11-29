@@ -35,7 +35,7 @@
   display: grid;
   grid-template-columns: var(--grid-auto-columns);
 
-  gap: var(--distance-4);
+  gap: var(--distance-5);
   align-items: end;
   .export {
     background-color: var(--col-accent);
