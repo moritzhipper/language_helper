@@ -1,0 +1,23 @@
+@switch (rating()) {
+  @case ('noteven') {
+    <app-icon-comp class="single icon" type="heart" />
+  }
+  @case ('atleast') {
+    <app-icon-comp class="icon" type="star-fill" size="auto" />
+    <app-icon-comp class="icon" type="star" size="auto" />
+    <app-icon-comp class="icon" type="star" size="auto" />
+  }
+  @case ('okay') {
+    <app-icon-comp class="icon" type="star-fill" size="auto" />
+    <app-icon-comp class="icon" type="star" size="auto" />
+    <app-icon-comp class="icon" type="star-fill" size="auto" />
+  }
+  @case ('good') {
+    <app-icon-comp class="icon" type="star-fill" size="auto" />
+    <app-icon-comp class="icon" type="star-fill" size="auto" />
+    <app-icon-comp class="icon" type="star-fill" size="auto" />
+  }
+  @case ('excellent') {
+    <app-icon-comp type="meteor" class="icon single" />
+  }
+}

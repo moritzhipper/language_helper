@@ -1,0 +1,22 @@
+@let sum = summary();
+
+<div class="wrapper">
+  <app-practice-rating-comp [rating]="sum.rating" />
+
+  <div class="stats">
+    <h2>You got {{ sum.guessedRightPercent }}% right</h2>
+    <div class="subtitle">{{ text() }}</div>
+    <div class="stat">
+      <span class="label">guessed incorrectly </span>
+      <span class="count">{{ sum.wrongGuesses }}</span>
+    </div>
+    <div class="stat">
+      <span class="label">guessed correctly </span>
+      <span class="count">{{ sum.correctGuesses }}</span>
+    </div>
+    <div class="stat">
+      <span class="label">unanswered </span>
+      <span class="count">{{ sum.unansweredGuesses }}</span>
+    </div>
+  </div>
+</div>

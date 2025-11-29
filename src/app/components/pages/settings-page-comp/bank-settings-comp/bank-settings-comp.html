@@ -1,0 +1,36 @@
+@let b = bank();
+
+<div class="name">
+  {{ b.name }}
+</div>
+
+<button class="silent share" (click)="share.emit()">
+  <app-icon-comp type="share-network" />
+</button>
+<div class="details">
+  <div class="counts">
+    <span class="word-list-item"> {{ b.collections.length }} collections </span>
+    <span class="word-list-item"> {{ b.learnables.length }} learnables </span>
+  </div>
+  <div class="language">
+    {{ b.language.learning }}
+    <app-icon-comp type="left-right" [size]="12" />
+    {{ b.language.speaking }}
+  </div>
+  <div class="created">{{ b.created | date: 'mediumDate' }}</div>
+</div>
+
+<button class="small delete" (click)="delete.emit()">delete</button>
+<button class="small download" (click)="download.emit()">download</button>
+<button class="small edit" (click)="edit.emit()">edit</button>
+<button
+  class="small activate"
+  [class.active]="isActive()"
+  (click)="setActive.emit()"
+>
+  @if (isActive()) {
+    this bank is active
+  } @else {
+    set as active
+  }
+</button>

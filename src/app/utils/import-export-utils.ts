@@ -1,13 +1,12 @@
 import { config } from '../../config'
-import { BankExportSchema } from '../types_and_schemas/schemas'
+import { BankShareSchema } from '../types_and_schemas/schemas'
 import {
-  BankExport,
-  CollectionBase,
-  Learnable,
+  BankShare,
+  BankUser,
+  Collection,
   LearnableBase,
-  LearnableCollectionWithId,
-  LearnableUserCollection,
-  LearnableWithId
+  LearnableWithId,
+  UserLearnable
 } from '../types_and_schemas/types'
 
 // #region Export Functions
@@ -16,47 +15,60 @@ import {
  * Maps the learnables and collections to a format suitable to put into a file for export.
  */
 export const mapToBankExport = (
-  name: string,
-  learnables: Learnable[],
-  collections: LearnableCollectionWithId[],
-  removeCardsWithoutCollection: boolean = false
-): BankExport => {
-  let relevantLearnables = learnables
-
-  if (removeCardsWithoutCollection) {
-    const idsOfCollections = collections.flatMap((c) => c.learnableIDs)
-    relevantLearnables = relevantLearnables.filter((l) =>
-      idsOfCollections.includes(l.id)
-    )
-  }
-
-  const learnableExp: LearnableWithId[] = relevantLearnables.map(
-    (learnable) => ({
-      lexeme: learnable.lexeme,
-      translation: learnable.translation,
-      type: learnable.type,
-      notes: learnable.notes,
-      id: learnable.id
-    })
+  bank: BankUser,
+  onlyCollectionIDs?: string[]
+): BankShare => {
+  // Get collections to export
+  const collectionsToExport = bank.collections.filter((c) =>
+    onlyCollectionIDs ? onlyCollectionIDs.includes(c.id) : true
   )
 
-  const collectionExp: CollectionBase[] = collections.map((c) => ({
+  // Get all card IDs that belong to the collections being exported
+  const cardIdsInExportedCollections = new Set(
+    collectionsToExport.flatMap((c) => c.cardIds)
+  )
+
+  // Filter learnables: if exporting specific collections, only include cards in those collections
+  const learnables: LearnableWithId[] = bank.learnables
+    .filter((l) =>
+      onlyCollectionIDs ? cardIdsInExportedCollections.has(l.id) : true
+    )
+    .map((l) => ({
+      lexeme: l.lexeme,
+      translation: l.translation,
+      type: l.type,
+      id: l.id,
+      notes: l.notes
+    }))
+
+  // Map collections with only the cardIds that are being exported
+  const exportedLearnableIds = new Set(learnables.map((l) => l.id))
+  const collections: Collection[] = collectionsToExport.map((c) => ({
     name: c.name,
-    learnableIDs: c.learnableIDs
+    id: c.id,
+    cardIds: c.cardIds.filter((cardId) => exportedLearnableIds.has(cardId))
   }))
 
+  // Default expiration: 30 days from now
+  const expires = new Date()
+  expires.setDate(expires.getDate() + 30)
+
   return {
-    name,
-    learnables: learnableExp,
-    collections: collectionExp
+    id: bank.id,
+    name: bank.name,
+    created: new Date(),
+    expires,
+    language: bank.language,
+    learnables,
+    collections
   }
 }
 
 // #region Import Functions
 
-export const parseFileImportString = (fileAsString: string): BankExport => {
+export const parseFileImportString = (fileAsString: string): BankShare => {
   try {
-    return BankExportSchema.parse(JSON.parse(fileAsString))
+    return BankShareSchema.parse(JSON.parse(fileAsString))
   } catch (e) {
     console.error('Failed to parse learnables from file:', e)
     throw new Error('Invalid file format')
@@ -72,72 +84,9 @@ export const verifiyImportedFileValidity = (file: File): void => {
   }
 }
 
-/**
- * Maps the file import to a format suitable for adding to the store.
- * Replaces new IDS with IDs from existing learnables if newly imported card is a duplicate.
- * Reassigns new IDs to non duplicates ensure uniqueness and avoid conflicts with existing learnables when reimporting collections.
- */
-export const mapFileImportToAddableLearnables = (
-  fileImport: BankExport,
-  existingLearnables: Learnable[]
-): { learnables: Learnable[]; collections: LearnableUserCollection[] } => {
-  const now = new Date()
-
-  // create a map to ensure unique IDs in the import
-  // this is necessary to avoid conflicts with existing learnables on reimport
-  const newIdMap = new Map<string, string>()
-  const existingIdMap = new Map<string, string>()
-
-  fileImport.learnables.filter((newL) => {
-    const existingCard = existingLearnables.find(
-      (exEl) =>
-        exEl.lexeme === newL.lexeme &&
-        exEl.translation === newL.translation &&
-        exEl.type === newL.type
-    )
-
-    if (existingCard) {
-      existingIdMap.set(newL.id, existingCard.id)
-    } else {
-      newIdMap.set(newL.id, crypto.randomUUID())
-    }
-  })
-
-  // dont use spread here to avoid bleeding old or unused attributes into the store
-  const learnables = fileImport.learnables
-    .filter((l) => newIdMap.has(l.id))
-    .map((l) => ({
-      id: newIdMap.get(l.id)!,
-      created: now,
-      type: l.type,
-      lexeme: l.lexeme,
-      translation: l.translation,
-      notes: l.notes,
-      guesses: {
-        lexeme: [false, false, false, false, false],
-        translation: [false, false, false, false, false]
-      }
-    }))
-
-  const collections = fileImport.collections.map((c) => ({
-    id: crypto.randomUUID(),
-    created: now,
-    name: c.name,
-    learnableIDs: c.learnableIDs.map(
-      (id) => existingIdMap.get(id) ?? newIdMap.get(id) ?? id
-    ),
-    practicedDates: []
-  }))
-
-  return {
-    learnables,
-    collections
-  }
-}
-
 export const filterDoubleEntries = (
   newLearnables: LearnableBase[],
-  existingLearnables: Learnable[]
+  existingLearnables: UserLearnable[]
 ): LearnableBase[] => {
   const setOfLexemes = new Set<string>()
 

@@ -2,19 +2,10 @@ import { Component, inject } from '@angular/core'
 import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
-import { BankExport, BankExportOnline } from '../../../types_and_schemas/types'
+import { BankShare } from '../../../types_and_schemas/types'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
 import { mockOnlineBanks, mockUserBanks } from './mockBanks'
 import { SharedBankComp } from './shared-collection-comp/shared-bank-comp'
-
-const enhance = (bank: BankExport): BankExportOnline => {
-  return {
-    ...bank,
-    created: new Date(),
-    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-    id: crypto.randomUUID()
-  }
-}
 
 @Component({
   selector: 'app-share-page-comp',
@@ -27,10 +18,10 @@ export class SharePageComp {
   private readonly _modalService = inject(ModalService)
   private readonly _lStore = inject(LearnablesStore)
 
-  userBanks = mockUserBanks.map(enhance)
-  onlineBanks = mockOnlineBanks.map(enhance)
+  userBanks = mockUserBanks
+  onlineBanks = mockOnlineBanks
 
-  protected async copyLink(bank: BankExportOnline) {
+  protected async copyLink(bank: BankShare) {
     try {
       await navigator.clipboard.writeText(this.generateLink(bank.id))
 
@@ -46,13 +37,10 @@ export class SharePageComp {
     }
   }
 
-  protected async importBank(bank: BankExportOnline) {
-    const result = await this._modalService.open<BankExportOnline>(
-      'bank-import',
-      {
-        bankExport: bank
-      }
-    )
+  protected async importBank(bank: BankShare) {
+    const result = await this._modalService.open<BankShare>('bank-import', {
+      bank
+    })
 
     if (result.type !== 'confirm') return
     this._lStore.importBankExport(result.value)

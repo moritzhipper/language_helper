@@ -1,0 +1,34 @@
+<form class="modal" (ngSubmit)="submit()" [formGroup]="form">
+  <h2 class="full fly-in-y-0">
+    @if (preset()) {
+      Edit Bank
+    } @else {
+      Create new Bank
+    }
+  </h2>
+  <div class="inputs full fly-in-y-0">
+    <label>
+      <span>Bank Name </span>
+      <input formControlName="name" />
+    </label>
+    <label>
+      <span> Speaking Language </span>
+      <input formControlName="speaking" />
+    </label>
+    <label>
+      <span> Learning Language </span>
+      <input formControlName="learning" />
+    </label>
+  </div>
+
+  <button type="button" (click)="cancel()" class="big fly-in-y-1">
+    cancel
+  </button>
+  <button type="submit" class="fly-in-y-2" [disabled]="form.invalid">
+    @if (preset()) {
+      save
+    } @else {
+      create
+    }
+  </button>
+</form>

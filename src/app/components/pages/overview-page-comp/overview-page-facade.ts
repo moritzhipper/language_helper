@@ -5,14 +5,13 @@ import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import {
-  Learnable,
-  LearnableBase,
-  LearnableUserCollection
+  BankUser,
+  CollectionUser,
+  LanguageConfig,
+  LearnableBase
 } from '../../../types_and_schemas/types'
-import {
-  filterDoubleEntries,
-  mapToBankExport
-} from '../../../utils/import-export-utils'
+import { mapToBankExport } from '../../../utils/import-export-utils'
+import { filterLearnables } from '../../../utils/learnables-filter'
 import { ConfirmationType } from '../../shared/forms/bulk-add-comp/bulk-edit-comp'
 import { ConfirmCollectionAddType } from '../../shared/forms/collection-add-comp/collection-add-comp'
 import { ConfirmCollectionDeletionType } from '../../shared/forms/delete-collection-comp/delete-collection-comp'
@@ -36,16 +35,22 @@ export class OverviewPageFacade {
   // Public methods for learnable management
 
   async addNew(
-    selectedCollection: LearnableUserCollection | undefined
-  ): Promise<string[]> {
-    const result = await this._modalService.open<LearnableBase[]>('magic-add')
+    selectedCollection: CollectionUser | null,
+    language: LanguageConfig
+  ): Promise<void> {
+    const result = await this._modalService.open<LearnableBase[]>('magic-add', {
+      language
+    })
 
-    if (result.type !== 'confirm') return []
+    if (result.type !== 'confirm') return
 
-    return this._addAndMarkLearnables(result.value, selectedCollection)
+    return this._addLearnables(result.value, selectedCollection)
   }
 
-  async bulkEdit(selectedLearnableIds: string[]): Promise<string[]> {
+  async bulkEdit(
+    selectedLearnableIds: string[],
+    selectedCollection: CollectionUser | null
+  ): Promise<void> {
     const learnables = this._lStore
       .learnables()
       .filter((l) => selectedLearnableIds.includes(l.id))
@@ -55,19 +60,13 @@ export class OverviewPageFacade {
       { learnables }
     )
 
-    if (result.type !== 'confirm') return []
+    if (result.type !== 'confirm') return
 
     const { update, deleteIDs, add } = result.value
     this._lStore.updateLearnables(update)
     this._lStore.removeLearnables(deleteIDs)
 
-    const selectedCollection = this._lStore
-      .collections()
-      .find((c) =>
-        c.learnableIDs.some((id) => selectedLearnableIds.includes(id))
-      )
-
-    return this._addAndMarkLearnables(add, selectedCollection)
+    this._addLearnables(add, selectedCollection)
   }
 
   async addToCollection(selectedLearnableIds: string[]) {
@@ -135,7 +134,7 @@ export class OverviewPageFacade {
     })
   }
 
-  async renameCollection(collection: LearnableUserCollection) {
+  async renameCollection(collection: CollectionUser) {
     const result = await this._modalService.open<string>('collection-rename', {
       name: collection.name
     })
@@ -144,7 +143,7 @@ export class OverviewPageFacade {
     this._lStore.editCollection(collection.id, result.value)
   }
 
-  async deleteCollection(collection: LearnableUserCollection) {
+  async deleteCollection(collection: CollectionUser) {
     const result =
       await this._modalService.open<ConfirmCollectionDeletionType>(
         'collection-delete'
@@ -160,86 +159,66 @@ export class OverviewPageFacade {
     })
   }
 
-  async shareCollection(
-    collection: LearnableUserCollection,
-    learnables: Learnable[]
-  ) {
+  async shareCollection(bank: BankUser, id: string) {
     const userChoice = await this._modalService.open<ShareFormResponse>(
-      'share-collection',
+      'bank-share',
       {
-        collection
+        bank
       }
     )
 
     if (userChoice.type !== 'confirm') return
-
-    const bankExport = mapToBankExport(
-      collection.name,
-      learnables,
-      [collection],
-      true
-    )
-
+    const bankExport = mapToBankExport(bank, [id])
     await this._apiService.shareBank(bankExport, userChoice.value.ttlMinutes)
   }
 
-  createCollectionDownload(
-    collection: LearnableUserCollection,
-    learnables: Learnable[]
-  ) {
-    return this._blobService.createDownloadableFromLearnables(
-      collection.name,
-      learnables,
-      [collection],
-      true
-    )
+  createCollectionDownload(bank: BankUser, id?: string) {
+    if (!id) {
+      const bankExport = mapToBankExport(bank)
+      return this._blobService.createDownloadableFromLearnables(bankExport)
+    }
+
+    const bankExport = mapToBankExport(bank, [id])
+    return this._blobService.createDownloadableFromLearnables(bankExport)
   }
 
   // Private helper methods
 
-  private _addAndMarkLearnables(
+  private _addLearnables(
     learnables: LearnableBase[],
-    selectedCollection: LearnableUserCollection | undefined
-  ): string[] {
-    if (learnables.length === 0) return []
+    selectedCollection: CollectionUser | null
+  ): void {
+    if (learnables.length === 0) return
 
-    const uniqueLearnables = filterDoubleEntries(
-      learnables,
-      this._lStore.learnables()
-    )
+    const learnablesBeforeAdd = this._lStore.learnables().length
+    this._lStore.addLearnables(learnables)
+    const learnablesAfterAdd = this._lStore.learnables().length
+    const addedLearnablesCount = learnablesAfterAdd - learnablesBeforeAdd
 
-    this._lStore.addLearnables(uniqueLearnables)
-
-    // Get the IDs of the newly created learnables
-    const newIds = this._lStore
-      .learnables()
-      .slice(-uniqueLearnables.length)
-      .map((l) => l.id)
+    const newIds = filterLearnables(this._lStore.learnables(), {
+      age: 'newest'
+    }).map((l) => l.id)
 
     // Add to collection if user has one selected
     if (selectedCollection) {
       this._lStore.editCollectionLearnables(selectedCollection.id, newIds, [])
 
       this._toastService.showToast({
-        message: `created ${uniqueLearnables.length} cards and added them to collection ${selectedCollection.name}`,
+        message: `created ${newIds.length} cards and added them to collection ${selectedCollection.name}`,
         type: 'info'
       })
     } else {
       this._toastService.showToast({
-        message: `created ${uniqueLearnables.length} cards`,
+        message: `created ${newIds.length} cards`,
         type: 'info'
       })
     }
 
-    // Show skipped reminder when user tried creating duplicate cards
-    const filteredLearnablesCount = learnables.length - uniqueLearnables.length
-    if (filteredLearnablesCount !== 0) {
+    if (addedLearnablesCount === 0) {
       this._toastService.showToast({
-        message: `skipped adding ${filteredLearnablesCount} duplicates`,
-        type: 'info'
+        message: `skipped adding cards, all where duplicates`,
+        type: 'error'
       })
     }
-
-    return newIds
   }
 }

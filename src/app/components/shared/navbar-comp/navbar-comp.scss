@@ -1,25 +1,18 @@
 @use '../../../../style/mixins.scss' as *;
 
 .toggle {
-  padding: var(--distance-4);
-  background-color: var(--col-accent);
   padding: var(--distance-3);
+  background-color: var(--col-accent);
   border-radius: 100%;
   box-shadow: var(--shadow-big);
-
   transition:
     outline var(--duration-0),
     background-color var(--duration-0),
-    box-shdow var(--duration-1),
+    box-shadow var(--duration-1),
     opacity var(--duration-1);
 
   app-icon-comp {
     transition: rotate var(--duration-1) var(--overshot);
-  }
-
-  &.subdue {
-    box-shadow: none;
-    background-color: transparent;
   }
 
   &.open {
@@ -31,7 +24,8 @@
 
   &.subdue {
     box-shadow: none;
-    opacity: var(--opacity-0);
+    background-color: transparent;
+    opacity: var(--opacity-1);
   }
 }
 
@@ -42,34 +36,47 @@
   display: flex;
   flex-direction: column;
   gap: var(--distance-4);
-  z-index: 15;
+  z-index: 22;
   transition: background-color var(--duration-0);
 
-  h2,
-  .link {
-    box-sizing: border-box;
-    rotate: 10deg;
-  }
-
+  p,
   h2 {
-    margin: 0 0 0 var(--distance-6);
-    text-shadow: 0 5px 13px var(--col-bg);
+    margin: 0;
   }
 
-  .link {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: var(--distance-4);
-    box-shadow: var(--shadow-big);
+  .entry {
+    rotate: 10deg;
+    box-sizing: border-box;
+
+    &.big,
+    &.small {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      gap: var(--distance-4);
+      box-shadow: var(--shadow-big);
+    }
 
     &.big {
       color: var(--col-bg);
       background-color: var(--col-primary);
     }
+
     &.small {
       color: var(--col-text);
       background-color: var(--col-accent);
+    }
+
+    &.text {
+      text-shadow: 0 5px 13px var(--col-bg);
+      white-space: nowrap;
+
+      &.langs {
+        display: inline-flex;
+        justify-content: end;
+        align-items: center;
+        gap: var(--distance-2);
+      }
     }
 
     &.about {
@@ -82,7 +89,6 @@
   :host {
     box-sizing: border-box;
     margin: var(--distance-4) 0 var(--distance-4) var(--distance-4);
-    width: 250px;
     align-items: stretch;
 
     .fake-shadow {
@@ -112,38 +118,52 @@
     margin-right: var(--distance-4);
   }
 
-  h2,
-  .link {
-    font-size: var(--font-size-2);
-  }
-
   .links-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: var(--distance-4);
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: var(--distance-6);
+    min-width: 250px;
 
-    .link {
-      width: 120%;
+    .entry {
+      --stretch-overflow: 20%;
+      transform-origin: bottom right;
       border-radius: var(--radius-3);
+      width: calc(100% + var(--stretch-overflow));
       transition:
         scale var(--duration-1) var(--overshot),
         outline var(--duration-0);
 
-      app-icon-comp {
-        width: 40px;
-        height: 40px;
+      &.big,
+      &.small {
+        font-size: var(--font-size-2);
+        margin-bottom: var(--distance-3);
+
+        app-icon-comp {
+          width: 40px;
+          height: 40px;
+        }
+
+        &:hover {
+          scale: 1.05;
+        }
       }
 
       &.big {
         padding: var(--distance-2) var(--distance-6);
       }
 
-      &.small {
-        padding: var(--distance-0) var(--distance-6);
+      &.small,
+      &.text {
+        padding: 0 calc(var(--distance-5) + var(--stretch-overflow)) 0
+          var(--distance-6);
       }
 
-      &:hover {
-        scale: 1.05;
+      &.text.header {
+        padding-bottom: var(--distance-3);
+      }
+
+      &.about {
+        margin-top: var(--distance-4);
       }
     }
   }
@@ -151,13 +171,8 @@
 
 @include isPhone() {
   :host {
-    position: fixed;
-    top: 0;
-    right: 0;
-    display: flex;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
 
     .fake-shadow {
       position: fixed;
@@ -176,15 +191,6 @@
       &.leave {
         animation: bd-appear var(--duration-1) reverse;
       }
-    }
-
-    h2 {
-      width: 100%;
-    }
-
-    h2,
-    .link {
-      font-size: var(--font-size-3);
     }
 
     .toggle {
@@ -209,19 +215,30 @@
       width: 100vw;
       height: 100dvh;
 
-      .link {
+      .entry {
         width: 170vw;
 
-        app-icon-comp {
-          width: 50px;
-          height: 50px;
+        &.big,
+        &.small {
+          font-size: var(--font-size-3);
+
+          app-icon-comp {
+            width: 50px;
+            height: 50px;
+          }
         }
 
         &.big {
-          padding: var(--distance-2) 0 var(--distance-2) 50vw;
+          padding: var(--distance-2) 50vw;
         }
-        &.small {
-          padding: var(--distance-0) 0 var(--distance-0) 50vw;
+
+        &.small,
+        &.text {
+          padding: var(--distance-0) 50vw;
+        }
+
+        &.text {
+          padding-left: 45vw;
         }
       }
     }

@@ -1,42 +1,60 @@
 import { z } from 'zod'
 
-export const LearnablesFromAiSchema = z.object({
-  cards: z.array(
-    z.object({
-      lexeme: z.string(),
-      translation: z.string()
-    })
-  )
+export const LearnableFromAiSchema = z.object({
+  lexeme: z.string(),
+  translation: z.string()
 })
 
-export const LearnableBaseSchema = z.object({
-  lexeme: z.string(),
-  translation: z.string(),
-  notes: z.string(),
-  type: z.enum(['phrase', 'word'])
+export const LearnablesFromAiSchema = z.object({
+  cards: z.array(LearnableFromAiSchema)
+})
+
+export const LearnableBaseSchema = LearnableFromAiSchema.extend({
+  type: z.enum(['phrase', 'word']),
+  notes: z.string()
 })
 
 export const LearnableWithIdSchema = LearnableBaseSchema.extend({
   id: z.uuid()
 })
 
+export const LearnableUserSchema = LearnableWithIdSchema.extend({
+  created: z.date(),
+  guesses: z.object({
+    lexeme: z.array(z.boolean()).length(5),
+    translation: z.array(z.boolean()).length(5)
+  })
+})
+
 export const CollectionBaseSchema = z.object({
   name: z.string(),
-  learnableIDs: z.array(z.uuid())
+  id: z.string(),
+  cardIds: z.array(z.uuid())
 })
 
-export const LearnableCollectionWithId = CollectionBaseSchema.extend({
-  id: z.string()
+export const CollectionUserSchema = CollectionBaseSchema.extend({
+  created: z.date()
 })
 
-export const BankExportSchema = z.object({
-  name: z.string(),
-  learnables: z.array(LearnableWithIdSchema),
-  collections: z.array(CollectionBaseSchema)
+export const LanguageConfigSchema = z.object({
+  speaking: z.string(),
+  learning: z.string()
 })
 
-export const BankExportOnlineSchema = BankExportSchema.extend({
-  expires: z.date(),
+export const BankBaseSchema = z.object({
+  language: LanguageConfigSchema,
+  id: z.string(),
   created: z.date(),
-  id: z.uuid()
+  name: z.string()
+})
+
+export const BankUserSchema = BankBaseSchema.extend({
+  learnables: z.array(LearnableUserSchema),
+  collections: z.array(CollectionUserSchema)
+})
+
+export const BankShareSchema = BankBaseSchema.extend({
+  learnables: z.array(LearnableWithIdSchema),
+  collections: z.array(CollectionBaseSchema),
+  expires: z.date()
 })

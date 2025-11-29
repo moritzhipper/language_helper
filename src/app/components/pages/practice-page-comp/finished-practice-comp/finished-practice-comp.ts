@@ -26,12 +26,12 @@ export class FinishedPracticeComp {
         cardsAmount: 0
       }
     }
-    const correctGuesses = currentPractice.guesses.filter(
-      (g) => g.isCorrect
+    const correctGuesses = currentPractice.guessables.filter(
+      (g) => g.guessed === 'right'
     ).length
     return {
       correctGuesses,
-      cardsAmount: currentPractice.ids.length
+      cardsAmount: currentPractice.guessables.length
     }
   })
 

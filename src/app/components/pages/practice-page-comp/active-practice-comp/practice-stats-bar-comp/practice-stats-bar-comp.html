@@ -1,0 +1,29 @@
+<button
+  class="silent toggle"
+  [class.open]="isOpen()"
+  (click)="toggle()"
+  [disabled]="isFinished() || cardState() === 'editing'"
+>
+  <app-icon-comp type="chevron" [size]="50" class="icon" />
+</button>
+
+@if (isOpen() || isFinished()) {
+  <div class="stats" animate.enter="enter" animate.leave="leave">
+    <div class="wrapper">
+      @if (!isFinished()) {
+        <button class="big quit" (click)="quit.emit()">quit</button>
+        <button class="big edit" (click)="edit.emit()">
+          @if (cardState() !== 'editing') {
+            edit notes
+          } @else {
+            save notes
+          }
+        </button>
+      } @else {
+        <button class="big finalize wide" (click)="quit.emit()">
+          finalize
+        </button>
+      }
+    </div>
+  </div>
+}

@@ -1,0 +1,99 @@
+@use '../../../../../../style/mixins.scss' as *;
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  overflow: hidden;
+
+  box-sizing: border-box;
+  position: relative;
+  color: var(--col-bg);
+
+  app-practice-rating-comp {
+    width: 250px;
+    height: 250px;
+    place-self: center;
+    rotate: 4deg;
+  }
+
+  .stats {
+    place-self: stretch;
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    padding: var(--distance-6);
+
+    h2 {
+      color: var(--col-bg);
+      grid-column: span 2;
+      margin: 0;
+    }
+
+    .subtitle {
+      font-weight: bold;
+      padding: var(--distance-3) 0 var(--distance-6) 0;
+      margin-bottom: auto;
+    }
+
+    .stat {
+      display: grid;
+      grid-template-columns: 1fr auto;
+
+      &:not(:last-of-type) {
+        border-bottom: 1px solid
+          rgb(from var(--col-bg) r g b / var(--opacity-0));
+        padding-bottom: var(--distance-2);
+        margin-bottom: var(--distance-2);
+      }
+    }
+  }
+}
+
+@include isPhone() {
+  .wrapper {
+    grid-template-rows: 1fr auto;
+
+    h2,
+    .subtitle {
+      text-align: center;
+    }
+  }
+}
+
+@include isDesktop {
+  .wrapper {
+    place-items: center;
+    grid-template-columns: 1fr 1fr;
+
+    .stats {
+      height: 100%;
+      grid-area: 1 / 1;
+    }
+  }
+}
+
+:host {
+  background-color: var(--col-primary);
+  box-shadow: var(--shadow-bigger);
+  border-radius: var(--radius-3);
+  border: 2px solid var(--col-primary);
+  box-sizing: border-box;
+
+  .wrapper {
+    transition:
+      opacity var(--duration-3),
+      background-color var(--duration-3);
+    opacity: 1;
+  }
+
+  &.concealed {
+    background-color: var(--col-bg);
+    border: 2px solid rgb(from var(--col-primary) r g b / var(--opacity-0));
+
+    .wrapper {
+      opacity: 0;
+    }
+  }
+}

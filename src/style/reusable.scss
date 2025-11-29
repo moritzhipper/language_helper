@@ -37,3 +37,8 @@ a.icon {
   text-overflow: ellipsis;
   word-break: break-all;
 }
+
+.word-list-item:not(:last-of-type):after {
+  opacity: var(--opacity-1);
+  content: ' • ';
+}

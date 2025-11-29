@@ -1,0 +1,9 @@
+form {
+  grid-template-rows: 1fr auto;
+}
+
+.inputs {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--distance-4);
+}

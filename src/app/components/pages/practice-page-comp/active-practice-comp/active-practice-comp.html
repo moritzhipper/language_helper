@@ -1,68 +1,44 @@
-@let dir = currentPractice()?.reverseDirection;
-@let topWord =
-  dir ? currentLearnable()?.translation : currentLearnable()?.lexeme;
-@let bottomWord =
-  dir ? currentLearnable()?.lexeme : currentLearnable()?.translation;
-
 <app-page-wrapper-comp icon="learn">
-  <div class="practice-view" [class.revealed]="isRevealed()">
-    <div class="word top">
-      {{ topWord }}
+  <div class="practice-view" [class]="stateClasses()">
+    <div class="vote-overlay">
+      <app-icon-comp class="icon right" type="right-guess" [size]="220" />
+      <app-icon-comp class="icon wrong" type="wrong-guess" [size]="220" />
     </div>
-    <div class="word bottom">
-      {{ bottomWord }}
-    </div>
+    @if (cardState() !== 'editing') {
+      <div
+        class="touch-area"
+        (pointerdown)="pointerDown($event)"
+        (pointermove)="pointerMove($event)"
+        (pointerup)="pointerUp()"
+      ></div>
+    }
 
-    <div class="navigation" [class.expanded]="showStats()">
-      <button class="silent toggle-navigation" (click)="toggleStats()">
-        <app-icon-comp type="chevron" class="chevron" [size]="32" />
-      </button>
-
-      @if (showStats()) {
-        <div class="stats" animate.enter="enter" animate.leave="leave">
-          <div class="wrapper">
-            <button class="notes silent full" (click)="editCard()">
-              @if (currentLearnable()?.notes; as notes) {
-                {{ notes }}
-              } @else {
-                <span class="placeholder">( add notes )</span>
-              }
-            </button>
-
-            <div class="progress full">
-              @let sum = summary();
-              <span class="text">
-                {{ sum.correctGuesses }} of {{ sum.guessesDone }} correct |
-                {{ sum.guessesLeft }} left
-              </span>
-            </div>
-            <button class="big warning" (click)="endPracticeEarly()">
-              quit
-            </button>
-            <button type="button" class="big secondary" (click)="editCard()">
-              edit card
-            </button>
-          </div>
-        </div>
+    @for (entry of cardViewModel(); track trackCard(entry)) {
+      @if ('id' in entry.content) {
+        <app-practice-card-comp
+          class="card"
+          [class]="'index-' + entry.viewIndex"
+          [concealed]="entry.viewIndex > 0"
+          [learnable]="entry.content"
+          [allowEdit]="cardState() === 'editing' && entry.viewIndex === 0"
+          [reverseDirection]="currentPractice().reverseDirection"
+          (updateNotes)="updateNotes($event)"
+        />
+      } @else if (!('id' in entry.content)) {
+        <app-practice-summary-card
+          class="card summary"
+          [concealed]="entry.viewIndex > 0"
+          [class]="'index-' + entry.viewIndex"
+          [summary]="entry.content"
+        />
       }
-      <div class="interact">
-        @if (isRevealed()) {
-          <button
-            class="big"
-            (click)="setGuess(false)"
-            [disabled]="showStats()"
-          >
-            I was wrong
-          </button>
-          <button class="big" (click)="setGuess(true)" [disabled]="showStats()">
-            I was right
-          </button>
-        } @else {
-          <button class="big full" (click)="reveal()" [disabled]="showStats()">
-            show
-          </button>
-        }
-      </div>
-    </div>
+    }
+    <app-practice-stats-bar-comp
+      [(isOpen)]="statsOpen"
+      [cardState]="cardState()"
+      [isFinished]="isFinished()"
+      (edit)="editNote()"
+      (quit)="quit()"
+    />
   </div>
 </app-page-wrapper-comp>

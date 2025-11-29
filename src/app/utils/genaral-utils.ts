@@ -4,11 +4,7 @@ import {
 } from 'openai/lib/parser.mjs'
 import { ResponseFormatTextJSONSchemaConfig } from 'openai/resources/responses/responses.mjs'
 import z from 'zod'
-import {
-  CollectionBase,
-  Learnable,
-  LearnableWithId
-} from '../types_and_schemas/types'
+import { UserLearnable } from '../types_and_schemas/types'
 
 /**
  *
@@ -36,7 +32,7 @@ export function zodTextFormat<ZodInput extends z.ZodType>(
 }
 
 export const calculateAverageConfidencePercent = (
-  learnables: Learnable[]
+  learnables: UserLearnable[]
 ): number => {
   const allGuesses = learnables.flatMap((l) => [
     ...l.guesses.lexeme,
@@ -51,24 +47,11 @@ export const calculateAverageConfidencePercent = (
   return Math.round(confidencePercent * 100)
 }
 
-export const getCollectionlessLearnableIds = (
-  learnables: LearnableWithId[],
-  collections: CollectionBase[]
-): string[] => {
-  const collectionLearnableIds = collections.flatMap((c) => c.learnableIDs)
-  return learnables
-    .map((l) => l.id)
-    .filter((id) => !collectionLearnableIds.includes(id))
-}
-
-export const getCollectionlessLearnables = (
-  learnables: Learnable[],
-  collections: CollectionBase[]
-): Learnable[] => {
-  const collectionLearnableIds = collections.flatMap((c) => c.learnableIDs)
-  return learnables.filter((l) => !collectionLearnableIds.includes(l.id))
-}
-
 export const removeDuplicates = (array: string[]): string[] => {
   return Array.from(new Set(array))
+}
+
+export const pluralize = (count: number, unit: string): string => {
+  const pluralS = count !== 1 ? 's' : ''
+  return `${count} ${unit}${pluralS}`
 }

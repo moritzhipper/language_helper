@@ -11,26 +11,13 @@ form {
   .preview {
     position: relative;
     max-width: 700px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
 
-    .lexemes {
-      width: 100%;
-      display: inline-flex;
-      flex-wrap: wrap;
-      gap: var(--distance-2);
-
-      span:not(:last-child):after {
-        content: ',';
-      }
-    }
-
-    .name {
-      margin-bottom: var(--distance-2);
+    h3 {
+      margin: 0 0 var(--distance-2) 0;
       font-size: var(--font-size-0);
       opacity: var(--opacity-1);
       font-weight: var(--font-weight-bold);
+      width: 100%;
     }
   }
 }

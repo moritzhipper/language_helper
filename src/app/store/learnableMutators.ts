@@ -1,25 +1,32 @@
 import {
-  BankExport,
-  Learnable,
+  BankBase,
+  BankShare,
+  BankUser,
+  CollectionUser,
+  Guess,
+  Guessable,
   LearnableBase,
-  LearnablePartialWithId,
   LearnablesStoreType,
-  LearnableUserCollection
+  UserLearnable,
+  UserLearnablePartial
 } from '../types_and_schemas/types'
-import { mapFileImportToAddableLearnables } from '../utils/import-export-utils'
 
 export const startPractice =
   (ids: string[], reverseDirection: boolean) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     // randomize order of ids to prevent memorization of order
-    const randomizedIds = [...ids].sort(() => Math.random() - 0.5)
+    const randomizedGuessables: Guessable[] = [...ids]
+      .sort(() => Math.random() - 0.5)
+      .map((id) => ({
+        id,
+        guessed: 'unanswered'
+      }))
 
     return {
       ...state,
       currentPractice: {
-        ids: randomizedIds,
+        guessables: randomizedGuessables,
         index: 0,
-        guesses: [],
         reverseDirection
       }
     }
@@ -28,139 +35,262 @@ export const startPractice =
 export const saveNewlyCreatedLearnables =
   (learnablesBase: LearnableBase[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const learnables = mapBaseToFullToLearnables(learnablesBase)
-    const addedIDs = learnables.map((l) => l.id)
+    return {
+      ...state,
+      banks: state.banks.map((b) => {
+        if (b.id !== state.activeBankId) return b
+
+        // Filter out duplicates in input and items that already exist in bank
+        const newLearnables = learnablesBase.filter(
+          (lb, index, self) =>
+            self.findIndex(
+              (other) =>
+                other.lexeme === lb.lexeme &&
+                other.translation === lb.translation
+            ) === index &&
+            !b.learnables.some(
+              (l) => lb.lexeme === l.lexeme && lb.translation === l.translation
+            )
+        )
+
+        const fullNew = mapBaseToFullToLearnables(newLearnables)
+
+        return {
+          ...b,
+          learnables: [...b.learnables, ...fullNew]
+        }
+      })
+    }
+  }
+
+export const updateBank =
+  (base: BankBase, bankID: string) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    return {
+      ...state,
+      banks: state.banks.map((b) => {
+        if (b.id !== bankID) return b
+        return {
+          ...b,
+          ...base
+        }
+      })
+    }
+  }
+
+export const deleteBank =
+  (id: string) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    // do not allow deleting the only bank
+    if (state.banks.length === 1) {
+      console.warn('Cannot delete bank if its the only one.')
+      return state
+    }
+
+    // remove the bank
+    const banks = state.banks.filter((b) => b.id !== id)
+
+    // set id of active bank to existing bank if the active bank is deleted
+    const activeBankId =
+      state.activeBankId !== id ? state.activeBankId : banks[0].id
 
     return {
       ...state,
-      learnables: [...learnables, ...state.learnables]
+      banks,
+      activeBankId
     }
   }
 
 export const setGuess =
-  (isCorrect: boolean) =>
+  (guess: Guess) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const currentP = state.currentPractice
+    // no practice running
+    const practice = state.currentPractice
+    if (!practice) return state
 
-    // noop when finished or no practice
-    if (!currentP || currentP.index >= currentP.ids.length) return state
-
-    const currentLearnable = state.learnables.find(
-      (l) => l.id === currentP.ids[currentP.index]
-    )!
-
-    // slice to only save last five guesses
-    const updatedLearnable: Learnable = addGuessToLearnable(
-      currentLearnable,
-      isCorrect,
-      currentP.reverseDirection
-    )
+    // practice already finished
+    const currentGuessable = practice.guessables[practice.index]
+    if (!currentGuessable) return state
 
     return {
       ...state,
-      learnables: updateLearnableInList(updatedLearnable, state.learnables),
       currentPractice: {
-        ...currentP,
-        index: currentP.index + 1,
-        guesses: [
-          ...currentP.guesses,
-          {
-            id: currentP.ids[currentP.index],
-            isCorrect
-          }
-        ]
-      }
+        ...practice,
+        index: practice.index + 1,
+        guessables: updateGuessables(
+          practice.guessables,
+          currentGuessable.id,
+          guess
+        )
+      },
+      banks: state.banks.map((b) => {
+        if (b.id !== state.activeBankId) return b
+        return {
+          ...b,
+          learnables: b.learnables.map((l) => {
+            if (l.id !== currentGuessable.id || guess === 'unanswered') return l
+            const guessedRight = guess === 'right'
+
+            return addGuessToLearnable(
+              l,
+              guessedRight,
+              practice.reverseDirection
+            )
+          })
+        }
+      })
     }
   }
+
+const updateGuessables = (
+  guessables: Guessable[],
+  id: string,
+  guessed: Guess
+): Guessable[] => {
+  return guessables.map((g) => (g.id === id ? { ...g, guessed } : g))
+}
+
+// Helper to check if practice should be reset when cards are deleted
+const shouldResetPractice = (
+  state: LearnablesStoreType,
+  idsToDelete: string[]
+): boolean =>
+  state.currentPractice?.guessables.some((g) => idsToDelete.includes(g.id)) ??
+  false
+
+// Helper to remove learnables from the active bank
+const removeLearnablesFromBank = (
+  state: LearnablesStoreType,
+  idsToDelete: string[]
+): LearnablesStoreType => ({
+  ...state,
+  currentPractice: shouldResetPractice(state, idsToDelete)
+    ? null
+    : state.currentPractice,
+  banks: state.banks.map((b) => {
+    if (b.id !== state.activeBankId) return b
+    return {
+      ...b,
+      learnables: b.learnables.filter((l) => !idsToDelete.includes(l.id)),
+      collections: b.collections.map((c) => ({
+        ...c,
+        cardIds: c.cardIds.filter((cardId) => !idsToDelete.includes(cardId))
+      }))
+    }
+  })
+})
 
 export const removeLearnables =
   (ids: string[]) =>
-  (state: LearnablesStoreType): LearnablesStoreType => {
-    const learnables = state.learnables.filter((l) => !ids.includes(l.id))
-    const remainingIDs = learnables.map((l) => l.id)
-
-    // remove all dead ids from collections
-    const collections = state.collections.map((c) => ({
-      ...c,
-      learnableIDs: c.learnableIDs.filter((id) => remainingIDs.includes(id))
-    }))
-
-    // reset practice to prevent lost ids and loose indexes in practice
-    const currentPracticeHasDeletedIds = state.currentPractice?.ids.some((id) =>
-      ids.includes(id)
-    )
-
-    if (currentPracticeHasDeletedIds) {
-      return {
-        ...state,
-        learnables,
-        collections,
-        currentPractice: null
-      }
-    }
-
-    return {
-      ...state,
-      learnables,
-      collections
-    }
-  }
-
-const updateLearnableInList = (
-  updatedLearnable: Learnable,
-  learnables: Learnable[]
-): Learnable[] => {
-  return learnables.map((l) => {
-    if (l.id !== updatedLearnable.id) return l
-    return {
-      ...l,
-      ...updatedLearnable
-    }
-  })
-}
+  (state: LearnablesStoreType): LearnablesStoreType =>
+    removeLearnablesFromBank(state, ids)
 
 export const updateLearnables =
-  (updatedL: LearnablePartialWithId[]) =>
+  (updatedL: UserLearnablePartial[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const learnables = state.learnables.map((l) => {
-      const updated = updatedL.find((ul) => ul.id === l.id)
-      return mergeLearnables(l, updated)
-    })
-
     return {
       ...state,
-      learnables
+      banks: state.banks.map((b) => {
+        if (b.id !== state.activeBankId) return b
+        return {
+          ...b,
+          learnables: b.learnables.map((l) => {
+            const updated = updatedL.find((ul) => ul.id === l.id)
+            if (!updated) return l
+            return {
+              ...l,
+              ...updated
+            }
+          })
+        }
+      })
     }
   }
 
-const mergeLearnables = (
-  lbase: Learnable,
-  lmerge?: LearnablePartialWithId
-): Learnable => {
-  if (!lmerge) return lbase
-
-  return {
-    ...lbase,
-    ...lmerge
-  }
-}
+const learnablesMatch = (l1: LearnableBase, l2: LearnableBase) =>
+  l1.lexeme === l2.lexeme && l1.translation === l2.translation
 
 export const saveImportedCollections =
-  (storeImport: BankExport) =>
+  ({ learnables, collections }: BankShare) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const { learnables: newLearnables, collections: newCollections } =
-      mapFileImportToAddableLearnables(storeImport, state.learnables)
-
     return {
       ...state,
-      learnables: [...newLearnables, ...state.learnables],
-      collections: [...newCollections, ...state.collections]
+      banks: state.banks.map((b) => {
+        if (b.id !== state.activeBankId) return b
+
+        const now = new Date()
+
+        // Build a map from imported card id -> existing card id (for duplicates)
+        // and identify which cards are truly new
+        const importedIdToExistingId = new Map<string, string>()
+        const newLearnables: UserLearnable[] = []
+
+        for (const imported of learnables) {
+          const existingMatch = b.learnables.find((existing) =>
+            learnablesMatch(existing, imported)
+          )
+          if (existingMatch) {
+            // Duplicate: map imported id to existing id
+            importedIdToExistingId.set(imported.id, existingMatch.id)
+          } else {
+            // New card: create full UserLearnable
+            const newId = crypto.randomUUID()
+            importedIdToExistingId.set(imported.id, newId)
+            newLearnables.push({
+              id: newId,
+              created: now,
+              type: imported.type,
+              lexeme: imported.lexeme,
+              translation: imported.translation,
+              notes: imported.notes,
+              guesses: {
+                lexeme: [false, false, false, false, false],
+                translation: [false, false, false, false, false]
+              }
+            })
+          }
+        }
+
+        // Process collections: merge into existing or create new
+        const updatedCollections = [...b.collections]
+        for (const importedCol of collections) {
+          // Remap cardIds from imported ids to actual ids (existing or new)
+          // Filter out any cardIds that don't have a corresponding learnable
+          const remappedCardIds = importedCol.cardIds
+            .map((id) => importedIdToExistingId.get(id))
+            .filter((id) => id !== undefined)
+
+          const existingCol = updatedCollections.find(
+            (c) => c.name === importedCol.name
+          )
+          if (existingCol) {
+            // Merge cardIds into existing collection
+            existingCol.cardIds = [
+              ...new Set([...existingCol.cardIds, ...remappedCardIds])
+            ]
+          } else {
+            // Create new collection with remapped cardIds
+            updatedCollections.push({
+              id: crypto.randomUUID(),
+              name: importedCol.name,
+              cardIds: remappedCardIds,
+              created: now
+            })
+          }
+        }
+
+        return {
+          ...b,
+          learnables: [...b.learnables, ...newLearnables],
+          collections: updatedCollections
+        }
+      })
     }
   }
 
 const mapBaseToFullToLearnables = (
   learnableBase: LearnableBase[]
-): Learnable[] => {
+): UserLearnable[] => {
   const now = new Date()
   return learnableBase.map((l) => ({
     id: crypto.randomUUID(),
@@ -177,10 +307,10 @@ const mapBaseToFullToLearnables = (
 }
 
 const addGuessToLearnable = (
-  learnable: Learnable,
+  learnable: UserLearnable,
   isCorrect: boolean,
   reverseDirection: boolean
-): Learnable => {
+): UserLearnable => {
   const updateGuesses = (guesses: boolean[], isCorrect: boolean): boolean[] => [
     ...guesses.slice(1),
     isCorrect
@@ -215,12 +345,12 @@ export const quitPracticeEarly =
       ...state,
       currentPractice: {
         ...currentPractice,
-        index: currentPractice.ids.length
+        index: currentPractice.guessables.length
       }
     }
   }
 
-export const quitPractice =
+export const removePractice =
   () =>
   (state: LearnablesStoreType): LearnablesStoreType => ({
     ...state,
@@ -228,75 +358,124 @@ export const quitPractice =
   })
 
 export const createCollection =
-  (name: string, ids: string[]) =>
+  (name: string, cardIds: string[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
     return {
       ...state,
-      collections: [...state.collections, createNewCollection(name, ids)]
+      banks: state.banks.map((b) => {
+        if (b.id !== state.activeBankId) return b
+        const newCollection = createNewCollection(name, cardIds)
+
+        return {
+          ...b,
+          collections: [...b.collections, newCollection]
+        }
+      })
     }
   }
 
 export const editCollection =
   (collectionID: string, addIDs: string[], deleteIDs: string[]) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const collections = state.collections.map((c) => {
-      if (c.id !== collectionID) return c
-
-      const updatedLearnables = [
-        ...new Set([
-          ...c.learnableIDs.filter((id) => !deleteIDs.includes(id)),
-          ...addIDs
-        ])
-      ]
-
-      return {
-        ...c,
-        learnableIDs: updatedLearnables
-      }
-    })
-
     return {
       ...state,
-      collections
+      banks: state.banks.map((b) => {
+        if (b.id !== state.activeBankId) return b
+
+        return {
+          ...b,
+          collections: b.collections.map((c) => {
+            if (c.id !== collectionID) return c
+
+            const updatedCardIds = [
+              ...new Set([...c.cardIds, ...addIDs])
+            ].filter((cardId) => !deleteIDs.includes(cardId))
+
+            return {
+              ...c,
+              cardIds: updatedCardIds
+            }
+          })
+        }
+      })
     }
   }
 
 export const deleteCollection =
-  (id: string) =>
+  (id: string, removeCards: boolean) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const collections = state.collections.filter((c) => c.id !== id)
+    const activeBank = state.banks.find((b) => b.id === state.activeBankId)
+    const cardIds =
+      activeBank?.collections.find((c) => c.id === id)?.cardIds ?? []
 
-    return {
+    // Remove the collection
+    const stateWithoutCollection: LearnablesStoreType = {
       ...state,
-      collections
+      banks: state.banks.map((b) => {
+        if (b.id !== state.activeBankId) return b
+        return {
+          ...b,
+          collections: b.collections.filter((c) => c.id !== id)
+        }
+      })
     }
+
+    // Optionally remove the cards using shared helper
+    if (removeCards && cardIds.length > 0) {
+      return removeLearnablesFromBank(stateWithoutCollection, cardIds)
+    }
+
+    return stateWithoutCollection
   }
 
 export const renameCollection =
   (id: string, name: string) =>
   (state: LearnablesStoreType): LearnablesStoreType => {
-    const collections = state.collections.map((c) => {
-      if (c.id !== id) return c
-
-      return {
-        ...c,
-        name
-      }
-    })
-
     return {
       ...state,
-      collections
+      banks: state.banks.map((b) => {
+        if (b.id !== state.activeBankId) return b
+
+        return {
+          ...b,
+          collections: b.collections.map((c) => {
+            if (c.id !== id) return c
+
+            return {
+              ...c,
+              name
+            }
+          })
+        }
+      })
     }
   }
 
 const createNewCollection = (
   name: string,
-  ids: string[]
-): LearnableUserCollection => ({
+  cardIds: string[]
+): CollectionUser => ({
   id: crypto.randomUUID(),
   created: new Date(),
   name,
-  learnableIDs: ids,
-  practicedDates: []
+  cardIds
 })
+
+export const createBank =
+  (base: BankBase) =>
+  (state: LearnablesStoreType): LearnablesStoreType => {
+    const newBank: BankUser = {
+      id: crypto.randomUUID(),
+      name: base.name,
+      created: new Date(),
+      language: base.language,
+      collections: [],
+      learnables: []
+    }
+
+    return {
+      ...state,
+      activeBankId: newBank.id,
+      banks: [...state.banks, newBank]
+    }
+  }

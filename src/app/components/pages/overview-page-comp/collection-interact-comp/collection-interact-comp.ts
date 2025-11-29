@@ -1,7 +1,7 @@
 import { Component, input, model, output } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { Downloadable } from '../../../../services/blob-service'
-import { LearnableUserCollection } from '../../../../types_and_schemas/types'
+import { CollectionUser } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 
 @Component({
@@ -11,7 +11,7 @@ import { IconComp } from '../../../shared/icon-comp/icon-comp'
   styleUrl: './collection-interact-comp.scss'
 })
 export class CollectionInteractComp {
-  selectableCollections = input.required<LearnableUserCollection[]>()
+  selectableCollections = input.required<CollectionUser[]>()
   selectedCollectionId = model.required<string | null>()
 
   downloadable = input<Downloadable | null>(null)

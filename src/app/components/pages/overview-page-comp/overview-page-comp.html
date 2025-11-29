@@ -42,23 +42,23 @@
           </button>
         }
       </div>
-      @if (!selectedCollectionId() && unsortedCards().length > 0) {
-        <h2>unsorted cards</h2>
-        <div class="learnables">
-          @for (learnable of unsortedCards(); track learnable.id) {
-            <button
-              class="silent learnable"
-              (click)="toggleLearnableSelection(learnable.id)"
-              [class.selected]="isSelected(learnable.id)"
-            >
-              <app-learnable-comp
-                [learnable]="learnable"
-                [showNewBadge]="isLastAdded(learnable.id)"
-              />
-            </button>
-          }
-        </div>
-      }
+    }
+    @if (unsortedCards().length > 0) {
+      <h2>unsorted cards</h2>
+      <div class="learnables">
+        @for (learnable of unsortedCards(); track learnable.id) {
+          <button
+            class="silent learnable"
+            (click)="toggleLearnableSelection(learnable.id)"
+            [class.selected]="isSelected(learnable.id)"
+          >
+            <app-learnable-comp
+              [learnable]="learnable"
+              [showNewBadge]="isLastAdded(learnable.id)"
+            />
+          </button>
+        }
+      </div>
     }
   </app-page-wrapper-comp>
 } @else {

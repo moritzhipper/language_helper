@@ -1,3 +1,5 @@
+import { LanguageConfig } from '../../types_and_schemas/types'
+
 const getSystemPrompt = (
   learningLanguage: string,
   speakingLanguage: string
@@ -42,25 +44,20 @@ const phrasesPrompt = () => `
     - Extract only idioms, sayings, or short expressions.  
     - Phrases must remain short and self-contained.  
     - Do not output single words.  
+    - add '...' to show that it can be part of a larger sentence and is a phrase
     - Examples:  
       - Input: "Since World War II it has placed much emphasis on attracting light industry."  
-        -> lexeme: "...heeft veel nadruk gelegd op [iets]" -> translation.  
+        -> on card: "...placed nach emphasis (on)" -> translation.  
       - Input: "The village church is built on a dune top and portrays a variety of construction styles."  
-        -> lexeme: "...toont een verscheidenheid aan stijlen" -> translation.    
+        -> on card: "...portrays a variety"    
 `
 
-export const getWordsPrompt = (
-  learningLanguage: string,
-  speakingLanguage: string
-) => `
-${getSystemPrompt(learningLanguage, speakingLanguage)}
+export const getWordsPrompt = (conf: LanguageConfig) => `
+${getSystemPrompt(conf.learning, conf.speaking)}
 ${wordsPrompt()}
 `
 
-export const getPhrasesPrompt = (
-  learningLanguage: string,
-  speakingLanguage: string
-) => `
-${getSystemPrompt(learningLanguage, speakingLanguage)}
+export const getPhrasesPrompt = (conf: LanguageConfig) => `
+${getSystemPrompt(conf.learning, conf.speaking)}
 ${phrasesPrompt()}
 `

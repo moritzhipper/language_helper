@@ -26,6 +26,13 @@ export type IconType =
   | 'warn'
   | 'info'
   | 'copy'
+  | 'left-right'
+  | 'heart'
+  | 'star'
+  | 'star-fill'
+  | 'meteor'
+  | 'wrong-guess'
+  | 'right-guess'
 
 @Component({
   selector: 'app-icon-comp',
@@ -33,12 +40,12 @@ export type IconType =
   templateUrl: './icon-comp.html',
   styleUrl: './icon-comp.scss',
   host: {
-    '[style.--dimension]': 'size() + "px"',
+    '[style.--dimension]': 'size() === "auto" ? "auto" : `${size()}px`',
     '[class.inline]': 'inline()'
   }
 })
 export class IconComp {
   type = input.required<IconType>()
-  size = input<number>(24)
+  size = input<number | 'auto'>(24)
   inline = input<boolean>(false)
 }

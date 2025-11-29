@@ -1,0 +1,171 @@
+.card {
+  transition-duration: var(--duration-3);
+  transition-property:
+    translate, opacity, transform, background-color, color, border-color;
+  transition-timing-function: cubic-bezier(0.322, 0.582, 0.006, 0.987);
+
+  // last card
+  &.index--1 {
+    opacity: 0;
+    z-index: 8;
+  }
+
+  //current card
+  &.index-0 {
+    z-index: 9;
+  }
+
+  //next card
+  &.index-1 {
+    z-index: 10;
+  }
+
+  &.index-2 {
+    z-index: 12;
+  }
+}
+
+.is-last-correct {
+  .index--1 {
+    transform: translate(110%, 0) rotateZ(20deg);
+  }
+}
+
+.is-last-wrong {
+  .index--1 {
+    transform: translate(-110%, 0) rotateZ(-20deg);
+  }
+}
+
+// first state
+.focus-hidden {
+  .index-0 {
+    transform: translate(0, 30%);
+  }
+  .index-1 {
+    transform: translate(0, 70%) rotateZ(-5deg);
+  }
+  .index-2 {
+    transform: translate(0%, 110%) rotateZ(-8deg);
+  }
+}
+
+// second state
+.focus-revealed {
+  .index-0 {
+    transform: none;
+  }
+  .index-1 {
+    transform: translate(5%, 85%) rotateZ(-8deg);
+  }
+  .index-2 {
+    transform: translate(0%, 120%) rotateZ(-10deg);
+  }
+}
+
+// third state
+.is-swiping {
+  // responsible for realistic in animations
+  .card {
+    transition: none;
+  }
+
+  .index-0 {
+    --moveX: calc(var(--swipe-prog) * 1px);
+    --rotX: calc(var(--swipe-prog) * 0.03deg);
+    transform: translate(var(--moveX), 0%) rotate(var(--rotX));
+    // opacity: calc();
+  }
+
+  .index-1 {
+    --moveY: calc(85% - abs(var(--swipe-prog)) * 0.02%);
+    transform: translate(5%, var(--moveY)) rotate(-8deg);
+  }
+
+  .index-2 {
+    --moveY: calc(120% - abs(var(--swipe-prog)) * 0.01%);
+    transform: translate(0%, var(--moveY)) rotate(-10deg);
+  }
+}
+
+// can be invoked in second or third state, always has third state (swiping) as result
+.is-editing {
+  .index-0 {
+    transform: translate(0%, -30%);
+  }
+  .index-1 {
+    transform: translate(5%, 80%) rotateZ(-8deg);
+  }
+  .index-2 {
+    transform: translate(0%, 120%) rotate(-10deg);
+  }
+}
+
+// only show summary card in center
+.is-finished {
+  .index-0 {
+    transform: none;
+  }
+}
+
+.index-2 {
+  z-index: 11;
+  transform: translate(0, 120%) rotateZ(-8deg);
+}
+
+.index-0,
+.index-1,
+.index-2 {
+  @starting-style {
+    transform: translate(0, 200%) rotate(-10deg) !important;
+  }
+}
+
+// ------ vote indicator --------
+
+.vote-overlay .icon {
+  transition:
+    transform var(--duration-3),
+    opacity var(--duration-3);
+  transition-timing-function: ease-out;
+
+  opacity: 0;
+}
+
+.is-swiping {
+  .vote-overlay .icon {
+    transition: none;
+
+    &.right {
+      --prog: var(--swipe-x-norm);
+      --moveX: calc(var(--swipe-x-norm) * 25px);
+    }
+    &.wrong {
+      --prog: calc(var(--swipe-x-norm) * -1);
+      --moveX: calc(var(--swipe-x-norm) * 25px);
+    }
+
+    &.right,
+    &.wrong {
+      --moveY: calc(50px - var(--prog) * 25px);
+      --scale: calc(0.9 + var(--prog) * 0.1);
+
+      // use negated here to move opacity of not selected direction to negative values
+      opacity: calc(var(--prog) * var(--opacity-1));
+      transform: translate(var(--moveX), 0) scale(var(--scale));
+    }
+  }
+}
+
+// responsible for moveement up after vote
+.focus-hidden {
+  .vote-overlay .icon {
+    &.right {
+      transform: translate(25px, -50px) scale(1.05);
+    }
+
+    &.wrong {
+      transform: translate(-25px, -50px) scale(1.05);
+    }
+  }
+}

@@ -73,19 +73,23 @@ strong {
 }
 
 button {
-  border-radius: var(--radius-0);
   transition-property:
     background-color, opacity, outline, color, box-shadow, padding, rotate;
   transition-duration: var(--duration-0);
   transition-timing-function: ease-out;
 
   &.small {
+    border-radius: var(--radius-0);
+
     padding: var(--distance-1) var(--distance-5);
     font-size: var(--font-size-0);
     font-weight: var(--font-weight-bold);
   }
 
   &.big {
+    border-radius: var(--radius-1);
+
+    background-color: var(--col-accent);
     font-size: var(--font-size-1);
     padding: var(--distance-3) var(--distance-5);
     font-weight: var(--font-weight-bold);
@@ -115,8 +119,6 @@ a[download] {
 
 input,
 textarea,
-button.small,
-button.big,
 select {
   background-color: var(--col-accent);
   color: var(--col-text);
@@ -130,6 +132,7 @@ select {
 button,
 select {
   &.silent {
+    border-radius: var(--radius-1);
     font-size: inherit;
     text-align: inherit;
     margin: 0;

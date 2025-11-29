@@ -1,313 +1,157 @@
-import { BankExport, LearnableWithId } from '../../../types_and_schemas/types'
+import { BankShare, LearnableWithId } from '../../../types_and_schemas/types'
+
+// Helper function to create a learnable
+const createLearnable = (
+  lexeme: string,
+  translation: string,
+  type: 'word' | 'phrase',
+  notes = ''
+): LearnableWithId => ({
+  id: crypto.randomUUID(),
+  lexeme,
+  translation,
+  notes,
+  type
+})
 
 // Mock learnables for various scenarios
 const businessLearnables: LearnableWithId[] = [
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'quarterly report',
-    translation: 'Quartalsbericht',
-    notes: 'Used in financial presentations',
-    type: 'phrase'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'stakeholder',
-    translation: 'Interessenvertreter',
-    notes: '',
-    type: 'word'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'to schedule a meeting',
-    translation: 'ein Treffen ansetzen',
-    notes: '',
-    type: 'phrase'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'agenda',
-    translation: 'Tagesordnung',
-    notes: '',
-    type: 'word'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'deadline',
-    translation: 'Frist',
-    notes: '',
-    type: 'word'
-  }
+  createLearnable(
+    'quarterly report',
+    'Quartalsbericht',
+    'phrase',
+    'Used in financial presentations'
+  ),
+  createLearnable('stakeholder', 'Interessenvertreter', 'word'),
+  createLearnable('to schedule a meeting', 'ein Treffen ansetzen', 'phrase'),
+  createLearnable('agenda', 'Tagesordnung', 'word'),
+  createLearnable('deadline', 'Frist', 'word')
 ]
 
 const cafeLearnables: LearnableWithId[] = [
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'espresso',
-    translation: 'Espresso',
-    notes: 'Strong coffee',
-    type: 'word'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'Can I have the menu?',
-    translation: 'Kann ich die Speisekarte haben?',
-    notes: '',
-    type: 'phrase'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'croissant',
-    translation: 'Croissant',
-    notes: '',
-    type: 'word'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'The bill, please',
-    translation: 'Die Rechnung, bitte',
-    notes: '',
-    type: 'phrase'
-  }
+  createLearnable('espresso', 'Espresso', 'word', 'Strong coffee'),
+  createLearnable(
+    'Can I have the menu?',
+    'Kann ich die Speisekarte haben?',
+    'phrase'
+  ),
+  createLearnable('croissant', 'Croissant', 'word'),
+  createLearnable('The bill, please', 'Die Rechnung, bitte', 'phrase')
 ]
 
 const conversationLearnables: LearnableWithId[] = [
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'How are you?',
-    translation: 'Wie geht es dir?',
-    notes: '',
-    type: 'phrase'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'weather',
-    translation: 'Wetter',
-    notes: '',
-    type: 'word'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'What do you do for a living?',
-    translation: 'Was machst du beruflich?',
-    notes: '',
-    type: 'phrase'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'hobby',
-    translation: 'Hobby',
-    notes: '',
-    type: 'word'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'weekend',
-    translation: 'Wochenende',
-    notes: '',
-    type: 'word'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'Nice to meet you',
-    translation: 'Schön dich kennenzulernen',
-    notes: '',
-    type: 'phrase'
-  }
+  createLearnable('How are you?', 'Wie geht es dir?', 'phrase'),
+  createLearnable('weather', 'Wetter', 'word'),
+  createLearnable(
+    'What do you do for a living?',
+    'Was machst du beruflich?',
+    'phrase'
+  ),
+  createLearnable('hobby', 'Hobby', 'word'),
+  createLearnable('weekend', 'Wochenende', 'word'),
+  createLearnable('Nice to meet you', 'Schön dich kennenzulernen', 'phrase')
 ]
 
 const onlineSellingLearnables: LearnableWithId[] = [
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'shipping',
-    translation: 'Versand',
-    notes: '',
-    type: 'word'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'Is this item still available?',
-    translation: 'Ist dieser Artikel noch verfügbar?',
-    notes: '',
-    type: 'phrase'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'discount',
-    translation: 'Rabatt',
-    notes: '',
-    type: 'word'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'payment method',
-    translation: 'Zahlungsmethode',
-    notes: '',
-    type: 'phrase'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'refund',
-    translation: 'Rückerstattung',
-    notes: '',
-    type: 'word'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'What is the condition?',
-    translation: 'Wie ist der Zustand?',
-    notes: '',
-    type: 'phrase'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'brand new',
-    translation: 'brandneu',
-    notes: '',
-    type: 'phrase'
-  }
+  createLearnable('shipping', 'Versand', 'word'),
+  createLearnable(
+    'Is this item still available?',
+    'Ist dieser Artikel noch verfügbar?',
+    'phrase'
+  ),
+  createLearnable('discount', 'Rabatt', 'word'),
+  createLearnable('payment method', 'Zahlungsmethode', 'phrase'),
+  createLearnable('refund', 'Rückerstattung', 'word'),
+  createLearnable('What is the condition?', 'Wie ist der Zustand?', 'phrase'),
+  createLearnable('brand new', 'brandneu', 'phrase')
 ]
 
 const dogLearnables: LearnableWithId[] = [
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'What a cute dog!',
-    translation: 'Was für ein süßer Hund!',
-    notes: '',
-    type: 'phrase'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'breed',
-    translation: 'Rasse',
-    notes: '',
-    type: 'word'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'Can I pet your dog?',
-    translation: 'Darf ich deinen Hund streicheln?',
-    notes: '',
-    type: 'phrase'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'How old is he/she?',
-    translation: 'Wie alt ist er/sie?',
-    notes: '',
-    type: 'phrase'
-  },
-  {
-    id: crypto.randomUUID(),
-    lexeme: 'playful',
-    translation: 'verspielt',
-    notes: '',
-    type: 'word'
-  }
+  createLearnable('What a cute dog!', 'Was für ein süßer Hund!', 'phrase'),
+  createLearnable('breed', 'Rasse', 'word'),
+  createLearnable(
+    'Can I pet your dog?',
+    'Darf ich deinen Hund streicheln?',
+    'phrase'
+  ),
+  createLearnable('How old is he/she?', 'Wie alt ist er/sie?', 'phrase'),
+  createLearnable('playful', 'verspielt', 'word')
 ]
 
-export const mockUserBanks: BankExport[] = [
-  {
-    name: 'Business Presentation',
-    learnables: businessLearnables,
-    collections: [
-      {
-        name: 'Meeting Vocabulary',
-        learnableIDs: [businessLearnables[2].id, businessLearnables[3].id]
-      },
-      {
-        name: 'Financial Terms',
-        learnableIDs: [businessLearnables[0].id, businessLearnables[1].id]
-      },
-      {
-        name: 'All Business',
-        learnableIDs: businessLearnables.map((l) => l.id)
-      }
-    ]
-  },
-  {
-    name: 'Cafe',
-    learnables: cafeLearnables,
-    collections: [
-      {
-        name: 'Ordering Food',
-        learnableIDs: [cafeLearnables[1].id, cafeLearnables[3].id]
-      }
-    ]
-  },
-  {
-    name: 'Light Conversation',
-    learnables: conversationLearnables,
-    collections: [
-      {
-        name: 'Greetings',
-        learnableIDs: [
-          conversationLearnables[0].id,
-          conversationLearnables[5].id
-        ]
-      },
-      {
-        name: 'Small Talk',
-        learnableIDs: [
-          conversationLearnables[1].id,
-          conversationLearnables[3].id,
-          conversationLearnables[4].id
-        ]
-      },
-      {
-        name: 'Getting to Know Someone',
-        learnableIDs: [
-          conversationLearnables[2].id,
-          conversationLearnables[3].id,
-          conversationLearnables[5].id
-        ]
-      }
-    ]
+// Helper function to create a collection
+const createCollection = (name: string, cardIds: string[] = []) => ({
+  id: crypto.randomUUID(),
+  name,
+  cardIds
+})
+
+// Helper to create language pair
+const enDe = { speaking: 'English', learning: 'German' }
+
+// Helper function to create a BankShare
+const createBankShare = (
+  name: string,
+  learnables: LearnableWithId[],
+  collectionNames: string[],
+  created: Date,
+  expires: Date
+): BankShare => {
+  // Distribute learnables across collections
+  const learnableIds = learnables.map((l) => l.id)
+  const collectionsWithCards = collectionNames.map((colName, index) => {
+    // For simplicity, assign all learnables to each collection in mock data
+    return createCollection(colName, learnableIds)
+  })
+
+  return {
+    id: crypto.randomUUID(),
+    created,
+    expires,
+    name,
+    language: enDe,
+    learnables,
+    collections: collectionsWithCards
   }
+}
+
+export const mockUserBanks: BankShare[] = [
+  createBankShare(
+    'Business Presentation',
+    businessLearnables,
+    ['Meeting Vocabulary', 'Financial Terms', 'All Business'],
+    new Date('2024-01-15'),
+    new Date('2026-01-15')
+  ),
+
+  createBankShare(
+    'Light Conversation',
+    conversationLearnables,
+    ['Greetings', 'Small Talk', 'Getting to Know Someone'],
+    new Date('2024-03-20'),
+    new Date('2026-03-20')
+  )
 ]
 
-export const mockOnlineBanks: BankExport[] = [
-  {
-    name: 'Selling Stuff Online',
-    learnables: onlineSellingLearnables,
-    collections: [
-      {
-        name: 'Transaction Terms',
-        learnableIDs: [
-          onlineSellingLearnables[0].id,
-          onlineSellingLearnables[3].id,
-          onlineSellingLearnables[4].id
-        ]
-      },
-      {
-        name: 'Product Inquiries',
-        learnableIDs: [
-          onlineSellingLearnables[1].id,
-          onlineSellingLearnables[5].id,
-          onlineSellingLearnables[6].id
-        ]
-      },
-      {
-        name: 'Complete E-commerce',
-        learnableIDs: onlineSellingLearnables.map((l) => l.id)
-      }
-    ]
-  },
-  {
-    name: 'Talking to a Cute Dog',
-    learnables: dogLearnables,
-    collections: [
-      {
-        name: 'Dog Compliments',
-        learnableIDs: [dogLearnables[0].id, dogLearnables[4].id]
-      },
-      {
-        name: 'Dog Questions',
-        learnableIDs: [
-          dogLearnables[1].id,
-          dogLearnables[2].id,
-          dogLearnables[3].id
-        ]
-      }
-    ]
-  }
+export const mockOnlineBanks: BankShare[] = [
+  createBankShare(
+    'Selling Stuff Online',
+    onlineSellingLearnables,
+    ['Transaction Terms', 'Product Inquiries', 'Complete E-commerce'],
+    new Date('2024-04-15'),
+    new Date('2026-04-15')
+  ),
+  createBankShare(
+    'Talking to a Cute Dog',
+    dogLearnables,
+    ['Dog Compliments', 'Dog Questions'],
+    new Date('2024-05-01'),
+    new Date('2026-05-01')
+  ),
+  createBankShare(
+    'Cafe',
+    cafeLearnables,
+    ['Ordering Food'],
+    new Date('2024-02-10'),
+    new Date('2026-02-10')
+  )
 ]

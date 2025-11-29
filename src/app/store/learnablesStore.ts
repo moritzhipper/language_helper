@@ -1,5 +1,5 @@
 import { withStorageSync } from '@angular-architects/ngrx-toolkit'
-import { computed, inject } from '@angular/core'
+import { computed } from '@angular/core'
 import {
   patchState,
   signalStore,
@@ -7,49 +7,62 @@ import {
   withMethods,
   withState
 } from '@ngrx/signals'
-import { AiService } from '../services/ai/ai.service'
 import {
-  BankExport,
+  BankBase,
+  BankShare,
+  Guess,
   LearnableBase,
-  LearnablePartialWithId
+  UserLearnablePartial
 } from '../types_and_schemas/types'
-import { getCollectionlessLearnableIds } from '../utils/genaral-utils'
-import { initialLearnables } from './initialStates'
+import { initialState } from './initialStates'
 import {
+  createBank,
   createCollection,
+  deleteBank,
   deleteCollection,
-  editCollection as editCollectionLearnables,
-  quitPractice,
+  editCollection,
   quitPracticeEarly,
   removeLearnables,
+  removePractice,
   renameCollection,
   saveImportedCollections,
   saveNewlyCreatedLearnables,
   setGuess,
   startPractice,
+  updateBank,
   updateLearnables
 } from './learnableMutators'
 
 export const LearnablesStore = signalStore(
   { providedIn: 'root' },
-  withState(initialLearnables),
+  withState(initialState),
   withStorageSync({
     key: 'language_helper_learnables',
     storage: () => localStorage
   }),
-  withComputed(({ learnables, collections }) => ({
-    collectionLessLearnableIds: computed(() =>
-      getCollectionlessLearnableIds(learnables(), collections())
-    )
+  withComputed((state) => ({
+    activeBank: computed(() => {
+      return state.banks().find((b) => b.id === state.activeBankId())!
+    }),
+    collections: computed(() => {
+      return (
+        state.banks().find((b) => b.id === state.activeBankId())?.collections ||
+        []
+      )
+    }),
+    learnables: computed(() => {
+      return (
+        state.banks().find((b) => b.id === state.activeBankId())?.learnables ||
+        []
+      )
+    })
   })),
   withMethods((state) => {
-    const aiS = inject(AiService)
-
     return {
       addLearnables(learnablesBase: LearnableBase[]) {
         patchState(state, saveNewlyCreatedLearnables(learnablesBase))
       },
-      updateLearnables(learnables: LearnablePartialWithId[]) {
+      updateLearnables(learnables: UserLearnablePartial[]) {
         patchState(state, updateLearnables(learnables))
       },
       removeLearnables(ids: string[]) {
@@ -66,38 +79,43 @@ export const LearnablesStore = signalStore(
         addIDs: string[],
         deleteIDs: string[]
       ) {
-        patchState(
-          state,
-          editCollectionLearnables(collectionID, addIDs, deleteIDs)
-        )
+        patchState(state, editCollection(collectionID, addIDs, deleteIDs))
       },
-      importBankExport(importStore: BankExport) {
+      importBankExport(importStore: BankShare) {
         patchState(state, saveImportedCollections(importStore))
       },
       editCollection(name: string, id: string) {
         patchState(state, renameCollection(name, id))
       },
       deleteCollection(id: string, removeLearnables: boolean = false) {
-        const collection = state.collections().find((c) => c.id === id)
-        if (!collection) return
-        const learnableIDs = collection.learnableIDs
-        patchState(state, deleteCollection(id))
-
-        if (removeLearnables) {
-          this.removeLearnables(learnableIDs)
-        }
+        patchState(state, deleteCollection(id, removeLearnables))
+      },
+      addBank(base: BankBase) {
+        patchState(state, createBank(base))
+      },
+      updateBank(base: BankBase, bankID: string) {
+        patchState(state, updateBank(base, bankID))
+      },
+      setActiveBank(id: string) {
+        patchState(state, (s) => ({
+          ...s,
+          activeBankId: id
+        }))
+      },
+      deleteBank(id: string) {
+        patchState(state, deleteBank(id))
       },
       quitPracticePrematurly() {
         patchState(state, quitPracticeEarly())
       },
       quitPractice() {
-        patchState(state, quitPractice())
+        patchState(state, removePractice())
       },
-      setGuess(isCorrect: boolean) {
-        patchState(state, setGuess(isCorrect))
+      setGuess(guess: Guess) {
+        patchState(state, setGuess(guess))
       },
       reset() {
-        patchState(state, initialLearnables)
+        patchState(state, initialState)
       }
     }
   })

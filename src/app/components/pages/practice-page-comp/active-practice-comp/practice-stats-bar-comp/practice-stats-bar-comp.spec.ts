@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CollectionsPageComp } from './collections-page-comp';
+import { PracticeStatsBarComp } from './practice-stats-bar-comp';
 
-describe('CollectionsPageComp', () => {
-  let component: CollectionsPageComp;
-  let fixture: ComponentFixture<CollectionsPageComp>;
+describe('PracticeStatsBarComp', () => {
+  let component: PracticeStatsBarComp;
+  let fixture: ComponentFixture<PracticeStatsBarComp>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CollectionsPageComp]
+      imports: [PracticeStatsBarComp]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CollectionsPageComp);
+    fixture = TestBed.createComponent(PracticeStatsBarComp);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

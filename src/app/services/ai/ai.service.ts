@@ -8,7 +8,8 @@ import { SettingsStore } from '../../store/settingsStore'
 import { LearnablesFromAiSchema } from '../../types_and_schemas/schemas'
 import {
   LearnableBase,
-  LearnableCreationConfig
+  LearnableCreationConfig,
+  LearnableFromAI
 } from '../../types_and_schemas/types'
 import { zodTextFormat } from '../../utils/genaral-utils'
 import { mapPhrasesFromInputToChunks } from './ai-utils'
@@ -29,19 +30,6 @@ export class AiService {
       })
   )
 
-  private _wordsPrompt = computed(() =>
-    getWordsPrompt(
-      this.settingsStore.learningLang(),
-      this.settingsStore.speakingLang()
-    )
-  )
-  private _phrasesPrompt = computed(() =>
-    getPhrasesPrompt(
-      this.settingsStore.learningLang(),
-      this.settingsStore.speakingLang()
-    )
-  )
-
   async createLearnablesFromString(
     config: LearnableCreationConfig
   ): Promise<LearnableBase[]> {
@@ -50,10 +38,10 @@ export class AiService {
     // when both, do call phrase and cards, if one of them, call one of them
     // chatgpt skips a lot of input when doing both at once
     if (config.type === 'phrases' || config.type === 'both') {
-      cardPromises.push(this._createPhrases(config.input))
+      cardPromises.push(this._createPhrases(config))
     }
     if (config.type === 'words' || config.type === 'both') {
-      cardPromises.push(this._createWords(config.input))
+      cardPromises.push(this._createWords(config))
     }
 
     const cardLists = await Promise.all(cardPromises)
@@ -62,44 +50,55 @@ export class AiService {
     return cards
   }
 
-  private async _createPhrases(userInput: string): Promise<LearnableBase[]> {
+  private async _createPhrases(
+    config: LearnableCreationConfig
+  ): Promise<LearnableBase[]> {
     // this is a workaround for gpt-4o missing a lot of phrases when given to long input
     // increasing batchsize may improve speed, but reduce accuracy
     // reducing it increases accuracy, but reduces speed and increases token usage
     const maxChunkSize = 1000
-    const chunks = mapPhrasesFromInputToChunks(userInput, maxChunkSize)
+    const chunks = mapPhrasesFromInputToChunks(config.input, maxChunkSize)
+    const prompt = getPhrasesPrompt(config.language)
     const chunkPromises = chunks.map((chunk) =>
-      this._extractCards(chunk, 'phrases')
+      this._extractCards(chunk, prompt)
     )
 
     const cardsLists = await Promise.all(chunkPromises)
 
-    return cardsLists.flat(1)
+    return cardsLists.flat(1).map((c) => ({
+      ...c,
+      notes: '',
+      type: 'phrase'
+    }))
   }
 
-  private async _createWords(userInput: string): Promise<LearnableBase[]> {
+  private async _createWords(
+    config: LearnableCreationConfig
+  ): Promise<LearnableBase[]> {
     // this is a workaround for gpt-4o missing a lot of words when given a longer input
     // splitting the input into batches of smaller words improves input adherence
     // increasing batchsize may improve speed, but reduce accuracy
     // reducing it increases accuracy, but reduces speed and increases token usage
     const chunkSize = 300
-    const batches = mapPhrasesFromInputToChunks(userInput, chunkSize)
-    const cardPromises = batches.map((batch) =>
-      this._extractCards(batch, 'words')
+    const batches = mapPhrasesFromInputToChunks(config.input, chunkSize)
+    const prompt = getWordsPrompt(config.language)
+    const cardPromises = batches.map((chunk) =>
+      this._extractCards(chunk, prompt)
     )
 
     const cardsLists = await Promise.all(cardPromises)
-    return cardsLists.flat(1)
+
+    return cardsLists.flat(1).map((c) => ({
+      ...c,
+      notes: '',
+      type: 'word'
+    }))
   }
 
   private async _extractCards(
-    userInput: string,
-    type: LearnableCreationConfig['type']
-  ): Promise<LearnableBase[]> {
-    const prompt =
-      type === 'phrases' ? this._phrasesPrompt() : this._wordsPrompt()
-    const cardType = type === 'phrases' ? 'phrase' : 'word'
-
+    input: string,
+    prompt: string
+  ): Promise<LearnableFromAI[]> {
     const response = await this.oAi().responses.parse({
       model: this.model,
       text: {
@@ -109,19 +108,16 @@ export class AiService {
         { role: 'system', content: prompt },
         {
           role: 'user',
-          content: 'transfer the follwing into cards: ' + userInput
+          content: input
         }
       ]
     })
 
     this.settingsStore.addTokensUsed(response.usage?.total_tokens ?? 0)
     const cards = response.output_parsed?.cards || []
-
     return cards.map((c) => ({
       lexeme: c.lexeme,
-      translation: c.translation,
-      notes: '',
-      type: cardType
+      translation: c.translation
     }))
   }
 }

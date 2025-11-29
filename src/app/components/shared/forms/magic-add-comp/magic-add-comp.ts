@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core'
+import { Component, inject, input, signal } from '@angular/core'
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -6,7 +6,10 @@ import {
 } from '@angular/forms'
 import { AiService } from '../../../../services/ai/ai.service'
 import { ToastService } from '../../../../services/toast-service'
-import { LearnableCreationConfig } from '../../../../types_and_schemas/types'
+import {
+  LanguageConfig,
+  LearnableCreationConfig
+} from '../../../../types_and_schemas/types'
 import { IconComp } from '../../icon-comp/icon-comp'
 import { RadioComp } from '../../radio-comp/radio-comp'
 import { BaseModalDirective } from '../base-modal-directive'
@@ -19,8 +22,10 @@ import { BaseModalDirective } from '../base-modal-directive'
 })
 export class MagicAddComp extends BaseModalDirective {
   private readonly _fb = inject(NonNullableFormBuilder)
-  private readonly aiS = inject(AiService)
+  private readonly _aiS = inject(AiService)
   private toastService = inject(ToastService)
+
+  language = input.required<LanguageConfig>()
 
   isConverting = signal(false)
 
@@ -34,13 +39,15 @@ export class MagicAddComp extends BaseModalDirective {
 
     const creationConf = {
       input: formValue.input,
-      type: formValue.type
+      type: formValue.type,
+      language: this.language()
     } as LearnableCreationConfig
 
     try {
       this.isConverting.set(true)
       const baseLearnables =
-        await this.aiS.createLearnablesFromString(creationConf)
+        await this._aiS.createLearnablesFromString(creationConf)
+      console.log(baseLearnables)
 
       this.confirm(baseLearnables)
     } catch (error) {

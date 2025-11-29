@@ -1,43 +1,44 @@
-<app-page-wrapper-comp
-  title="Settings"
-  [desktopMode]="'shrink'"
-  icon="settings"
->
+<app-page-wrapper-comp title="Settings" desktopMode="center" icon="settings">
   <div class="wrapper">
     <div class="stats">
-      <app-counter-comp label="learnables" size="l">
-        {{ learnables().length }}
-      </app-counter-comp>
-      <app-counter-comp label="collections" size="l">
-        {{ collections().length }}
-      </app-counter-comp>
-      <app-counter-comp label="tokens used" class="tokens">
-        {{ tokensUsed() }}
-      </app-counter-comp>
+      <div class="big">
+        You created <strong>{{ stats().banks }} </strong> holding
+        <strong>{{ stats().collections }} </strong> having a total of
+        <strong>{{ stats().learnables }}</strong
+        >.
+      </div>
+      <div class="smaller">
+        You also spent <strong>{{ tokensUsed() }} tokens </strong> generating
+        cards.
+      </div>
+    </div>
+    <div class="banks">
+      @for (bank of banks(); track bank.id) {
+        <app-bank-settings-card
+          [bank]="bank"
+          [isActive]="activeBankId() === bank.id"
+          (setActive)="setActiveBank(bank.id)"
+          (delete)="deleteBank(bank.id)"
+          (download)="downloadBank(bank)"
+          (edit)="editBank(bank)"
+          (share)="shareBank(bank)"
+        />
+      }
+      <div class="add-bank">
+        <button (click)="createNewBank()">
+          <app-icon-comp type="add" [size]="32" />
+        </button>
+      </div>
     </div>
 
-    <form [formGroup]="form">
+    <div class="data-interact">
       <label>
         <span> OpenAI API-key </span>
-        <input type="password" formControlName="apiKey" />
+        <input type="password" [value]="apiKey()" (input)="updateKey($event)" />
       </label>
-      <label>
-        <span> I am learning </span>
-        <input type="text" formControlName="learningLang" />
-      </label>
-      <label>
-        <span> I am speaking </span>
-        <input type="text" formControlName="speakingLang" />
-      </label>
-    </form>
-    <div class="data-interact">
-      <button class="delete" (click)="reset()">delete all cards</button>
-      <a
-        class="big export"
-        [download]="learnablesDownload().fileName"
-        [attr.href]="learnablesDownload().blobUrl"
-        >export all cards
-      </a>
+      <button class="primary big delete" (click)="reset()">
+        reset all data
+      </button>
     </div>
   </div>
 </app-page-wrapper-comp>

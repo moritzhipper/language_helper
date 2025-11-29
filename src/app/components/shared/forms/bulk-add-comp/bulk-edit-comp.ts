@@ -16,16 +16,16 @@ import {
   Validators
 } from '@angular/forms'
 import {
-  Learnable,
   LearnableBase,
-  LearnablePartialWithId
+  UserLearnable,
+  UserLearnablePartial
 } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 import { RadioComp } from '../../../shared/radio-comp/radio-comp'
 import { BaseModalDirective } from '../base-modal-directive'
 
 export type ConfirmationType = {
-  update: LearnablePartialWithId[]
+  update: UserLearnablePartial[]
   add: LearnableBase[]
   deleteIDs: string[]
 }
@@ -39,7 +39,7 @@ export type ConfirmationType = {
 export class BulkEditComp extends BaseModalDirective {
   private readonly _fb = inject(NonNullableFormBuilder)
 
-  learnables = input<Learnable[]>()
+  learnables = input<UserLearnable[]>()
   deletedLIDs = signal<string[]>([])
   learnablesForm = this._fb.group({
     learnables: this._fb.array<LearnableBase>([])
@@ -75,7 +75,7 @@ export class BulkEditComp extends BaseModalDirective {
     this.learnablesFormArray.removeAt(index)
   }
 
-  private createLearnableFormGroup(preset?: Learnable): FormGroup {
+  private createLearnableFormGroup(preset?: UserLearnable): FormGroup {
     if (!preset) {
       return this._fb.group({
         lexeme: ['', Validators.required],
@@ -103,9 +103,7 @@ export class BulkEditComp extends BaseModalDirective {
     >[]
 
     // learnables which came from preset, that the user wants to update
-    const updated = formArrayValue.filter(
-      (v) => v.id
-    ) as LearnablePartialWithId[]
+    const updated = formArrayValue.filter((v) => v.id) as UserLearnablePartial[]
 
     // learnables which came not from preset, that the user wants to add
     const added = formArrayValue.filter((v) => !v.id) as LearnableBase[]
@@ -118,7 +116,7 @@ export class BulkEditComp extends BaseModalDirective {
     this.confirm(confirm)
   }
 
-  private mapLearnablesToFormArray(learnables: Learnable[]): void {
+  private mapLearnablesToFormArray(learnables: UserLearnable[]): void {
     this.learnablesFormArray.clear()
     learnables.forEach((learnable) =>
       this.learnablesFormArray.push(this.createLearnableFormGroup(learnable))

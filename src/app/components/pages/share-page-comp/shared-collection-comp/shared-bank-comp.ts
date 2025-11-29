@@ -7,7 +7,8 @@ import {
   output,
   signal
 } from '@angular/core'
-import { BankExportOnline } from '../../../../types_and_schemas/types'
+import { BankShare } from '../../../../types_and_schemas/types'
+import { pluralize } from '../../../../utils/genaral-utils'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 
 type Counter = {
@@ -21,10 +22,7 @@ type Counter = {
   selector: 'app-shared-bank-comp',
   imports: [IconComp, DatePipe],
   templateUrl: './shared-bank-comp.html',
-  styleUrl: './shared-bank-comp.scss',
-  host: {
-    '[class.multiple]': 'hasMultipleCollections()'
-  }
+  styleUrl: './shared-bank-comp.scss'
 })
 export class SharedBankComp implements OnDestroy {
   /**
@@ -35,7 +33,7 @@ export class SharedBankComp implements OnDestroy {
    *
    *
    */
-  bank = input.required<BankExportOnline>()
+  bank = input.required<BankShare>()
   allowImport = input<boolean>(true)
   copyId = output<void>()
   importBank = output<void>()
@@ -48,23 +46,26 @@ export class SharedBankComp implements OnDestroy {
     this.currentTime.set(Date.now())
   }, 1000)
 
-  protected readonly counter = computed<Counter>(() => ({
-    cards: this.bank().learnables.length,
-    words: this.pluralize(
-      this.bank().learnables.filter((l) => l.type === 'word').length,
-      'word'
-    ),
-    phrases: this.pluralize(
-      this.bank().learnables.filter((l) => l.type === 'phrase').length,
-      'phrase'
-    ),
-    collections: this.pluralize(this.bank().collections.length, 'collection')
-  }))
+  protected readonly counter = computed<Counter>(() => {
+    const { collections, learnables } = this.bank()
+
+    return {
+      cards: collections.length,
+      words: pluralize(
+        learnables.filter((l) => l.type === 'word').length,
+        'word'
+      ),
+      phrases: pluralize(
+        learnables.filter((l) => l.type === 'phrase').length,
+        'phrase'
+      ),
+      collections: pluralize(collections.length, 'collection')
+    }
+  })
 
   protected readonly ttl = computed(() => {
     const expires = this.bank().expires
     const diffMs = expires.getTime() - this.currentTime()
-
     // If already expired
     if (diffMs <= 0) {
       return {
@@ -83,13 +84,13 @@ export class SharedBankComp implements OnDestroy {
     if (diffDays > 7) {
       ttlString = expires.toLocaleDateString()
     } else if (diffDays > 0) {
-      ttlString = this.pluralize(diffDays, 'day')
+      ttlString = pluralize(diffDays, 'day')
     } else if (diffHours > 0) {
-      ttlString = this.pluralize(diffHours, 'hour')
+      ttlString = pluralize(diffHours, 'hour')
     } else if (diffMinutes > 0) {
-      ttlString = this.pluralize(diffMinutes, 'minute')
+      ttlString = pluralize(diffMinutes, 'minute')
     } else {
-      ttlString = this.pluralize(diffSeconds, 'second')
+      ttlString = pluralize(diffSeconds, 'second')
     }
 
     return {
@@ -100,10 +101,5 @@ export class SharedBankComp implements OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.timeInterval)
-  }
-
-  private pluralize(count: number, unit: string): string {
-    const pluralS = count !== 1 ? 's' : ''
-    return `${count} ${unit}${pluralS}`
   }
 }

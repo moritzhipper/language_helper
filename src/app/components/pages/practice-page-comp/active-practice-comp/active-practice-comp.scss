@@ -1,118 +1,97 @@
+@use '../../../../../style/mixins.scss' as *;
+
 .practice-view {
   height: 100%;
+  width: 100%;
+  padding-top: var(--distance-4);
+  box-sizing: border-box;
   display: grid;
-  grid-template-rows: 1fr 1fr auto;
-  place-items: center;
-  text-align: center;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr;
+  touch-action: none;
+  position: relative;
+  gap: var(--distance-4);
 
-  .word {
-    font-size: var(--font-size-3);
-    padding: var(--distance-4);
-    transition-duration: var(--duration-2);
-
-    &.top {
-      font-weight: var(--font-weight-bold);
-    }
-
-    &.bottom {
-      font-style: italic;
-    }
+  .vote-overlay,
+  .card {
+    user-select: none;
   }
 
-  // Animation states
-  &.revealed .word.bottom {
-    animation: fly-in var(--duration-0);
-  }
+  .vote-overlay {
+    box-sizing: border-box;
+    place-self: center;
+    grid-area: 1 / 1;
 
-  &:not(.revealed) {
-    .word.bottom {
-      opacity: 0;
-    }
-
-    .word.top {
-      animation: fly-in var(--duration-0);
-    }
-  }
-
-  // Navigation section
-  .navigation {
     display: grid;
-    width: 100%;
-    max-width: 500px;
-    align-self: end;
+    grid-template-rows: 2fr 1fr;
+    place-items: center;
 
-    .toggle-navigation {
-      margin: var(--distance-4) 0;
-      opacity: var(--opacity-1);
-      place-self: center;
-
-      .chevron {
-        transition: rotate var(--duration-1);
-      }
+    .icon {
+      grid-area: 1 / 1;
     }
 
-    &.expanded {
-      .chevron {
-        rotate: 180deg;
-      }
-
-      .interact button {
-        opacity: var(--opacity-0);
-        color: transparent;
-        padding: 0;
-        margin-top: var(--distance-4);
-      }
+    .right {
+      color: var(--col-success);
+      place-self: center start;
+      font-size: 90px;
     }
-
-    .interact {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--distance-4);
-
-      button {
-        transition: all var(--duration-1);
-      }
+    .wrong {
+      color: var(--col-warning);
+      place-self: center end;
     }
+  }
 
-    .stats .wrapper {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: var(--distance-4);
+  .touch-area {
+    grid-area: 1 / 1;
+    place-self: stretch;
+    display: block;
+    z-index: 15;
+  }
 
-      .notes {
-        place-self: center;
-        text-align: center;
-        padding: var(--distance-2);
-
-        .placeholder {
-          opacity: var(--opacity-0);
-        }
-      }
-
-      .progress {
-        position: relative;
-        border-radius: var(--radius-2);
-        font-size: var(--font-size-0);
-        text-align: center;
-        opacity: var(--opacity-1);
-      }
-    }
-
-    .full {
-      grid-column: span 2;
-    }
-
-    .warning {
-      background-color: var(--col-warning);
-      color: var(--col-bg);
-    }
+  app-practice-stats-bar-comp {
+    z-index: 13;
   }
 }
 
-// Keyframe animations
-@keyframes fly-in {
-  from {
-    opacity: 0;
-    translate: 0 10px;
+@include isDesktop() {
+  .practice-view {
+    grid-template-rows: 3fr 1fr;
+
+    .card,
+    .vote-overlay {
+      grid-area: 1 / 1;
+      place-self: center;
+      aspect-ratio: 3 / 2;
+      width: 700px;
+    }
+
+    app-practice-stats-bar-comp {
+      width: 400px;
+      place-self: end center;
+    }
+  }
+}
+@include isPhone() {
+  .practice-view {
+    .card {
+      place-self: stretch;
+    }
+
+    app-practice-summary-card {
+      grid-area: 1 / 1 / 2 / 2;
+    }
+
+    app-practice-card-comp {
+      grid-area: 1 / 1 / 3 / 2;
+    }
+
+    app-practice-stats-bar-comp {
+      grid-area: 2 / 1 / 3 / 2;
+      place-self: end stretch;
+    }
+
+    .vote-overlay {
+      place-self: stretch;
+    }
   }
 }

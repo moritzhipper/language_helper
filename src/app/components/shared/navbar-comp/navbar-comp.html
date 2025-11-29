@@ -12,9 +12,9 @@
 
 @if (linksAreOpen()) {
   <div class="links-wrapper" animate.leave="fly-out-xy">
-    <h2 animate.enter="fly-in-xy-0">learn with me</h2>
+    <h2 animate.enter="fly-in-xy-0" class="entry text header">learn with me</h2>
     <a
-      class="link big practice"
+      class="entry big practice"
       routerLink="practice"
       [class.pulse]="pulsePractice()"
       animate.enter="fly-in-xy-1"
@@ -22,22 +22,27 @@
       <app-icon-comp type="learn" />
       <span>practice</span>
     </a>
-    <a routerLink="cards" class="link big" animate.enter="fly-in-xy-2">
+    <a routerLink="cards" class="entry big" animate.enter="fly-in-xy-2">
       <app-icon-comp type="card" />
       <span>cards</span>
     </a>
-    <a routerLink="share" class="link big" animate.enter="fly-in-xy-3">
+    <a routerLink="share" class="entry big" animate.enter="fly-in-xy-3">
       <app-icon-comp type="share-network-fill" />
       <span>share</span>
     </a>
-    <a routerLink="about" class="link small about" animate.enter="fly-in-xy-4">
+    <a routerLink="about" class="entry small about" animate.enter="fly-in-xy-4">
       <app-icon-comp type="info" />
       <span>about</span>
     </a>
-    <a routerLink="settings" class="link small" animate.enter="fly-in-xy-5">
+    <a routerLink="settings" class="entry small" animate.enter="fly-in-xy-5">
       <app-icon-comp type="settings" />
       <span>settings</span>
     </a>
+    <p animate.enter="fly-in-xy-6" class="entry text langs">
+      {{ bank().language.learning }}
+      <app-icon-comp type="left-right" [size]="16" />
+      {{ bank().language.speaking }}
+    </p>
   </div>
   <div class="fake-shadow" animate.enter="enter" animate.leave="leave"></div>
 }

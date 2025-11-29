@@ -11,14 +11,14 @@
 @include isDesktop() {
   .collections {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: var(--grid-auto-columns);
   }
 }
 
 @include isPhone() {
   .collections.community {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: var(--grid-auto-columns);
   }
   .collections.user {
     overflow-x: auto;

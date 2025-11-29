@@ -1,64 +1,109 @@
-import { Component, computed, effect, inject, untracked } from '@angular/core'
-import { toSignal } from '@angular/core/rxjs-interop'
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { Component, computed, inject } from '@angular/core'
+import { ReactiveFormsModule } from '@angular/forms'
 import { BlobService } from '../../../services/blob-service'
 import { ModalService } from '../../../services/modal-service'
+import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
-import { CounterComp } from '../../shared/counter-comp/counter-comp'
+import { BankBase, BankUser } from '../../../types_and_schemas/types'
+import { pluralize } from '../../../utils/genaral-utils'
+import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
+import { BankSettingsComp } from './bank-settings-comp/bank-settings-comp'
+
 @Component({
   selector: 'app-settings.comp',
-  imports: [ReactiveFormsModule, PageWrapperComp, CounterComp],
+  imports: [ReactiveFormsModule, PageWrapperComp, BankSettingsComp, IconComp],
   templateUrl: './settings-page-comp.html',
   styleUrl: './settings-page-comp.scss'
 })
 export class SettingsComp {
   private readonly _settingsS = inject(SettingsStore)
   private readonly _languageS = inject(LearnablesStore)
-  private readonly _makeBlobS = inject(BlobService)
   private readonly _modalService = inject(ModalService)
+  private readonly _toastS = inject(ToastService)
+  private readonly _blobS = inject(BlobService)
 
-  tokensUsed = this._settingsS.tokensUsed
-  learnables = this._languageS.learnables
-  collections = this._languageS.collections
-  learnablesDownload = computed(() =>
-    this._makeBlobS.createDownloadableFromLearnables(
-      'All Cards',
-      this._languageS.learnables(),
-      this._languageS.collections()
-    )
-  )
+  protected tokensUsed = this._settingsS.tokensUsed
+  protected apiKey = this._settingsS.apiKey
 
-  form = new FormGroup({
-    apiKey: new FormControl('', { nonNullable: true }),
-    learningLang: new FormControl('', { nonNullable: true }),
-    speakingLang: new FormControl('', { nonNullable: true })
+  protected banks = this._languageS.banks
+  protected activeBankId = computed(() => this._languageS.activeBank().id)
+  protected stats = computed(() => {
+    const banksCount = this._languageS.banks().length
+    const collectionsCount = this._languageS
+      .banks()
+      .reduce((acc, bank) => acc + bank.collections.length, 0)
+    const learnablesCount = this._languageS
+      .banks()
+      .reduce((acc, bank) => acc + bank.learnables.length, 0)
+    return {
+      banks: pluralize(banksCount, 'bank'),
+      collections: pluralize(collectionsCount, 'collection'),
+      learnables: pluralize(learnablesCount, 'learnable')
+    }
   })
-  formSignal = toSignal(this.form.valueChanges)
-
-  constructor() {
-    this.form.setValue({
-      apiKey: this._settingsS.apiKey(),
-      learningLang: this._settingsS.learningLang(),
-      speakingLang: this._settingsS.speakingLang()
-    })
-    effect(() => {
-      const formValue = this.formSignal()
-      untracked(() => {
-        if (!formValue) return
-        this._settingsS.updateSettings(formValue)
-      })
-    })
-  }
 
   async reset() {
+    const { banks, collections, learnables } = this.stats()
     const result = await this._modalService.open('confirm', {
-      message: `Delete ${this.learnables().length} cards and ${this.collections().length} collections?`,
-      label: 'delete all of them!'
+      message: `Delete alle banks, collections, cards and reset this app to default?`,
+      label: 'yup, do it!'
     })
 
     if (result.type !== 'confirm') return
     this._languageS.reset()
+    this._settingsS.reset()
+  }
+
+  async createNewBank() {
+    const result = await this._modalService.open<BankBase>('edit-bank')
+    if (result.type !== 'confirm') return
+
+    this._languageS.addBank(result.value)
+  }
+
+  setActiveBank(id: string) {
+    this._languageS.setActiveBank(id)
+  }
+
+  async editBank(bank: BankUser) {
+    const result = await this._modalService.open<BankBase>('edit-bank', {
+      preset: bank
+    })
+    if (result.type !== 'confirm') return
+
+    this._languageS.updateBank(result.value, bank.id)
+  }
+
+  async shareBank(bank: BankUser) {
+    const result = await this._modalService.open('bank-share', { bank })
+    // put shared bank into shared banks storage
+    // got to share page to copy the link
+  }
+
+  async deleteBank(id: string) {
+    if (this._languageS.banks().length === 1) {
+      this._toastS.showToast({
+        type: 'error',
+        message: `You can not delete the only bank.`
+      })
+      return
+    }
+
+    const result = await this._modalService.open('confirm', {
+      message: `Are you sure you want to delete this bank?`
+    })
+
+    if (result.type !== 'confirm') return
+
+    this._languageS.deleteBank(id)
+  }
+
+  downloadBank(bank: BankUser) {}
+
+  protected updateKey(event: Event) {
+    const input = event.target as HTMLInputElement
+    this._settingsS.updateSettings({ apiKey: input.value })
   }
 }

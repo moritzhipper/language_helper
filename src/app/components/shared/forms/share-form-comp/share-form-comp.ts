@@ -1,6 +1,6 @@
 import { Component, inject, input } from '@angular/core'
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { LearnableUserCollection } from '../../../../types_and_schemas/types'
+import { BankUser } from '../../../../types_and_schemas/types'
 import { RadioComp } from '../../radio-comp/radio-comp'
 import { BaseModalDirective } from '../base-modal-directive'
 
@@ -20,5 +20,5 @@ export class ShareFormComp extends BaseModalDirective {
     ttlMinutes: 5
   })
 
-  collection = input.required<LearnableUserCollection>()
+  bank = input.required<BankUser>()
 }

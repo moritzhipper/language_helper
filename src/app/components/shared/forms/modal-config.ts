@@ -3,6 +3,7 @@ import { BulkEditComp } from './bulk-add-comp/bulk-edit-comp'
 import { CollectionAddComp } from './collection-add-comp/collection-add-comp'
 import { ConfirmFormComp } from './confirm-form-comp/confirm-form-comp'
 import { DeleteCollectionComp } from './delete-collection-comp/delete-collection-comp'
+import { EditBankComp } from './edit-bank-comp/edit-bank-comp'
 import { EditCollectionComp } from './edit-collection-comp/edit-collection-comp'
 import { ImportFormComp } from './import-form-comp/import-form-comp'
 import { MagicAddComp } from './magic-add-comp/magic-add-comp'
@@ -18,7 +19,8 @@ export type ModalType =
   | 'collection-rename'
   | 'collection-delete'
   | 'bank-import'
-  | 'share-collection'
+  | 'bank-share'
+  | 'edit-bank'
 
 export type OpenModalConfig = {
   type: ModalType
@@ -36,7 +38,8 @@ export const modalConfig: Record<ModalType, Type<unknown>> = {
   'collection-rename': EditCollectionComp,
   'collection-delete': DeleteCollectionComp,
   'bank-import': ImportFormComp,
-  'share-collection': ShareFormComp
+  'bank-share': ShareFormComp,
+  'edit-bank': EditBankComp
 }
 
 export const getModalComponent = (type: ModalType): Type<unknown> => {

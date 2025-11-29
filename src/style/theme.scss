@@ -1,21 +1,26 @@
 :root {
-  --col-base-0: #191a1cff;
-  --col-base-1: #5348b0ff;
-  --col-base-2: #dd93e5ff;
-  --col-base-3: #e8cfecff;
-  --col-base-4: #b34e69ff; // warn
+  --col-base-0: #191a1c;
+  --col-base-1: #5348b0;
+  --col-base-2: #dd93e5;
+  --col-base-3: #e8cfec;
+  --col-base-4: #b34e69; // warn
+  --col-base-5: #487934; // success
 
   --col-text: var(--col-base-3);
   --col-primary: var(--col-base-2);
   --col-accent: var(--col-base-1);
   --col-bg: var(--col-base-0);
   --col-warning: var(--col-base-4);
+  --col-success: var(--col-base-5);
 
   // use for spacial positioning
   --shadow-big: 0px 10px 20px -7px var(--col-base-0);
+  --shadow-bigger: 0px 20px 50px 0 var(--col-base-0);
 
   // use for emphasis
   --shadow-small: 0px 5px 7px -5px var(--col-base-0);
+
+  --grid-auto-columns: repeat(auto-fill, minmax(320px, 1fr));
 
   --font-weight-normal: 500;
   --font-weight-bold: 600;
@@ -40,7 +45,8 @@
   --radius-2: 14px;
   --radius-3: 32px;
 
-  --opacity-0: 0.2;
+  --opacity-0: 0.1;
+  --opacity-1: 0.2;
   --opacity-1: 0.6;
 
   --duration-0: 0.2s;

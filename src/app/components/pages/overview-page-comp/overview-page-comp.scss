@@ -1,6 +1,6 @@
 .learnables {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: var(--grid-auto-columns);
   gap: var(--distance-4);
 
   .learnable {
