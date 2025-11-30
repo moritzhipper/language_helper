@@ -8,7 +8,10 @@ import { SharePageComp } from './components/pages/share-page-comp/share-page-com
 export const routes: Routes = [
   {
     component: OverviewComp,
-    path: 'cards'
+    path: 'cards',
+    data: {
+      header: 'Your Cards'
+    }
   },
   {
     component: PracticeComp,

@@ -5,7 +5,7 @@ export type SwipeProgress = {
   guessWrong: boolean
 }
 
-export const voteThreshold = 250
+export const voteThreshold = 200
 export const indicatorActivationThreshold = 50
 
 export const getSwipeProgress = (progressPx: number): SwipeProgress => {

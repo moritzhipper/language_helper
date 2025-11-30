@@ -53,7 +53,7 @@
 
 button.activate {
   &.active {
-    background-color: rgb(from var(--col-text) r g b / var(--opacity-1));
+    background-color: var(--col-text);
     color: var(--col-bg);
   }
   &:not(.active) {
