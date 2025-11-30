@@ -142,12 +142,12 @@
     }
     &.wrong {
       --prog: calc(var(--swipe-x-norm) * -1);
-      --moveX: calc(var(--swipe-x-norm) * 25px);
+      --moveX: calc(var(--swipe-x-norm) * 15px);
     }
 
     &.right,
     &.wrong {
-      --moveY: calc(50px - var(--prog) * 25px);
+      --moveY: calc(50px - var(--prog) * 15px);
       --scale: calc(0.9 + var(--prog) * 0.1);
 
       // use negated here to move opacity of not selected direction to negative values

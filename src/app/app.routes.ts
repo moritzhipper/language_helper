@@ -9,25 +9,31 @@ export const routes: Routes = [
   {
     component: OverviewComp,
     path: 'cards',
+    title: 'Cards',
     data: {
-      header: 'Your Cards'
+      icon: 'Your Cards',
+      mode: 'full'
     }
   },
   {
     component: PracticeComp,
-    path: 'practice'
+    path: 'practice',
+    title: 'Practice'
   },
   {
     component: SharePageComp,
-    path: 'share'
+    path: 'share',
+    title: 'Share'
   },
   {
     component: AboutPageComp,
-    path: 'about'
+    path: 'about',
+    title: 'About'
   },
   {
     component: SettingsComp,
-    path: 'settings'
+    path: 'settings',
+    title: 'Settings'
   },
   {
     path: '**',
