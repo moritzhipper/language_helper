@@ -11,29 +11,41 @@ export const routes: Routes = [
     path: 'cards',
     title: 'Cards',
     data: {
-      icon: 'Your Cards',
+      icon: 'card',
       mode: 'full'
     }
   },
   {
     component: PracticeComp,
     path: 'practice',
-    title: 'Practice'
+    title: 'Practice',
+    data: {
+      icon: 'learn'
+    }
   },
   {
     component: SharePageComp,
     path: 'share',
-    title: 'Share'
+    title: 'Share',
+    data: {
+      icon: 'share-network-fill'
+    }
   },
   {
     component: AboutPageComp,
     path: 'about',
-    title: 'About'
+    title: 'About',
+    data: {
+      icon: 'info'
+    }
   },
   {
     component: SettingsComp,
     path: 'settings',
-    title: 'Settings'
+    title: 'Settings',
+    data: {
+      icon: 'settings'
+    }
   },
   {
     path: '**',

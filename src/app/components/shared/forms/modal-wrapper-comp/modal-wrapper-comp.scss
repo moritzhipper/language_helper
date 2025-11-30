@@ -1,5 +1,9 @@
 @use '../../../../../style/mixins.scss' as *;
 
+:host {
+  position: absolute;
+}
+
 .wrapper {
   z-index: 30;
   position: fixed;

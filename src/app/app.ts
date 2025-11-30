@@ -1,10 +1,29 @@
 import { Component, effect, inject, untracked } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
-import { ActivatedRoute, Params, RouterOutlet } from '@angular/router'
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Params,
+  Router,
+  RouterOutlet
+} from '@angular/router'
+import { filter, map } from 'rxjs'
 import z from 'zod'
 import { ModalWrapperComp } from './components/shared/forms/modal-wrapper-comp/modal-wrapper-comp'
 import { NavbarComp } from './components/shared/navbar-comp/navbar-comp'
 import { ToastOutletComp } from './components/shared/toast-outlet-comp/toast-outlet-comp'
+
+type PageConfig = {
+  icon: string
+  title: string
+  mode: 'full' | 'compact'
+}
+
+const DEFAULT_PAGE_CONFIG: PageConfig = {
+  icon: 'page',
+  mode: 'compact',
+  title: ''
+}
 
 @Component({
   selector: 'app-root',
@@ -15,6 +34,13 @@ import { ToastOutletComp } from './components/shared/toast-outlet-comp/toast-out
 export class App {
   private route = inject(ActivatedRoute)
   private queryParams = toSignal(this.route.queryParams)
+  activeRoute = inject(ActivatedRoute)
+  private readonly router = inject(Router)
+
+  routerEvents = this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd),
+    map(() => this.getPageConfig())
+  )
 
   constructor() {
     // Log URL parameter 'id' whenever it changes
@@ -37,5 +63,13 @@ export class App {
     // todo: try to fetch shared bank with id from db here
 
     alert('implement')
+  }
+
+  getPageConfig(): PageConfig {
+    const pageConfig = this.activeRoute.snapshot.firstChild?.data
+
+    console.log('pageConfig', pageConfig)
+
+    return DEFAULT_PAGE_CONFIG
   }
 }
