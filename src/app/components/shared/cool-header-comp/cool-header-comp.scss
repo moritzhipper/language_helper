@@ -1,0 +1,27 @@
+:host {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: var(--font-size-4);
+  line-height: var(--distance-7);
+  margin: var(--distance-7) var(--distance-6);
+  rotate: -8deg;
+  transform-origin: top left;
+
+  display: grid;
+  place-items: center;
+  width: min-content;
+  white-space: nowrap;
+  z-index: -1;
+}
+
+.icon {
+  position: absolute;
+  left: -150px;
+  top: -150px;
+  color: var(--col-accent);
+  opacity: var(--opacity-0);
+  rotate: -10deg;
+  width: 550px;
+  height: 550px;
+}

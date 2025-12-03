@@ -42,3 +42,13 @@ a.icon {
   opacity: var(--opacity-1);
   content: ' • ';
 }
+
+.page {
+  display: block;
+  // width: var(--max-width);
+  margin-top: 15vh;
+  &.full {
+  }
+  .small {
+  }
+}

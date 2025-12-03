@@ -1,44 +1,41 @@
-<app-page-wrapper-comp title="Settings" desktopMode="center" icon="settings">
-  <div class="wrapper">
-    <div class="stats">
-      <div class="big">
-        You created <strong>{{ stats().banks }} </strong> holding
-        <strong>{{ stats().collections }} </strong> having a total of
-        <strong>{{ stats().learnables }}</strong
-        >.
-      </div>
-      <div class="smaller">
-        You also spent <strong>{{ tokensUsed() }} tokens </strong> generating
-        cards.
-      </div>
+<h1 app-cool-header-comp icon="settings">Settings</h1>
+<div class="wrapper">
+  <div class="stats">
+    <div class="big">
+      You created <strong>{{ stats().banks }} </strong> holding
+      <strong>{{ stats().collections }} </strong> having a total of
+      <strong>{{ stats().learnables }}</strong
+      >.
     </div>
-    <div class="banks">
-      @for (bank of banks(); track bank.id) {
-        <app-bank-settings-card
-          [bank]="bank"
-          [isActive]="activeBankId() === bank.id"
-          (setActive)="setActiveBank(bank.id)"
-          (delete)="deleteBank(bank.id)"
-          (download)="downloadBank(bank)"
-          (edit)="editBank(bank)"
-          (share)="shareBank(bank)"
-        />
-      }
-      <div class="add-bank">
-        <button (click)="createNewBank()">
-          <app-icon-comp type="add" [size]="32" />
-        </button>
-      </div>
+    <div class="smaller">
+      You also spent <strong>{{ tokensUsed() }} tokens </strong> generating
+      cards.
     </div>
-
-    <div class="data-interact">
-      <label>
-        <span> OpenAI API-key </span>
-        <input type="password" [value]="apiKey()" (input)="updateKey($event)" />
-      </label>
-      <button class="primary big delete" (click)="reset()">
-        reset all data
+  </div>
+  <div class="banks">
+    @for (bank of banks(); track bank.id) {
+      <app-bank-settings-card
+        [bank]="bank"
+        [isActive]="activeBankId() === bank.id"
+        (setActive)="setActiveBank(bank.id)"
+        (delete)="deleteBank(bank.id)"
+        (download)="downloadBank(bank)"
+        (edit)="editBank(bank)"
+        (share)="shareBank(bank)"
+      />
+    }
+    <div class="add-bank">
+      <button (click)="createNewBank()">
+        <app-icon-comp type="add" [size]="32" />
       </button>
     </div>
   </div>
-</app-page-wrapper-comp>
+
+  <div class="data-interact">
+    <label>
+      <span> OpenAI API-key </span>
+      <input type="password" [value]="apiKey()" (input)="updateKey($event)" />
+    </label>
+    <button class="primary big delete" (click)="reset()">reset all data</button>
+  </div>
+</div>

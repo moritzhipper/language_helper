@@ -3,13 +3,13 @@ import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { BankShare } from '../../../types_and_schemas/types'
-import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
+import { CoolHeaderComp } from '../../shared/cool-header-comp/cool-header-comp'
 import { mockOnlineBanks, mockUserBanks } from './mockBanks'
 import { SharedBankComp } from './shared-collection-comp/shared-bank-comp'
 
 @Component({
   selector: 'app-share-page-comp',
-  imports: [PageWrapperComp, SharedBankComp],
+  imports: [CoolHeaderComp, SharedBankComp],
   templateUrl: './share-page-comp.html',
   styleUrl: './share-page-comp.scss'
 })

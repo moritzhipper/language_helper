@@ -25,20 +25,20 @@
   }
 }
 
-.is-last-correct {
+:host.is-last-correct {
   .index--1 {
     transform: translate(110%, 0) rotateZ(20deg);
   }
 }
 
-.is-last-wrong {
+:host.is-last-wrong {
   .index--1 {
     transform: translate(-110%, 0) rotateZ(-20deg);
   }
 }
 
 // first state
-.focus-hidden {
+:host.focus-hidden {
   .index-0 {
     transform: translate(0, 30%);
   }
@@ -51,7 +51,7 @@
 }
 
 // second state
-.focus-revealed {
+:host.focus-revealed {
   .index-0 {
     transform: none;
   }
@@ -64,7 +64,7 @@
 }
 
 // third state
-.is-swiping {
+:host.is-swiping {
   // responsible for realistic in animations
   .card {
     transition: none;
@@ -89,7 +89,7 @@
 }
 
 // can be invoked in second or third state, always has third state (swiping) as result
-.is-editing {
+:host.is-editing {
   .index-0 {
     transform: translate(0%, -30%);
   }
@@ -102,7 +102,7 @@
 }
 
 // only show summary card in center
-.is-finished {
+:host.is-finished {
   .index-0 {
     transform: none;
   }
@@ -132,7 +132,7 @@
   opacity: 0;
 }
 
-.is-swiping {
+:host.is-swiping {
   .vote-overlay .icon {
     transition: none;
 
@@ -158,7 +158,7 @@
 }
 
 // responsible for moveement up after vote
-.focus-hidden {
+:host.focus-hidden {
   .vote-overlay .icon {
     &.right {
       transform: translate(25px, -50px) scale(1.05);

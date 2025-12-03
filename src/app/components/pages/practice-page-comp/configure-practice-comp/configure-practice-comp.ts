@@ -5,9 +5,9 @@ import { LearnablesStore } from '../../../../store/learnablesStore'
 import { LearnablesFilterConfig } from '../../../../types_and_schemas/types'
 import { calculateAverageConfidencePercent } from '../../../../utils/genaral-utils'
 import { filterLearnables } from '../../../../utils/learnables-filter'
+import { CoolHeaderComp } from '../../../shared/cool-header-comp/cool-header-comp'
 import { CounterComp } from '../../../shared/counter-comp/counter-comp'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
-import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
 import { RadioComp } from '../../../shared/radio-comp/radio-comp'
 
 type SelectOption = {
@@ -19,11 +19,11 @@ type SelectOption = {
 @Component({
   selector: 'app-configure-practice-comp',
   imports: [
-    PageWrapperComp,
     CounterComp,
     RadioComp,
     ReactiveFormsModule,
-    IconComp
+    IconComp,
+    CoolHeaderComp
   ],
   templateUrl: './configure-practice-comp.html',
   styleUrl: './configure-practice-comp.scss'

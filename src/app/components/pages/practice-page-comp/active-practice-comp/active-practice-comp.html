@@ -1,44 +1,40 @@
-<app-page-wrapper-comp icon="learn">
-  <div class="practice-view" [class]="stateClasses()">
-    <div class="vote-overlay">
-      <app-icon-comp class="icon right" type="right-guess" [size]="220" />
-      <app-icon-comp class="icon wrong" type="wrong-guess" [size]="220" />
-    </div>
-    @if (cardState() !== 'editing') {
-      <div
-        class="touch-area"
-        (pointerdown)="pointerDown($event)"
-        (pointermove)="pointerMove($event)"
-        (pointerup)="pointerUp()"
-      ></div>
-    }
+<div class="vote-overlay">
+  <app-icon-comp class="icon right" type="right-guess" [size]="220" />
+  <app-icon-comp class="icon wrong" type="wrong-guess" [size]="220" />
+</div>
+@if (cardState() !== 'editing') {
+  <div
+    class="touch-area"
+    (pointerdown)="pointerDown($event)"
+    (pointermove)="pointerMove($event)"
+    (pointerup)="pointerUp()"
+  ></div>
+}
 
-    @for (entry of cardViewModel(); track trackCard(entry)) {
-      @if ('id' in entry.content) {
-        <app-practice-card-comp
-          class="card"
-          [class]="'index-' + entry.viewIndex"
-          [concealed]="entry.viewIndex > 0"
-          [learnable]="entry.content"
-          [allowEdit]="cardState() === 'editing' && entry.viewIndex === 0"
-          [reverseDirection]="currentPractice().reverseDirection"
-          (updateNotes)="updateNotes($event)"
-        />
-      } @else if (!('id' in entry.content)) {
-        <app-practice-summary-card
-          class="card summary"
-          [concealed]="entry.viewIndex > 0"
-          [class]="'index-' + entry.viewIndex"
-          [summary]="entry.content"
-        />
-      }
-    }
-    <app-practice-stats-bar-comp
-      [(isOpen)]="statsOpen"
-      [cardState]="cardState()"
-      [isFinished]="isFinished()"
-      (edit)="editNote()"
-      (quit)="quit()"
+@for (entry of cardViewModel(); track trackCard(entry)) {
+  @if ('id' in entry.content) {
+    <app-practice-card-comp
+      class="card"
+      [class]="'index-' + entry.viewIndex"
+      [concealed]="entry.viewIndex > 0"
+      [learnable]="entry.content"
+      [allowEdit]="cardState() === 'editing' && entry.viewIndex === 0"
+      [reverseDirection]="currentPractice().reverseDirection"
+      (updateNotes)="updateNotes($event)"
     />
-  </div>
-</app-page-wrapper-comp>
+  } @else if (!('id' in entry.content)) {
+    <app-practice-summary-card
+      class="card summary"
+      [concealed]="entry.viewIndex > 0"
+      [class]="'index-' + entry.viewIndex"
+      [summary]="entry.content"
+    />
+  }
+}
+<app-practice-stats-bar-comp
+  [(isOpen)]="statsOpen"
+  [cardState]="cardState()"
+  [isFinished]="isFinished()"
+  (edit)="editNote()"
+  (quit)="quit()"
+/>

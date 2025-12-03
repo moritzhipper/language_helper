@@ -7,6 +7,10 @@
   - only do centered and full view, dont do the center layout thingy (ugly)
   - remove page wrapper
   - rotate the thingys so all align
+  - remove page-wrapper
+
+- add 'cool header' comp
+  - has big icon and makes header rotated and big
 
 - community shares
   - section trending: all languages

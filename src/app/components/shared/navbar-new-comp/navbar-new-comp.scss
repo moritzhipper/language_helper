@@ -1,0 +1,75 @@
+:host {
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  .links {
+    display: grid;
+    grid-template-columns: 0fr auto;
+    grid-auto-rows: auto; /* Each <a> gets its own row */
+    gap: var(--distance-3) 0;
+    margin: var(--distance-4);
+    transition: grid-template-columns var(--duration-2);
+
+    span {
+      transition:
+        opacity var(--duration-1),
+        padding var(--duration-2);
+      opacity: 0;
+      padding-left: 0;
+    }
+
+    &:hover {
+      grid-template-columns: 1fr auto;
+
+      span {
+        padding-left: var(--distance-5);
+
+        opacity: 1;
+      }
+    }
+  }
+}
+
+a {
+  overflow: hidden;
+  rotate: -8deg;
+  transform-origin: bottom left;
+  display: grid;
+  grid-column: 1 / -1; /* Span all rows to enable subgrid */
+  grid-template-columns: subgrid; /* Use parent's row tracks */
+  border-radius: var(--radius-3);
+
+  transition: translate var(--duration-0);
+  place-items: center end;
+
+  box-shadow: var(--shadow-big);
+
+  span {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  app-icon-comp {
+    padding: var(--distance-3);
+    width: 30px;
+    height: 30px;
+  }
+  &.big {
+    font-size: var(--font-size-2);
+    color: var(--col-bg);
+    background-color: var(--col-primary);
+  }
+
+  &.small {
+    background-color: var(--col-accent);
+  }
+  &.active {
+  }
+  &:hover {
+    translate: 10px -2px;
+  }
+}

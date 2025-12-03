@@ -10,7 +10,7 @@ import {
 import { filter, map } from 'rxjs'
 import z from 'zod'
 import { ModalWrapperComp } from './components/shared/forms/modal-wrapper-comp/modal-wrapper-comp'
-import { NavbarComp } from './components/shared/navbar-comp/navbar-comp'
+import { NavbarNewComp } from './components/shared/navbar-new-comp/navbar-new-comp'
 import { ToastOutletComp } from './components/shared/toast-outlet-comp/toast-outlet-comp'
 
 type PageConfig = {
@@ -27,7 +27,7 @@ const DEFAULT_PAGE_CONFIG: PageConfig = {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComp, ToastOutletComp, ModalWrapperComp],
+  imports: [RouterOutlet, ToastOutletComp, ModalWrapperComp, NavbarNewComp],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

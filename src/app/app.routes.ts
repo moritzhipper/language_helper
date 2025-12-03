@@ -9,43 +9,27 @@ export const routes: Routes = [
   {
     component: OverviewComp,
     path: 'cards',
-    title: 'Cards',
-    data: {
-      icon: 'card',
-      mode: 'full'
-    }
+    title: 'LWM | Cards'
   },
   {
     component: PracticeComp,
     path: 'practice',
-    title: 'Practice',
-    data: {
-      icon: 'learn'
-    }
+    title: 'LWM | Practice'
   },
   {
     component: SharePageComp,
     path: 'share',
-    title: 'Share',
-    data: {
-      icon: 'share-network-fill'
-    }
+    title: 'LWM | Share'
   },
   {
     component: AboutPageComp,
     path: 'about',
-    title: 'About',
-    data: {
-      icon: 'info'
-    }
+    title: 'LWM | About'
   },
   {
     component: SettingsComp,
     path: 'settings',
-    title: 'Settings',
-    data: {
-      icon: 'settings'
-    }
+    title: 'LWM | Settings'
   },
   {
     path: '**',
