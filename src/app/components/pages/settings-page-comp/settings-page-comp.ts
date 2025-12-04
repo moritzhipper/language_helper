@@ -15,7 +15,8 @@ import { BankSettingsComp } from './bank-settings-comp/bank-settings-comp'
   selector: 'app-settings.comp',
   imports: [ReactiveFormsModule, BankSettingsComp, IconComp, CoolHeaderComp],
   templateUrl: './settings-page-comp.html',
-  styleUrl: './settings-page-comp.scss'
+  styleUrl: './settings-page-comp.scss',
+  host: { class: 'page mid' }
 })
 export class SettingsComp {
   private readonly _settingsS = inject(SettingsStore)

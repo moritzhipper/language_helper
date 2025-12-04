@@ -2,7 +2,8 @@
 
 :host {
   height: 100%;
-  padding-top: var(--distance-4);
+  padding: var(--distance-5);
+
   box-sizing: border-box;
   display: grid;
   grid-template-rows: 1fr auto;

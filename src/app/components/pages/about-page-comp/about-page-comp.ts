@@ -5,6 +5,9 @@ import { CoolHeaderComp } from '../../shared/cool-header-comp/cool-header-comp'
   selector: 'app-about-page-comp',
   imports: [CoolHeaderComp],
   templateUrl: './about-page-comp.html',
-  styleUrl: './about-page-comp.scss'
+  styleUrl: './about-page-comp.scss',
+  host: {
+    class: 'page mid'
+  }
 })
 export class AboutPageComp {}

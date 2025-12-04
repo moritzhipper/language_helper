@@ -44,10 +44,16 @@ a.icon {
 }
 
 .page {
-  display: block;
-  // width: var(--max-width);
-  margin-top: 15vh;
-  &.full {
+  width: 100%;
+  justify-self: center;
+  box-sizing: border-box;
+  overflow: clip;
+  &.mid {
+    max-width: var(--max-width);
+    padding: 15vh var(--distance-5) var(--distance-5) var(--distance-5);
+  }
+  &.wide {
+    padding: 15vh var(--distance-7) var(--distance-5) var(--distance-7);
   }
   .small {
   }

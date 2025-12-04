@@ -10,6 +10,7 @@ import { config } from '../../../../../config'
 import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
 import { Guess, Practice } from '../../../../types_and_schemas/types'
+import { CoolHeaderComp } from '../../../shared/cool-header-comp/cool-header-comp'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
 import { PracticeCardComp } from './practice-card-comp/practice-card-comp'
 import { CardViewModel, getCardsViewModel } from './practice-helpers'
@@ -25,7 +26,8 @@ export type FocusCardState = 'editing' | 'revealed' | 'hidden' | 'swiping'
     PracticeStatsBarComp,
     PracticeCardComp,
     PracticeSummaryCard,
-    IconComp
+    IconComp,
+    CoolHeaderComp
   ],
   templateUrl: './active-practice-comp.html',
   styleUrls: ['./active-practice-comp.scss', './card-animations.scss'],

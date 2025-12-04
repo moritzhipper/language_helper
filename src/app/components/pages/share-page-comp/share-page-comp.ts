@@ -11,7 +11,10 @@ import { SharedBankComp } from './shared-collection-comp/shared-bank-comp'
   selector: 'app-share-page-comp',
   imports: [CoolHeaderComp, SharedBankComp],
   templateUrl: './share-page-comp.html',
-  styleUrl: './share-page-comp.scss'
+  styleUrl: './share-page-comp.scss',
+  host: {
+    class: 'page mid'
+  }
 })
 export class SharePageComp {
   private readonly _toastS = inject(ToastService)

@@ -1,5 +1,9 @@
 # ToDo
 
+- desktopnav oben rechts so schief, info und about nur angedeuted
+- page header component mit conentslot fuer text, icon als input
+  - nicht als h1, sondern als selbseend
+- mobiles openicon fuer navbar schief
 - move navitimes to left to align with cool big header
 - move navigation to left
   - add nav service, that can hide nav (for practice) -> smooth animation

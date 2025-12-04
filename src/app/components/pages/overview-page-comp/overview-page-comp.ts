@@ -46,7 +46,8 @@ import { OverviewPageFacade } from './overview-page-facade'
     EditBubblesComp,
     CollectionInteractComp,
     CoolHeaderComp
-  ]
+  ],
+  host: { class: 'page wide' }
 })
 export class OverviewComp {
   private readonly _lStore = inject(LearnablesStore)

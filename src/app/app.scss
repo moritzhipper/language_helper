@@ -2,16 +2,11 @@
   display: grid;
   height: 100dvh;
   width: 100vw;
-  overflow: clip;
 }
 
 main {
   box-sizing: border-box;
-  justify-self: center;
-  width: 1200px;
-
-  padding: var(--distance-4);
-  padding-top: 15vh;
+  display: grid;
 }
 
 router-outlet {

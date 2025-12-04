@@ -2,8 +2,6 @@
   display: grid;
   grid-template: 1fr auto / 1fr;
   gap: var(--distance-5);
-
-  min-height: 100%;
 }
 .stats {
   place-self: center;

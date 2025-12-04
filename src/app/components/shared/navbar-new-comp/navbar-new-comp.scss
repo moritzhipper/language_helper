@@ -1,33 +1,33 @@
 :host {
   position: fixed;
-  height: 100vh;
-  top: 0;
-  left: 0;
+  right: 0;
   z-index: 30;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
+  top: 80px;
+
   .links {
+    translate: 100px;
+
     display: grid;
-    grid-template-columns: 0fr auto;
+    grid-template-columns: auto 0fr 100px;
     grid-auto-rows: auto; /* Each <a> gets its own row */
-    gap: var(--distance-3) 0;
-    margin: var(--distance-4);
     transition: grid-template-columns var(--duration-2);
 
     span {
       transition:
         opacity var(--duration-1),
-        padding var(--duration-2);
+        padding var(--duration-1);
       opacity: 0;
-      padding-left: 0;
+      //   padding-left: 0;
     }
 
     &:hover {
-      grid-template-columns: 1fr auto;
+      grid-template-columns: auto 1fr 100px;
 
       span {
-        padding-left: var(--distance-5);
-
+        padding-right: var(--distance-5);
         opacity: 1;
       }
     }
@@ -35,17 +35,15 @@
 }
 
 a {
+  rotate: 10deg;
+  transform-origin: bottom right;
+
   overflow: hidden;
-  rotate: -8deg;
-  transform-origin: bottom left;
   display: grid;
   grid-column: 1 / -1; /* Span all rows to enable subgrid */
   grid-template-columns: subgrid; /* Use parent's row tracks */
   border-radius: var(--radius-3);
-
-  transition: translate var(--duration-0);
-  place-items: center end;
-
+  place-items: center start;
   box-shadow: var(--shadow-big);
 
   span {
@@ -54,22 +52,59 @@ a {
   }
 
   app-icon-comp {
-    padding: var(--distance-3);
+    padding: var(--distance-2);
     width: 30px;
     height: 30px;
   }
+
   &.big {
     font-size: var(--font-size-2);
     color: var(--col-bg);
     background-color: var(--col-primary);
   }
 
+  --move: -50px;
+
+  &:nth-child(1) {
+    translate: calc(var(--move));
+  }
+  &:nth-child(2) {
+    translate: calc(var(--move) * 0.6);
+  }
+  &:nth-child(3) {
+    translate: calc(var(--move) * 0.3);
+  }
+  &:nth-child(4) {
+    translate: calc(var(--move) * 0.1);
+  }
+  //   &:nth-child(5) {
+  //     translate: calc(var(--move) * -1);
+  //   }
   &.small {
+    margin-top: var(--distance-2);
     background-color: var(--col-accent);
+    app-icon-comp {
+      padding: var(--distance-2);
+    }
+  }
+
+  &.big {
+    margin-bottom: var(--distance-4);
+    app-icon-comp {
+      padding: var(--distance-3);
+    }
   }
   &.active {
   }
-  &:hover {
-    translate: 10px -2px;
+}
+
+.links {
+  a {
+    transition: translate var(--duration-1);
+  }
+  &:not(:hover) a {
+  }
+  &:hover a {
+    // translate: 0px;
   }
 }
