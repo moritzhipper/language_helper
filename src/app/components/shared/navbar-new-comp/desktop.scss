@@ -5,14 +5,24 @@
     --moveX: 200px;
 
     padding: var(--distance-2) 0 var(--distance-7);
-    border-radius: var(--radius-3);
     transform-origin: bottom right;
     transform: rotate(-10deg) translateX(var(--moveX));
     border: 1px solid rgb(from var(--col-primary) r g b / var(--opacity-0));
     box-shadow: var(--shadow-big);
-  }
-  a.entry {
     border-radius: var(--radius-3);
+  }
+  .entry {
+    rotate: 20deg;
+
+    &.header,
+    &.language {
+      padding-left: var(--distance-6);
+    }
+  }
+
+  a.entry {
+    grid-template-columns: auto 1fr;
+
     translate: -40px -10px;
 
     app-icon-comp {
@@ -22,10 +32,14 @@
 
     &.big {
       font-size: var(--font-size-2);
-      margin-bottom: var(--distance-4);
+      app-icon-comp {
+        padding: var(--distance-3);
+      }
     }
     &.small {
-      margin-bottom: var(--distance-3);
+      app-icon-comp {
+        padding: var(--distance-1);
+      }
     }
 
     &:hover:not(.active) {
