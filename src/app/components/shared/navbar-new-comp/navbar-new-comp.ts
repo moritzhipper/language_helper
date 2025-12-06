@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { RouterLink, RouterLinkActive } from '@angular/router'
+import { LearnablesStore } from '../../../store/learnablesStore'
 import { IconComp, IconType } from '../icon-comp/icon-comp'
 
 type PageConfig = {
@@ -25,6 +26,8 @@ const DEFAULT_PAGE_CONFIG: PageConfig = {
 })
 export class NavbarNewComp {
   isOpen = signal(true)
+  lstore = inject(LearnablesStore)
+  bank = this.lstore.activeBank
 
   toggle() {
     this.isOpen.set(!this.isOpen())

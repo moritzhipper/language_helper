@@ -1,55 +1,70 @@
 :host {
+  //   height: 100vh;
+  //   overflow: clip;
   position: fixed;
-  right: 0;
   z-index: 30;
+  right: 0;
+  translate: -40px;
+}
+.header,
+.language {
+  //   padding-left: var(--distance-1);
+}
+.header {
+  text-shadow: 0 5px 13px var(--col-bg);
+
+  margin-bottom: var(--distance-3);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-3);
+  margin-bottom: auto;
+}
+
+.language {
+  text-shadow: 0 5px 13px var(--col-bg);
+
   display: flex;
   align-items: center;
+  gap: var(--distance-2);
+  padding-bottom: var(--distance-5);
+}
+.wrapper {
+  padding: var(--distance-7) 0;
+  border-radius: var(--radius-3);
+  max-height: 50vh;
+  height: 100vh;
   box-sizing: border-box;
-  top: 80px;
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  transform-origin: top left;
+  backdrop-filter: blur(30px);
+  background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
+  transform: rotate(-10deg) translateX(200px);
+}
 
-  .links {
-    translate: 100px;
+.entry {
+  transform-origin: top left;
+  padding-right: 200px;
+  transform: rotate(20deg);
 
-    display: grid;
-    grid-template-columns: auto 0fr 100px;
-    grid-auto-rows: auto; /* Each <a> gets its own row */
-    transition: grid-template-columns var(--duration-2);
-
-    span {
-      transition:
-        opacity var(--duration-1),
-        padding var(--duration-1);
-      opacity: 0;
-      //   padding-left: 0;
-    }
-
-    &:hover {
-      grid-template-columns: auto 1fr 100px;
-
-      span {
-        padding-right: var(--distance-5);
-        opacity: 1;
-      }
-    }
+  &.big,
+  &.small {
+    transform: rotate(20deg) translateX(-30px);
   }
 }
 
 a {
-  rotate: 10deg;
-  transform-origin: bottom right;
+  transform-origin: top left;
+  box-sizing: border-box;
 
-  overflow: hidden;
   display: grid;
-  grid-column: 1 / -1; /* Span all rows to enable subgrid */
-  grid-template-columns: subgrid; /* Use parent's row tracks */
+  grid-template-columns: auto 200px;
+
   border-radius: var(--radius-3);
   place-items: center start;
   box-shadow: var(--shadow-big);
 
-  span {
-    overflow: hidden;
-    white-space: nowrap;
-  }
+  white-space: nowrap;
 
   app-icon-comp {
     padding: var(--distance-2);
@@ -57,31 +72,8 @@ a {
     height: 30px;
   }
 
-  &.big {
-    font-size: var(--font-size-2);
-    color: var(--col-bg);
-    background-color: var(--col-primary);
-  }
-
-  --move: -50px;
-
-  &:nth-child(1) {
-    translate: calc(var(--move));
-  }
-  &:nth-child(2) {
-    translate: calc(var(--move) * 0.6);
-  }
-  &:nth-child(3) {
-    translate: calc(var(--move) * 0.3);
-  }
-  &:nth-child(4) {
-    translate: calc(var(--move) * 0.1);
-  }
-  //   &:nth-child(5) {
-  //     translate: calc(var(--move) * -1);
-  //   }
   &.small {
-    margin-top: var(--distance-2);
+    margin-bottom: var(--distance-4);
     background-color: var(--col-accent);
     app-icon-comp {
       padding: var(--distance-2);
@@ -89,6 +81,9 @@ a {
   }
 
   &.big {
+    color: var(--col-bg);
+    background-color: var(--col-primary);
+    font-size: var(--font-size-2);
     margin-bottom: var(--distance-4);
     app-icon-comp {
       padding: var(--distance-3);
@@ -98,13 +93,8 @@ a {
   }
 }
 
-.links {
-  a {
-    transition: translate var(--duration-1);
-  }
-  &:not(:hover) a {
-  }
-  &:hover a {
-    // translate: 0px;
-  }
+:host:hover {
+}
+
+:host:not(:hover) {
 }
