@@ -7,7 +7,6 @@ import { calculateAverageConfidencePercent } from '../../../../utils/genaral-uti
 import { filterLearnables } from '../../../../utils/learnables-filter'
 import { CounterComp } from '../../../shared/counter-comp/counter-comp'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
-import { PageHeaderComp } from '../../../shared/page-header-comp/page-header-comp'
 import { PageIconComp } from '../../../shared/page-icon-comp/page-icon-comp'
 import { RadioComp } from '../../../shared/radio-comp/radio-comp'
 
@@ -24,7 +23,6 @@ type SelectOption = {
     RadioComp,
     ReactiveFormsModule,
     IconComp,
-    PageHeaderComp,
     PageIconComp
   ],
   templateUrl: './configure-practice-comp.html',

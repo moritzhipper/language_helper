@@ -1,5 +1,9 @@
 # ToDo
 
+- remove old navigation
+- remove old page header
+- use gpt5
+
 - community shares
   - section trending: all languages
   - section for you: shares having your language

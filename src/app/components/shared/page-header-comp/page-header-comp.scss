@@ -3,26 +3,31 @@
 :host {
   display: grid;
   width: min-content;
-  white-space: nowrap;
   box-sizing: border-box;
+
+  transform-origin: top left;
+
+  h1 {
+    font-weight: var(--font-weight-bold);
+  }
 
   @include isPhone() {
     width: 100%;
     place-items: center;
     text-align: center;
-    margin: var(--distance-7) 0 var(--distance-7);
-    font-size: var(--font-size-2);
+    margin: var(--distance-7) 0;
+    font-size: var(--font-size-3);
   }
   @include isDesktop() {
     h1 {
-      font-weight: var(--font-weight-bold);
       font-size: var(--font-size-4);
     }
-    margin: var(--distance-8) var(--distance-6);
+
     position: absolute;
     top: 0;
     left: 0;
-    transform-origin: top left;
+    margin: var(--distance-8) var(--distance-6);
+    white-space: nowrap;
     rotate: -10deg;
   }
 }

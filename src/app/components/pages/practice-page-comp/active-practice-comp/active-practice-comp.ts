@@ -11,7 +11,6 @@ import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
 import { Guess, Practice } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
-import { PageHeaderComp } from '../../../shared/page-header-comp/page-header-comp'
 import { PageIconComp } from '../../../shared/page-icon-comp/page-icon-comp'
 import { PracticeCardComp } from './practice-card-comp/practice-card-comp'
 import { CardViewModel, getCardsViewModel } from './practice-helpers'
@@ -28,7 +27,6 @@ export type FocusCardState = 'editing' | 'revealed' | 'hidden' | 'swiping'
     PracticeCardComp,
     PracticeSummaryCard,
     IconComp,
-    PageHeaderComp,
     PageIconComp
   ],
   templateUrl: './active-practice-comp.html',
