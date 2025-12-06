@@ -1,4 +1,32 @@
 @use '../../../../style/mixins';
 
 @include mixins.isPhone() {
+  .navigation {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    overflow: clip;
+    justify-content: center;
+    padding-bottom: 100px;
+  }
+
+  a.entry {
+    width: 150%;
+    padding-left: 50px;
+    grid-template-columns: 70px 1fr;
+    margin-bottom: var(--distance-4);
+
+    app-icon-comp {
+      width: 36px;
+      height: 36px;
+    }
+
+    &.big {
+      font-size: var(--font-size-3);
+    }
+
+    &.small {
+      font-size: var(--font-size-2);
+    }
+  }
 }

@@ -1,4 +1,40 @@
 @use '../../../../style/mixins';
 
 @include mixins.isDesktop() {
+  .navigation {
+    --moveX: 200px;
+
+    padding: var(--distance-2) 0 var(--distance-7);
+    border-radius: var(--radius-3);
+    transform-origin: bottom right;
+    transform: rotate(-10deg) translateX(var(--moveX));
+    border: 1px solid rgb(from var(--col-primary) r g b / var(--opacity-0));
+    box-shadow: var(--shadow-big);
+  }
+  a.entry {
+    border-radius: var(--radius-3);
+    translate: -40px -10px;
+
+    app-icon-comp {
+      width: 30px;
+      height: 30px;
+    }
+
+    &.big {
+      font-size: var(--font-size-2);
+      margin-bottom: var(--distance-4);
+    }
+    &.small {
+      margin-bottom: var(--distance-3);
+    }
+
+    &:hover:not(.active) {
+      translate: -50px -14px;
+    }
+
+    &.active {
+      margin-right: 0px;
+      padding-right: var(--moveX);
+    }
+  }
 }
