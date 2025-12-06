@@ -9,10 +9,12 @@
   [selectedCardsCount]="selectedLearnableIds().length"
 />
 
-<h1 app-cool-header-comp icon="card">
-  {{ selectedCollection()?.name || 'All Cards' }}
+<app-cool-header-comp icon="card">
+  <h1>
+    {{ selectedCollection()?.name || 'All Cards' }}
+  </h1>
   <app-collection-info-comp [config]="headerConfig()" />
-</h1>
+</app-cool-header-comp>
 @if (userHasCards()) {
   @if (collections().length !== 0) {
     <app-collection-interact-comp

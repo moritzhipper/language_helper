@@ -1,22 +1,20 @@
-:host {
+.content {
   position: absolute;
   top: 0;
   left: 0;
-  font-size: var(--font-size-4);
-  line-height: var(--distance-7);
-  margin: var(--distance-7) var(--distance-5);
+
   rotate: -10deg;
   transform-origin: top left;
+  margin: var(--distance-7) var(--distance-5);
 
   display: grid;
-  place-items: center;
   width: min-content;
   white-space: nowrap;
   z-index: -1;
 }
 
 .icon {
-  position: absolute;
+  position: fixed;
   left: -150px;
   top: -150px;
   color: var(--col-accent);
