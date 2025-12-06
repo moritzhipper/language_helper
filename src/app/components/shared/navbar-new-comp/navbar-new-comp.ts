@@ -19,7 +19,7 @@ const DEFAULT_PAGE_CONFIG: PageConfig = {
   selector: 'app-navbar-new-comp',
   imports: [IconComp, RouterLinkActive, RouterLink],
   templateUrl: './navbar-new-comp.html',
-  styleUrl: './navbar-new-comp.scss'
+  styleUrls: ['./navbar-new-comp.scss', './phone.scss']
 })
 export class NavbarNewComp {
   isOpen = signal(true)

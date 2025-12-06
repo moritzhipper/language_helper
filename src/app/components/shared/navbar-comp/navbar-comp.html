@@ -4,7 +4,12 @@
 
 @if (linksAreOpen()) {
   <div class="links-wrapper" animate.leave="fly-out-xy">
-    <h2 animate.enter="fly-in-xy-0" class="entry text header">learn with me</h2>
+    <div class="entry header">learn with me</div>
+    <div class="entry language">
+      {{ bank().language.learning }}
+      <app-icon-comp type="left-right" [size]="16" />
+      {{ bank().language.speaking }}
+    </div>
     <a
       class="entry big practice"
       routerLink="practice"
