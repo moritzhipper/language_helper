@@ -1,9 +1,5 @@
 @use '../../../../style/mixins.scss' as *;
 
-:host {
-  width: 900px;
-}
-
 .collections {
   gap: var(--distance-4);
 }

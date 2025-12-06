@@ -1,12 +1,10 @@
-:host {
-  display: grid;
+main {
   height: 100dvh;
   width: 100vw;
-}
-
-main {
   box-sizing: border-box;
   display: grid;
+  align-content: start;
+  justify-items: center;
 }
 
 router-outlet {

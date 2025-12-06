@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core'
 import { IconComp, IconType } from '../icon-comp/icon-comp'
 
 @Component({
-  selector: 'app-cool-header-comp',
+  selector: 'app-page-header-comp',
   imports: [IconComp],
   templateUrl: './cool-header-comp.html',
   styleUrl: './cool-header-comp.scss'
