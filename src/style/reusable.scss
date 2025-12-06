@@ -42,28 +42,3 @@ a.icon {
   opacity: var(--opacity-1);
   content: ' • ';
 }
-
-.page {
-  box-sizing: border-box;
-  overflow: clip;
-
-  &.mid,
-  &.wide {
-    width: 100%;
-    padding: 170px var(--distance-7) var(--distance-6) var(--distance-7);
-    align-self: start;
-    justify-self: center;
-  }
-  &.mid {
-    max-width: var(--max-width);
-  }
-  &.wide {
-    // width: 100%;
-  }
-  .small {
-  }
-  &.full {
-    // align-self:;
-    height: 100%;
-  }
-}

@@ -1,13 +1,28 @@
+@use './../../../../style/mixins.scss' as *;
+
 :host {
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  rotate: -10deg;
-  transform-origin: top left;
-  margin: var(--distance-7) var(--distance-5);
-
   display: grid;
   width: min-content;
   white-space: nowrap;
+  box-sizing: border-box;
+
+  @include isPhone() {
+    width: 100%;
+    place-items: center;
+    text-align: center;
+    margin: var(--distance-7) 0 var(--distance-7);
+    font-size: var(--font-size-2);
+  }
+  @include isDesktop() {
+    h1 {
+      font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-4);
+    }
+    margin: var(--distance-8) var(--distance-6);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+    rotate: -10deg;
+  }
 }

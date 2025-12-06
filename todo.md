@@ -1,21 +1,5 @@
 # ToDo
 
-- desktopnav oben rechts so schief, info und about nur angedeuted
-- page header component mit conentslot fuer text, icon als input
-  - nicht als h1, sondern als selbseend
-- mobiles openicon fuer navbar schief
-- move navitimes to left to align with cool big header
-- move navigation to left
-  - add nav service, that can hide nav (for practice) -> smooth animation
-  - provide headernames, icon via route setup
-  - only do centered and full view, dont do the center layout thingy (ugly)
-  - remove page wrapper
-  - rotate the thingys so all align
-  - remove page-wrapper
-
-- add 'cool header' comp
-  - has big icon and makes header rotated and big
-
 - community shares
   - section trending: all languages
   - section for you: shares having your language

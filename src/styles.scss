@@ -1,6 +1,7 @@
 @use './style/theme';
 @use './style/reusable';
 @use './style/animations';
+@use './style/page-sizes';
 
 html {
   background-color: var(--col-bg);
@@ -31,8 +32,6 @@ textarea {
 }
 
 h1 {
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-4);
   line-height: var(--distance-7);
   margin: 0;
 }

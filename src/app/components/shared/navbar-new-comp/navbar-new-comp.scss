@@ -8,14 +8,19 @@
   border-radius: var(--radius-3);
   padding: var(--distance-3);
   margin: var(--distance-4);
+  border: 1px solid rgb(from var(--col-text) r g b / var(--opacity-0));
+  background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
+
   transition:
     transform var(--duration-0),
     background-color var(--duration-0),
+    border var(--duration-0),
     box-shadow var(--duration-0);
 
   &.open {
     transform: rotate(-10deg);
     background-color: transparent;
+
     box-shadow: none;
   }
 }

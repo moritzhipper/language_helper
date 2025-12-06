@@ -7,7 +7,7 @@
     padding: var(--distance-2) 0 var(--distance-7);
     transform-origin: bottom right;
     transform: rotate(-10deg) translateX(var(--moveX));
-    border: 1px solid rgb(from var(--col-primary) r g b / var(--opacity-0));
+    border: 1px solid rgb(from var(--col-text) r g b / var(--opacity-0));
     box-shadow: var(--shadow-big);
     border-radius: var(--radius-3);
   }
