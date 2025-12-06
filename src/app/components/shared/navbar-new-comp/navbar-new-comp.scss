@@ -9,12 +9,14 @@
   padding: var(--distance-3);
   margin: var(--distance-4);
   transition:
-    transform var(--duration-1),
-    background-color var(--duration-1);
+    transform var(--duration-0),
+    background-color var(--duration-0),
+    box-shadow var(--duration-0);
 
   &.open {
     transform: rotate(-10deg);
     background-color: transparent;
+    box-shadow: none;
   }
 }
 
@@ -25,7 +27,6 @@
   z-index: 20;
   right: 0;
   top: 0;
-
   padding: var(--distance-2) 0 var(--distance-7);
   border-radius: var(--radius-3);
   box-sizing: border-box;

@@ -1,35 +1,43 @@
-<!-- <div class="header">learn with me</div> -->
-<!-- <app-icon-comp [type]="conf.icon" class="icon" /> -->
 <button (click)="toggle()" class="toggle" [class.open]="isOpen()">
   <app-icon-comp type="menu" />
 </button>
 
-<div class="navigation">
-  <div class="entry header">learn with me</div>
-  <div class="entry language">
-    {{ bank().language.learning }}
-    <app-icon-comp type="left-right" [size]="16" />
-    {{ bank().language.speaking }}
-  </div>
+@if (isOpen()) {
+  <div
+    class="navigation"
+    animate.enter="fly-in-xy-0"
+    animate.leave="fly-out-xy"
+  >
+    <div class="entry header">learn with me</div>
+    <div class="entry language">
+      {{ bank().language.learning }}
+      <app-icon-comp type="left-right" [size]="16" />
+      {{ bank().language.speaking }}
+    </div>
 
-  <a class="entry big practice" routerLink="practice" routerLinkActive="active">
-    <app-icon-comp type="learn" />
-    <span>practice</span>
-  </a>
-  <a routerLink="cards" class="entry big" routerLinkActive="active">
-    <app-icon-comp type="card" />
-    <span>cards</span>
-  </a>
-  <a routerLink="share" class="entry big share" routerLinkActive="active">
-    <app-icon-comp type="share-network-fill" />
-    <span>share</span>
-  </a>
-  <a routerLink="settings" class="entry small" routerLinkActive="active">
-    <app-icon-comp type="settings" />
-    <span>settings</span>
-  </a>
-  <a routerLink="about" class="entry small about" routerLinkActive="active">
-    <app-icon-comp type="info" />
-    <span>about</span>
-  </a>
-</div>
+    <a
+      class="entry big practice"
+      routerLink="practice"
+      routerLinkActive="active"
+    >
+      <app-icon-comp type="learn" />
+      <span>practice</span>
+    </a>
+    <a routerLink="cards" class="entry big" routerLinkActive="active">
+      <app-icon-comp type="card" />
+      <span>cards</span>
+    </a>
+    <a routerLink="share" class="entry big share" routerLinkActive="active">
+      <app-icon-comp type="share-network-fill" />
+      <span>share</span>
+    </a>
+    <a routerLink="settings" class="entry small" routerLinkActive="active">
+      <app-icon-comp type="settings" />
+      <span>settings</span>
+    </a>
+    <a routerLink="about" class="entry small about" routerLinkActive="active">
+      <app-icon-comp type="info" />
+      <span>about</span>
+    </a>
+  </div>
+}
