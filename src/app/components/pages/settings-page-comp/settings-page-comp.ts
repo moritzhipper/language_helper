@@ -7,13 +7,20 @@ import { LearnablesStore } from '../../../store/learnablesStore'
 import { SettingsStore } from '../../../store/settingsStore'
 import { BankBase, BankUser } from '../../../types_and_schemas/types'
 import { pluralize } from '../../../utils/genaral-utils'
-import { CoolHeaderComp } from '../../shared/cool-header-comp/cool-header-comp'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
+import { PageHeaderComp } from '../../shared/page-header-comp/page-header-comp'
+import { PageIconComp } from '../../shared/page-icon-comp/page-icon-comp'
 import { BankSettingsComp } from './bank-settings-comp/bank-settings-comp'
 
 @Component({
   selector: 'app-settings.comp',
-  imports: [ReactiveFormsModule, BankSettingsComp, IconComp, CoolHeaderComp],
+  imports: [
+    ReactiveFormsModule,
+    BankSettingsComp,
+    IconComp,
+    PageHeaderComp,
+    PageIconComp
+  ],
   templateUrl: './settings-page-comp.html',
   styleUrl: './settings-page-comp.scss',
   host: { class: 'page mid' }

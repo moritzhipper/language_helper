@@ -9,7 +9,8 @@
   [selectedCardsCount]="selectedLearnableIds().length"
 />
 
-<app-page-header-comp icon="card">
+<app-page-icon-comp type="card" />
+<app-page-header-comp>
   <h1>
     {{ selectedCollection()?.name || 'All Cards' }}
   </h1>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CoolHeaderComp } from './cool-header-comp';
+import { PageIconComp } from './page-icon-comp';
 
-describe('CoolHeaderComp', () => {
-  let component: CoolHeaderComp;
-  let fixture: ComponentFixture<CoolHeaderComp>;
+describe('PageIconComp', () => {
+  let component: PageIconComp;
+  let fixture: ComponentFixture<PageIconComp>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CoolHeaderComp]
+      imports: [PageIconComp]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CoolHeaderComp);
+    fixture = TestBed.createComponent(PageIconComp);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,12 +1,3 @@
-:host {
-  display: block;
-  height: 100%;
-  width: 100%;
-  overflow: clip;
-}
-
-.selection-view,
-.finished-view,
-.practice-view {
+app-active-practice-comp {
   height: 100%;
 }

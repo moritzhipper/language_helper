@@ -1,7 +1,7 @@
 @use '../../../../../style/mixins.scss' as *;
 
 :host {
-  height: 100%;
+  place-self: stretch;
   padding: var(--distance-5);
 
   box-sizing: border-box;

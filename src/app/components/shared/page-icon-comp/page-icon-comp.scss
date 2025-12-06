@@ -1,0 +1,16 @@
+:host {
+  z-index: -1;
+  position: fixed;
+  left: -150px;
+  top: -150px;
+  color: var(--col-accent);
+  opacity: var(--opacity-0);
+  rotate: -10deg;
+  width: 550px;
+  height: 550px;
+
+  app-icon-comp {
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -8,7 +8,8 @@ import { ConfigurePracticeComp } from './configure-practice-comp/configure-pract
   selector: 'app-practice',
   imports: [ActivePracticeComp, ConfigurePracticeComp],
   templateUrl: './practice-page-comp.html',
-  styleUrl: './practice-page-comp.scss'
+  styleUrl: './practice-page-comp.scss',
+  host: { class: 'page full' }
 })
 export class PracticeComp {
   protected readonly currentPractice = inject(LearnablesStore).currentPractice

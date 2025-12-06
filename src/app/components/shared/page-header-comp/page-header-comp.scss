@@ -1,4 +1,4 @@
-.content {
+:host {
   position: absolute;
   top: 0;
   left: 0;
@@ -10,16 +10,4 @@
   display: grid;
   width: min-content;
   white-space: nowrap;
-  z-index: -1;
-}
-
-.icon {
-  position: fixed;
-  left: -150px;
-  top: -150px;
-  color: var(--col-accent);
-  opacity: var(--opacity-0);
-  rotate: -10deg;
-  width: 550px;
-  height: 550px;
 }

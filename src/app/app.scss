@@ -3,8 +3,6 @@ main {
   width: 100vw;
   box-sizing: border-box;
   display: grid;
-  align-content: start;
-  justify-items: center;
 }
 
 router-outlet {
