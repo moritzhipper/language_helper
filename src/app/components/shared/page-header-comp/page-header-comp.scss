@@ -9,6 +9,7 @@
 
   h1 {
     font-weight: var(--font-weight-bold);
+    margin-bottom: var(--distance-1);
   }
 
   @include isPhone() {
