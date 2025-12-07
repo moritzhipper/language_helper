@@ -1,5 +1,12 @@
 import { Component, inject, signal } from '@angular/core'
-import { RouterLink, RouterLinkActive } from '@angular/router'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterLinkActive
+} from '@angular/router'
+import { filter } from 'rxjs'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { IconComp, IconType } from '../icon-comp/icon-comp'
 
@@ -22,9 +29,20 @@ const DEFAULT_PAGE_CONFIG: PageConfig = {
   styleUrls: ['./navbar-new-comp.scss', './phone.scss', './desktop.scss']
 })
 export class NavbarNewComp {
-  isOpen = signal(true)
+  private readonly navEvent$ = inject(Router).events.pipe(
+    filter((e) => e instanceof NavigationEnd),
+    takeUntilDestroyed()
+  )
+
+  isOpen = signal(false)
   lstore = inject(LearnablesStore)
   bank = this.lstore.activeBank
+
+  constructor() {
+    this.navEvent$.subscribe(() => {
+      this.isOpen.set(false)
+    })
+  }
 
   toggle() {
     this.isOpen.set(!this.isOpen())

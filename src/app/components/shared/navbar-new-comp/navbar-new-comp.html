@@ -3,11 +3,7 @@
 </button>
 
 @if (isOpen()) {
-  <div
-    class="navigation"
-    animate.enter="fly-in-xy-0"
-    animate.leave="fly-out-xy"
-  >
+  <div class="navigation" animate.enter="main-enter" animate.leave="main-leave">
     <div class="entry header">learn with me</div>
     <div class="entry language">
       {{ bank().language.learning }}

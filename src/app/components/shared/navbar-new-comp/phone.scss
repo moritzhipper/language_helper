@@ -37,4 +37,47 @@
       width: 150%;
     }
   }
+
+  // animations
+  .main-enter {
+    animation: main-enter var(--duration-1) both;
+  }
+  .entry {
+    @for $i from 0 through 12 {
+      &:nth-child(#{$i - 1}) {
+        animation: entry-enter
+          var(--duration-2)
+          calc(0.07s * #{$i})
+          cubic-bezier(0.322, 0.582, 0.006, 0.987)
+          backwards;
+      }
+    }
+  }
+  .main-leave {
+    animation: main-leave var(--duration-3);
+  }
+
+  @keyframes main-enter {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes main-leave {
+    100% {
+      background-color: transparent;
+      opacity: 0;
+    }
+  }
+
+  @keyframes entry-enter {
+    from {
+      opacity: 0;
+      transform: translate(100px, 0px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(0px, 0px);
+    }
+  }
 }

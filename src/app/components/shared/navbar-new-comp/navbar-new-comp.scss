@@ -14,13 +14,11 @@
   transition:
     transform var(--duration-0),
     background-color var(--duration-0),
-    border var(--duration-0),
     box-shadow var(--duration-0);
 
   &.open {
     transform: rotate(-10deg);
     background-color: transparent;
-
     box-shadow: none;
   }
 }
@@ -71,6 +69,7 @@ a.entry {
   border-radius: var(--radius-3);
 
   transition:
+    opacity var(--duration-1),
     translate var(--duration-0),
     padding var(--duration-1),
     margin var(--duration-1),
@@ -87,3 +86,5 @@ a.entry {
     margin-bottom: var(--distance-3);
   }
 }
+
+// animations
