@@ -16,7 +16,12 @@
       routerLinkActive="active"
     >
       <app-icon-comp type="learn" />
-      <span>practice</span>
+      <span
+        >practice
+        @if (hasActivePractice()) {
+          <span class="indicator">•</span>
+        }
+      </span>
     </a>
     <a routerLink="cards" class="entry big" routerLinkActive="active">
       <app-icon-comp type="card" />

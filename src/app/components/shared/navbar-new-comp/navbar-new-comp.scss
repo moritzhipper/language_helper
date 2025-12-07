@@ -60,6 +60,10 @@
     gap: var(--distance-2);
     padding-bottom: var(--distance-5);
   }
+
+  &.practice .indicator {
+    animation: pulse 4s infinte;
+  }
 }
 
 a.entry {
@@ -70,8 +74,6 @@ a.entry {
   border-radius: var(--radius-3);
 
   transition:
-    transform var(--duration-1),
-    opacity var(--duration-1),
     translate var(--duration-0),
     padding var(--duration-1),
     margin var(--duration-1),
