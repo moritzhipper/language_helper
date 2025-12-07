@@ -6,7 +6,7 @@ import {
   RouterLink,
   RouterLinkActive
 } from '@angular/router'
-import { filter } from 'rxjs'
+import { delay, filter } from 'rxjs'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { IconComp, IconType } from '../icon-comp/icon-comp'
 
@@ -24,13 +24,15 @@ const DEFAULT_PAGE_CONFIG: PageConfig = {
 
 @Component({
   selector: 'app-navbar-new-comp',
-  imports: [IconComp, RouterLinkActive, RouterLink],
+  imports: [IconComp, RouterLink, RouterLinkActive],
   templateUrl: './navbar-new-comp.html',
   styleUrls: ['./navbar-new-comp.scss', './phone.scss', './desktop.scss']
 })
 export class NavbarNewComp {
+  // delay closing via linkclick a bit to show acitve link change animation
   private readonly navEvent$ = inject(Router).events.pipe(
     filter((e) => e instanceof NavigationEnd),
+    delay(400),
     takeUntilDestroyed()
   )
 

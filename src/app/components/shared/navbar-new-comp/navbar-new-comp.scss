@@ -9,7 +9,8 @@
   padding: var(--distance-3);
   margin: var(--distance-4);
   border: 1px solid rgb(from var(--col-text) r g b / var(--opacity-0));
-  background-color: rgb(from var(--col-bg) r g b / var(--opacity-0));
+  background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
+  backdrop-filter: blur(5px);
 
   transition:
     transform var(--duration-0),
@@ -69,6 +70,7 @@ a.entry {
   border-radius: var(--radius-3);
 
   transition:
+    transform var(--duration-1),
     opacity var(--duration-1),
     translate var(--duration-0),
     padding var(--duration-1),
@@ -86,5 +88,3 @@ a.entry {
     margin-bottom: var(--distance-3);
   }
 }
-
-// animations

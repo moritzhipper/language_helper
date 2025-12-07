@@ -53,16 +53,24 @@
 
   // animations
   .main-enter {
-    animation: main-enter var(--duration-1);
+    animation: main-enter var(--duration-1) var(--soft-ease);
   }
+
   .main-leave {
-    animation: main-enter var(--duration-2) reverse;
+    animation: main-leave var(--duration-1) ease-out;
   }
 
   @keyframes main-enter {
     from {
       opacity: 0;
-      translate: 100px 20px;
+      translate: 100px 15px;
+    }
+  }
+
+  @keyframes main-leave {
+    to {
+      opacity: 0;
+      translate: 50px 7px;
     }
   }
 }

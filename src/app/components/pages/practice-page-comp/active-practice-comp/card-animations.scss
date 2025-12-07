@@ -2,7 +2,7 @@
   transition-duration: var(--duration-3);
   transition-property:
     translate, opacity, transform, background-color, color, border-color;
-  transition-timing-function: cubic-bezier(0.322, 0.582, 0.006, 0.987);
+  transition-timing-function: var(--soft-ease);
 
   // last card
   &.index--1 {
