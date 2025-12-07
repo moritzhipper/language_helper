@@ -36,10 +36,12 @@ export class NavbarNewComp {
     takeUntilDestroyed()
   )
 
-  protected isOpen = signal(false)
   protected readonly lstore = inject(LearnablesStore)
-  protected language = computed(() => this.lstore.activeBank().language)
-  protected hasActivePractice = this.lstore.currentPractice
+  protected readonly language = computed(
+    () => this.lstore.activeBank().language
+  )
+  protected readonly isOpen = signal(false)
+  protected readonly hasActivePractice = this.lstore.currentPractice
 
   constructor() {
     this.navEvent$.subscribe(() => {
