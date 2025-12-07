@@ -2,15 +2,11 @@
 <app-page-header-comp title="Settings" />
 
 <div class="stats">
-  <div class="big">
-    You created <strong>{{ stats().banks }} </strong> holding
-    <strong>{{ stats().collections }} </strong> having a total of
-    <strong>{{ stats().learnables }}</strong
-    >.
-  </div>
-  <div class="smaller">
-    You also spent <strong>{{ tokensUsed() }} tokens </strong> generating cards.
-  </div>
+  You created <strong>{{ stats().banks }} </strong> holding
+  <strong>{{ stats().collections }} </strong> having a total of
+  <strong>{{ stats().learnables }}</strong
+  >. You also spent <strong>{{ tokensUsed() }} tokens </strong> generating
+  cards.
 </div>
 <div class="banks">
   @for (bank of banks(); track bank.id) {

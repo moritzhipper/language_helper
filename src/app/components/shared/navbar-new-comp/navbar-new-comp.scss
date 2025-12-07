@@ -9,7 +9,7 @@
   padding: var(--distance-3);
   margin: var(--distance-4);
   border: 1px solid rgb(from var(--col-text) r g b / var(--opacity-0));
-  background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
+  background-color: rgb(from var(--col-bg) r g b / var(--opacity-0));
 
   transition:
     transform var(--duration-0),
