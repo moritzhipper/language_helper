@@ -45,7 +45,11 @@
   .entry {
     @for $i from 0 through 12 {
       &:nth-child(#{$i - 1}) {
-        animation: entry-enter 1s calc(0.07s * #{$i}) var(--overshot) backwards;
+        animation: entry-enter
+          var(--duration-2)
+          calc(0.07s * #{$i})
+          var(--soft-ease)
+          backwards;
       }
     }
   }

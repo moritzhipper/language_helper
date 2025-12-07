@@ -138,11 +138,11 @@
 
     &.right {
       --prog: var(--swipe-x-norm);
-      --moveX: calc(var(--swipe-x-norm) * 25px);
+      --moveX: calc(25px + var(--swipe-x-norm) * -25px);
     }
     &.wrong {
       --prog: calc(var(--swipe-x-norm) * -1);
-      --moveX: calc(var(--swipe-x-norm) * 15px);
+      --moveX: calc(-25px + var(--swipe-x-norm) * -25px);
     }
 
     &.right,
@@ -161,11 +161,11 @@
 :host.focus-hidden {
   .vote-overlay .icon {
     &.right {
-      transform: translate(25px, -50px) scale(1.05);
+      transform: translate(0px, -50px) scale(1.05);
     }
 
     &.wrong {
-      transform: translate(-25px, -50px) scale(1.05);
+      transform: translate(0px, -50px) scale(1.05);
     }
   }
 }

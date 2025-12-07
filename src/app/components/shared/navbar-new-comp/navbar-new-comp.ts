@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core'
+import { Component, computed, inject, signal } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import {
   NavigationEnd,
@@ -29,7 +29,7 @@ const DEFAULT_PAGE_CONFIG: PageConfig = {
   styleUrls: ['./navbar-new-comp.scss', './phone.scss', './desktop.scss']
 })
 export class NavbarNewComp {
-  // delay closing via linkclick a bit to show acitve link change animation
+  // delay closing via link click a bit to show active link change animation
   private readonly navEvent$ = inject(Router).events.pipe(
     filter((e) => e instanceof NavigationEnd),
     delay(400),
@@ -38,7 +38,7 @@ export class NavbarNewComp {
 
   isOpen = signal(false)
   lstore = inject(LearnablesStore)
-  bank = this.lstore.activeBank
+  language = computed(() => this.lstore.activeBank().language)
 
   constructor() {
     this.navEvent$.subscribe(() => {
