@@ -1,15 +1,11 @@
 # ToDo
 
-- remove old navigation
-- remove old page header
-- use gpt5
-
 - community shares
   - section trending: all languages
   - section for you: shares having your language
-- refactor learnable mutators, split in files, reuse double code
 
 - clean up overview facade service
+- refactor learnable mutators, split in files, reuse double code
 
 - add to collection after import doesnt work
 - dont mark newest when exiting bulk edit withou adding new ones
@@ -18,13 +14,10 @@
 - add html lang call to ai service, save it as option in language config.
 - change blobcreation and download to happen on click, not in a reactive manner -> faster
   - implement in overview, share and settings
-
 - only allow deleting
 - handle deletion of last bank somehow
 
 - unifiy type setup:
-  - add change language mutator:
-    -> checks if language combo exists, activates bank with that combo or creates new empty one
   - clean up overview page and facade thoroughly
   - store, export and import are wordbanks (types and stuff)
   - collection can have collections
@@ -33,21 +26,14 @@
 - refactor and simpify ai service?
 
 - settings: active bank
-  - show languaghes in select
-  - add create bank input, providing speaking learning inputs
-- make export app config export complete store
 - add merge learnables function to mutoators: when a lexeme exists, but the words dont match: update the translation to trans1 / trans2
-- add language change option in settings and store
 - refactor bulkEdit mit add altest ids and mark them in overview facede and overview
 
 - unify share and import form
 - greater: hello, this is how it works
-- you can do this and that
-- add your. language now
-- allow selection of ttl: 5 min, 1 day, 1 month
+  - you can do this and that
+  - add your. language now
 - deploy via cloudflare pages, worker and upstash redis
-- allow multiple languages
-  - pairing, welches cards und collections enthaelt
 - add load more cards on scroll / pagination?
 
 - stats page:
@@ -59,7 +45,6 @@ make settinggsstore simple service with update function and effect that writes t
 
 - link similar cards (multiple translations)
 - how to handle sharing multiple selection
-- notes mode
 - stats page with collections, top and worst, most ppracticed, hardest words, progressgraph
 - enter leave directive
 - split create cards exactly like i split phrases
