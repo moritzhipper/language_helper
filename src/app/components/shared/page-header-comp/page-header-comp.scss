@@ -11,24 +11,26 @@
     font-weight: var(--font-weight-bold);
     margin-bottom: var(--distance-1);
   }
+}
 
-  @include isPhone() {
+@include isPhone() {
+  :host {
     width: 100%;
     place-items: center;
     text-align: center;
     margin: var(--distance-7) 0;
     font-size: var(--font-size-3);
   }
-  @include isDesktop() {
+}
+
+@include isDesktop() {
+  :host {
     h1 {
       font-size: var(--font-size-4);
     }
 
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: var(--distance-8) var(--distance-6);
+    margin: var(--distance-4) 0 var(--distance-6) 0;
     white-space: nowrap;
-    rotate: -6deg;
+    transform: rotate(-6deg) translateX(calc(-1 * var(--distance-5)));
   }
 }
