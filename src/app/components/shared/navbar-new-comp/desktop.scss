@@ -53,11 +53,11 @@
 
   // animations
   .main-enter {
-    animation: main-enter var(--duration-1) var(--soft-ease);
+    animation: main-enter var(--duration-2) var(--soft-ease);
   }
 
   .main-leave {
-    animation: main-leave var(--duration-1) ease-out;
+    animation: main-leave var(--duration-0) ease-out;
   }
 
   @keyframes main-enter {
