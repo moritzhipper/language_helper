@@ -8,19 +8,7 @@ import {
 } from '@angular/router'
 import { delay, filter } from 'rxjs'
 import { LearnablesStore } from '../../../store/learnablesStore'
-import { IconComp, IconType } from '../icon-comp/icon-comp'
-
-type PageConfig = {
-  icon: IconType
-  header: string
-  mode: 'full' | 'compact'
-}
-
-const DEFAULT_PAGE_CONFIG: PageConfig = {
-  icon: 'learn',
-  mode: 'compact',
-  header: ''
-}
+import { IconComp } from '../icon-comp/icon-comp'
 
 @Component({
   selector: 'app-navbar-new-comp',
@@ -41,11 +29,13 @@ export class NavbarNewComp {
     () => this.lstore.activeBank().language
   )
   protected readonly isOpen = signal(false)
+  protected readonly isOnPracticePage = signal(false)
   protected readonly hasActivePractice = this.lstore.currentPractice
 
   constructor() {
-    this.navEvent$.subscribe(() => {
+    this.navEvent$.subscribe((ev) => {
       this.isOpen.set(false)
+      this.isOnPracticePage.set(ev.urlAfterRedirects.includes('practice'))
     })
   }
 

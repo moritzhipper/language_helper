@@ -1,4 +1,9 @@
-<button (click)="toggle()" class="toggle" [class.open]="isOpen()">
+<button
+  (click)="toggle()"
+  class="toggle"
+  [class.open]="isOpen()"
+  [class.dim]="isOnPracticePage() && hasActivePractice() && !isOpen()"
+>
   <app-icon-comp type="menu" />
 </button>
 

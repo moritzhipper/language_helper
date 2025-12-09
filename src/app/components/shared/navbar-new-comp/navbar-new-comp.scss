@@ -12,15 +12,17 @@
   background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
   backdrop-filter: blur(5px);
 
-  transition:
-    transform var(--duration-0),
-    background-color var(--duration-0),
-    box-shadow var(--duration-0);
+  transition: all var(--duration-1);
 
   &.open {
     transform: rotate(-10deg);
-    background-color: transparent;
     box-shadow: none;
+  }
+
+  &.dim {
+    background-color: transparent;
+    opacity: var(--opacity-1);
+    border: 1px solid transparent;
   }
 }
 
@@ -59,10 +61,6 @@
     align-items: center;
     gap: var(--distance-2);
     padding-bottom: var(--distance-5);
-  }
-
-  &.practice .indicator {
-    animation: pulse 4s infinte;
   }
 }
 
