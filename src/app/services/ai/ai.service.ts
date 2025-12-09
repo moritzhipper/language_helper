@@ -19,7 +19,7 @@ import { getPhrasesPrompt, getWordsPrompt } from './prompt'
   providedIn: 'root'
 })
 export class AiService {
-  private readonly model: ChatModel = 'chatgpt-4o-latest'
+  private readonly model: ChatModel = 'gpt-5.1'
   private readonly settingsStore = inject(SettingsStore)
 
   private oAi = computed(

@@ -8,7 +8,9 @@
   - section trending: all languages
   - section for you: shares having your language
 - refactor learnable mutators, split in files, reuse double code
+
 - clean up overview facade service
+
 - add to collection after import doesnt work
 - dont mark newest when exiting bulk edit withou adding new ones
 - show 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
@@ -16,8 +18,10 @@
 - add html lang call to ai service, save it as option in language config.
 - change blobcreation and download to happen on click, not in a reactive manner -> faster
   - implement in overview, share and settings
+
 - only allow deleting
 - handle deletion of last bank somehow
+
 - unifiy type setup:
   - add change language mutator:
     -> checks if language combo exists, activates bank with that combo or creates new empty one

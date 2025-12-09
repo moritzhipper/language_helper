@@ -8,7 +8,7 @@
   <button
     (click)="resetSelection.emit()"
     class="edit reset"
-    animate.enter="fly-in-x-0"
+    animate.enter="fly-in-xy-0"
     animate.leave="fly-out-x"
   >
     <span>
@@ -20,7 +20,7 @@
     <button
       (click)="removeFromCollection.emit()"
       class="edit remove-from-collection"
-      animate.enter="fly-in-x-1"
+      animate.enter="fly-in-xy-1"
       animate.leave="fly-out-x"
     >
       <app-icon-comp type="collection-remove" />
@@ -29,14 +29,14 @@
   <button
     (click)="addToCollection.emit()"
     class="edit add-to-collection"
-    animate.enter="fly-in-x-2"
+    animate.enter="fly-in-xy-2"
     animate.leave="fly-out-x"
   >
     <app-icon-comp type="collection-add" />
   </button>
   <button
     class="edit trash"
-    animate.enter="fly-in-x-3"
+    animate.enter="fly-in-xy-3"
     animate.leave="fly-out-x"
     (click)="delete.emit()"
   >
