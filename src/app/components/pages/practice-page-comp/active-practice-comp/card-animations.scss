@@ -74,16 +74,15 @@
     --moveX: calc(var(--swipe-prog) * 1px);
     --rotX: calc(var(--swipe-prog) * 0.03deg);
     transform: translate(var(--moveX), 0%) rotate(var(--rotX));
-    // opacity: calc();
   }
 
   .index-1 {
-    --moveY: calc(85% - abs(var(--swipe-prog)) * 0.02%);
+    --moveY: calc(85% - abs(var(--swipe-prog)) / 50 * 1%);
     transform: translate(5%, var(--moveY)) rotate(-8deg);
   }
 
   .index-2 {
-    --moveY: calc(120% - abs(var(--swipe-prog)) * 0.01%);
+    --moveY: calc(120% - abs(var(--swipe-prog)) / 100 * 1%);
     transform: translate(0%, var(--moveY)) rotate(-10deg);
   }
 }
