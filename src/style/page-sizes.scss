@@ -1,0 +1,25 @@
+@use './mixins';
+
+.page {
+  box-sizing: border-box;
+  overflow: clip;
+  max-width: 100vw;
+
+  @include mixins.isPhone() {
+    padding: var(--distance-4);
+  }
+  @include mixins.isDesktop() {
+    padding: var(--distance-5);
+
+    &.mid,
+    &.wide {
+      width: 100%;
+      padding: var(--distance-7);
+      align-self: start;
+      justify-self: center;
+    }
+    &.mid {
+      max-width: var(--max-width);
+    }
+  }
+}

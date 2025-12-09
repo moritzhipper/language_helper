@@ -8,14 +8,22 @@ import { SettingsStore } from '../../../store/settingsStore'
 import { BankBase, BankUser } from '../../../types_and_schemas/types'
 import { pluralize } from '../../../utils/genaral-utils'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
-import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
+import { PageHeaderComp } from '../../shared/page-header-comp/page-header-comp'
+import { PageIconComp } from '../../shared/page-icon-comp/page-icon-comp'
 import { BankSettingsComp } from './bank-settings-comp/bank-settings-comp'
 
 @Component({
   selector: 'app-settings.comp',
-  imports: [ReactiveFormsModule, PageWrapperComp, BankSettingsComp, IconComp],
+  imports: [
+    ReactiveFormsModule,
+    BankSettingsComp,
+    IconComp,
+    PageHeaderComp,
+    PageIconComp
+  ],
   templateUrl: './settings-page-comp.html',
-  styleUrl: './settings-page-comp.scss'
+  styleUrl: './settings-page-comp.scss',
+  host: { class: 'page mid' }
 })
 export class SettingsComp {
   private readonly _settingsS = inject(SettingsStore)

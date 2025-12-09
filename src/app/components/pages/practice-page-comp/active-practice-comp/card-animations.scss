@@ -2,7 +2,7 @@
   transition-duration: var(--duration-3);
   transition-property:
     translate, opacity, transform, background-color, color, border-color;
-  transition-timing-function: cubic-bezier(0.322, 0.582, 0.006, 0.987);
+  transition-timing-function: var(--soft-ease);
 
   // last card
   &.index--1 {
@@ -25,20 +25,20 @@
   }
 }
 
-.is-last-correct {
+:host.is-last-correct {
   .index--1 {
     transform: translate(110%, 0) rotateZ(20deg);
   }
 }
 
-.is-last-wrong {
+:host.is-last-wrong {
   .index--1 {
     transform: translate(-110%, 0) rotateZ(-20deg);
   }
 }
 
 // first state
-.focus-hidden {
+:host.focus-hidden {
   .index-0 {
     transform: translate(0, 30%);
   }
@@ -51,7 +51,7 @@
 }
 
 // second state
-.focus-revealed {
+:host.focus-revealed {
   .index-0 {
     transform: none;
   }
@@ -64,7 +64,7 @@
 }
 
 // third state
-.is-swiping {
+:host.is-swiping {
   // responsible for realistic in animations
   .card {
     transition: none;
@@ -89,7 +89,7 @@
 }
 
 // can be invoked in second or third state, always has third state (swiping) as result
-.is-editing {
+:host.is-editing {
   .index-0 {
     transform: translate(0%, -30%);
   }
@@ -102,7 +102,7 @@
 }
 
 // only show summary card in center
-.is-finished {
+:host.is-finished {
   .index-0 {
     transform: none;
   }
@@ -132,22 +132,22 @@
   opacity: 0;
 }
 
-.is-swiping {
+:host.is-swiping {
   .vote-overlay .icon {
     transition: none;
 
     &.right {
       --prog: var(--swipe-x-norm);
-      --moveX: calc(var(--swipe-x-norm) * 25px);
+      --moveX: calc(25px + var(--swipe-x-norm) * -25px);
     }
     &.wrong {
       --prog: calc(var(--swipe-x-norm) * -1);
-      --moveX: calc(var(--swipe-x-norm) * 25px);
+      --moveX: calc(-25px + var(--swipe-x-norm) * -25px);
     }
 
     &.right,
     &.wrong {
-      --moveY: calc(50px - var(--prog) * 25px);
+      --moveY: calc(50px - var(--prog) * 15px);
       --scale: calc(0.9 + var(--prog) * 0.1);
 
       // use negated here to move opacity of not selected direction to negative values
@@ -158,14 +158,14 @@
 }
 
 // responsible for moveement up after vote
-.focus-hidden {
+:host.focus-hidden {
   .vote-overlay .icon {
     &.right {
-      transform: translate(25px, -50px) scale(1.05);
+      transform: translate(0px, -50px) scale(1.05);
     }
 
     &.wrong {
-      transform: translate(-25px, -50px) scale(1.05);
+      transform: translate(0px, -50px) scale(1.05);
     }
   }
 }

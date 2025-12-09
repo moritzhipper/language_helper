@@ -1,55 +1,53 @@
-<app-page-wrapper-comp title="Practice" desktopMode="shrink" icon="learn">
-  <div class="selection-view">
-    <app-counter-comp label="cards in set" size="l">
-      {{ selectedLearnableIds().length }}
-    </app-counter-comp>
+<app-page-icon-comp type="learn" />
 
-    <form [formGroup]="form" (ngSubmit)="start()">
-      <app-radio-comp
-        [config]="[
-          { label: 'all', value: null },
-          { value: 'word' },
-          { value: 'phrase' }
-        ]"
-        formControlName="type"
-        label="type"
-      />
-      <app-radio-comp
-        [config]="[
-          { value: null, label: 'all' },
-          { value: 'low' },
-          { value: 'medium' }
-        ]"
-        formControlName="confidence"
-        label="max confidence"
-      />
-      <app-radio-comp
-        [config]="[
-          { value: false, label: bank().language.speaking },
-          { value: true, label: bank().language.learning }
-        ]"
-        label="guess language"
-        formControlName="reverseDirection"
-      />
-      <label>
-        <span> collection </span>
-        <select formControlName="collectionIdentifier">
-          @for (option of selectOptions(); track option) {
-            <option [ngValue]="option.id">
-              {{ option.label }}
-              ({{ option.confidence }}%)
-            </option>
-          }
-        </select>
-      </label>
-      <button
-        type="submit"
-        class="icon"
-        [disabled]="selectedLearnableIds().length === 0"
-      >
-        start
-        <app-icon-comp type="learn" />
-      </button>
-    </form>
-  </div>
-</app-page-wrapper-comp>
+<app-counter-comp label="cards in set" size="l">
+  {{ selectedLearnableIds().length }}
+</app-counter-comp>
+
+<form [formGroup]="form" (ngSubmit)="start()">
+  <app-radio-comp
+    [config]="[
+      { label: 'all', value: null },
+      { value: 'word' },
+      { value: 'phrase' }
+    ]"
+    formControlName="type"
+    label="type"
+  />
+  <app-radio-comp
+    [config]="[
+      { value: null, label: 'all' },
+      { value: 'low' },
+      { value: 'medium' }
+    ]"
+    formControlName="confidence"
+    label="max confidence"
+  />
+  <app-radio-comp
+    [config]="[
+      { value: false, label: bank().language.speaking },
+      { value: true, label: bank().language.learning }
+    ]"
+    label="guess language"
+    formControlName="reverseDirection"
+  />
+  <label>
+    <span> collection </span>
+    <select formControlName="collectionIdentifier">
+      @for (option of selectOptions(); track option) {
+        <option [ngValue]="option.id">
+          {{ option.label }}
+          ({{ option.confidence }}%)
+        </option>
+      }
+    </select>
+  </label>
+  <button
+    type="submit"
+    class="icon"
+    [disabled]="selectedLearnableIds().length === 0"
+  >
+    start
+    <app-icon-comp type="learn" />
+  </button>
+</form>

@@ -1,5 +1,8 @@
-.selection-view,
-.finished-view,
-.practice-view {
-  height: 100%;
+:host {
+  display: grid;
+}
+
+app-active-practice-comp,
+app-configure-practice-comp {
+  place-self: stretch;
 }

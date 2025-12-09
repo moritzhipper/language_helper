@@ -11,7 +11,7 @@ import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
 import { Guess, Practice } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
-import { PageWrapperComp } from '../../../shared/page-wrapper-comp/page-wrapper-comp'
+import { PageIconComp } from '../../../shared/page-icon-comp/page-icon-comp'
 import { PracticeCardComp } from './practice-card-comp/practice-card-comp'
 import { CardViewModel, getCardsViewModel } from './practice-helpers'
 import { PracticeStatsBarComp } from './practice-stats-bar-comp/practice-stats-bar-comp'
@@ -23,18 +23,19 @@ export type FocusCardState = 'editing' | 'revealed' | 'hidden' | 'swiping'
 @Component({
   selector: 'app-active-practice-comp',
   imports: [
-    PageWrapperComp,
     PracticeStatsBarComp,
     PracticeCardComp,
     PracticeSummaryCard,
-    IconComp
+    IconComp,
+    PageIconComp
   ],
   templateUrl: './active-practice-comp.html',
   styleUrls: ['./active-practice-comp.scss', './card-animations.scss'],
   host: {
     '[style.--swipe-prog]': 'swipeProg().xDelta',
     '[style.--swipe-x-norm]': 'swipeProg().xNorm',
-    '[style.--swipe-x-norm-left]': 'swipeProg().xNorm'
+    '[style.--swipe-x-norm-left]': 'swipeProg().xNorm',
+    '[class]': 'stateClasses()'
   }
 })
 export class ActivePracticeComp {

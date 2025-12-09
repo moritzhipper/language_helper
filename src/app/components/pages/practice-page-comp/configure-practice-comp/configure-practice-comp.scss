@@ -1,5 +1,4 @@
-.selection-view {
-  height: 100%;
+:host {
   display: grid;
   grid-template-rows: 1fr auto;
   gap: var(--distance-4);

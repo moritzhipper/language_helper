@@ -3,12 +3,24 @@ import { toSignal } from '@angular/core/rxjs-interop'
 import { ActivatedRoute, Params, RouterOutlet } from '@angular/router'
 import z from 'zod'
 import { ModalWrapperComp } from './components/shared/forms/modal-wrapper-comp/modal-wrapper-comp'
-import { NavbarComp } from './components/shared/navbar-comp/navbar-comp'
+import { NavbarNewComp } from './components/shared/navbar-new-comp/navbar-new-comp'
 import { ToastOutletComp } from './components/shared/toast-outlet-comp/toast-outlet-comp'
+
+type PageConfig = {
+  icon: string
+  title: string
+  mode: 'full' | 'compact'
+}
+
+const DEFAULT_PAGE_CONFIG: PageConfig = {
+  icon: 'page',
+  mode: 'compact',
+  title: ''
+}
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComp, ToastOutletComp, ModalWrapperComp],
+  imports: [RouterOutlet, ToastOutletComp, ModalWrapperComp, NavbarNewComp],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

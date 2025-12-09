@@ -1,0 +1,78 @@
+@use '../../../../style/mixins';
+
+@include mixins.isPhone() {
+  .navigation {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    overflow: clip;
+    padding: 0 var(--distance-1) 100px var(--distance-6);
+    justify-content: center;
+  }
+
+  .entry {
+    rotate: 15deg;
+  }
+  a.entry {
+    width: 100%;
+    grid-template-columns: 70px 100%;
+
+    app-icon-comp {
+      width: 40px;
+      height: 40px;
+    }
+
+    &.big {
+      padding: var(--distance-2);
+      font-size: var(--font-size-3);
+    }
+
+    &.small {
+      padding: var(--distance-0);
+      font-size: var(--font-size-2);
+    }
+
+    &.active {
+      grid-template-columns: 70px 200%;
+      width: 150%;
+    }
+  }
+
+  // animations
+  .main-enter {
+    animation: main-enter var(--duration-1) both;
+  }
+  .entry {
+    @for $i from 0 through 12 {
+      &:nth-child(#{$i - 1}) {
+        animation: entry-enter
+          var(--duration-2)
+          calc(0.07s * #{$i})
+          var(--soft-ease)
+          backwards;
+      }
+    }
+  }
+  .main-leave {
+    animation: main-leave var(--duration-2);
+  }
+
+  @keyframes main-enter {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes main-leave {
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes entry-enter {
+    from {
+      opacity: 0;
+      transform: translate(100px, 0px);
+    }
+  }
+}

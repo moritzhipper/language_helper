@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { NavbarComp } from './navbar-comp'
+import { PageHeaderComp } from './page-header-comp'
 
-describe('NavbarComp', () => {
-  let component: NavbarComp
-  let fixture: ComponentFixture<NavbarComp>
+describe('PageHeaderComp', () => {
+  let component: PageHeaderComp
+  let fixture: ComponentFixture<PageHeaderComp>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NavbarComp]
+      imports: [PageHeaderComp]
     }).compileComponents()
 
-    fixture = TestBed.createComponent(NavbarComp)
+    fixture = TestBed.createComponent(PageHeaderComp)
     component = fixture.componentInstance
     fixture.detectChanges()
   })

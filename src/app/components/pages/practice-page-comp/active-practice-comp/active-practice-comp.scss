@@ -1,15 +1,13 @@
 @use '../../../../../style/mixins.scss' as *;
 
-.practice-view {
-  height: 100%;
-  width: 100%;
-  padding-top: var(--distance-4);
+:host {
+  place-self: stretch;
+
   box-sizing: border-box;
   display: grid;
   grid-template-rows: 1fr auto;
   grid-template-columns: 1fr;
   touch-action: none;
-  position: relative;
   gap: var(--distance-4);
 
   .vote-overlay,
@@ -54,7 +52,7 @@
 }
 
 @include isDesktop() {
-  .practice-view {
+  :host {
     grid-template-rows: 3fr 1fr;
 
     .card,
@@ -72,7 +70,7 @@
   }
 }
 @include isPhone() {
-  .practice-view {
+  :host {
     .card {
       place-self: stretch;
     }

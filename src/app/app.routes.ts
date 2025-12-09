@@ -8,23 +8,28 @@ import { SharePageComp } from './components/pages/share-page-comp/share-page-com
 export const routes: Routes = [
   {
     component: OverviewComp,
-    path: 'cards'
+    path: 'cards',
+    title: 'LWM | Cards'
   },
   {
     component: PracticeComp,
-    path: 'practice'
+    path: 'practice',
+    title: 'LWM | Practice'
   },
   {
     component: SharePageComp,
-    path: 'share'
+    path: 'share',
+    title: 'LWM | Share'
   },
   {
     component: AboutPageComp,
-    path: 'about'
+    path: 'about',
+    title: 'LWM | About'
   },
   {
     component: SettingsComp,
-    path: 'settings'
+    path: 'settings',
+    title: 'LWM | Settings'
   },
   {
     path: '**',

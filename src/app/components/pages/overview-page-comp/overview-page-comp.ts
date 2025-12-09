@@ -17,7 +17,8 @@ import {
 } from '../../../utils/genaral-utils'
 import { filterLearnables } from '../../../utils/learnables-filter'
 import { IconComp } from '../../shared/icon-comp/icon-comp'
-import { PageWrapperComp } from '../../shared/page-wrapper-comp/page-wrapper-comp'
+import { PageHeaderComp } from '../../shared/page-header-comp/page-header-comp'
+import { PageIconComp } from '../../shared/page-icon-comp/page-icon-comp'
 import { CollectionInfoComp } from './collection-info-comp/collection-info-comp'
 import { CollectionInteractComp } from './collection-interact-comp/collection-interact-comp'
 import { EditBubblesComp } from './edit-bubbles-comp/edit-bubbles-comp'
@@ -40,13 +41,15 @@ import { OverviewPageFacade } from './overview-page-facade'
     CollectionInfoComp,
     ReactiveFormsModule,
     LearnableComp,
-    PageWrapperComp,
     IconComp,
     FilterFormComp,
     FormsModule,
     EditBubblesComp,
-    CollectionInteractComp
-  ]
+    CollectionInteractComp,
+    PageHeaderComp,
+    PageIconComp
+  ],
+  host: { class: 'page wide' }
 })
 export class OverviewComp {
   private readonly _lStore = inject(LearnablesStore)

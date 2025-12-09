@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageWrapperComp } from './page-wrapper-comp';
+import { PageIconComp } from './page-icon-comp';
 
-describe('PageWrapperComp', () => {
-  let component: PageWrapperComp;
-  let fixture: ComponentFixture<PageWrapperComp>;
+describe('PageIconComp', () => {
+  let component: PageIconComp;
+  let fixture: ComponentFixture<PageIconComp>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PageWrapperComp]
+      imports: [PageIconComp]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PageWrapperComp);
+    fixture = TestBed.createComponent(PageIconComp);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FinishedPracticeComp } from './finished-practice-comp';
+import { NavbarNewComp } from './navbar-new-comp';
 
-describe('FinishedPracticeComp', () => {
-  let component: FinishedPracticeComp;
-  let fixture: ComponentFixture<FinishedPracticeComp>;
+describe('NavbarNewComp', () => {
+  let component: NavbarNewComp;
+  let fixture: ComponentFixture<NavbarNewComp>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FinishedPracticeComp]
+      imports: [NavbarNewComp]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FinishedPracticeComp);
+    fixture = TestBed.createComponent(NavbarNewComp);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
