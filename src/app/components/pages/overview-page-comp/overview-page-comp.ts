@@ -140,27 +140,28 @@ export class OverviewComp {
 
   readonly userHasCards = computed(() => this._lStore.learnables().length !== 0)
 
-  readonly collectionDownload = computed(() => {
-    const collectionId = this.selectedCollection()?.id
-    if (!collectionId) {
-      return this._facade.createCollectionDownload(this.bank())
-    }
-
-    return this._facade.createCollectionDownload(this.bank(), collectionId)
-  })
+  readonly collectionDownload = computed(() =>
+    this._facade.createDownloadableExport(
+      this.bank(),
+      this.selectedCollection()?.id
+    )
+  )
 
   // View event handlers - delegate to facade
 
   async addNew() {
-    const newIds = await this._facade.addNew(
+    const cardsAdded = await this._facade.openAddLearnablesModal(
       this.selectedCollection(),
       this.bank().language
     )
-    this.selectNewest()
+
+    if (cardsAdded) {
+      this.selectNewest()
+    }
   }
 
   async bulkEdit() {
-    await this._facade.bulkEdit(
+    await this._facade.openBulkEditModal(
       this.selectedLearnableIds(),
       this.selectedCollection()
     )
@@ -206,7 +207,7 @@ export class OverviewComp {
   }
 
   async addToCollection() {
-    await this._facade.addToCollection(this.selectedLearnableIds())
+    await this._facade.openAddToCollectionModal(this.selectedLearnableIds())
     this.selectedLearnableIds.set([])
   }
 
@@ -214,7 +215,7 @@ export class OverviewComp {
     const collectionId = this.selectedCollection()?.id
     if (!collectionId) return
 
-    this._facade.removeSelectionFromCollection(
+    this._facade.removeLearnablesFromCollection(
       collectionId,
       this.selectedLearnableIds()
     )
@@ -222,7 +223,7 @@ export class OverviewComp {
   }
 
   async deleteSelection() {
-    await this._facade.deleteSelection(this.selectedLearnableIds())
+    await this._facade.confirmAndDeleteLearnables(this.selectedLearnableIds())
     this.selectedLearnableIds.set([])
   }
 
@@ -230,20 +231,20 @@ export class OverviewComp {
     const collection = this.selectedCollection()
     if (!collection) return
 
-    await this._facade.renameCollection(collection)
+    await this._facade.openRenameCollectionModal(collection)
   }
 
   async deleteCollection() {
-    const collectionId = this.selectedCollection()
-    if (!collectionId) return
+    const collection = this.selectedCollection()
+    if (!collection) return
 
-    await this._facade.deleteCollection(collectionId)
+    await this._facade.openDeleteCollectionModal(collection)
   }
 
   async shareCollection() {
-    const colId = this.selectedCollection()?.id
-    if (!colId) return
+    const collectionId = this.selectedCollection()?.id
+    if (!collectionId) return
 
-    await this._facade.shareCollection(this.bank(), colId)
+    await this._facade.openShareCollectionModal(this.bank(), collectionId)
   }
 }

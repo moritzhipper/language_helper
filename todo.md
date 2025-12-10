@@ -4,18 +4,13 @@
   - section trending: all languages
   - section for you: shares having your language
 
-- clean up overview facade service
 - refactor learnable mutators, split in files, reuse double code
 
-- add to collection after import doesnt work
-- dont mark newest when exiting bulk edit withou adding new ones
 - show 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
 - swipes count in stats
 - add html lang call to ai service, save it as option in language config.
 - change blobcreation and download to happen on click, not in a reactive manner -> faster
   - implement in overview, share and settings
-- only allow deleting
-- handle deletion of last bank somehow
 
 - unifiy type setup:
   - clean up overview page and facade thoroughly
@@ -25,11 +20,9 @@
 
 - refactor and simpify ai service?
 
-- settings: active bank
 - add merge learnables function to mutoators: when a lexeme exists, but the words dont match: update the translation to trans1 / trans2
 - refactor bulkEdit mit add altest ids and mark them in overview facede and overview
 
-- unify share and import form
 - greater: hello, this is how it works
   - you can do this and that
   - add your. language now

@@ -6,8 +6,7 @@
     height: 100vh;
     top: 0;
     overflow: clip;
-    padding: 0 var(--distance-1) 100px var(--distance-6);
-    justify-content: center;
+    padding: 15vh var(--distance-1) 0 var(--distance-6);
   }
 
   .entry {
@@ -54,7 +53,10 @@
     }
   }
   .main-leave {
-    animation: main-leave var(--duration-2);
+    animation: main-leave var(--duration-3);
+    .entry:not(.active) {
+      animation: entry-leave var(--duration-2) both;
+    }
   }
 
   @keyframes main-enter {
@@ -73,6 +75,12 @@
     from {
       opacity: 0;
       transform: translate(100px, 0px);
+    }
+  }
+  @keyframes entry-leave {
+    to {
+      opacity: 0;
+      transform: translate(50px, 0px);
     }
   }
 }
