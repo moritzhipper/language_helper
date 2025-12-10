@@ -27,13 +27,15 @@
 
 :host.is-last-correct {
   .index--1 {
-    transform: translate(110%, 0) rotateZ(20deg);
+    transform: translate(100%, -10%);
+    rotate: 15deg;
   }
 }
 
 :host.is-last-wrong {
   .index--1 {
-    transform: translate(-110%, 0) rotateZ(-20deg);
+    transform: translate(-100%, -10%);
+    rotate: -15deg;
   }
 }
 
@@ -53,7 +55,7 @@
 // second state
 :host.focus-revealed {
   .index-0 {
-    transform: none;
+    transform: translate(0%);
   }
   .index-1 {
     transform: translate(5%, 85%) rotateZ(-8deg);
@@ -67,23 +69,24 @@
 :host.is-swiping {
   // responsible for realistic in animations
   .card {
-    transition: none;
+    // remove transform translation
+    transition-property: transform;
   }
 
   .index-0 {
-    --moveX: calc(var(--swipe-prog) * 1px);
-    --rotX: calc(var(--swipe-prog) * 0.03deg);
-    transform: translate(var(--moveX), 0%) rotate(var(--rotX));
+    transform: translate(0%);
+    translate: calc(var(--swipe-prog) * 1px);
+    rotate: calc(var(--swipe-prog) * 0.03deg);
   }
 
   .index-1 {
-    --moveY: calc(85% - abs(var(--swipe-prog)) / 50 * 1%);
-    transform: translate(5%, var(--moveY)) rotate(-8deg);
+    transform: translate(5%, 85%) rotate(-8deg);
+    translate: 0% calc(abs(var(--swipe-prog)) / 50 * -1%);
   }
 
   .index-2 {
-    --moveY: calc(120% - abs(var(--swipe-prog)) / 100 * 1%);
-    transform: translate(0%, var(--moveY)) rotate(-10deg);
+    transform: translate(0%, 120%) rotate(-10deg);
+    translate: 0% calc(abs(var(--swipe-prog)) / 100 * -1%);
   }
 }
 

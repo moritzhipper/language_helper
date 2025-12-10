@@ -99,7 +99,8 @@ export const LearnablesStore = signalStore(
       setActiveBank(id: string) {
         patchState(state, (s) => ({
           ...s,
-          activeBankId: id
+          activeBankId: id,
+          currentPractice: null
         }))
       },
       deleteBank(id: string) {

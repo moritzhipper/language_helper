@@ -32,7 +32,6 @@ export type FocusCardState = 'editing' | 'revealed' | 'hidden' | 'swiping'
   host: {
     '[style.--swipe-prog]': 'swipeProg().xDelta',
     '[style.--swipe-x-norm]': 'swipeProg().xNorm',
-    '[style.--swipe-x-norm-left]': 'swipeProg().xNorm',
     '[class]': 'stateClasses()'
   }
 })
