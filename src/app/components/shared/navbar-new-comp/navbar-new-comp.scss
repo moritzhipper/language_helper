@@ -16,6 +16,7 @@
 
   &.open {
     transform: rotate(-10deg);
+    background-color: transparent;
     box-shadow: none;
   }
 

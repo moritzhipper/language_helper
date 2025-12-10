@@ -4,5 +4,16 @@
 
 app-active-practice-comp,
 app-configure-practice-comp {
-  place-self: stretch;
+  grid-area: 1 / 1;
+}
+
+.fly-out {
+  animation: fly-out var(--duration-1);
+}
+
+@keyframes fly-out {
+  to {
+    translate: 0 100px;
+    opacity: 0;
+  }
 }

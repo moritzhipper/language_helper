@@ -1,7 +1,7 @@
 .card {
   transition-duration: var(--duration-3);
   transition-property:
-    translate, opacity, transform, background-color, color, border-color;
+    translate, rotate, opacity, transform, background-color, color, border-color;
   transition-timing-function: var(--soft-ease);
 
   // last card
@@ -160,11 +160,11 @@
 :host.focus-hidden {
   .vote-overlay .icon {
     &.right {
-      transform: translate(0px, -50px) scale(1.05);
+      transform: translate(10px, -20px) scale(1.1);
     }
 
     &.wrong {
-      transform: translate(0px, -50px) scale(1.05);
+      transform: translate(-10px, -20px) scale(1.1);
     }
   }
 }

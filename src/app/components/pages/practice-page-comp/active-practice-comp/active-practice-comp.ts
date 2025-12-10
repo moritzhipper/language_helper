@@ -11,7 +11,6 @@ import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
 import { Guess, Practice } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
-import { PageIconComp } from '../../../shared/page-icon-comp/page-icon-comp'
 import { PracticeCardComp } from './practice-card-comp/practice-card-comp'
 import { CardViewModel, getCardsViewModel } from './practice-helpers'
 import { PracticeStatsBarComp } from './practice-stats-bar-comp/practice-stats-bar-comp'
@@ -26,8 +25,7 @@ export type FocusCardState = 'editing' | 'revealed' | 'hidden' | 'swiping'
     PracticeStatsBarComp,
     PracticeCardComp,
     PracticeSummaryCard,
-    IconComp,
-    PageIconComp
+    IconComp
   ],
   templateUrl: './active-practice-comp.html',
   styleUrls: ['./active-practice-comp.scss', './card-animations.scss'],
@@ -102,10 +100,6 @@ export class ActivePracticeComp {
     this.statsOpen.set(false)
   }
 
-  toggleStats() {
-    this.statsOpen.update((v) => !v)
-  }
-
   setGuess(guess: Guess) {
     if (this.isFinished()) return
     const guessedRight = guess === 'right'
@@ -114,11 +108,6 @@ export class ActivePracticeComp {
     this.isLastGuessCorrect.set(guessedRight)
     this.cardState.set('hidden')
     this.statsOpen.set(false)
-
-    // this._toastService.showToast({
-    //   message: this.getRandomExp(guessedRight),
-    //   type: 'guess'
-    // })
   }
 
   quit() {

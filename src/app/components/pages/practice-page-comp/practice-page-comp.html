@@ -1,5 +1,7 @@
+<app-page-icon-comp type="learn" />
+
 @if (currentPractice(); as currP) {
   <app-active-practice-comp [currentPractice]="currP" />
 } @else {
-  <app-configure-practice-comp />
+  <app-configure-practice-comp animate.leave="fly-out" />
 }

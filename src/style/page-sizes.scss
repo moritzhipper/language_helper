@@ -8,6 +8,7 @@
   @include mixins.isPhone() {
     padding: var(--distance-4);
   }
+
   @include mixins.isDesktop() {
     padding: var(--distance-5);
 

@@ -1,5 +1,3 @@
-<app-page-icon-comp type="learn" />
-
 <app-counter-comp label="cards in set" size="l">
   {{ selectedLearnableIds().length }}
 </app-counter-comp>
@@ -48,6 +46,5 @@
     [disabled]="selectedLearnableIds().length === 0"
   >
     start
-    <app-icon-comp type="learn" />
   </button>
 </form>
