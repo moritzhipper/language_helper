@@ -58,6 +58,7 @@ export type Guessable = {
 export type SettingsStoreType = {
   apiKey: string
   tokensUsed: number
+  isOnboarded: boolean
 }
 
 type Optional<T> = { [K in keyof T]?: T[K] | null }

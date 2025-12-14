@@ -110,6 +110,7 @@ export class ActivePracticeComp {
     if (this.isFinished()) {
       this._lStore.quitPractice()
     } else {
+      this.lastGuessOutcome.set('wrong')
       this._lStore.quitPracticePrematurly()
     }
   }

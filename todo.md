@@ -4,8 +4,6 @@
   - section trending: all languages
   - section for you: shares having your language
 
-- refactor learnable mutators, split in files, reuse double code
-
 - show 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
 - swipes count in stats
 - add html lang call to ai service, save it as option in language config.

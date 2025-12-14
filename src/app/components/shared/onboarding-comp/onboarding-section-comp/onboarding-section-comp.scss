@@ -1,0 +1,16 @@
+:host {
+  display: grid;
+  grid-template: 1fr 1fr / 1fr;
+}
+
+app-icon-comp {
+  position: relative;
+  opacity: var(--opacity-1);
+  justify-self: end;
+  width: 150%;
+  display: block;
+  aspect-ratio: 1 / 1;
+}
+
+.content {
+}

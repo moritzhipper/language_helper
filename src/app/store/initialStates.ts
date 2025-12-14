@@ -25,7 +25,8 @@ export const initialState: LearnablesStoreType = {
 
 export const initialSettings: SettingsStoreType = {
   apiKey: '',
-  tokensUsed: 0
+  tokensUsed: 0,
+  isOnboarded: false
 }
 
 /** Initial guesses for a new learnable */
