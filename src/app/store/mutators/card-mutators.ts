@@ -12,7 +12,7 @@ import {
 export const saveNewlyCreatedLearnables =
   (learnablesBase: LearnableBase[]) =>
   (state: LearnablesStoreType): LearnablesStoreType =>
-    updateActiveBank((b) => {
+    updateActiveBank(state, (b) => {
       // Filter out duplicates in input and items that already exist in bank
       const newLearnables = learnablesBase.filter(
         (lb, index, self) =>
@@ -31,7 +31,7 @@ export const saveNewlyCreatedLearnables =
         ...b,
         learnables: [...b.learnables, ...fullNew]
       }
-    })(state)
+    })
 
 export const removeLearnables =
   (ids: string[]) =>
@@ -41,11 +41,11 @@ export const removeLearnables =
 export const updateLearnables =
   (updatedL: UserLearnablePartial[]) =>
   (state: LearnablesStoreType): LearnablesStoreType =>
-    updateActiveBank((b) => ({
+    updateActiveBank(state, (b) => ({
       ...b,
       learnables: b.learnables.map((l) => {
         const updated = updatedL.find((ul) => ul.id === l.id)
         if (!updated) return l
         return { ...l, ...updated }
       })
-    }))(state)
+    }))

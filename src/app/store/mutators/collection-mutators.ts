@@ -8,15 +8,15 @@ import {
 export const createCollection =
   (name: string, cardIds: string[]) =>
   (state: LearnablesStoreType): LearnablesStoreType =>
-    updateActiveBank((b) => ({
+    updateActiveBank(state, (b) => ({
       ...b,
       collections: [...b.collections, createNewCollection(name, cardIds)]
-    }))(state)
+    }))
 
 export const editCollection =
   (collectionID: string, addIDs: string[], deleteIDs: string[]) =>
   (state: LearnablesStoreType): LearnablesStoreType =>
-    updateActiveBank((b) => ({
+    updateActiveBank(state, (b) => ({
       ...b,
       collections: b.collections.map((c) => {
         if (c.id !== collectionID) return c
@@ -25,7 +25,7 @@ export const editCollection =
         )
         return { ...c, cardIds: updatedCardIds }
       })
-    }))(state)
+    }))
 
 export const deleteCollection =
   (id: string, removeCards: boolean) =>
@@ -35,10 +35,10 @@ export const deleteCollection =
       activeBank?.collections.find((c) => c.id === id)?.cardIds ?? []
 
     // Remove the collection
-    const stateWithoutCollection = updateActiveBank((b) => ({
+    const stateWithoutCollection = updateActiveBank(state, (b) => ({
       ...b,
       collections: b.collections.filter((c) => c.id !== id)
-    }))(state)
+    }))
 
     // Optionally remove the cards using shared helper
     if (removeCards && cardIds.length > 0) {
@@ -51,7 +51,7 @@ export const deleteCollection =
 export const renameCollection =
   (id: string, name: string) =>
   (state: LearnablesStoreType): LearnablesStoreType =>
-    updateActiveBank((b) => ({
+    updateActiveBank(state, (b) => ({
       ...b,
       collections: b.collections.map((c) => (c.id === id ? { ...c, name } : c))
-    }))(state)
+    }))

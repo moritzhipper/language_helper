@@ -14,11 +14,10 @@ export const initialGuesses: {
 }
 
 /** Helper to update the active bank in state */
-export const updateActiveBank =
-  (updater: (bank: BankUser) => BankUser) =>
-  (state: LearnablesStoreType): LearnablesStoreType => ({
-    ...state,
-    banks: state.banks.map((b) =>
-      b.id === state.activeBankId ? updater(b) : b
-    )
-  })
+export const updateActiveBank = (
+  state: LearnablesStoreType,
+  updater: (bank: BankUser) => BankUser
+): LearnablesStoreType => ({
+  ...state,
+  banks: state.banks.map((b) => (b.id === state.activeBankId ? updater(b) : b))
+})

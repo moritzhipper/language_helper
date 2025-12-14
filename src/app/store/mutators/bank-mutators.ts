@@ -60,7 +60,7 @@ export const createBank =
 export const saveImportedBank =
   ({ learnables, collections }: BankShare) =>
   (state: LearnablesStoreType): LearnablesStoreType =>
-    updateActiveBank((b) => {
+    updateActiveBank(state, (b) => {
       const now = new Date()
 
       // Build a map from imported card id -> existing card id (for duplicates)
@@ -124,4 +124,4 @@ export const saveImportedBank =
         learnables: [...b.learnables, ...newLearnables],
         collections: updatedCollections
       }
-    })(state)
+    })

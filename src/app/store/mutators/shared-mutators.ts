@@ -21,14 +21,14 @@ export const removeLearnablesFromBank = (
   state: LearnablesStoreType,
   idsToDelete: string[]
 ): LearnablesStoreType => {
-  const updatedState = updateActiveBank((b) => ({
+  const updatedState = updateActiveBank(state, (b) => ({
     ...b,
     learnables: b.learnables.filter((l) => !idsToDelete.includes(l.id)),
     collections: b.collections.map((c) => ({
       ...c,
       cardIds: c.cardIds.filter((cardId) => !idsToDelete.includes(cardId))
     }))
-  }))(state)
+  }))
 
   return {
     ...updatedState,
@@ -135,7 +135,7 @@ export const setGuess =
     const currentGuessable = practice.guessables[practice.index]
     if (!currentGuessable) return state
 
-    const updatedBanks = updateActiveBank((b) => ({
+    const updatedBanks = updateActiveBank(state, (b) => ({
       ...b,
       learnables: b.learnables.map((l) => {
         if (l.id !== currentGuessable.id || guess === 'unanswered') return l
@@ -145,7 +145,7 @@ export const setGuess =
           practice.reverseDirection
         )
       })
-    }))(state)
+    }))
 
     return {
       ...updatedBanks,
