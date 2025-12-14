@@ -29,7 +29,7 @@ p {
 .buttons {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: var(--distance-4);
+  gap: var(--distance-5);
 
   app-icon-comp {
     height: 32px;
@@ -53,7 +53,6 @@ input {
     place-items: center;
     .wrapper {
       width: 500px;
-      //   height: 500px;
     }
   }
 }

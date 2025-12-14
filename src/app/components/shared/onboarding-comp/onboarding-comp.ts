@@ -14,6 +14,9 @@ export class OnboardingComp {
   next() {
     if (this.activeIndex() < 3) {
       this.activeIndex.update((i) => i + 1)
+    } else if (this.activeIndex() === 3) {
+      // save language choice to store
+      // set isOnboarded to true
     }
   }
 
