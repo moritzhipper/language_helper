@@ -1,5 +1,6 @@
 import {
   BankUser,
+  GuessHistory,
   LearnablesStoreType,
   SettingsStoreType
 } from '../types_and_schemas/types'
@@ -25,4 +26,13 @@ export const initialState: LearnablesStoreType = {
 export const initialSettings: SettingsStoreType = {
   apiKey: '',
   tokensUsed: 0
+}
+
+/** Initial guesses for a new learnable */
+export const initialGuesses: {
+  lexeme: GuessHistory
+  translation: GuessHistory
+} = {
+  lexeme: [false, false, false, false, false],
+  translation: [false, false, false, false, false]
 }

@@ -28,6 +28,9 @@ export type UserLearnable = z.infer<typeof LearnableUserSchema>
 export type UserLearnablePartial = Partial<UserLearnable> &
   Pick<UserLearnable, 'id'>
 
+/** A tuple of 5 booleans representing the last 5 guess results */
+export type GuessHistory = [boolean, boolean, boolean, boolean, boolean]
+
 export type Practice = {
   index: number
   guessables: Guessable[]
