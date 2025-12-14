@@ -17,21 +17,27 @@ import {
 import { initialState } from './initialStates'
 import {
   createBank,
-  createCollection,
   deleteBank,
+  saveImportedBank,
+  updateBank
+} from './mutators/bank-mutators'
+import {
+  removeLearnables,
+  saveNewlyCreatedLearnables,
+  updateLearnables
+} from './mutators/card-mutators'
+import {
+  createCollection,
   deleteCollection,
   editCollection,
+  renameCollection
+} from './mutators/collection-mutators'
+import {
   quitPracticeEarly,
-  removeLearnables,
   removePractice,
-  renameCollection,
-  saveImportedCollections,
-  saveNewlyCreatedLearnables,
   setGuess,
-  startPractice,
-  updateBank,
-  updateLearnables
-} from './learnableMutators'
+  startPractice
+} from './mutators/shared-mutators'
 
 export const LearnablesStore = signalStore(
   { providedIn: 'root' },
@@ -82,7 +88,7 @@ export const LearnablesStore = signalStore(
         patchState(state, editCollection(collectionID, addIDs, deleteIDs))
       },
       importBankExport(importStore: BankShare) {
-        patchState(state, saveImportedCollections(importStore))
+        patchState(state, saveImportedBank(importStore))
       },
       editCollection(name: string, id: string) {
         patchState(state, renameCollection(name, id))
