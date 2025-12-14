@@ -1,112 +1,32 @@
+// =============================================================================
+// CARD ANIMATIONS
+// =============================================================================
+// Host states: focus-hidden → focus-revealed → is-swiping → (repeat)
+// Card indices: -1 (last/dismissed), 0 (current), 1 (next), 2 (upcoming)
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// Base Styles
+// -----------------------------------------------------------------------------
+
 .card {
   transition-duration: var(--duration-3);
+  transition-timing-function: var(--soft-ease);
   transition-property:
     translate, rotate, opacity, transform, background-color, color, border-color;
-  transition-timing-function: var(--soft-ease);
 
-  // last card
   &.index--1 {
-    opacity: 0;
     z-index: 8;
+    opacity: 0;
   }
-
-  //current card
   &.index-0 {
     z-index: 9;
   }
-
-  //next card
   &.index-1 {
     z-index: 10;
   }
-
   &.index-2 {
     z-index: 12;
-  }
-}
-
-:host.is-last-correct {
-  .index--1 {
-    transform: translate(100%, -10%);
-    rotate: 15deg;
-  }
-}
-
-:host.is-last-wrong {
-  .index--1 {
-    transform: translate(-100%, -10%);
-    rotate: -15deg;
-  }
-}
-
-// first state
-:host.focus-hidden {
-  .index-0 {
-    transform: translate(0, 30%);
-  }
-  .index-1 {
-    transform: translate(0, 70%) rotateZ(-5deg);
-  }
-  .index-2 {
-    transform: translate(0%, 110%) rotateZ(-8deg);
-  }
-}
-
-// second state
-:host.focus-revealed {
-  .index-0 {
-    transform: translate(0%);
-  }
-  .index-1 {
-    transform: translate(5%, 85%) rotateZ(-8deg);
-  }
-  .index-2 {
-    transform: translate(0%, 120%) rotateZ(-10deg);
-  }
-}
-
-// third state
-:host.is-swiping {
-  // responsible for realistic in animations
-  .card {
-    // remove transform translation
-    transition-property: transform;
-  }
-
-  .index-0 {
-    transform: translate(0%);
-    translate: calc(var(--swipe-prog) * 1px);
-    rotate: calc(var(--swipe-prog) * 0.03deg);
-  }
-
-  .index-1 {
-    transform: translate(5%, 85%) rotate(-8deg);
-    translate: 0% calc(abs(var(--swipe-prog)) / 50 * -1%);
-  }
-
-  .index-2 {
-    transform: translate(0%, 120%) rotate(-10deg);
-    translate: 0% calc(abs(var(--swipe-prog)) / 100 * -1%);
-  }
-}
-
-// can be invoked in second or third state, always has third state (swiping) as result
-:host.is-editing {
-  .index-0 {
-    transform: translate(0%, -30%);
-  }
-  .index-1 {
-    transform: translate(5%, 80%) rotateZ(-8deg);
-  }
-  .index-2 {
-    transform: translate(0%, 120%) rotate(-10deg);
-  }
-}
-
-// only show summary card in center
-:host.is-finished {
-  .index-0 {
-    transform: none;
   }
 }
 
@@ -123,18 +43,117 @@
   }
 }
 
-// ------ vote indicator --------
-
 .vote-overlay .icon {
+  opacity: 0;
   transition:
     transform var(--duration-3),
     opacity var(--duration-3);
   transition-timing-function: ease-out;
-
-  opacity: 0;
 }
 
+// -----------------------------------------------------------------------------
+// State: focus-hidden (answer concealed)
+// -----------------------------------------------------------------------------
+
+:host.focus-hidden {
+  // Cards
+  .index-0 {
+    transform: translate(0, 30%);
+  }
+  .index-1 {
+    transform: translate(0, 70%) rotateZ(-5deg);
+  }
+  .index-2 {
+    transform: translate(0%, 110%) rotateZ(-8deg);
+  }
+
+  // Vote icons
+  .icon {
+    opacity: 0;
+  }
+
+  // Vote icon feedback for last answer
+  &.is-last-correct .icon {
+    &.right {
+      transform: translate(10px, -20px) scale(1.1);
+    }
+    &.wrong {
+      transition: none;
+    }
+  }
+
+  &.is-last-wrong .icon {
+    &.right {
+      transition: none;
+    }
+    &.wrong {
+      transform: translate(-10px, -20px) scale(1.1);
+    }
+  }
+}
+
+// Dismissed card exit animations (applies across all states)
+:host.is-last-correct .index--1 {
+  transform: translate(100%, -10%);
+  rotate: 15deg;
+}
+
+:host.is-last-wrong .index--1 {
+  transform: translate(-100%, -10%);
+  rotate: -15deg;
+}
+
+// -----------------------------------------------------------------------------
+// State: focus-revealed (answer shown)
+// -----------------------------------------------------------------------------
+
+:host.focus-revealed {
+  // Cards
+  .index-0 {
+    transform: translate(0%);
+  }
+  .index-1 {
+    transform: translate(5%, 85%) rotateZ(-8deg);
+  }
+  .index-2 {
+    transform: translate(0%, 120%) rotateZ(-10deg);
+  }
+
+  // Vote icons
+  .icon {
+    opacity: var(--opacity-1);
+    transition-delay: var(--duration-0);
+    transition-duration: var(--duration-0);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// State: is-swiping (user dragging card)
+// -----------------------------------------------------------------------------
+
 :host.is-swiping {
+  // Cards
+  .card {
+    transition-property: transform;
+
+    &.index-0 {
+      transform: translate(0%);
+      translate: calc(var(--swipe-prog) * 1px);
+      rotate: calc(var(--swipe-prog) * 0.03deg);
+    }
+
+    &.index-1 {
+      transform: translate(5%, 85%) rotate(-8deg);
+      translate: 0% calc(abs(var(--swipe-prog)) / 50 * -1%);
+    }
+
+    &.index-2 {
+      transform: translate(0%, 120%) rotate(-10deg);
+      translate: 0% calc(abs(var(--swipe-prog)) / 100 * -1%);
+    }
+  }
+
+  // Vote icons
   .vote-overlay .icon {
     transition: none;
 
@@ -142,6 +161,7 @@
       --prog: var(--swipe-x-norm);
       --moveX: calc(25px + var(--swipe-x-norm) * -25px);
     }
+
     &.wrong {
       --prog: calc(var(--swipe-x-norm) * -1);
       --moveX: calc(-25px + var(--swipe-x-norm) * -25px);
@@ -151,23 +171,31 @@
     &.wrong {
       --moveY: calc(50px - var(--prog) * 15px);
       --scale: calc(0.9 + var(--prog) * 0.1);
-
-      // use negated here to move opacity of not selected direction to negative values
       opacity: calc(var(--prog) * var(--opacity-1));
       transform: translate(var(--moveX), 0) scale(var(--scale));
     }
   }
 }
 
-// responsible for moveement up after vote
-:host.focus-hidden {
-  .vote-overlay .icon {
-    &.right {
-      transform: translate(10px, -20px) scale(1.1);
-    }
+// -----------------------------------------------------------------------------
+// State: is-editing (note editing mode)
+// -----------------------------------------------------------------------------
 
-    &.wrong {
-      transform: translate(-10px, -20px) scale(1.1);
-    }
+:host.is-editing {
+  .index-0 {
+    transform: translate(0%, -30%);
+  }
+  .index-1 {
+    transform: translate(5%, 80%) rotateZ(-8deg);
+  }
+  .index-2 {
+    transform: translate(0%, 120%) rotate(-10deg);
+  }
+}
+
+// only show summary card in center
+:host.is-finished {
+  .index-0 {
+    transform: none;
   }
 }

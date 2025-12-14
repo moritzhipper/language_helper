@@ -7,7 +7,6 @@ import {
   signal
 } from '@angular/core'
 import { config } from '../../../../../config'
-import { ToastService } from '../../../../services/toast-service'
 import { LearnablesStore } from '../../../../store/learnablesStore'
 import { Guess, Practice } from '../../../../types_and_schemas/types'
 import { IconComp } from '../../../shared/icon-comp/icon-comp'
@@ -51,11 +50,10 @@ export class ActivePracticeComp {
   }
 
   private readonly _lStore = inject(LearnablesStore)
-  private readonly _toastService = inject(ToastService)
 
   protected readonly statsOpen = signal<boolean>(false)
   protected readonly cardState = signal<FocusCardState>('hidden')
-  protected readonly isLastGuessCorrect = signal<boolean>(false)
+  protected readonly lastGuessOutcome = signal<Guess>('unanswered')
 
   private swipeStartX: number = 0
   protected readonly swipeProg = signal<SwipeProgress>({
@@ -83,8 +81,8 @@ export class ActivePracticeComp {
       'is-editing': state === 'editing',
       'is-swiping': state === 'swiping',
       'is-finished': this.isFinished(),
-      'is-last-correct': this.isLastGuessCorrect(),
-      'is-last-wrong': !this.isLastGuessCorrect()
+      'is-last-correct': this.lastGuessOutcome() === 'right',
+      'is-last-wrong': this.lastGuessOutcome() === 'wrong'
     }
   })
 
@@ -101,10 +99,9 @@ export class ActivePracticeComp {
 
   setGuess(guess: Guess) {
     if (this.isFinished()) return
-    const guessedRight = guess === 'right'
 
     this._lStore.setGuess(guess)
-    this.isLastGuessCorrect.set(guessedRight)
+    this.lastGuessOutcome.set(guess)
     this.cardState.set('hidden')
     this.statsOpen.set(false)
   }
