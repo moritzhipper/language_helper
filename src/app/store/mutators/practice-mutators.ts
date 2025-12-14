@@ -1,60 +1,10 @@
 import {
-  CollectionUser,
   Guess,
   Guessable,
-  LearnableBase,
   LearnablesStoreType,
   UserLearnable
 } from '../../types_and_schemas/types'
-import { initialGuesses, updateActiveBank } from './mutator-utils'
-
-// Helper to check if practice should be reset when cards are deleted
-export const shouldResetPractice = (
-  state: LearnablesStoreType,
-  idsToDelete: string[]
-): boolean =>
-  state.currentPractice?.guessables.some((g) => idsToDelete.includes(g.id)) ??
-  false
-
-// Helper to remove learnables from the active bank
-export const removeLearnablesFromBank = (
-  state: LearnablesStoreType,
-  idsToDelete: string[]
-): LearnablesStoreType => {
-  const updatedState = updateActiveBank(state, (b) => ({
-    ...b,
-    learnables: b.learnables.filter((l) => !idsToDelete.includes(l.id)),
-    collections: b.collections.map((c) => ({
-      ...c,
-      cardIds: c.cardIds.filter((cardId) => !idsToDelete.includes(cardId))
-    }))
-  }))
-
-  return {
-    ...updatedState,
-    currentPractice: shouldResetPractice(state, idsToDelete)
-      ? null
-      : state.currentPractice
-  }
-}
-
-export const learnablesMatch = (l1: LearnableBase, l2: LearnableBase) =>
-  l1.lexeme === l2.lexeme && l1.translation === l2.translation
-
-export const mapBaseToFullToLearnables = (
-  learnableBase: LearnableBase[]
-): UserLearnable[] => {
-  const now = new Date()
-  return learnableBase.map((l) => ({
-    id: crypto.randomUUID(),
-    created: now,
-    type: l.type,
-    lexeme: l.lexeme,
-    translation: l.translation,
-    notes: l.notes,
-    guesses: { ...initialGuesses }
-  }))
-}
+import { updateActiveBank } from './mutator-utils'
 
 export const addGuessToLearnable = (
   learnable: UserLearnable,
@@ -92,16 +42,6 @@ export const updateGuessables = (
 ): Guessable[] => {
   return guessables.map((g) => (g.id === id ? { ...g, guessed } : g))
 }
-
-export const createNewCollection = (
-  name: string,
-  cardIds: string[]
-): CollectionUser => ({
-  id: crypto.randomUUID(),
-  created: new Date(),
-  name,
-  cardIds
-})
 
 export const startPractice =
   (ids: string[], reverseDirection: boolean) =>

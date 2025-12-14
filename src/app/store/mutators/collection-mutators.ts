@@ -1,9 +1,19 @@
-import { LearnablesStoreType } from '../../types_and_schemas/types'
-import { updateActiveBank } from './mutator-utils'
 import {
-  createNewCollection,
-  removeLearnablesFromBank
-} from './shared-mutators'
+  CollectionUser,
+  LearnablesStoreType
+} from '../../types_and_schemas/types'
+import { removeLearnablesFromBank } from './bank-mutators'
+import { updateActiveBank } from './mutator-utils'
+
+const createNewCollection = (
+  name: string,
+  cardIds: string[]
+): CollectionUser => ({
+  id: crypto.randomUUID(),
+  created: new Date(),
+  name,
+  cardIds
+})
 
 export const createCollection =
   (name: string, cardIds: string[]) =>

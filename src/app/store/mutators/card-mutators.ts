@@ -3,11 +3,8 @@ import {
   LearnablesStoreType,
   UserLearnablePartial
 } from '../../types_and_schemas/types'
-import { updateActiveBank } from './mutator-utils'
-import {
-  mapBaseToFullToLearnables,
-  removeLearnablesFromBank
-} from './shared-mutators'
+import { removeLearnablesFromBank } from './bank-mutators'
+import { mapBaseToFullToLearnables, updateActiveBank } from './mutator-utils'
 
 export const saveNewlyCreatedLearnables =
   (learnablesBase: LearnableBase[]) =>

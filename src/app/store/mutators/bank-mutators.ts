@@ -5,8 +5,37 @@ import {
   LearnablesStoreType,
   UserLearnable
 } from '../../types_and_schemas/types'
-import { initialGuesses, updateActiveBank } from './mutator-utils'
-import { learnablesMatch } from './shared-mutators'
+import {
+  initialGuesses,
+  learnablesMatch,
+  updateActiveBank
+} from './mutator-utils'
+
+// Helper to check if practice should be reset when cards are deleted
+const shouldResetPractice = (
+  state: LearnablesStoreType,
+  idsToDelete: string[]
+): boolean =>
+  state.currentPractice?.guessables.some((g) => idsToDelete.includes(g.id)) ??
+  false
+
+// Helper to remove learnables from the active bank
+export const removeLearnablesFromBank = (
+  state: LearnablesStoreType,
+  idsToDelete: string[]
+): LearnablesStoreType => {
+  return updateActiveBank(state, (b) => ({
+    ...b,
+    learnables: b.learnables.filter((l) => !idsToDelete.includes(l.id)),
+    collections: b.collections.map((c) => ({
+      ...c,
+      cardIds: c.cardIds.filter((cardId) => !idsToDelete.includes(cardId))
+    })),
+    currentPractice: shouldResetPractice(state, idsToDelete)
+      ? null
+      : state.currentPractice
+  }))
+}
 
 export const updateBank =
   (base: BankBase, bankID: string) =>

@@ -37,7 +37,7 @@ import {
   removePractice,
   setGuess,
   startPractice
-} from './mutators/shared-mutators'
+} from './mutators/practice-mutators'
 
 export const LearnablesStore = signalStore(
   { providedIn: 'root' },
