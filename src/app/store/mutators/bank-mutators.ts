@@ -44,6 +44,14 @@ export const updateBank =
     banks: state.banks.map((b) => (b.id === bankID ? { ...b, ...base } : b))
   })
 
+export const setActiveBank =
+  (id: string) =>
+  (state: LearnablesStoreType): LearnablesStoreType => ({
+    ...state,
+    activeBankId: id,
+    currentPractice: null
+  })
+
 export const deleteBank =
   (id: string) =>
   (state: LearnablesStoreType): LearnablesStoreType => {

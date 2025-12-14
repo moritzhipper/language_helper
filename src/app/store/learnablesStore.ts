@@ -19,6 +19,7 @@ import {
   createBank,
   deleteBank,
   saveImportedBank,
+  setActiveBank,
   updateBank
 } from './mutators/bank-mutators'
 import {
@@ -103,11 +104,7 @@ export const LearnablesStore = signalStore(
         patchState(state, updateBank(base, bankID))
       },
       setActiveBank(id: string) {
-        patchState(state, (s) => ({
-          ...s,
-          activeBankId: id,
-          currentPractice: null
-        }))
+        patchState(state, setActiveBank(id))
       },
       deleteBank(id: string) {
         patchState(state, deleteBank(id))
