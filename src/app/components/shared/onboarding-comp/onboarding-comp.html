@@ -1,65 +1,70 @@
-@switch (activeIndex()) {
-  @case (0) {
-    <app-onboarding-section-comp icon="learn">
-      <h1>Hi</h1>
-      <p>Welcome to learn with me</p>
-      <p>Create, practice and share vocab cards and collections</p>
-      <p>
-        Prepare for conversations in other languages, slangs, dialects or
-        situations
-      </p>
-      <p>
-        Learn slang or dialect or whatever you can create cards for whatever you
-        want
-      </p>
-    </app-onboarding-section-comp>
-  }
-  @case (1) {
-    <app-onboarding-section-comp icon="heart">
-      <h2>Ease and Community first</h2>
-      <p>No login required</p>
-      <p>Jump directly into learning by using community collections</p>
-      <p>Import community collections</p>
-      <p>Share your collections with the whole community</p>
-      <p>or your collections only with selected people</p>
-    </app-onboarding-section-comp>
-  }
-  @case (2) {
-    <app-onboarding-section-comp icon="magic">
-      <h2>AI?</h2>
-      <p>Of course there is AI, but you dont have to use it.</p>
-      <p>
-        You could use it to convert your notes into words and phrase cards you
-        can learn almost instantly though
-      </p>
+<div class="wrapper">
+  @switch (activeIndex()) {
+    @case (0) {
+      <app-onboarding-section-comp icon="learn">
+        <div class="header">
+          <p>Welcome to</p>
+          <h1>learn with me</h1>
+        </div>
+        <p>Create, practice and share learning cards and collections.</p>
+        <p>
+          Prepare for conversations in other languages, slang, dialects or
+          situations. Your imagination is the limit!
+        </p>
+      </app-onboarding-section-comp>
+    }
+    @case (1) {
+      <app-onboarding-section-comp icon="heart">
+        <h2>Ease and Community first</h2>
+        <p>No login required!</p>
+        <p>- Jump directly into learning by using community collections.</p>
+        <p>
+          - Share your own collections with the whole community or only with
+          selected people
+        </p>
+      </app-onboarding-section-comp>
+    }
+    @case (2) {
+      <app-onboarding-section-comp icon="magic">
+        <h2>AI?</h2>
+        <p>
+          Of course there is AI! But you don't have to use it. You could use it
+          to convert your notes into word and phrase cards almost instantly
+          though.
+        </p>
+        <p>Got a key? Add it here:</p>
 
-      <label>
-        <span>OpenAI API key</span>
-        <input type="text" />
-      </label>
-    </app-onboarding-section-comp>
+        <label>
+          <span>OpenAI API key</span>
+          <input type="text" />
+        </label>
+      </app-onboarding-section-comp>
+    }
+
+    @case (3) {
+      <app-onboarding-section-comp icon="info">
+        <h2>Ready to start?</h2>
+        <p>
+          It's nice that you are, but we need to know what you want to learn
+          before the fun can begin.
+        </p>
+
+        <label>
+          <span>I speak: Language / Dialect / Slang</span>
+          <input type="text" />
+        </label>
+
+        <label>
+          <span>I want to master: Language / Dialect / Slang</span>
+          <input type="text" />
+        </label>
+      </app-onboarding-section-comp>
+    }
   }
-
-  @case (3) {
-    <app-onboarding-section-comp icon="info">
-      <h2>Ready to start?</h2>
-      <p>
-        Its nice that you are, but we need to know what you want to learn before
-        the fun can begin
-      </p>
-
-      I speak
-      <label>
-        <span>Language / Dialect / Slang</span>
-        <input type="text" />
-      </label>
-      I want to master
-      <label>
-        <span>Language / Dialect / Slang</span>
-        <input type="text" />
-      </label>
-    </app-onboarding-section-comp>
-  }
-}
-
-<button class="big" (click)="next()">Next</button>
+  <div class="buttons">
+    <button class="silent back" (click)="back()">
+      <app-icon-comp type="chevron" />
+    </button>
+    <button class="big" (click)="next()">Next</button>
+  </div>
+</div>

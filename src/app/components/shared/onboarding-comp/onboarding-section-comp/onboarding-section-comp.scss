@@ -1,16 +1,21 @@
 :host {
   display: grid;
-  grid-template: 1fr 1fr / 1fr;
+  grid-template-rows: 1fr;
+  position: relative;
 }
 
 app-icon-comp {
-  position: relative;
-  opacity: var(--opacity-1);
-  justify-self: end;
+  position: absolute;
+  opacity: var(--opacity-0);
   width: 150%;
-  display: block;
-  aspect-ratio: 1 / 1;
+  justify-self: end;
+  z-index: -1;
 }
 
 .content {
+  align-self: end;
+  display: flex;
+  gap: var(--distance-3);
+
+  flex-direction: column;
 }
