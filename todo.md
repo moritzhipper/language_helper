@@ -1,5 +1,8 @@
 # ToDo
 
+- recurring layout:
+  - content centered, buttons with config bottom: config, intro, ... -> auslagern?
+
 - community shares
   - section trending: all languages
   - section for you: shares having your language

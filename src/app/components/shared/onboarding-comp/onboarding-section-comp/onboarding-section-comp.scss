@@ -35,7 +35,6 @@ app-icon-comp {
 @include isDesktop {
   :host {
     width: 500px;
-    min-height: 300px;
 
     .content {
       align-self: start;
