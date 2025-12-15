@@ -1,14 +1,14 @@
+@use '../../../../../style/mixins.scss' as *;
+
 :host {
   display: grid;
-  grid-template-rows: 1fr;
   position: relative;
+  grid-template-rows: 1fr;
 }
 
 app-icon-comp {
   position: absolute;
   opacity: var(--opacity-0);
-  width: 150%;
-  justify-self: end;
   z-index: -1;
 }
 
@@ -18,4 +18,39 @@ app-icon-comp {
   gap: var(--distance-3);
 
   flex-direction: column;
+}
+
+@include isPhone {
+  :host {
+    place-self: stretch;
+
+    app-icon-comp {
+      width: 150%;
+      justify-self: end;
+      z-index: -1;
+    }
+  }
+}
+
+@include isDesktop {
+  :host {
+    width: 500px;
+    min-height: 300px;
+
+    .content {
+      align-self: start;
+    }
+
+    app-icon-comp {
+      position: absolute;
+
+      width: 300px;
+      height: 300px;
+      top: -200px;
+      left: -200px;
+      justify-self: end;
+      z-index: -1;
+      rotate: -8deg;
+    }
+  }
 }
