@@ -1,70 +1,66 @@
 <div class="wrapper">
   @switch (activeIndex()) {
     @case (0) {
-      <app-onboarding-section-comp icon="learn">
-        <div class="header">
-          <p>Welcome to</p>
-          <h1>learn with me</h1>
-        </div>
-        <p>Create, practice and share learning cards and collections.</p>
-        <p>
-          Prepare for conversations in other languages, slang, dialects or
-          situations. Your imagination is the limit!
-        </p>
-      </app-onboarding-section-comp>
+      <app-icon-comp type="learn" class="icon-big" />
+      <div class="header">
+        <p>Welcome to</p>
+        <h1>learn with me</h1>
+      </div>
+      <p>Create, practice and share learning cards and collections.</p>
+      <p class="pb-4">
+        Prepare for conversations in other languages, slang, dialects or
+        situations. Your imagination is the limit!
+      </p>
     }
     @case (1) {
-      <app-onboarding-section-comp icon="heart">
-        <h2>Ease and Community first</h2>
-        <p>No login required!</p>
-        <p>- Jump directly into learning by using community collections.</p>
-        <p>
-          - Share your own collections with the whole community or only with
-          selected people
-        </p>
-      </app-onboarding-section-comp>
+      <app-icon-comp type="heart" class="icon-big" />
+      <h2>Ease and Community first</h2>
+      <p>No login required!</p>
+      <p>- Jump directly into learning by using community collections.</p>
+      <p class="pb-4">
+        - Share your own collections with the whole community or only with
+        selected people
+      </p>
     }
     @case (2) {
-      <app-onboarding-section-comp icon="magic">
-        <h2>AI?</h2>
-        <p>
-          Of course there is AI! But you don't have to use it. You could use it
-          to convert your notes into word and phrase cards almost instantly
-          though.
-        </p>
-        <p>Got a key? Add it here:</p>
+      <app-icon-comp type="magic" class="icon-big" />
+      <h2>AI?</h2>
+      <p class="pb-4">
+        Of course there is AI! But you don't have to use it. You could use it to
+        convert your notes into vocab cards almost instantly though.
+      </p>
 
-        <label>
-          <span>OpenAI API key</span>
-          <input type="text" />
-        </label>
-      </app-onboarding-section-comp>
+      <label class="pb-4">
+        <span>Got an OpenAI API key? Add id here</span>
+        <input type="text" />
+      </label>
     }
 
     @case (3) {
-      <app-onboarding-section-comp icon="info">
-        <h2>Ready to start?</h2>
-        <p>
-          It's nice that you are, but we need to know what you want to learn
-          before the fun can begin.
-        </p>
+      <app-icon-comp type="info" class="icon-big" />
+      <h2>Ready to start?</h2>
+      <p class="pb-4">
+        It's nice that you are, but we need to know what you want to learn
+        before the fun can begin.
+      </p>
 
+      <div class="languages pb-4">
         <label>
-          <span>I speak: Language / Dialect / Slang</span>
+          <span>Yiur Language / Dialect / Slang </span>
           <input type="text" />
         </label>
 
         <label>
-          <span>I want to master: Language / Dialect / Slang</span>
+          <span>Learning Language / Dialect / Slang</span>
           <input type="text" />
         </label>
-      </app-onboarding-section-comp>
+      </div>
     }
   }
   <div class="buttons">
     <button class="silent back" (click)="back()">
       <app-icon-comp type="chevron" />
     </button>
-    <button class="big" (click)="next()">Next</button>
+    <button class="big next" (click)="next()">Next</button>
   </div>
 </div>

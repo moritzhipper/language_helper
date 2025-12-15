@@ -1,10 +1,9 @@
 import { Component, signal } from '@angular/core'
 import { IconComp } from '../icon-comp/icon-comp'
-import { OnboardingSectionComp } from './onboarding-section-comp/onboarding-section-comp'
 
 @Component({
   selector: 'app-onboarding-comp',
-  imports: [OnboardingSectionComp, IconComp],
+  imports: [IconComp],
   templateUrl: './onboarding-comp.html',
   styleUrl: './onboarding-comp.scss'
 })
