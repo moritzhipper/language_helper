@@ -58,7 +58,7 @@ p {
 
 input {
   border: 2px solid var(--col-accent);
-  background-color: transparent;
+  background-color: rgb(from var(--col-accent) r g b / 0.1);
 }
 
 @include isPhone {

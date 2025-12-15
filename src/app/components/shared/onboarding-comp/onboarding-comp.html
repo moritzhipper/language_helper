@@ -32,7 +32,11 @@
 
       <label class="pb-4">
         <span>Got an OpenAI API key? Add id here</span>
-        <input type="text" />
+        <input
+          type="password"
+          [ngModel]="apiKey()"
+          (ngModelChange)="updateApiKey($event)"
+        />
       </label>
     }
 
