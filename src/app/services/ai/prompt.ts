@@ -44,12 +44,12 @@ const phrasesPrompt = () => `
     - Extract only idioms, sayings, or short expressions.  
     - Phrases must remain short and self-contained.  
     - Do not output single words.  
-    - add '...' to show that it can be part of a larger sentence and is a phrase
+    - add '...' to show that it can be part of a larger sentence and is a phrase, depending on if you cut the sentence and if you cut in front or back
     - Examples:  
-      - Input: "Since World War II it has placed much emphasis on attracting light industry."  
-        -> on card: "...placed nach emphasis (on)" -> translation.  
-      - Input: "The village church is built on a dune top and portrays a variety of construction styles."  
-        -> on card: "...portrays a variety"    
+      - user provides: "Since World War II it has placed much emphasis on attracting light industry."  
+        -> you put lexeme on card: "...placed nach emphasis (on)".  
+      - user provides: "The village church is built on a dune top and portrays a variety of construction styles."  
+        -> you put lexeme on card  "...portrays a variety"
 `
 
 export const getWordsPrompt = (conf: LanguageConfig) => `
