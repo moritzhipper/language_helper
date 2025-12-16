@@ -1,4 +1,4 @@
-import { Component, effect, inject, untracked } from '@angular/core'
+import { Component, computed, effect, inject, untracked } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { ActivatedRoute, Params, RouterOutlet } from '@angular/router'
 import z from 'zod'
@@ -6,7 +6,7 @@ import { ModalWrapperComp } from './components/shared/forms/modal-wrapper-comp/m
 import { NavbarNewComp } from './components/shared/navbar-new-comp/navbar-new-comp'
 import { OnboardingComp } from './components/shared/onboarding-comp/onboarding-comp'
 import { ToastOutletComp } from './components/shared/toast-outlet-comp/toast-outlet-comp'
-import { SettingsStore } from './store/settingsStore'
+import { LearnablesStore } from './store/learnablesStore'
 
 type PageConfig = {
   icon: string
@@ -35,9 +35,9 @@ const DEFAULT_PAGE_CONFIG: PageConfig = {
 export class App {
   private route = inject(ActivatedRoute)
   private queryParams = toSignal(this.route.queryParams)
-  private readonly settings = inject(SettingsStore)
+  private readonly _lStore = inject(LearnablesStore)
 
-  protected readonly isOnboarded = this.settings.isOnboarded
+  protected readonly hasBank = computed(() => this._lStore.banks().length > 0)
 
   constructor() {
     // Log URL parameter 'id' whenever it changes

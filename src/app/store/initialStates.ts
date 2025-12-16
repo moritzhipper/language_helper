@@ -18,15 +18,14 @@ const defaultBank: BankUser = {
 }
 
 export const initialState: LearnablesStoreType = {
-  banks: [defaultBank],
-  activeBankId: defaultBank.id,
+  banks: [],
+  activeBankId: null,
   currentPractice: null
 }
 
 export const initialSettings: SettingsStoreType = {
   apiKey: '',
-  tokensUsed: 0,
-  isOnboarded: false
+  tokensUsed: 0
 }
 
 /** Initial guesses for a new learnable */

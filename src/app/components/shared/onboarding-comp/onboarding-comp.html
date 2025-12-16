@@ -1,13 +1,19 @@
 <div class="wrapper">
   @switch (activeIndex()) {
     @case (0) {
-      <app-icon-comp type="learn" class="icon-big" />
+      <app-icon-comp type="learn" class="icon-big fly-in-y-10" />
       <div class="header">
-        <p>Welcome to</p>
-        <h1>learn with me</h1>
+        <p class="fly-in-xy-0">Welcome to</p>
+        <h1>
+          <span class="fly-in-xy-1">learn </span>
+          <span class="fly-in-xy-2"> with </span>
+          <span class="fly-in-xy-3"> me </span>
+        </h1>
       </div>
-      <p>Create, practice and share learning cards and collections.</p>
-      <p class="pb-4">
+      <p class="fly-in-xy-4">
+        Create, practice and share learning cards and collections.
+      </p>
+      <p class="pb-4 fly-in-xy-5">
         Prepare for conversations in other languages, slang, dialects or
         situations. Your imagination is the limit!
       </p>
@@ -48,23 +54,37 @@
         before the fun can begin.
       </p>
 
-      <div class="languages pb-4">
+      <form [formGroup]="languageForm" class="languages pb-4">
         <label>
-          <span>Yiur Language / Dialect / Slang </span>
-          <input type="text" />
+          <span>Your Language / Dialect / Slang </span>
+          <input type="text" formControlName="speaking" />
         </label>
 
         <label>
           <span>Learning Language / Dialect / Slang</span>
-          <input type="text" />
+          <input type="text" formControlName="learning" />
         </label>
-      </div>
+      </form>
     }
   }
   <div class="buttons">
-    <button class="silent back" (click)="back()">
+    <button
+      class="silent back fly-in-xy-6"
+      [disabled]="activeIndex() === 0"
+      (click)="back()"
+    >
       <app-icon-comp type="chevron" />
     </button>
-    <button class="big next" (click)="next()">Next</button>
+    <button
+      class="big next fly-in-xy-7"
+      [disabled]="activeIndex() === 3 && languageForm.invalid"
+      (click)="next()"
+    >
+      @if (activeIndex() === 3) {
+        Lets go!
+      } @else {
+        Next
+      }
+    </button>
   </div>
 </div>

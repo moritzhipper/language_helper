@@ -28,6 +28,14 @@ h2 {
   margin: 0 0 var(--distance-5) 0;
 }
 
+h1 {
+  display: flex;
+  gap: var(--distance-3);
+  span {
+    display: inline-block;
+  }
+}
+
 p {
   margin: 0;
   padding-bottom: var(--distance-2);
@@ -74,7 +82,7 @@ input {
       left: -60%;
     }
     .languages {
-      gap: var(--distance-2);
+      gap: var(--distance-3);
     }
     .buttons {
       display: grid;
@@ -99,8 +107,7 @@ input {
       .icon-big {
         width: 400px;
         height: 400px;
-        left: -200px;
-        rotate: -8deg;
+        left: -250px;
       }
 
       .languages {

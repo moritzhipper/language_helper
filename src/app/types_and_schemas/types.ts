@@ -39,7 +39,7 @@ export type Practice = {
 
 export type LearnablesStoreType = {
   banks: BankUser[]
-  activeBankId: string
+  activeBankId: string | null
   currentPractice: Practice | null
 }
 
@@ -58,7 +58,6 @@ export type Guessable = {
 export type SettingsStoreType = {
   apiKey: string
   tokensUsed: number
-  isOnboarded: boolean
 }
 
 type Optional<T> = { [K in keyof T]?: T[K] | null }

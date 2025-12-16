@@ -6,7 +6,7 @@ import {
   RouterLink,
   RouterLinkActive
 } from '@angular/router'
-import { delay, filter } from 'rxjs'
+import { filter } from 'rxjs'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { IconComp } from '../icon-comp/icon-comp'
 
@@ -20,7 +20,6 @@ export class NavbarNewComp {
   // delay closing via link click a bit to show active link change animation
   private readonly navEvent$ = inject(Router).events.pipe(
     filter((e) => e instanceof NavigationEnd),
-    delay(300),
     takeUntilDestroyed()
   )
 
