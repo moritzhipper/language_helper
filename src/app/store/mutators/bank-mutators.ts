@@ -80,7 +80,8 @@ export const deleteBank =
     return {
       ...state,
       banks,
-      activeBankId
+      activeBankId,
+      currentPractice: null
     }
   }
 
