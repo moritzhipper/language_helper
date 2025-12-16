@@ -39,7 +39,7 @@ export type Practice = {
 
 export type LearnablesStoreType = {
   banks: BankUser[]
-  activeBankId: string
+  activeBankId: string | null
   currentPractice: Practice | null
 }
 

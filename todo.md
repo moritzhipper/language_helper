@@ -1,10 +1,11 @@
 # ToDo
 
+- recurring layout:
+  - content centered, buttons with config bottom: config, intro, ... -> auslagern?
+
 - community shares
   - section trending: all languages
   - section for you: shares having your language
-
-- refactor learnable mutators, split in files, reuse double code
 
 - show 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
 - swipes count in stats

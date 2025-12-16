@@ -1,8 +1,8 @@
 @let dir = reverseDirection();
 @let card = learnable();
 <div class="wrapper">
-  <div class="top">{{ dir ? card.lexeme : card.translation }}</div>
-  <div class="bottom">{{ dir ? card.translation : card.lexeme }}</div>
+  <div class="top">{{ dir ? card.translation : card.lexeme }}</div>
+  <div class="bottom">{{ dir ? card.lexeme : card.translation }}</div>
   <textarea
     class="notes"
     placeholder="no notes"

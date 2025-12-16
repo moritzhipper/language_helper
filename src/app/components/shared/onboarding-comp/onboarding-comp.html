@@ -1,0 +1,90 @@
+<div class="wrapper">
+  @switch (activeIndex()) {
+    @case (0) {
+      <app-icon-comp type="learn" class="icon-big fly-in-y-10" />
+      <div class="header">
+        <p class="fly-in-xy-0">Welcome to</p>
+        <h1>
+          <span class="fly-in-xy-1">learn </span>
+          <span class="fly-in-xy-2"> with </span>
+          <span class="fly-in-xy-3"> me </span>
+        </h1>
+      </div>
+      <p class="fly-in-xy-4">
+        Create, practice and share learning cards and collections.
+      </p>
+      <p class="pb-4 fly-in-xy-5">
+        Prepare for conversations in other languages, slang, dialects or
+        situations. Your imagination is the limit!
+      </p>
+    }
+    @case (1) {
+      <app-icon-comp type="heart" class="icon-big" />
+      <h2>Ease and Community first</h2>
+      <p>No login required!</p>
+      <p>- Jump directly into learning by using community collections.</p>
+      <p class="pb-4">
+        - Share your own collections with the whole community or only with
+        selected people
+      </p>
+    }
+    @case (2) {
+      <app-icon-comp type="magic" class="icon-big" />
+      <h2>AI?</h2>
+      <p class="pb-4">
+        Of course there is AI! But you don't have to use it. You could use it to
+        convert your notes into vocab cards almost instantly though.
+      </p>
+
+      <label class="pb-4">
+        <span>Got an OpenAI API key? Add id here</span>
+        <input
+          type="password"
+          [ngModel]="apiKey()"
+          (ngModelChange)="updateApiKey($event)"
+        />
+      </label>
+    }
+
+    @case (3) {
+      <app-icon-comp type="info" class="icon-big" />
+      <h2>Ready to start?</h2>
+      <p class="pb-4">
+        It's nice that you are, but we need to know what you want to learn
+        before the fun can begin.
+      </p>
+
+      <form [formGroup]="languageForm" class="languages pb-4">
+        <label>
+          <span>Your Language / Dialect / Slang </span>
+          <input type="text" formControlName="speaking" />
+        </label>
+
+        <label>
+          <span>Learning Language / Dialect / Slang</span>
+          <input type="text" formControlName="learning" />
+        </label>
+      </form>
+    }
+  }
+  <div class="buttons">
+    <button
+      class="silent back fly-in-xy-6"
+      [disabled]="activeIndex() === 0"
+      (click)="back()"
+    >
+      <app-icon-comp type="chevron" />
+    </button>
+    <button
+      class="big next fly-in-xy-7"
+      [disabled]="activeIndex() === 3 && languageForm.invalid"
+      (click)="next()"
+    >
+      @if (activeIndex() === 3) {
+        Lets go!
+      } @else {
+        Next
+      }
+    </button>
+  </div>
+</div>

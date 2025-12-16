@@ -110,6 +110,7 @@ export class ActivePracticeComp {
     if (this.isFinished()) {
       this._lStore.quitPractice()
     } else {
+      this.lastGuessOutcome.set('wrong')
       this._lStore.quitPracticePrematurly()
     }
   }
@@ -120,7 +121,6 @@ export class ActivePracticeComp {
       this.cardState.set('editing')
     } else if (focusedState === 'editing') {
       this.cardState.set('revealed')
-      this.statsOpen.set(false)
     }
   }
 

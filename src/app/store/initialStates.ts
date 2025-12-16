@@ -18,8 +18,8 @@ const defaultBank: BankUser = {
 }
 
 export const initialState: LearnablesStoreType = {
-  banks: [defaultBank],
-  activeBankId: defaultBank.id,
+  banks: [],
+  activeBankId: null,
   currentPractice: null
 }
 

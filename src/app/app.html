@@ -1,7 +1,10 @@
-<!-- <app-navbar /> -->
-<app-navbar-new-comp />
-<main>
-  <router-outlet />
-</main>
+@if (hasBank()) {
+  <app-navbar-new-comp />
+  <main>
+    <router-outlet />
+  </main>
+} @else {
+  <app-onboarding-comp />
+}
 <app-modal-wrapper-comp />
 <app-toast-outlet-comp />

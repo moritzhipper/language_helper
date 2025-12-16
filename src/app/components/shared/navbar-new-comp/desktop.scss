@@ -18,6 +18,10 @@
     &.language {
       padding-left: var(--distance-6);
     }
+
+    &.language {
+      max-width: 250px;
+    }
   }
 
   a.entry {
