@@ -99,7 +99,8 @@ export const createBank =
     return {
       ...state,
       activeBankId: newBank.id,
-      banks: [...state.banks, newBank]
+      banks: [...state.banks, newBank],
+      currentPractice: null
     }
   }
 
