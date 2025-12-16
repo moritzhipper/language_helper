@@ -1,4 +1,10 @@
-import { Component, computed, inject, signal } from '@angular/core'
+import {
+  Component,
+  computed,
+  HostListener,
+  inject,
+  signal
+} from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import {
   NavigationEnd,
@@ -17,11 +23,26 @@ import { IconComp } from '../icon-comp/icon-comp'
   styleUrls: ['./navbar-new-comp.scss', './phone.scss', './desktop.scss']
 })
 export class NavbarNewComp {
+  @HostListener('mouseenter')
+  onenter() {
+    this.mousehovering = true
+  }
+
+  @HostListener('mouseleave')
+  onleave() {
+    if (this.mousehovering) {
+      this.isOpen.set(false)
+      this.mousehovering = false
+    }
+  }
+
   // delay closing via link click a bit to show active link change animation
   private readonly navEvent$ = inject(Router).events.pipe(
     filter((e) => e instanceof NavigationEnd),
     takeUntilDestroyed()
   )
+
+  private mousehovering: boolean = false
 
   protected readonly lstore = inject(LearnablesStore)
   protected readonly language = computed(
@@ -33,7 +54,9 @@ export class NavbarNewComp {
 
   constructor() {
     this.navEvent$.subscribe((ev) => {
-      this.isOpen.set(false)
+      if (!this.mousehovering) {
+        this.isOpen.set(false)
+      }
       this.isOnPracticePage.set(ev.urlAfterRedirects.includes('practice'))
     })
   }

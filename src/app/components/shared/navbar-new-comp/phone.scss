@@ -11,6 +11,10 @@
 
   .entry {
     rotate: 15deg;
+
+    &.language {
+      max-width: 300px;
+    }
   }
   a.entry {
     width: 100%;

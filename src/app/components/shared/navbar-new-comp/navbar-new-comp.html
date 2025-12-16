@@ -10,10 +10,14 @@
 @if (isOpen()) {
   <div class="navigation" animate.enter="main-enter" animate.leave="main-leave">
     <div class="entry header">learn with me</div>
-    <div class="entry language">
-      {{ language().learning }}
+    <div class="entry language ellipsis">
+      <span class="ellipsis">
+        {{ language().learning }}
+      </span>
       <app-icon-comp type="left-right" [size]="16" />
-      {{ language().speaking }}
+      <span class="ellipsis">
+        {{ language().speaking }}
+      </span>
     </div>
     <a
       class="entry big practice"
