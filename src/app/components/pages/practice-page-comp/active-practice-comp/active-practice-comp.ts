@@ -121,7 +121,6 @@ export class ActivePracticeComp {
       this.cardState.set('editing')
     } else if (focusedState === 'editing') {
       this.cardState.set('revealed')
-      this.statsOpen.set(false)
     }
   }
 
