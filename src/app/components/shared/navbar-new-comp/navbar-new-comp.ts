@@ -31,8 +31,8 @@ export class NavbarNewComp {
   @HostListener('mouseleave')
   onleave() {
     if (this.mousehovering) {
-      this.isOpen.set(false)
       this.mousehovering = false
+      this.isOpen.set(false)
     }
   }
 
