@@ -1,8 +1,5 @@
 # ToDo
 
-- recurring layout:
-  - content centered, buttons with config bottom: config, intro, ... -> auslagern?
-
 - community shares
   - section trending: all languages
   - section for you: shares having your language
@@ -19,14 +16,9 @@
   - collection can have collections
   - collections can be stacked
 
-- refactor and simpify ai service?
-
 - add merge learnables function to mutoators: when a lexeme exists, but the words dont match: update the translation to trans1 / trans2
 - refactor bulkEdit mit add altest ids and mark them in overview facede and overview
 
-- greater: hello, this is how it works
-  - you can do this and that
-  - add your. language now
 - deploy via cloudflare pages, worker and upstash redis
 - add load more cards on scroll / pagination?
 

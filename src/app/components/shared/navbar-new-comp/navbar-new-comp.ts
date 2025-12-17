@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  DOCUMENT,
   HostListener,
   inject,
   signal
@@ -23,15 +24,11 @@ import { IconComp } from '../icon-comp/icon-comp'
   styleUrls: ['./navbar-new-comp.scss', './phone.scss', './desktop.scss']
 })
 export class NavbarNewComp {
-  @HostListener('mouseenter')
-  onenter() {
-    this.mousehovering = true
-  }
+  private body = inject(DOCUMENT).body
 
-  @HostListener('mouseleave')
+  @HostListener('mouseleave', [])
   onleave() {
-    if (this.mousehovering) {
-      this.mousehovering = false
+    if (!this.isMobileView) {
       this.isOpen.set(false)
     }
   }
@@ -41,8 +38,6 @@ export class NavbarNewComp {
     filter((e) => e instanceof NavigationEnd),
     takeUntilDestroyed()
   )
-
-  private mousehovering: boolean = false
 
   protected readonly lstore = inject(LearnablesStore)
   protected readonly language = computed(
@@ -54,7 +49,7 @@ export class NavbarNewComp {
 
   constructor() {
     this.navEvent$.subscribe((ev) => {
-      if (!this.mousehovering) {
+      if (this.isMobileView) {
         this.isOpen.set(false)
       }
       this.isOnPracticePage.set(ev.urlAfterRedirects.includes('practice'))
@@ -63,5 +58,9 @@ export class NavbarNewComp {
 
   toggle() {
     this.isOpen.set(!this.isOpen())
+  }
+
+  get isMobileView(): boolean {
+    return this.body.offsetWidth <= 768
   }
 }
