@@ -81,4 +81,5 @@ export type AppConfig = {
 
 export type BankShareResponse = {
   id: string
+  expires: Date
 }
