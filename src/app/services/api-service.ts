@@ -11,7 +11,7 @@ export class ApiService {
 
   private readonly _client = inject(HttpClient)
 
-  async shareBank(bankExport: BankShare, ttlMinutes: number) {
+  async shareBank(bankExport: Omit<BankShare, 'expires'>, ttlMinutes: number) {
     const response = this._client.post<BankShareResponse>(
       `${this.BASE_URL}/share`,
       {

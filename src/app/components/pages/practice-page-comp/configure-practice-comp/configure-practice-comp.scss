@@ -26,8 +26,8 @@
     place-self: center;
     width: 400px;
 
-    button:hover,
-    button:focus-visible {
+    button:hover:not([disabled]),
+    button:focus-visible:not([disabled]) {
       transform: scale(1.1) rotate(1deg);
       box-shadow: var(--shadow-big);
     }

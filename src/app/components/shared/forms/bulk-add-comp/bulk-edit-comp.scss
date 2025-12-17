@@ -76,6 +76,10 @@ form {
   .fake-card {
     display: grid;
     grid-column: span 2;
+    background-color: var(--col-accent);
+    border-radius: var(--radius-1);
+    overflow: hidden;
+    border-top: 1px solid rgb(from var(--col-primary) r g b / var(--opacity-1));
     input {
       width: 100%;
       box-sizing: border-box;
@@ -84,19 +88,17 @@ form {
 
     .lexeme {
       padding: var(--distance-4);
-      border-radius: var(--radius-1) var(--radius-1) 0 0;
       font-weight: var(--font-weight-bold);
     }
 
     .translation {
-      padding: 0 var(--distance-4);
+      padding: var(--distance-4);
       border-radius: 0;
       font-style: italic;
     }
 
     .notes {
       padding: var(--distance-4);
-      border-radius: 0 0 var(--radius-1) var(--radius-1);
     }
   }
 }
