@@ -5,7 +5,6 @@
   gap: var(--distance-2) 0;
   background-color: var(--col-bg);
 
-  height: 150px;
   position: relative;
 
   border-radius: var(--radius-2);
@@ -72,5 +71,9 @@
   }
   .ttl {
     place-self: end;
+  }
+
+  &.community {
+    height: 150px;
   }
 }

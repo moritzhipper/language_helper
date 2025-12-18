@@ -25,7 +25,9 @@
 
 <div class="shared">{{ bank().created | date: 'mediumDate' }}</div>
 <div class="ttl">{{ ttl().label }}</div>
-<div class="counter">
-  {{ _c.cards }}
-  <div class="wrapper"></div>
-</div>
+@if (isCommunityBank()) {
+  <div class="counter">
+    {{ _c.cards }}
+    <div class="wrapper"></div>
+  </div>
+}

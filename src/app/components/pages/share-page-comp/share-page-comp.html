@@ -1,6 +1,6 @@
 <app-page-icon-comp type="share-network-fill" />
 <app-page-header-comp title="Shared" />
-<h2 class="first">your recent shares</h2>
+<h2 class="first user">your recent shares</h2>
 <div class="collections user">
   @for (bank of userBanks; track bank.name) {
     <app-shared-bank-comp
@@ -10,13 +10,20 @@
     />
   }
 </div>
-<h2>community shares</h2>
-<div class="collections community">
-  @for (bank of onlineBanks; track bank.name) {
-    <app-shared-bank-comp
-      [bank]="bank"
-      (copyId)="copyLink(bank)"
-      (importBank)="importBank(bank)"
-    />
-  }
-</div>
+
+@for (section of sections; track section.title) {
+  <button class="header silent">
+    <h2>{{ section.title }}</h2>
+    <app-icon-comp type="chevron" />
+  </button>
+  <div class="collections community">
+    @for (bank of section.banks; track bank.name) {
+      <app-shared-bank-comp
+        [bank]="bank"
+        (copyId)="copyLink(bank)"
+        (importBank)="importBank(bank)"
+        [isCommunityBank]="true"
+      />
+    }
+  </div>
+}

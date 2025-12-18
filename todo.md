@@ -1,8 +1,11 @@
 # ToDo
 
+- do angular workspace setup
 - community shares
   - section trending: all languages
   - section for you: shares having your language
+  - add see more for each section
+  - show five top per section, then link to new page for more
 
 - show 'wiggle' and info toast every x seconds when user doesnt interact for y seconds,
 - swipes count in stats

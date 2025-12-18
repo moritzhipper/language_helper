@@ -1,9 +1,42 @@
 @use '../../../../style/mixins.scss' as *;
 
+h2 {
+  margin: 0 0 var(--distance-3) var(--distance-2);
+
+  font-size: var(--font-size-2);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--distance-1);
+  margin: var(--distance-6) 0 var(--distance-3) var(--distance-2);
+  h2 {
+    display: block;
+    margin: 0;
+  }
+
+  app-icon-comp {
+    rotate: 90deg;
+  }
+}
+
 .collections {
   gap: var(--distance-4);
 }
 
+.tabs {
+  padding: var(--distance-3) 0 var(--distance-1) 0;
+  display: flex;
+  gap: var(--distance-2);
+  .tab {
+    h2 {
+      font-size: var(--font-size-2);
+      margin: 0;
+      padding: var(--distance-3) 0;
+    }
+  }
+}
 @include isDesktop() {
   .collections {
     display: grid;
@@ -22,7 +55,8 @@
     margin: 0 calc(var(--distance-4) * -1);
     padding: 0 var(--distance-4) var(--distance-4) var(--distance-4);
     scrollbar-width: none;
-    box-sizing: border-box;
+    // box-sizing: border-box;
+
     app-shared-bank-comp {
       flex: 0 0 320px;
     }
