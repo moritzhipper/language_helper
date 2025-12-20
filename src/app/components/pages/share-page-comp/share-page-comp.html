@@ -14,7 +14,7 @@
 @for (section of sections; track section.title) {
   <button class="header silent">
     <h2>{{ section.title }}</h2>
-    <app-icon-comp type="chevron" />
+    <app-icon-comp type="chevron" [size]="32" />
   </button>
   <div class="collections community">
     @for (bank of section.banks; track bank.name) {
@@ -26,7 +26,8 @@
       />
     }
     <button class="silent see-more">
-      <app-icon-comp type="chevron" [size]="60" />
+      <span> explore more banks </span>
+      <app-icon-comp type="chevron" [size]="32" />
     </button>
   </div>
 }
