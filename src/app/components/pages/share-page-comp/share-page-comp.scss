@@ -39,24 +39,43 @@ h2 {
 }
 
 .see-more {
-  display: flex;
-  flex-direction: row;
+  display: grid;
   border: 1px solid rgb(from var(--col-text) r g b / var(--opacity-0));
   border-radius: var(--radius-2);
-  justify-content: center;
-  align-items: center;
-  padding: 0 var(--distance-7);
   background-color: rgb(from var(--col-bg) r g b / var(--opacity-1));
+  place-items: center;
+  overflow: hidden;
+  position: relative;
+
+  app-icon-comp,
+  span {
+    transition: translate var(--duration-1);
+  }
 
   span {
     white-space: nowrap;
     font-weight: var(--font-weight-bold);
-    padding-left: var(--distance-3);
+    translate: -30px;
   }
 
   app-icon-comp {
+    position: absolute;
+    right: -100px;
     color: var(--col-text);
+    width: 400px;
+    height: 400px;
     rotate: 90deg;
+    opacity: var(--opacity-0);
+  }
+
+  &:hover,
+  &:focus-visible {
+    app-icon-comp {
+      translate: 20px;
+    }
+    span {
+      translate: -40px;
+    }
   }
 }
 @include isDesktop() {
@@ -76,7 +95,8 @@ h2 {
     scrollbar-width: none;
     padding: var(--distance-3) var(--distance-4);
 
-    app-shared-bank-comp {
+    app-shared-bank-comp,
+    .see-more {
       flex: 0 0 320px;
     }
   }

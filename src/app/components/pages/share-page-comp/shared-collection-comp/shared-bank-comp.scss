@@ -6,16 +6,16 @@
   background-color: var(--col-bg);
 
   position: relative;
-
   border-radius: var(--radius-2);
   padding: var(--distance-4);
   box-sizing: border-box;
   overflow: hidden;
 
-  border: 1px solid rgb(from var(--col-accent) r g b / var(--opacity-1));
-  --stackd: 4px;
-  --stackd2: calc(var(--stackd) * 2);
-  --color: rgb(from var(--col-accent) r g b / var(--opacity-0));
+  border: 1px solid rgb(from var(--col-text) r g b / var(--opacity-0));
+
+  --stackd: 3px;
+  --stackd2: 6px;
+  --color: rgb(from var(--col-text) r g b / 0.02);
 
   box-shadow:
     var(--stackd) var(--stackd) var(--color),
