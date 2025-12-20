@@ -23,13 +23,27 @@ export class SharePageComp {
   private readonly _modalService = inject(ModalService)
   private readonly _lStore = inject(LearnablesStore)
 
+  protected readonly MAX_PREVIEW_BANKS = 5
+
   userBanks: BankShare[] = mockUserBanks(3)
 
   sections: { title: string; banks: BankShare[] }[] = [
-    { title: 'Popular for your language match', banks: mockOnlineBanks(3) },
-    { title: 'New for your language match', banks: mockOnlineBanks(3) },
-    { title: 'Popular for other matches', banks: mockOnlineBanks(3) },
-    { title: 'New for other matches', banks: mockOnlineBanks(3) }
+    {
+      title: 'Popular for your language match',
+      banks: mockOnlineBanks(this.MAX_PREVIEW_BANKS)
+    },
+    {
+      title: 'New for your language match',
+      banks: mockOnlineBanks(this.MAX_PREVIEW_BANKS)
+    },
+    {
+      title: 'Popular for other matches',
+      banks: mockOnlineBanks(this.MAX_PREVIEW_BANKS)
+    },
+    {
+      title: 'New for other matches',
+      banks: mockOnlineBanks(this.MAX_PREVIEW_BANKS)
+    }
   ]
 
   protected async copyLink(bank: BankShare) {
