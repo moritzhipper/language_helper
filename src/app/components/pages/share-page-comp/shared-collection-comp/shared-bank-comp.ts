@@ -22,21 +22,18 @@ type Counter = {
   selector: 'app-shared-bank-comp',
   imports: [IconComp, DatePipe],
   templateUrl: './shared-bank-comp.html',
-  styleUrl: './shared-bank-comp.scss'
+  styleUrl: './shared-bank-comp.scss',
+  host: {
+    '[class.community]': 'isCommunityBank()'
+  }
 })
 export class SharedBankComp implements OnDestroy {
-  /**
-   * Todo
-   *
-   * - when sharing multiple collections at once is enabled, always show collection count in view
-   *
-   *
-   *
-   */
   bank = input.required<BankShare>()
   allowImport = input<boolean>(true)
   copyId = output<void>()
   importBank = output<void>()
+
+  isCommunityBank = input<boolean>(false)
 
   hasMultipleCollections = computed(() => this.bank().collections.length > 1)
 

@@ -42,10 +42,19 @@ app-bank-settings-card {
 
 .add-bank {
   display: grid;
-  place-items: center;
-  padding: var(--distance-4);
+  grid-template-columns: 1fr auto;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--distance-2);
+  padding: 0 var(--distance-6);
+
+  span {
+    font-weight: bold;
+  }
+
   app-icon-comp {
-    opacity: var(--opacity-1);
+    width: 32px;
   }
 }
 

@@ -3,6 +3,7 @@ import { ModalService } from '../../../services/modal-service'
 import { ToastService } from '../../../services/toast-service'
 import { LearnablesStore } from '../../../store/learnablesStore'
 import { BankShare } from '../../../types_and_schemas/types'
+import { IconComp } from '../../shared/icon-comp/icon-comp'
 import { PageHeaderComp } from '../../shared/page-header-comp/page-header-comp'
 import { PageIconComp } from '../../shared/page-icon-comp/page-icon-comp'
 import { mockOnlineBanks, mockUserBanks } from './mockBanks'
@@ -10,7 +11,7 @@ import { SharedBankComp } from './shared-collection-comp/shared-bank-comp'
 
 @Component({
   selector: 'app-share-page-comp',
-  imports: [PageHeaderComp, PageIconComp, SharedBankComp],
+  imports: [PageHeaderComp, PageIconComp, SharedBankComp, IconComp],
   templateUrl: './share-page-comp.html',
   styleUrl: './share-page-comp.scss',
   host: {
@@ -22,8 +23,28 @@ export class SharePageComp {
   private readonly _modalService = inject(ModalService)
   private readonly _lStore = inject(LearnablesStore)
 
-  userBanks = mockUserBanks
-  onlineBanks = mockOnlineBanks
+  protected readonly MAX_PREVIEW_BANKS = 5
+
+  userBanks: BankShare[] = mockUserBanks(3)
+
+  sections: { title: string; banks: BankShare[] }[] = [
+    {
+      title: 'Popular for your language match',
+      banks: mockOnlineBanks(this.MAX_PREVIEW_BANKS)
+    },
+    {
+      title: 'New for your language match',
+      banks: mockOnlineBanks(this.MAX_PREVIEW_BANKS)
+    },
+    {
+      title: 'Popular for other matches',
+      banks: mockOnlineBanks(this.MAX_PREVIEW_BANKS)
+    },
+    {
+      title: 'New for other matches',
+      banks: mockOnlineBanks(this.MAX_PREVIEW_BANKS)
+    }
+  ]
 
   protected async copyLink(bank: BankShare) {
     try {

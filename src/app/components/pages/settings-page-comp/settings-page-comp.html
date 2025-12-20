@@ -20,11 +20,10 @@
       (share)="shareBank(bank)"
     />
   }
-  <div class="add-bank">
-    <button (click)="createNewBank()">
-      <app-icon-comp type="add" [size]="32" />
-    </button>
-  </div>
+  <button class="add-bank" (click)="createNewBank()">
+    <span>add bank</span>
+    <app-icon-comp type="add" size="auto" />
+  </button>
 </div>
 
 <div class="data-interact">

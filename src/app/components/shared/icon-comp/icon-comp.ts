@@ -33,6 +33,7 @@ export type IconType =
   | 'meteor'
   | 'wrong-guess'
   | 'right-guess'
+  | 'chevron-right'
 
 @Component({
   selector: 'app-icon-comp',
