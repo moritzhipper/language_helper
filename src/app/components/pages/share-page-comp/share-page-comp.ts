@@ -26,10 +26,10 @@ export class SharePageComp {
   userBanks: BankShare[] = mockUserBanks(3)
 
   sections: { title: string; banks: BankShare[] }[] = [
-    { title: 'popular for your language match', banks: mockOnlineBanks(3) },
-    { title: 'new for your language match', banks: mockOnlineBanks(3) },
-    { title: 'popular for other matches', banks: mockOnlineBanks(3) },
-    { title: 'new for other matches', banks: mockOnlineBanks(3) }
+    { title: 'Popular for your language match', banks: mockOnlineBanks(3) },
+    { title: 'New for your language match', banks: mockOnlineBanks(3) },
+    { title: 'Popular for other matches', banks: mockOnlineBanks(3) },
+    { title: 'New for other matches', banks: mockOnlineBanks(3) }
   ]
 
   protected async copyLink(bank: BankShare) {
